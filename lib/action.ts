@@ -39,19 +39,6 @@ enum PTYPE {
     BLOB = 8      /* blob_type  */
 };
 
-// function readActionName(): string {
-//     let len: i32 = <i32>ts_action_name_length();
-//     let name: string = "";
-//     for (let i = 0; i < len; ++i) {
-//         let val: i32 = ts_action_name_read_char(i);
-//         if (val == -1) continue;
-//         let chrcode: u8 = <u8>(val & 0xff);
-//         let chridx: u8 = chrcode - 0x20;
-//         name = name + ASCIICHAR[chridx];
-//     }
-//     return name;
-// }
-
 export class Action {
     private action_code: i64;
     private action_name: string;
@@ -91,6 +78,7 @@ export class Action {
             name = name + ASCIICHAR[chridx];
         }
         this.action_name = name;
+        /* WHY: String.fromCharCodes() is not workable?? */
         // let chars: u16[];
         // for (let i = 0; i < len; ++i) {
         //     let val: i32 = ts_action_name_read_char(i);
@@ -103,9 +91,6 @@ export class Action {
     }
 
     private parseParams(): boolean {
-        let status: i32 = ts_action_init();
-        if (status !== 0) return false;
-
         let size: i64 = ts_action_params_count();
         Log.s("params count: ").i(size).flush();
 
