@@ -2,26 +2,28 @@
  (type $i (func (result i32)))
  (type $ii (func (param i32) (result i32)))
  (type $IIIv (func (param i64 i64 i64)))
- (type $iIi (func (param i32 i64) (result i32)))
+ (type $Ii (func (param i64) (result i32)))
  (type $iii (func (param i32 i32) (result i32)))
  (type $iiiiv (func (param i32 i32 i32 i32)))
- (type $iiiv (func (param i32 i32 i32)))
  (type $iv (func (param i32)))
- (type $v (func))
- (type $I (func (result i64)))
+ (type $iIi (func (param i32 i64) (result i32)))
  (type $Iv (func (param i64)))
+ (type $v (func))
+ (type $iiiv (func (param i32 i32 i32)))
+ (type $I (func (result i64)))
  (type $iI (func (param i32) (result i64)))
- (type $iiii (func (param i32 i32 i32) (result i32)))
  (type $iiI (func (param i32 i32) (result i64)))
  (type $iiv (func (param i32 i32)))
+ (import "env" "has_auth" (func $../../lib/action/has_auth (param i64) (result i32)))
  (import "env" "abort" (func $abort (param i32 i32 i32 i32)))
- (import "env" "ts_action_init" (func $../../lib/action/ts_action_init (result i32)))
  (import "env" "ts_log_print_s" (func $../../lib/log/ts_log_print_s (param i32)))
+ (import "env" "ts_log_print_i" (func $../../lib/log/ts_log_print_i (param i64)))
  (import "env" "ts_log_done" (func $../../lib/log/ts_log_done))
+ (import "env" "require_auth" (func $../../lib/action/require_auth (param i64)))
+ (import "env" "ts_action_init" (func $../../lib/action/ts_action_init (result i32)))
  (import "env" "ts_action_name_length" (func $../../lib/action/ts_action_name_length (result i64)))
  (import "env" "ts_action_name_read_char" (func $../../lib/action/ts_action_name_read_char (param i32) (result i32)))
  (import "env" "ts_action_params_count" (func $../../lib/action/ts_action_params_count (result i64)))
- (import "env" "ts_log_print_i" (func $../../lib/log/ts_log_print_i (param i64)))
  (import "env" "ts_action_params_nth_type" (func $../../lib/action/ts_action_params_nth_type (param i32) (result i64)))
  (import "env" "ts_action_params_nth_as_int" (func $../../lib/action/ts_action_params_nth_as_int (param i32) (result i64)))
  (import "env" "ts_action_params_nth_string_length" (func $../../lib/action/ts_action_params_nth_string_length (param i32) (result i64)))
@@ -29,7 +31,7 @@
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../lib/log/Log (mut i32) (i32.const 0))
- (global $HEAP_BASE i32 (i32.const 2012))
+ (global $HEAP_BASE i32 (i32.const 2300))
  (memory $0 1)
  (data (i32.const 4) "\01\00\00\00 ")
  (data (i32.const 12) "\01\00\00\00!")
@@ -126,26 +128,32 @@
  (data (i32.const 740) "\01\00\00\00}")
  (data (i32.const 748) "\01\00\00\00~")
  (data (i32.const 761) "\03\00\00_\00\00\00|\01\00\00\00\00\00\00\04\00\00\00\0c\00\00\00\14\00\00\00\1c\00\00\00$\00\00\00,\00\00\004\00\00\00<\00\00\00D\00\00\00L\00\00\00T\00\00\00\\\00\00\00d\00\00\00l\00\00\00t\00\00\00|\00\00\00\84\00\00\00\8c\00\00\00\94\00\00\00\9c\00\00\00\a4\00\00\00\ac\00\00\00\b4\00\00\00\bc\00\00\00\c4\00\00\00\cc\00\00\00\d4\00\00\00\dc\00\00\00\e4\00\00\00\ec\00\00\00\f4\00\00\00\fc\00\00\00\04\01\00\00\0c\01\00\00\14\01\00\00\1c\01\00\00$\01\00\00,\01\00\004\01\00\00<\01\00\00D\01\00\00L\01\00\00T\01\00\00\\\01\00\00d\01\00\00l\01\00\00t\01\00\00|\01\00\00\84\01\00\00\8c\01\00\00\94\01\00\00\94\01\00\00\9c\01\00\00\a4\01\00\00\ac\01\00\00\b4\01\00\00\bc\01\00\00\c4\01\00\00\cc\01\00\00\d4\01\00\00\dc\01\00\00\e4\01\00\00\ec\01\00\00\f4\01\00\00\fc\01\00\00\04\02\00\00\0c\02\00\00\14\02\00\00\1c\02\00\00$\02\00\00,\02\00\004\02\00\00<\02\00\00D\02\00\00L\02\00\00T\02\00\00\\\02\00\00d\02\00\00l\02\00\00t\02\00\00|\02\00\00\84\02\00\00\8c\02\00\00\94\02\00\00\9c\02\00\00\a4\02\00\00\ac\02\00\00\b4\02\00\00\bc\02\00\00\c4\02\00\00\cc\02\00\00\d4\02\00\00\dc\02\00\00\e4\02\00\00\ec\02")
- (data (i32.const 1280) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s")
- (data (i32.const 1312) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s")
- (data (i32.const 1372) "\16\00\00\00t\00s\00_\00a\00c\00t\00i\00o\00n\00_\00i\00n\00i\00t\00 \00f\00a\00i\00l\00e\00d\00.")
- (data (i32.const 1420) "\0e\00\00\00~\00l\00i\00b\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
- (data (i32.const 1456) "\04\00\00\00n\00u\00l\00l")
- (data (i32.const 1468) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
- (data (i32.const 1520) "\0e\00\00\00p\00a\00r\00a\00m\00s\00 \00c\00o\00u\00n\00t\00:\00 ")
- (data (i32.const 1552) "\14\00\00\00:\00:\00 \00p\00a\00r\00a\00m\00s\00 \00l\00e\00n\00g\00t\00h\00 \00i\00s\00 ")
- (data (i32.const 1596) "*\00\00\00 \00:\00:\00 \00I\00t\00 \00i\00s\00 \00n\00o\00t\00 \00s\00u\00p\00p\00o\00r\00t\00 \00f\00o\00r\00 \00p\00a\00r\00a\00m\00e\00t\00e\00r\00s\00 \00t\00y\00p\00e\00 ")
- (data (i32.const 1684) "\13\00\00\00I\00n\00i\00t\00 \00a\00c\00t\00i\00o\00n\00 \00f\00a\00i\00l\00e\00d\00.")
- (data (i32.const 1728) "\11\00\00\00a\00p\00p\00l\00y\00 \00a\00c\00t\00i\00o\00n\00 \00i\00s\00:\00 ")
- (data (i32.const 1768) "\14\00\00\00a\00c\00t\00.\00n\00a\00m\00e\00 \00a\00c\00t\00i\00o\00n\00 \00i\00s\00:\00 ")
- (data (i32.const 1812) "\02\00\00\00h\00i")
- (data (i32.const 1820) "\"\00\00\00 \00W\00h\00a\00t\00 \00a\00 \00w\00o\00n\00d\00e\00r\00f\00u\00l\00 \00w\00o\00r\00l\00d\00,\00 \00i\00s\00n\00t\00 \00i\00s\00?\00 ")
- (data (i32.const 1892) "\19\00\00\00,\00 \00y\00o\00u\00 \00a\00r\00e\00 \00t\00o\00o\00 \00o\00l\00d\00 \00a\00t\00 \00a\00g\00e\00 ")
- (data (i32.const 1948) "\1d\00\00\00E\00r\00r\00o\00r\00:\00 \00u\00n\00k\00n\00o\00w\00n\00 \00a\00c\00t\00i\00o\00n\00 \00n\00a\00m\00e\00 \00:\00 ")
+ (data (i32.const 1280) "\1d\00\00\00c\00h\00e\00c\00k\00 \00h\00a\00s\00 \00a\00u\00t\00h\00o\00r\00i\00t\00y\00 \00o\00r\00 \00n\00o\00t\00 \00:\00 ")
+ (data (i32.const 1344) "\0e\00\00\00~\00l\00i\00b\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
+ (data (i32.const 1376) "\1d\00\00\00d\00o\00e\00s\00 \00r\00e\00c\00e\00i\00v\00e\00r\00 \00h\00a\00s\00 \00a\00u\00t\00h\00o\00r\00i\00t\00y\00?\00 ")
+ (data (i32.const 1440) "\03\00\00\00Y\00E\00S")
+ (data (i32.const 1452) "\02\00\00\00N\00O")
+ (data (i32.const 1460) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s")
+ (data (i32.const 1492) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s")
+ (data (i32.const 1552) "\16\00\00\00t\00s\00_\00a\00c\00t\00i\00o\00n\00_\00i\00n\00i\00t\00 \00f\00a\00i\00l\00e\00d\00.")
+ (data (i32.const 1604) "\04\00\00\00n\00u\00l\00l")
+ (data (i32.const 1616) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
+ (data (i32.const 1668) "\0e\00\00\00p\00a\00r\00a\00m\00s\00 \00c\00o\00u\00n\00t\00:\00 ")
+ (data (i32.const 1700) "\14\00\00\00:\00:\00 \00p\00a\00r\00a\00m\00s\00 \00l\00e\00n\00g\00t\00h\00 \00i\00s\00 ")
+ (data (i32.const 1744) "*\00\00\00 \00:\00:\00 \00I\00t\00 \00i\00s\00 \00n\00o\00t\00 \00s\00u\00p\00p\00o\00r\00t\00 \00f\00o\00r\00 \00p\00a\00r\00a\00m\00e\00t\00e\00r\00s\00 \00t\00y\00p\00e\00 ")
+ (data (i32.const 1832) "\13\00\00\00I\00n\00i\00t\00 \00a\00c\00t\00i\00o\00n\00 \00f\00a\00i\00l\00e\00d\00.")
+ (data (i32.const 1876) "\02\00\00\00h\00i")
+ (data (i32.const 1884) "\11\00\00\00a\00p\00p\00l\00y\00 \00a\00c\00t\00i\00o\00n\00 \00i\00s\00:\00 ")
+ (data (i32.const 1924) " \00\00\00.\001\002\003\004\005\00a\00b\00c\00d\00e\00f\00g\00h\00i\00j\00k\00l\00m\00n\00o\00p\00q\00r\00s\00t\00u\00v\00w\00x\00y\00z")
+ (data (i32.const 1992) "\d0\07\00\00\0d\00\00\004\00\00\00\00\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.\00\00\00.")
+ (data (i32.const 2064) "\14\00\00\00t\00e\00s\00t\00 \00U\001\006\00T\00o\00S\00t\00r\00i\00n\00g\00 \00i\00s\00 ")
+ (data (i32.const 2108) "\"\00\00\00 \00W\00h\00a\00t\00 \00a\00 \00w\00o\00n\00d\00e\00r\00f\00u\00l\00 \00w\00o\00r\00l\00d\00,\00 \00i\00s\00n\00t\00 \00i\00s\00?\00 ")
+ (data (i32.const 2180) "\19\00\00\00,\00 \00y\00o\00u\00 \00a\00r\00e\00 \00t\00o\00o\00 \00o\00l\00d\00 \00a\00t\00 \00a\00g\00e\00 ")
+ (data (i32.const 2236) "\1d\00\00\00E\00r\00r\00o\00r\00:\00 \00u\00n\00k\00n\00o\00w\00n\00 \00a\00c\00t\00i\00o\00n\00 \00n\00a\00m\00e\00 \00:\00 ")
  (export "apply" (func $hellots/apply))
  (export "memory" (memory $0))
  (start $start)
- (func $~lib/allocator/arena/allocate_memory (; 12 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/arena/allocate_memory (; 14 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -234,7 +242,111 @@
   )
   (i32.const 0)
  )
- (func $~lib/internal/arraybuffer/computeSize (; 13 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 15 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (if
+   (i32.eqz
+    (get_local $0)
+   )
+   (block
+    (call $abort
+     (i32.const 0)
+     (i32.const 1344)
+     (i32.const 37)
+     (i32.const 4)
+    )
+    (unreachable)
+   )
+  )
+  (if
+   (i32.ge_u
+    (get_local $1)
+    (i32.load
+     (get_local $0)
+    )
+   )
+   (return
+    (i32.const -1)
+   )
+  )
+  (i32.load16_u offset=4
+   (i32.add
+    (get_local $0)
+    (i32.shl
+     (get_local $1)
+     (i32.const 1)
+    )
+   )
+  )
+ )
+ (func $../../lib/log/Logger#s (; 16 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (loop $continue|0
+   (if
+    (i32.lt_s
+     (get_local $2)
+     (i32.load
+      (get_local $1)
+     )
+    )
+    (block
+     (call $../../lib/log/ts_log_print_s
+      (call $~lib/string/String#charCodeAt
+       (get_local $1)
+       (get_local $2)
+      )
+     )
+     (set_local $2
+      (i32.add
+       (get_local $2)
+       (i32.const 1)
+      )
+     )
+     (br $continue|0)
+    )
+   )
+  )
+  (get_local $0)
+ )
+ (func $../../lib/log/Logger#i (; 17 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (call $../../lib/log/ts_log_print_i
+   (get_local $1)
+  )
+  (get_local $0)
+ )
+ (func $../../lib/log/Logger#flush (; 18 ;) (type $iv) (param $0 i32)
+  (call $../../lib/log/ts_log_done)
+ )
+ (func $../../lib/action/hasAuth (; 19 ;) (type $Ii) (param $0 i64) (result i32)
+  (local $1 i32)
+  (set_local $1
+   (call $../../lib/action/has_auth
+    (get_local $0)
+   )
+  )
+  (call $../../lib/log/Logger#flush
+   (call $../../lib/log/Logger#i
+    (call $../../lib/log/Logger#s
+     (get_global $../../lib/log/Log)
+     (i32.const 1280)
+    )
+    (i64.extend_s/i32
+     (get_local $1)
+    )
+   )
+  )
+  (i32.ne
+   (call $../../lib/action/has_auth
+    (get_local $0)
+   )
+   (i32.const 0)
+  )
+ )
+ (func $../../lib/action/requireAuth (; 20 ;) (type $Iv) (param $0 i64)
+  (call $../../lib/action/require_auth
+   (get_local $0)
+  )
+ )
+ (func $~lib/internal/arraybuffer/computeSize (; 21 ;) (type $ii) (param $0 i32) (result i32)
   (i32.shl
    (i32.const 1)
    (i32.sub
@@ -248,7 +360,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/allocUnsafe (; 14 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocUnsafe (; 22 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (i32.gt_u
@@ -258,7 +370,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1312)
+     (i32.const 1492)
      (i32.const 22)
      (i32.const 2)
     )
@@ -277,7 +389,7 @@
   )
   (get_local $1)
  )
- (func $~lib/memory/set_memory (; 15 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/set_memory (; 23 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (if
@@ -613,7 +725,7 @@
    )
   )
  )
- (func $~lib/array/Array<String>#constructor (; 16 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -624,7 +736,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1280)
+     (i32.const 1460)
      (i32.const 23)
      (i32.const 39)
     )
@@ -677,7 +789,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<i64>#constructor (; 17 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i64>#constructor (; 25 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -688,7 +800,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1280)
+     (i32.const 1460)
      (i32.const 23)
      (i32.const 39)
     )
@@ -741,7 +853,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/action/Action#constructor (; 18 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/action/Action#constructor (; 26 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (if (result i32)
@@ -787,75 +899,7 @@
   )
   (get_local $0)
  )
- (func $~lib/string/String#charCodeAt (; 19 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (if
-   (i32.eqz
-    (get_local $0)
-   )
-   (block
-    (call $abort
-     (i32.const 0)
-     (i32.const 1420)
-     (i32.const 37)
-     (i32.const 4)
-    )
-    (unreachable)
-   )
-  )
-  (if
-   (i32.ge_u
-    (get_local $1)
-    (i32.load
-     (get_local $0)
-    )
-   )
-   (return
-    (i32.const -1)
-   )
-  )
-  (i32.load16_u offset=4
-   (i32.add
-    (get_local $0)
-    (i32.shl
-     (get_local $1)
-     (i32.const 1)
-    )
-   )
-  )
- )
- (func $../../lib/log/Logger#s (; 20 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (loop $continue|0
-   (if
-    (i32.lt_s
-     (get_local $2)
-     (i32.load
-      (get_local $1)
-     )
-    )
-    (block
-     (call $../../lib/log/ts_log_print_s
-      (call $~lib/string/String#charCodeAt
-       (get_local $1)
-       (get_local $2)
-      )
-     )
-     (set_local $2
-      (i32.add
-       (get_local $2)
-       (i32.const 1)
-      )
-     )
-     (br $continue|0)
-    )
-   )
-  )
-  (get_local $0)
- )
- (func $../../lib/log/Logger#flush (; 21 ;) (type $iv) (param $0 i32)
-  (call $../../lib/log/ts_log_done)
- )
- (func $~lib/array/Array<String>#__get (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -883,7 +927,7 @@
    (unreachable)
   )
  )
- (func $~lib/internal/string/allocate (; 23 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/string/allocate (; 28 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (i32.eqz
@@ -904,7 +948,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1468)
+     (i32.const 1616)
      (i32.const 20)
      (i32.const 2)
     )
@@ -927,7 +971,7 @@
   )
   (get_local $1)
  )
- (func $~lib/memory/copy_memory (; 24 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/copy_memory (; 29 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (loop $continue|0
@@ -2503,7 +2547,7 @@
    )
   )
  )
- (func $~lib/memory/move_memory (; 25 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/move_memory (; 30 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.eq
@@ -2790,7 +2834,7 @@
    )
   )
  )
- (func $~lib/string/String#concat (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#concat (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2801,7 +2845,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1420)
+     (i32.const 1344)
      (i32.const 74)
      (i32.const 4)
     )
@@ -2813,7 +2857,7 @@
     (get_local $1)
    )
    (set_local $1
-    (i32.const 1456)
+    (i32.const 1604)
    )
   )
   (if
@@ -2834,7 +2878,7 @@
     )
    )
    (return
-    (i32.const 1452)
+    (i32.const 1600)
    )
   )
   (call $~lib/memory/move_memory
@@ -2877,13 +2921,13 @@
   )
   (get_local $2)
  )
- (func $~lib/string/String.__concat (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__concat (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (get_local $0)
    )
    (set_local $0
-    (i32.const 1456)
+    (i32.const 1604)
    )
   )
   (call $~lib/string/String#concat
@@ -2891,7 +2935,7 @@
    (get_local $1)
   )
  )
- (func $../../lib/action/Action#parseName (; 28 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#parseName (; 33 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2902,7 +2946,7 @@
    )
   )
   (set_local $2
-   (i32.const 1452)
+   (i32.const 1600)
   )
   (loop $continue|0
    (if
@@ -2962,13 +3006,7 @@
    (i32.const 0)
   )
  )
- (func $../../lib/log/Logger#i (; 29 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
-  (call $../../lib/log/ts_log_print_i
-   (get_local $1)
-  )
-  (get_local $0)
- )
- (func $~lib/internal/arraybuffer/reallocUnsafe (; 30 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocUnsafe (; 34 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -2989,7 +3027,7 @@
      (block
       (call $abort
        (i32.const 0)
-       (i32.const 1312)
+       (i32.const 1492)
        (i32.const 32)
        (i32.const 4)
       )
@@ -3076,7 +3114,7 @@
       (block
        (call $abort
         (i32.const 0)
-        (i32.const 1312)
+        (i32.const 1492)
         (i32.const 56)
         (i32.const 4)
        )
@@ -3092,7 +3130,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<i64>#push (; 31 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/array/Array<i64>#push (; 35 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3129,7 +3167,7 @@
      (block
       (call $abort
        (i32.const 0)
-       (i32.const 1280)
+       (i32.const 1460)
        (i32.const 143)
        (i32.const 42)
       )
@@ -3166,7 +3204,7 @@
   )
   (get_local $3)
  )
- (func $../../lib/action/Action#read_params_nth_string (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/action/Action#read_params_nth_string (; 36 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i64)
@@ -3179,13 +3217,13 @@
    (call $../../lib/log/Logger#i
     (call $../../lib/log/Logger#s
      (get_global $../../lib/log/Log)
-     (i32.const 1552)
+     (i32.const 1700)
     )
     (get_local $3)
    )
   )
   (set_local $2
-   (i32.const 1452)
+   (i32.const 1600)
   )
   (set_local $0
    (i32.const 0)
@@ -3244,7 +3282,7 @@
   )
   (get_local $2)
  )
- (func $~lib/array/Array<String>#push (; 33 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3281,7 +3319,7 @@
      (block
       (call $abort
        (i32.const 0)
-       (i32.const 1280)
+       (i32.const 1460)
        (i32.const 143)
        (i32.const 42)
       )
@@ -3318,17 +3356,11 @@
   )
   (get_local $3)
  )
- (func $../../lib/action/Action#parseParams (; 34 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#parseParams (; 38 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i64)
-  (if
-   (call $../../lib/action/ts_action_init)
-   (return
-    (i32.const 0)
-   )
-  )
   (set_local $4
    (call $../../lib/action/ts_action_params_count)
   )
@@ -3336,7 +3368,7 @@
    (call $../../lib/log/Logger#i
     (call $../../lib/log/Logger#s
      (get_global $../../lib/log/Log)
-     (i32.const 1520)
+     (i32.const 1668)
     )
     (get_local $4)
    )
@@ -3419,7 +3451,7 @@
        (call $../../lib/log/Logger#i
         (call $../../lib/log/Logger#s
          (get_global $../../lib/log/Log)
-         (i32.const 1596)
+         (i32.const 1744)
         )
         (get_local $3)
        )
@@ -3437,7 +3469,7 @@
   )
   (i32.const 1)
  )
- (func $../../lib/action/Action#init (; 35 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#init (; 39 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (call $../../lib/action/ts_action_init)
@@ -3445,7 +3477,7 @@
     (call $../../lib/log/Logger#flush
      (call $../../lib/log/Logger#s
       (get_global $../../lib/log/Log)
-      (i32.const 1372)
+      (i32.const 1552)
      )
     )
     (i32.store8 offset=20
@@ -3472,12 +3504,7 @@
    (get_local $0)
   )
  )
- (func $../../lib/action/Action#get:name (; 36 ;) (type $ii) (param $0 i32) (result i32)
-  (i32.load offset=8
-   (get_local $0)
-  )
- )
- (func $../../lib/utils/char_to_symbol (; 37 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/name/char_to_symbol (; 40 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (if (result i32)
@@ -3535,7 +3562,7 @@
   )
   (i32.const 0)
  )
- (func $../../lib/utils/String2Name (; 38 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/StringToU64 (; 41 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i64)
@@ -3572,13 +3599,13 @@
       )
       (set_local $2
        (i64.extend_u/i32
-        (call $../../lib/utils/char_to_symbol
-         (call $~lib/string/String#charCodeAt
-          (get_local $0)
-          (i32.and
+        (call $../../lib/name/char_to_symbol
+         (i32.and
+          (call $~lib/string/String#charCodeAt
+           (get_local $0)
            (get_local $1)
-           (i32.const 255)
           )
+          (i32.const 255)
          )
         )
        )
@@ -3631,41 +3658,157 @@
   )
   (get_local $3)
  )
- (func $~lib/memory/compare_memory (; 39 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
-  (if
-   (i32.eq
+ (func $../../lib/name/Name#constructor (; 42 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (i64.store
+   (if (result i32)
     (get_local $0)
+    (get_local $0)
+    (block (result i32)
+     (i64.store
+      (tee_local $2
+       (call $~lib/allocator/arena/allocate_memory
+        (i32.const 8)
+       )
+      )
+      (i64.const 0)
+     )
+     (tee_local $0
+      (get_local $2)
+     )
+    )
+   )
+   (call $../../lib/name/StringToU64
     (get_local $1)
    )
-   (return
-    (i32.const 0)
+  )
+  (get_local $0)
+ )
+ (func $~lib/array/Array<u8>#__set (; 43 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (if
+   (i32.ge_u
+    (get_local $1)
+    (i32.load
+     (tee_local $3
+      (i32.load
+       (get_local $0)
+      )
+     )
+    )
    )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $1)
+      (i32.const 1073741816)
+     )
+     (block
+      (call $abort
+       (i32.const 0)
+       (i32.const 1460)
+       (i32.const 86)
+       (i32.const 41)
+      )
+      (unreachable)
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (tee_local $3
+      (call $~lib/internal/arraybuffer/reallocUnsafe
+       (get_local $3)
+       (i32.add
+        (get_local $1)
+        (i32.const 1)
+       )
+      )
+     )
+    )
+    (i32.store offset=4
+     (get_local $0)
+     (i32.add
+      (get_local $1)
+      (i32.const 1)
+     )
+    )
+   )
+  )
+  (i32.store8 offset=8
+   (i32.add
+    (get_local $3)
+    (get_local $1)
+   )
+   (get_local $2)
+  )
+ )
+ (func $~lib/array/Array<u8>#__get (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (if (result i32)
+   (i32.lt_u
+    (get_local $1)
+    (i32.load
+     (tee_local $2
+      (i32.load
+       (get_local $0)
+      )
+     )
+    )
+   )
+   (i32.load8_u offset=8
+    (i32.add
+     (get_local $2)
+     (get_local $1)
+    )
+   )
+   (unreachable)
+  )
+ )
+ (func $../../lib/name/U64ToString (; 45 ;) (type $Ii) (param $0 i64) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (set_local $2
+   (i32.const 1992)
   )
   (loop $continue|0
    (if
-    (if (result i32)
-     (get_local $2)
-     (i32.eq
-      (i32.load8_u
-       (get_local $0)
-      )
-      (i32.load8_u
-       (get_local $1)
-      )
-     )
-     (get_local $2)
+    (i32.le_u
+     (get_local $1)
+     (i32.const 12)
     )
     (block
-     (set_local $2
+     (call $~lib/array/Array<u8>#__set
+      (get_local $2)
       (i32.sub
-       (get_local $2)
-       (i32.const 1)
+       (i32.const 12)
+       (get_local $1)
+      )
+      (i32.and
+       (call $~lib/string/String#charCodeAt
+        (i32.const 1924)
+        (i32.wrap/i64
+         (i64.and
+          (get_local $0)
+          (select
+           (i64.const 31)
+           (i64.const 15)
+           (get_local $1)
+          )
+         )
+        )
+       )
+       (i32.const 255)
       )
      )
      (set_local $0
-      (i32.add
+      (i64.shr_u
        (get_local $0)
-       (i32.const 1)
+       (select
+        (i64.const 5)
+        (i64.const 4)
+        (get_local $1)
+       )
       )
      )
      (set_local $1
@@ -3678,79 +3821,70 @@
     )
    )
   )
-  (if (result i32)
-   (get_local $2)
-   (i32.sub
-    (i32.load8_u
-     (get_local $0)
-    )
-    (i32.load8_u
+  (set_local $3
+   (i32.const 1600)
+  )
+  (set_local $1
+   (i32.const 12)
+  )
+  (loop $continue|1
+   (if
+    (i32.ge_s
      (get_local $1)
+     (i32.const 0)
+    )
+    (block
+     (if
+      (i32.ne
+       (i32.and
+        (call $~lib/array/Array<u8>#__get
+         (get_local $2)
+         (get_local $1)
+        )
+        (i32.const 255)
+       )
+       (i32.const 46)
+      )
+      (set_local $3
+       (call $~lib/string/String.__concat
+        (call $~lib/array/Array<String>#__get
+         (i32.const 760)
+         (i32.sub
+          (i32.and
+           (call $~lib/array/Array<u8>#__get
+            (get_local $2)
+            (get_local $1)
+           )
+           (i32.const 255)
+          )
+          (i32.const 32)
+         )
+        )
+        (get_local $3)
+       )
+      )
+     )
+     (set_local $1
+      (i32.sub
+       (get_local $1)
+       (i32.const 1)
+      )
+     )
+     (br $continue|1)
     )
    )
-   (i32.const 0)
   )
+  (get_local $3)
  )
- (func $~lib/string/String.__eq (; 40 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (if
-   (i32.eq
+ (func $../../lib/name/Name#equal (; 46 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (i64.eq
+   (i64.load
     (get_local $0)
-    (get_local $1)
    )
-   (return
-    (i32.const 1)
-   )
-  )
-  (if
-   (if (result i32)
-    (tee_local $2
-     (i32.eqz
-      (get_local $0)
-     )
-    )
-    (get_local $2)
-    (i32.eqz
-     (get_local $1)
-    )
-   )
-   (return
-    (i32.const 0)
-   )
-  )
-  (if
-   (i32.ne
-    (tee_local $2
-     (i32.load
-      (get_local $0)
-     )
-    )
-    (i32.load
-     (get_local $1)
-    )
-   )
-   (return
-    (i32.const 0)
-   )
-  )
-  (i32.eqz
-   (call $~lib/memory/compare_memory
-    (i32.add
-     (get_local $0)
-     (i32.const 4)
-    )
-    (i32.add
-     (get_local $1)
-     (i32.const 4)
-    )
-    (i32.shl
-     (get_local $2)
-     (i32.const 1)
-    )
-   )
+   (get_local $1)
   )
  )
- (func $~lib/array/Array<i64>#__get (; 41 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/array/Array<i64>#__get (; 47 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (if (result i64)
    (i32.lt_u
@@ -3778,18 +3912,18 @@
    (unreachable)
   )
  )
- (func $hellots/hi (; 42 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $hellots/hi (; 48 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#i
     (call $../../lib/log/Logger#s
      (call $../../lib/log/Logger#s
       (get_global $../../lib/log/Log)
       (call $~lib/string/String.__concat
-       (i32.const 1820)
+       (i32.const 2108)
        (get_local $0)
       )
      )
-     (i32.const 1892)
+     (i32.const 2180)
     )
     (i64.extend_s/i32
      (get_local $1)
@@ -3797,9 +3931,31 @@
    )
   )
  )
- (func $hellots/apply (; 43 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $hellots/apply (; 49 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
+  (local $5 i32)
+  (set_local $3
+   (call $../../lib/action/hasAuth
+    (get_local $0)
+   )
+  )
+  (call $../../lib/log/Logger#flush
+   (call $../../lib/log/Logger#s
+    (call $../../lib/log/Logger#s
+     (get_global $../../lib/log/Log)
+     (i32.const 1376)
+    )
+    (select
+     (i32.const 1440)
+     (i32.const 1452)
+     (get_local $3)
+    )
+   )
+  )
+  (call $../../lib/action/requireAuth
+   (get_local $0)
+  )
   (if
    (call $../../lib/action/Action#init
     (tee_local $3
@@ -3811,37 +3967,38 @@
    )
    (block
     (set_local $4
-     (call $../../lib/action/Action#get:name
-      (get_local $3)
+     (call $../../lib/name/Name#constructor
+      (i32.const 0)
+      (i32.const 1876)
      )
     )
     (call $../../lib/log/Logger#flush
      (call $../../lib/log/Logger#i
       (call $../../lib/log/Logger#s
        (get_global $../../lib/log/Log)
-       (i32.const 1728)
+       (i32.const 1884)
       )
       (get_local $2)
      )
     )
-    (set_local $0
-     (call $../../lib/utils/String2Name
-      (get_local $4)
+    (set_local $5
+     (call $../../lib/name/U64ToString
+      (get_local $2)
      )
     )
     (call $../../lib/log/Logger#flush
-     (call $../../lib/log/Logger#i
+     (call $../../lib/log/Logger#s
       (call $../../lib/log/Logger#s
        (get_global $../../lib/log/Log)
-       (i32.const 1768)
+       (i32.const 2064)
       )
-      (get_local $0)
+      (get_local $5)
      )
     )
     (if
-     (call $~lib/string/String.__eq
+     (call $../../lib/name/Name#equal
       (get_local $4)
-      (i32.const 1812)
+      (get_local $2)
      )
      (call $hellots/hi
       (call $~lib/array/Array<String>#__get
@@ -3863,8 +4020,10 @@
       (call $../../lib/log/Logger#s
        (get_global $../../lib/log/Log)
        (call $~lib/string/String.__concat
-        (i32.const 1948)
-        (get_local $4)
+        (i32.const 2236)
+        (call $../../lib/name/U64ToString
+         (get_local $2)
+        )
        )
       )
      )
@@ -3873,12 +4032,12 @@
    (call $../../lib/log/Logger#flush
     (call $../../lib/log/Logger#s
      (get_global $../../lib/log/Log)
-     (i32.const 1684)
+     (i32.const 1832)
     )
    )
   )
  )
- (func $start (; 44 ;) (type $v)
+ (func $start (; 50 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

@@ -1,4 +1,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-declare type Name = u64;
+import { Name } from "./name";
+
+declare type AccountName = Name;
+declare type ActionName = Name;

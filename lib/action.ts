@@ -3,6 +3,7 @@
  */
 import "allocator/arena";
 import { Log } from "./log";
+import { ASCIICHAR } from "./utils";
 
 declare function ts_action_init(): i32;
 declare function ts_action_params_count(): i64;
@@ -13,19 +14,8 @@ declare function ts_action_params_nth_string_read_char(nth: i32, idx: i32): i32;
 declare function ts_action_name_length(): i64;
 declare function ts_action_name_read_char(idx: i32): i32;
 
-const ASCIICHAR: string[/*95*/] = [
-    " ", "!", "\"", "#", "$", "%", "&", "'",
-    "(", ")", "*", "+", ",", "-", ".", "/",
-    "0", "1", "2", "3", "4", "5", "6", "7",
-    "8", "9", ":", ";", "<", "=", ">", "?",
-    "@", "A", "B", "C", "D", "E", "F", "G",
-    "H", "I", "J", "K", "L", "M", "N", "O",
-    "P", "Q", "R", "R", "T", "U", "V", "W",
-    "X", "Y", "Z", "[", "\\", "]", "^", "_",
-    "`", "a", "b", "c", "d", "e", "f", "g",
-    "h", "i", "j", "k", "l", "m", "n", "o",
-    "p", "q", "r", "s", "t", "u", "v", "w",
-    "x", "y", "z", "{", "|", "}", "~"];
+declare function require_auth(account_name: u64): void;
+declare function has_auth(account_name: u64): i32;
 
 enum PTYPE {
     NULL = 0,     /* null_type  */
@@ -38,6 +28,16 @@ enum PTYPE {
     OBJ = 7,        /* object_type*/
     BLOB = 8      /* blob_type  */
 };
+
+export function requireAuth(accountName: u64): void {
+    require_auth(accountName);
+}
+
+export function hasAuth(accountName: u64): boolean {
+    let authed: i32 = has_auth(accountName);
+    Log.s("check has authority or not : ").i(authed).flush();
+    return has_auth(accountName) != 0;
+}
 
 export class Action {
     private action_code: i64;
@@ -92,7 +92,6 @@ export class Action {
 
     private parseParams(): boolean {
         let size: i64 = ts_action_params_count();
-        Log.s("params count: ").i(size).flush();
 
         for (let i = 0; i < size; ++i) {
             let type = ts_action_params_nth_type(i);
