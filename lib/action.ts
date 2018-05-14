@@ -15,7 +15,16 @@ declare function ts_action_name_length(): i64;
 declare function ts_action_name_read_char(idx: i32): i32;
 
 declare function require_auth(account_name: u64): void;
+declare function require_auth2(account_name: u64, permission: u64): void;
 declare function has_auth(account_name: u64): i32;
+declare function require_recipient(account_name: u64): void;
+declare function publication_time(): i32;
+declare function current_receiver(): u64;
+declare function current_sender(): u64;
+declare function send_inline(data: usize, len: i32): void;
+declare function send_context_free_inline(data: usize, len: i32): void;
+declare function require_write_lock(account_name: u64): void;
+declare function require_read_lock(account_name: u64): void;
 
 enum PTYPE {
     NULL = 0,     /* null_type  */
@@ -33,10 +42,54 @@ export function requireAuth(accountName: u64): void {
     require_auth(accountName);
 }
 
+export function requireAuth2(account_name: u64, permission: u64): void {
+    require_auth2(account_name, permission);
+}
+
+export function requireRecipient(account_name: u64): void {
+    require_recipient(account_name);
+}
+
 export function hasAuth(accountName: u64): boolean {
     let authed: i32 = has_auth(accountName);
     Log.s("check has authority or not : ").i(authed).flush();
     return has_auth(accountName) != 0;
+}
+
+export function requireWriteLock(account_name: u64): void {
+    require_write_lock(account_name);
+}
+
+export function requireReadLock(account_name: u64): void {
+    require_read_lock(account_name);
+}
+
+export function publicationTime(): i32 {
+    return publication_time();
+}
+
+export function currentSender(): u64 {
+    return current_sender();
+}
+
+export function currentReceiver(): u64 {
+    return current_receiver();
+}
+
+export function sendInline(serialization_action: u8[], size: i32): void {
+    let inline: usize = allocate_memory(sizeof<u8>() * size);
+    let ptr: usize = inline;
+    for (let i: i32 = 0; i < size; ++i) {
+        store<u8>(ptr, serialization_action[i]);
+        ++ptr;
+    }
+
+    send_inline(inline, size);
+    free_memory(inline);
+}
+
+export function sendContextFreeInline(serialization_action: u8[], size: i32): void {
+    sendInline(serialization_action, size);
 }
 
 export class Action {
