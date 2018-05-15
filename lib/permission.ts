@@ -2,7 +2,7 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "./types";
+import "./alias";
 
 declare function check_authorization(account: u64, permission: u64, pubkeys: i32, pubkeys_len: u32): i32;
 /**

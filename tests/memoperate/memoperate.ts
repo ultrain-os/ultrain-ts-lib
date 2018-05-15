@@ -1,10 +1,11 @@
 import "allocator/arena"
 import { Log } from "../../lib/log";
-import { CHARCODE } from "../../lib/utils";
+import { CHARCODE, TSString2CharArray, ReleaseCharArrayMem } from "../../lib/utils";
 import { Action, sendInline } from "../../lib/action";
 
 declare function action_data_size(): u32;
 declare function read_action_data(ptr: usize, len: u32): u32;
+declare function prints(ptr: usize): void;
 
 export function apply(receiver: u64, code: u64, action: u64): void {
 
@@ -33,4 +34,8 @@ export function apply(receiver: u64, code: u64, action: u64): void {
     let status: boolean = act.init();
 
     sendInline(kk, kk.length);
+
+    let msg: usize = TSString2CharArray("OOXXOO: cruel world!");
+    prints(msg);
+    ReleaseCharArrayMem(msg);
 }

@@ -26,11 +26,12 @@
  (import "env" "ts_log_print_i" (func $../../lib/log/ts_log_print_i (param i64 i32)))
  (import "env" "ts_action_params_nth_string_read_char" (func $../../lib/action/ts_action_params_nth_string_read_char (param i32 i32) (result i32)))
  (import "env" "send_inline" (func $../../lib/action/send_inline (param i32 i32)))
+ (import "env" "prints" (func $memoperate/prints (param i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../lib/log/Log (mut i32) (i32.const 0))
  (global $~argc (mut i32) (i32.const 0))
- (global $HEAP_BASE i32 (i32.const 1652))
+ (global $HEAP_BASE i32 (i32.const 1696))
  (memory $0 1)
  (data (i32.const 4) "\01\00\00\00 ")
  (data (i32.const 12) "\01\00\00\00!")
@@ -135,10 +136,11 @@
  (data (i32.const 1468) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
  (data (i32.const 1520) "\14\00\00\00:\00:\00 \00p\00a\00r\00a\00m\00s\00 \00l\00e\00n\00g\00t\00h\00 \00i\00s\00 ")
  (data (i32.const 1564) "*\00\00\00 \00:\00:\00 \00I\00t\00 \00i\00s\00 \00n\00o\00t\00 \00s\00u\00p\00p\00o\00r\00t\00 \00f\00o\00r\00 \00p\00a\00r\00a\00m\00e\00t\00e\00r\00s\00 \00t\00y\00p\00e\00 ")
+ (data (i32.const 1652) "\14\00\00\00O\00O\00X\00X\00O\00O\00:\00 \00c\00r\00u\00e\00l\00 \00w\00o\00r\00l\00d\00!")
  (export "apply" (func $memoperate/apply))
  (export "memory" (memory $0))
  (start $start)
- (func $~lib/allocator/arena/allocate_memory (; 13 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/arena/allocate_memory (; 14 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -227,7 +229,7 @@
   )
   (i32.const 0)
  )
- (func $~lib/internal/arraybuffer/computeSize (; 14 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 15 ;) (type $ii) (param $0 i32) (result i32)
   (i32.shl
    (i32.const 1)
    (i32.sub
@@ -241,7 +243,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/allocUnsafe (; 15 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocUnsafe (; 16 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (i32.gt_u
@@ -270,7 +272,7 @@
   )
   (get_local $1)
  )
- (func $~lib/memory/set_memory (; 16 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/set_memory (; 17 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (if
@@ -606,7 +608,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#constructor (; 17 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#constructor (; 18 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -667,7 +669,7 @@
   )
   (get_local $0)
  )
- (func $~lib/memory/copy_memory (; 18 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/copy_memory (; 19 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (loop $continue|0
@@ -2243,7 +2245,7 @@
    )
   )
  )
- (func $~lib/memory/move_memory (; 19 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/move_memory (; 20 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.eq
@@ -2530,7 +2532,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/reallocUnsafe (; 20 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocUnsafe (; 21 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -2654,7 +2656,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u8>#push (; 21 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#push (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2719,7 +2721,7 @@
   )
   (get_local $3)
  )
- (func $~lib/array/Array<String>#constructor (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#constructor (; 23 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -2783,7 +2785,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<i64>#constructor (; 23 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i64>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -2847,7 +2849,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/action/Action#constructor (; 24 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/action/Action#constructor (; 25 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (if (result i32)
@@ -2893,7 +2895,7 @@
   )
   (get_local $0)
  )
- (func $~lib/string/String#charCodeAt (; 25 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (get_local $0)
@@ -2929,7 +2931,7 @@
    )
   )
  )
- (func $../../lib/log/Logger#s (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/log/Logger#s (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (loop $continue|0
    (if
@@ -2958,10 +2960,10 @@
   )
   (get_local $0)
  )
- (func $../../lib/log/Logger#flush (; 27 ;) (type $iv) (param $0 i32)
+ (func $../../lib/log/Logger#flush (; 28 ;) (type $iv) (param $0 i32)
   (call $../../lib/log/ts_log_done)
  )
- (func $~lib/array/Array<String>#__get (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 29 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -2989,7 +2991,7 @@
    (unreachable)
   )
  )
- (func $~lib/internal/string/allocate (; 29 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/string/allocate (; 30 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (i32.eqz
@@ -3033,7 +3035,7 @@
   )
   (get_local $1)
  )
- (func $~lib/string/String#concat (; 30 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#concat (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3120,7 +3122,7 @@
   )
   (get_local $2)
  )
- (func $~lib/string/String.__concat (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__concat (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (get_local $0)
@@ -3134,7 +3136,7 @@
    (get_local $1)
   )
  )
- (func $../../lib/action/Action#parseName (; 32 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#parseName (; 33 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3205,7 +3207,7 @@
    (i32.const 0)
   )
  )
- (func $~lib/array/Array<i64>#push (; 33 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/array/Array<i64>#push (; 34 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3279,14 +3281,14 @@
   )
   (get_local $3)
  )
- (func $../../lib/log/Logger#i (; 34 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../lib/log/Logger#i (; 35 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (call $../../lib/log/ts_log_print_i
    (get_local $1)
    (get_local $2)
   )
   (get_local $0)
  )
- (func $../../lib/log/Logger#i|trampoline (; 35 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../lib/log/Logger#i|trampoline (; 36 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (block $1of1
    (block $0of1
     (block $oob
@@ -3309,7 +3311,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/action/Action#read_params_nth_string (; 36 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/action/Action#read_params_nth_string (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i64)
@@ -3393,7 +3395,7 @@
   )
   (get_local $2)
  )
- (func $~lib/array/Array<String>#push (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 38 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3467,7 +3469,7 @@
   )
   (get_local $3)
  )
- (func $../../lib/action/Action#parseParams (; 38 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#parseParams (; 39 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i64)
@@ -3577,7 +3579,7 @@
   )
   (i32.const 1)
  )
- (func $../../lib/action/Action#init (; 39 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/action/Action#init (; 40 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (call $../../lib/action/ts_action_init)
@@ -3612,12 +3614,12 @@
    (get_local $0)
   )
  )
- (func $~lib/array/Array<u8>#get:length (; 40 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<u8>#get:length (; 41 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<u8>#__get (; 41 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 42 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -3639,10 +3641,10 @@
    (unreachable)
   )
  )
- (func $~lib/allocator/arena/free_memory (; 42 ;) (type $iv) (param $0 i32)
+ (func $~lib/allocator/arena/free_memory (; 43 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $../../lib/action/sendInline (; 43 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/action/sendInline (; 44 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3691,7 +3693,70 @@
    (get_local $4)
   )
  )
- (func $memoperate/apply (; 44 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $../../lib/utils/TSString2CharArray (; 45 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (set_local $1
+   (tee_local $4
+    (call $~lib/allocator/arena/allocate_memory
+     (i32.add
+      (tee_local $3
+       (i32.load
+        (get_local $0)
+       )
+      )
+      (i32.const 1)
+     )
+    )
+   )
+  )
+  (loop $continue|0
+   (if
+    (i32.lt_s
+     (get_local $2)
+     (get_local $3)
+    )
+    (block
+     (i32.store8
+      (get_local $1)
+      (call $~lib/string/String#charCodeAt
+       (get_local $0)
+       (get_local $2)
+      )
+     )
+     (set_local $1
+      (i32.add
+       (get_local $1)
+       (i32.const 1)
+      )
+     )
+     (set_local $2
+      (i32.add
+       (get_local $2)
+       (i32.const 1)
+      )
+     )
+     (br $continue|0)
+    )
+   )
+  )
+  (i32.store8
+   (get_local $1)
+   (i32.const 0)
+  )
+  (get_local $4)
+ )
+ (func $../../lib/utils/ReleaseCharArrayMem (; 46 ;) (type $iv) (param $0 i32)
+  (if
+   (get_local $0)
+   (call $~lib/allocator/arena/free_memory
+    (get_local $0)
+   )
+  )
+ )
+ (func $memoperate/apply (; 47 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -3740,8 +3805,18 @@
     (get_local $4)
    )
   )
+  (call $memoperate/prints
+   (tee_local $3
+    (call $../../lib/utils/TSString2CharArray
+     (i32.const 1652)
+    )
+   )
+  )
+  (call $../../lib/utils/ReleaseCharArrayMem
+   (get_local $3)
+  )
  )
- (func $start (; 45 ;) (type $v)
+ (func $start (; 48 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

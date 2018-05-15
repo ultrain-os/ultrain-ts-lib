@@ -1,6 +1,11 @@
 /**
  * @author fanliangqin@ultrain.io
  */
+import "allocator/arena";
+
+declare function prints(ptr: usize): void;
+declare function prints_l(ptr: usize, strlen: i32): void;
+declare function printn(num: u64): void;
 
 export const ASCIICHAR: string[/*95*/] = [
     " ", "!", "\"", "#", "$", "%", "&", "'",
@@ -28,5 +33,50 @@ export enum CHARCODE {
     CHQ = 0x71,       /* ASCII code of 'q' */ CHR = 0x72,       /* ASCII code of 'r' */ CHS = 0x73,       /* ASCII code of 's' */
     CHT = 0x74,       /* ASCII code of 't' */ CHU = 0x75,       /* ASCII code of 'u' */ CHV = 0x76,       /* ASCII code of 'v' */
     CHW = 0x77,       /* ASCII code of 'w' */ CHX = 0x78,       /* ASCII code of 'x' */ CHY = 0x79,       /* ASCII code of 'y' */
-    CHZ = 0x7A,       /* ASCII code of 'z' */
+    CHZ = 0x7A,       /* ASCII code of 'z' */ CHNUL = 0x00,     /* ASCII code of '\0'*/
 };
+
+/**
+ * transform string to char array.
+ * @param str string to char array with in heap memory.
+ */
+export function TSString2CharArray(str: string): usize {
+    let strlen: i32 = str.length;
+    let arrptr: usize = allocate_memory(sizeof<u8>() * (strlen + 1));
+    let ptr: usize = arrptr;
+    for (let i: i32 = 0; i < strlen; ++i) {
+        let char: u8 = <u8>(str.charCodeAt(i) & 0xff);
+        store<u8>(ptr, char);
+        ++ptr;
+    }
+    // append '\0' to the end.
+    store<u8>(ptr, CHARCODE.CHNUL);
+
+    return arrptr;
+}
+
+export function ReleaseCharArrayMem(ptr: usize): void {
+    if (ptr != null) {
+        free_memory(ptr);
+    }
+}
+
+export function printString(str: string): void {
+    let ptr: usize = TSString2CharArray(str);
+    prints(ptr);
+    ReleaseCharArrayMem(ptr);
+}
+/**
+ * print count chars of string.
+ * @param str string to print
+ * @param count the count of str to print
+ */
+export function printStringL(str: string, count: i32): void {
+    let ptr: usize = TSString2CharArray(str);
+    prints_l(ptr, count);
+    ReleaseCharArrayMem(ptr);
+}
+
+export function printInt(num: u64): void {
+    printn(num);
+}

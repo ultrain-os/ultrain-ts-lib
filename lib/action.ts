@@ -26,6 +26,9 @@ declare function send_context_free_inline(data: usize, len: i32): void;
 declare function require_write_lock(account_name: u64): void;
 declare function require_read_lock(account_name: u64): void;
 
+export declare function action_data_size(): i32;
+export declare function read_action_data(ptr: usize, len: u32): i32;
+
 enum PTYPE {
     NULL = 0,     /* null_type  */
     I64 = 1,       /* int64_type */
