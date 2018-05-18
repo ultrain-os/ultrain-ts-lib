@@ -171,7 +171,7 @@ export class Action {
 
     private read_params_nth_string(nth: i32): string {
         let nthlen = ts_action_params_nth_string_length(nth);
-        Log.s(":: params length is ").i(nthlen).flush();
+        // Log.s(":: params length is ").i(nthlen).flush();
 
         let value: string = "";
         for (let i = 0; i < nthlen; ++i) {
