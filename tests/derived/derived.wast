@@ -3543,7 +3543,7 @@
   )
   (i32.const 0)
  )
- (func $../../lib/name/StringToU64 (; 38 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/StringToName (; 38 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i64)
@@ -3659,7 +3659,7 @@
      )
     )
    )
-   (call $../../lib/name/StringToU64
+   (call $../../lib/name/StringToName
     (get_local $1)
    )
   )
@@ -3833,7 +3833,7 @@
    (unreachable)
   )
  )
- (func $../../lib/name/U64ToString (; 50 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../lib/name/NameToString (; 50 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4112,7 +4112,7 @@
       (get_global $../../lib/log/Log)
       (call $~lib/string/String.__concat
        (i32.const 2280)
-       (call $../../lib/name/U64ToString
+       (call $../../lib/name/NameToString
         (get_local $2)
        )
       )

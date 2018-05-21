@@ -3,7 +3,7 @@ import "allocator/arena";
 import { Log } from "../../lib/log";
 import { Action, hasAuth, requireAuth } from "../../lib/action";
 import "../../lib/types";
-import { Name, U64ToString } from "../../lib/name";
+import { Name, NameToString } from "../../lib/name";
 
 ///@abi action
 function hi(msg: string, age: i32): void {
@@ -25,13 +25,13 @@ export function apply(receiver: u64, code: u64, action: u64): void {
     } else {
         let hiName: Name = new Name("hi");
         Log.s("apply action is: ").i(action).flush();
-        let rrrr:string = U64ToString(action);
+        let rrrr:string = NameToString(action);
         Log.s("test U16ToString is ").s(rrrr).flush();
 
         if (hiName.equal(action)) {
             hi(act.s_params[0], <i32>act.i_params[0]);
         } else {
-            Log.s("Error: unknown action name : " + U64ToString(action)).flush();
+            Log.s("Error: unknown action name : " + NameToString(action)).flush();
         }
     }
 }

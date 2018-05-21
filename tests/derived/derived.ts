@@ -1,7 +1,7 @@
 import "allocator/arena"
 import { Log } from "../../lib/log";
 import { Action } from "../../lib/action";
-import { Name, U64ToString } from "../../lib/name";
+import { Name, NameToString } from "../../lib/name";
 
 class Ancestor {
     ancestorFunc(): void {
@@ -71,7 +71,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
                 b.ancestorFunc();
             }
         } else {
-            Log.s("Error: unknown action name : " + U64ToString(action)).flush();
+            Log.s("Error: unknown action name : " + NameToString(action)).flush();
         }
     }
 }

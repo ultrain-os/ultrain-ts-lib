@@ -1,7 +1,7 @@
 import "allocator/arena"
 import { Log } from "../../lib/log";
 import { Action } from "../../lib/action";
-import { Name, U64ToString } from "../../lib/name";
+import { Name, NameToString } from "../../lib/name";
 
 declare function action_data_size(): u32;
 declare function read_action_data(ptr: usize, len: u32): u32;
@@ -40,7 +40,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
                 h.showType();
             }
         } else {
-            Log.s("Error: unknown action name : " + U64ToString(action)).flush();
+            Log.s("Error: unknown action name : " + NameToString(action)).flush();
         }
     }
 }

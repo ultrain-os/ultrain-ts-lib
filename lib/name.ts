@@ -22,7 +22,7 @@ function char_to_symbol(c: u8): u8 {
  * @param str a string to encode
  * @returns u64 base32 encoded uint64.
  */
-export function StringToU64(str: string): u64 {
+export function StringToName(str: string): u64 {
     let len: u32 = str.length;
     let value: u64 = 0;
 
@@ -46,7 +46,7 @@ export function StringToU64(str: string): u64 {
     return value;
 }
 
-export function U64ToString(raw: u64): string {
+export function NameToString(raw: u64): string {
     const charmap: string = ".12345abcdefghijklmnopqrstuvwxyz";
     const DOT: u8 = <u8>(CHARCODE.CHDOT & 0xff);
     let strcodes: u8[/*13*/] = [DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT];
@@ -73,7 +73,7 @@ export class Name {
     private value: u64;
 
     constructor(str: string) {
-        this.value = StringToU64(str);
+        this.value = StringToName(str);
     }
 
     set(raw: u64): void {
@@ -86,6 +86,6 @@ export class Name {
     equal(raw: u64): boolean { return this.value == raw; }
 
     toString(): string {
-        return U64ToString(this.value);
+        return NameToString(this.value);
     }
 }

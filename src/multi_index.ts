@@ -5,6 +5,7 @@
 import "../lib/alias";
 import { ultrain_assert } from "../lib/system";
 import { db_find_i64 } from "../lib/db";
+import { Map } from "../utils/map";
 
 export type ItemConstructor = <T>(obj: T) => void;
 export type ObjectTUpdater = <T>(obj: T) => void;
@@ -15,6 +16,7 @@ export class MultiIndex<T> {
     private _scope: u64;
     private _next_primary_key: u64;
     private _items_vector: ItemPtr<T>[];
+    private _items: Map<u64, T>;
 
     static max_stack_buffer_size: u64 = 512;
 
@@ -79,15 +81,19 @@ export class MultiIndex<T> {
     }
 
     public get(primary: u64): T {
+        let rst: T = this.find(primary);
+        if (rst != null) return rst;
+
         let itr: i32 = db_find_i64(this._code, this._scope, this._tblname, primary);
         ultrain_assert(itr >= 0, "unable to find primary key.");
 
-        let rst: T = this.load_object_by_primary_iterator(itr);
+        rst = this.load_object_by_primary_iterator(itr);
+        this._items.set(primary, rst);
         return rst;
     }
 
-    public find(primary: u64): ConstIterator<T> {
-        return null;
+    public find(primary: u64): T | null {
+        return this._items.get(primary);
     }
 
     public erase(obj: T): void {
