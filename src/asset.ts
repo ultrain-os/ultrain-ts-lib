@@ -7,6 +7,7 @@ import { ultrain_assert } from "../lib/system";
 import { CHARCODE } from "../lib/utils";
 import { Log } from "../lib/log";
 import { DataStream } from "../utils/datastream";
+import { ISerializer } from "../utils/serializer";
 
 const CHARA: u8 = 0x41;
 const CHARZ: u8 = 0x5A;
@@ -56,7 +57,7 @@ function SymbolNameLength(tmp: SymbolName): u32 {
     return length;
 }
 
-export class SymbolType {
+export class SymbolType extends ISerializer {
     private value: SymbolName;
 
     public is_valid(): boolean { return is_valid_symbol(this.value); }
@@ -110,7 +111,7 @@ export class ExtendSymbol extends SymbolType {
     }
 }
 
-export class Asset {
+export class Asset extends ISerializer {
     static max_amount: i64 = (1 << 62) - 1;
     public amount: i64;
     public symbol: SymbolType;
@@ -246,3 +247,5 @@ export class ExtendAsset extends Asset {
         printInt(this.contract);
     }
 }
+
+export type SymbolName = u64;

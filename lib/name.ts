@@ -17,6 +17,9 @@ function char_to_symbol(c: u8): u8 {
     return 0;
 }
 
+export function N(str: string): u64 {
+    return StringToName(str);
+}
 /**
  * convert a string to name, using base32 encoding.
  * @param str a string to encode

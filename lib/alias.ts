@@ -25,6 +25,3 @@ declare type transacton_id_type = checksum256;
 declare type field_name = fixed_string16;
 
 declare type type_name = fixed_string32;
-
-type SymbolName = u64;
-

@@ -3,6 +3,7 @@
  */
 
 import { ultrain_assert } from "../lib/system";
+import { ISerializer } from "../utils/serializer";
 
 export class DataStream {
     private _value: u8[];
@@ -11,11 +12,15 @@ export class DataStream {
     private _start: i32;
     private _end: i32;
 
-    constructor(buffer: u8[], start: i32) {
+    constructor(buffer: u8[], start: i32 = 0) {
         this._value = buffer;
         this._start = start;
         this._pos = start;
         this._end = buffer.length;
+    }
+
+    private valueIsNull(): boolean {
+        return this._value == null;
     }
 
     public skip(s: i32): void {
@@ -35,15 +40,18 @@ export class DataStream {
 
     public write(src: u8[], s: i32): boolean {
         // ultrain_assert(this._end - this._pos >= s, "datastream write over bounds.");
-        for (let i: i32 = 0; i < s; ++i, ++this._pos) {
+        for (let i: i32 = 0; i < s; ++i) {
             this._value.push(src[i]);
         }
+        this._pos += s;
         return true;
     }
 
     public put(u: u8): boolean {
         // ultrain_assert(this._pos < this._end, "datastream put over bounds.");
-        this._value.push(u);
+        if (!this.valueIsNull()) {
+            this._value.push(u);
+        }
         ++this._pos;
         return true;
     }
@@ -80,7 +88,7 @@ export class DataStream {
         let hsb: u8 = <u8>((val & 0xff00) >> 8);
         let lsb: u8 = <u8>(val & 0x00ff);
 
-        this.serialize8(hsb); Fthis.serialize8(lsb);
+        this.serialize8(hsb); this.serialize8(lsb);
 
         return this;
     }
@@ -150,4 +158,24 @@ export class DataStream {
         let val: u8 = <u8> this.deserialize8();
         return val == 1 ? true : false;
     }
+}
+
+export function packSize<T extends ISerializer>(t: T): i32 {
+    let s: DataStream = new DataStream(null, 0);
+    t.serialize(s);
+    return s.tellp();
+}
+
+export function pack<T extends ISerializer>(t: T): u8[] {
+    let dst: u8[] = [];
+    let s: DataStream = new DataStream(dst, 0);
+    t.serialize(s);
+    return dst;
+}
+
+export function unpack<T extends ISerializer>(bytes: u8[], start: i32 = 0): T {
+    let result: T;
+    let s: DataStream = new DataStream(bytes, start);
+    result.deserialize(s);
+    return result;
 }
