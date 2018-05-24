@@ -12,15 +12,17 @@ import { ISerializer } from "../utils/serializer";
 const CHARA: u8 = 0x41;
 const CHARZ: u8 = 0x5A;
 
-function string_to_symbol(precision: u8, str: string): u64 {
-    let len: u32 = str.length;
+export function string_to_symbol(precision: u8, str: string): u64 {
+    // CAUTION(fanliangqin): str.length must be less than 7
+    let len: u8 = <u8>str.length;
+    ultrain_assert(len <= 7, "length of symbol name must be less than 7.");
     let result: u64 = 0;
-    for (let i: u32 = 0; i < len; ++i) {
+    for (let i: u8 = 0; i < len; ++i) {
         let charCode: u8 = <u8>(str.charCodeAt(i) & 0xff);
         if (charCode < CHARA || charCode > CHARZ) {
             Log.s("string_to_symbol failed for not supoort code : ").i(charCode, 16).flush();
         } else {
-            result |= <u64>(charCode << (8 * (i + 1)));
+            result |= ((<u64>charCode) << ((8 * (i + 1))));
         }
     }
 
@@ -59,7 +61,10 @@ function SymbolNameLength(tmp: SymbolName): u32 {
 
 export class SymbolType extends ISerializer {
     private value: SymbolName;
-
+    constructor(symn: SymbolName) {
+        // super();
+        this.value = symn;
+    }
     public is_valid(): boolean { return is_valid_symbol(this.value); }
     public precision(): u64 { return this.value & 0xff; }
     public name(): u64 { return this.value >> 8; }
@@ -88,6 +93,7 @@ export class SymbolType extends ISerializer {
     }
 
     public deserialize(s: DataStream): void {
+        Log.s("SymbolType deserialize.").flush();
         this.value = s.deserialize64();
     }
 }
@@ -116,9 +122,11 @@ export class Asset extends ISerializer {
     public amount: i64;
     public symbol: SymbolType;
 
-    constructor(amount: i64 = 0, s: SymbolName = string_to_symbol(4, "UTR")) {
-        ultrain_assert(this.isAmountWithinRange(), "magnitude of asset amount must be less than 2^62");
-        ultrain_assert(this.symbol.is_valid(), "invalid symbol name");
+    constructor(amount: i64, s: SymbolName) {
+        this.amount = amount;
+        this.symbol = new SymbolType(s);
+        ultrain_assert(this.isAmountWithinRange(), "Asset.constructor: magnitude of asset amount must be less than 2^62");
+        ultrain_assert(this.symbol.is_valid(), "Asset.constructor: invalid symbol name");
     }
 
     public isAmountWithinRange(): boolean {
@@ -220,11 +228,13 @@ export class Asset extends ISerializer {
     }
 
     public serialize(s: DataStream): void {
+        Log.s("Assert start serialize").flush();
         s.serialize64(this.amount);
         this.symbol.serialize(s);
     }
 
     public deserialize(s: DataStream): void {
+        Log.s("Assert deserialize.").flush();
         this.amount = s.deserialize64();
         this.symbol.deserialize(s);
     }
@@ -248,4 +258,3 @@ export class ExtendAsset extends Asset {
     }
 }
 
-export type SymbolName = u64;

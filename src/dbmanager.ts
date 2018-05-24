@@ -6,11 +6,12 @@ import "../lib/db.d";
 import { ultrain_assert } from "../lib/system";
 import { currentReceiver, currentSender } from "../lib/action";
 import { ISerializer } from "../utils/serializer";
-import { packSize, pack, unpack } from "../utils/datastream";
+import { pack, unpack } from "../utils/datastream";
 import { db_store_i64, db_update_i64, db_find_i64, db_remove_i64, db_get_i64 } from "../lib/db.d";
+import { Log } from "../lib/log";
 
-type DItemConstructor<T extends ISerializer> = (item: DItem<T>) => void;
-export type TObjOperator<T extends ISerializer> = (t: T) => void;
+// type DItemConstructor<T extends ISerializer> = (item: DItem<T>) => void;
+// type TObjOperator<T> = (t: T) => void;
 
 export class DItem<T extends ISerializer> {
     public _dbmgr: DBManager<T>;
@@ -21,7 +22,6 @@ export class DItem<T extends ISerializer> {
     constructor(dbmgr: DBManager<T>) {
         this._dbmgr = dbmgr;
     }
-
 }
 
 export class DBManager<T extends ISerializer> {
@@ -34,115 +34,158 @@ export class DBManager<T extends ISerializer> {
         this._tblname = tblname;
         this._code = code;
         this._scope = scope;
-    }
-
-    private retrieveDItem(obj: T): DItem<T> | null {
-        let len: i32 = this._items_vector.length;
-        for (let i: i32 = 0; i < len; ++i) {
-            if (obj.primary_key() == this._items_vector[i]._value.primary_key()) {
-                return this._items_vector[i];
-            }
-        }
-        return null;
+        this._items_vector = [];
     }
 
     public getCode(): u64 { return this._code; }
     public getScope(): u64 { return this._scope; }
 
-    public emplace(payer: u64, tcnstor: TObjOperator<T>): void {
+    public emplace(payer: u64, obj: T, primary: u64): void {
         ultrain_assert(this._code == currentReceiver(), "can not create objects in table of another contract");
         let item: DItem<T> = new DItem<T>(this);
-        tcnstor(item._value);
+        item._value = obj;
 
         let bytes: u8[] = pack(item._value);
         let size: i32 = bytes.length;
 
-        let buffer: usize = allocate_memory(sizeof<u8>() * size);
+        Log.s("packed bytes: size = ").i(size, 16);
+        // for (let i: i32 = 0; i < size; ++i) {
+        //     Log.s(" ").i(bytes[i], 16);
+        // }
+        Log.flush();
+
+        let buffer: usize = allocate_memory(1 * size);
         let ptr: usize = buffer;
         for (let i: i32 = 0; i < size; ++i) {
             store<u8>(ptr, bytes[i]);
             ++ptr;
         }
-        let pk: u64 = item._value.primary_key();
-        item._primary_itr = db_store_i64(this._scope, this._tblname, payer, pk, buffer, size);
+        // let pk: u64 = item._value.primary_key();
+        Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(size, 16).flush();
+        item._primary_itr = db_store_i64(this._scope, this._tblname, payer, primary, buffer, size);
         free_memory(buffer);
 
         this._items_vector.push(item);
         // TODO(fanliangqin): update secondary iterators and update next_primary_key.
     }
 
-    public modify(tobj: T, payer: u64, updater: TObjOperator<T>): void {
-        let item: DItem<T> = this.retrieveDItem(tobj);
-        ultrain_assert( item != null || item._dbmgr == this, "object passed to modify is not in this DBManager.");
+    public modify(newobj: T, payer: u64 ): void {
+        let item: DItem<T>;
+        let len: i32 = this._items_vector.length;
+        let idx: i32 = 0;
+        Log.s("modify x1").flush();
+        for (; idx < len; ++idx) {
+            if (newobj.primary_key() == this._items_vector[idx]._value.primary_key()) {
+                item = this._items_vector[idx];
+                break;
+            }
+        }
+        Log.s("modify x2").flush();
+        ultrain_assert( idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
         ultrain_assert(this._code == currentReceiver(), "can not modify objects in table of another contract.");
         // TODO(fanliangqin): update secondary iterators
         // waiting code here
 
         let pk: u64 = item._value.primary_key();
-        updater(item._value);
+        item._value = newobj;
         ultrain_assert(pk == item._value.primary_key(), "updater cannot change primary key when modifying an object.");
-
+        Log.s("modify x3").flush();
         let bytes: u8[] = pack(item._value);
         let size: i32 = bytes.length;
-
-        let buffer: usize = allocate_memory(sizeof<u8>() * size);
+        Log.s("modify x4").flush();
+        let buffer: usize = allocate_memory(1 * size);
         let ptr: usize = buffer;
         for (let i: i32 = 0; i < size; ++i) {
             store<u8>(ptr, bytes[i]);
             ++ptr;
         }
+        Log.s("modify x5").flush();
         db_update_i64(item._primary_itr, payer, buffer, size);
+        Log.s("modify x6").flush();
         free_memory(buffer);
 
         // TODO(fanliangqin): update secondary items here
         // codes wait here
     }
 
-    private load_object_by_primary_iterator(itr: i32): DItem<T> {
+    private load_object_by_primary_iterator(itr: i32): T {
         // remove find _items_vector logic, it seems not required.
         let size: i32 = db_get_i64(itr, 0, 0);
+        Log.s("dbmanager.load_object size = ").i(size, 16).flush();
         ultrain_assert( size >= 0, "DBManager error reading iterator.");
 
-        let buffer: usize = allocate_memory(sizeof<u8>() * size);
-        db_get_i64(itr, buffer, size);
+        let buffer: usize = allocate_memory(1 * size);
+        size = db_get_i64(itr, buffer, size);
+        Log.s("dbmanager.load_obj read buffer size = ").i(size, 16).flush();
         let bytes: u8[] = [];
         let ptr: usize = buffer;
-        for(let i: i32 =0; i < size; ++i) {
-            bytes.push(load<u8>(ptr));
+        for(let i: i32 = 0; i < size; ++i) {
+            let ch: u8 = load<u8>(ptr);
+            bytes.push(ch);
             ++ptr;
         }
         free_memory(buffer);
 
-        let item:DItem<T> = new DItem<T>(this);
-        item._primary_itr = itr;
-        let val: T = unpack<T>(bytes);
-        item._value = val;
+        Log.s("load from db bytes:  ")
+        for (let i: i32 = 0; i < size; ++i) {
+            Log.i(bytes[i], 16).s(" ");
+        }
+        Log.flush();
 
+        Log.s("dbmanager.load_obj start to unpack item.").flush();
+        // let item:DItem<T> = new DItem<T>(this);
+        // item._primary_itr = itr;
+        let val: T = unpack<T>(bytes);
+        // item._value = val;
+        Log.s("dbmanager.load_obj unpack finished.").flush();
         // TODO(fanliangqin): update secondary items here
         // codes wait here.
-
-        return item;
+        val.inited = true;
+        return val;
     }
 
-    public find(primary: u64): T | null {
+    // public find(primary: u64): T | null {
+    //     let len: i32 = this._items_vector.length;
+    //     for (let i: i32 = 0; i < len; ++i) {
+    //         if (this._items_vector[i]._value.primary_key() == primary) {
+    //             return this._items_vector[i]._value;
+    //         }
+    //     }
+
+    //     let itr: i32 = db_find_i64(this._code, this._scope, this._tblname, primary);
+    //     if (itr < 0) return null;
+
+    //     let result: DItem<T> = this.load_object_by_primary_iterator(itr);
+    //     return result._value;
+    // }
+
+    public get(primary: u64): T {
+        let out: T;
+        out.inited = false;
+
         let len: i32 = this._items_vector.length;
         for (let i: i32 = 0; i < len; ++i) {
             if (this._items_vector[i]._value.primary_key() == primary) {
-                return this._items_vector[i]._value;
+                out = this._items_vector[i]._value;
+                out.inited = true;
+                return out;
             }
         }
 
+        Log.s("dbmanager.get code = ").i(this._code, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
         let itr: i32 = db_find_i64(this._code, this._scope, this._tblname, primary);
-        if (itr < 0) return null;
+        Log.s("dbmanager.get itr = ").i(itr, 16).flush();
+        if (itr < 0) return out;
 
-        let result: DItem<T> = this.load_object_by_primary_iterator(itr);
-        return result._value;
-    }
+        out = this.load_object_by_primary_iterator(itr);
+        out.inited = true;
 
-    public get(primary: u64): T {
-        let result: DItem<T> = this.find(primary);
-        ultrain_assert( result != null, "DBManager unable to find key.");
-        return result._value;
+        let item: DItem<T> = new DItem<T>(this);
+        item._primary_itr = itr;
+        item._value = out;
+
+        this._items_vector.push(item);
+        return out;
     }
 
     public erase(obj: T): void {
