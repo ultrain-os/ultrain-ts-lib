@@ -7,17 +7,18 @@ import { ISerializer } from "../utils/serializer";
 import { Log } from "../lib/log";
 
 export class DataStream {
-    private _value: u8[];
+    public _value: usize;
 
-    private _pos: i32;
-    private _start: i32;
-    private _end: i32;
+    public _pos: usize;
+    public _start: usize;
+    public _end: usize;
 
-    constructor(buffer: u8[], start: i32 = 0) {
+    constructor(buffer: usize, size: i32) {
         this._value = buffer;
-        this._start = start;
-        this._pos = start;
-        this._end = buffer.length;
+        this._start = buffer;
+        this._pos = buffer;
+        this._end = buffer + size;
+        Log.s("DataStream.constructor: this._value = ").i(this._value, 16).s(" this._start = ").i(this._start, 16).s(" this._pos = ").i(this._pos, 16).s(" this._end = ").i(this._end, 16).flush();
     }
 
     private valueIsNull(): boolean {
@@ -33,7 +34,7 @@ export class DataStream {
         // It is not sure if array.copy is supported or not by assemblyscript,
         // so use basic for loop to copy values.
         for (let i: i32 = 0; i < s; ++i) {
-            dest.push(this._value[this._pos]);
+            dest.push(this.get());
             ++this._pos;
         }
 
@@ -51,29 +52,31 @@ export class DataStream {
     public put(u: u8): boolean {
         // ultrain_assert(this._pos < this._end, "datastream put over bounds.");
         if (!this.valueIsNull()) {
-            this._value[this._pos] = u;
+            store<u8>(this._pos, u);
         }
         ++this._pos;
+        // Log.s("DataStream.put: this._value = ").i(this._value, 16).s(" this._start = ").i(this._start, 16).s(" this._pos = ").i(this._pos, 16).s(" this._end = ").i(this._end, 16).flush();
         return true;
     }
 
     public get(): u8 {
-        // ultrain_assert(this._pos < this._end, "datastream get over bounds.");
-        let val: u8 = this._value[this._pos];
+        ultrain_assert(this._pos < this._end, "datastream get over bounds.");
+        let val: u8 = load<u8>(this._pos);
         ++this._pos;
+        // Log.s("DataStream.get: this._value = ").i(this._value, 16).s(" this._start = ").i(this._start, 16).s(" this._pos = ").i(this._pos, 16).s(" this._end = ").i(this._end, 16).flush();
         return val;
     }
 
-    public pos(): i32 { return this._pos; }
+    public pos(): i32 { return this._pos - this._start; }
 
     public valid(): boolean { return this._pos <= this._end; }
 
     public seekp(p: i32): boolean {
-        this._pos = p;
+        this._pos += p;
         return this._pos < this._end;
     }
 
-    public tellp(): i32 { return this._pos; }
+    public tellp(): i32 { return this.pos(); }
 
     public remaining(): i32 { return this._end - this._pos; }
 
@@ -170,24 +173,34 @@ export class DataStream {
 }
 
 export function packSize<T extends ISerializer>(t: T): i32 {
-    let s: DataStream = new DataStream(null, 0);
+    let s: DataStream;// = new DataStream(null, 0);
+    s._value = 0;
+    s._start = 0;
+    s._pos = 0;
+    s._end = 0;
     t.serialize(s);
     return s.tellp();
 }
 
-export function pack<T extends ISerializer>(t: T): u8[] {
+export function pack<T extends ISerializer>(t: T, size: i32): usize {
     // let size: i32  =packSize(t);
-    let dst: u8[];// = new Array<u8>(0x2d);
-    // Log.s("pack function size = ").i(size, 16).s( " dst.length = ").i(dst.length, 16).flush();
-    let s: DataStream = new DataStream(dst, 0);
+    let buffer: usize = allocate_memory(sizeof<u8>() * size);
+    let s: DataStream;// = new DataStream(buffer, size);
+    s._value = buffer;
+    s._start = buffer;
+    s._pos = buffer;
+    s._end = buffer + size;
     t.serialize(s);
-    Log.s("pack function after serialize size = ").i(dst.length, 16).flush();
-    return dst;
+    return buffer;
 }
 
-export function unpack<T extends ISerializer>(bytes: u8[], start: i32 = 0): T {
+export function unpack<T extends ISerializer>(buffer: usize, size: i32): T {
     let result: T;
-    let s: DataStream = new DataStream(bytes, start);
+    let s: DataStream;// = new DataStream(buffer, size);
+    s._value = buffer;
+    s._start = buffer;
+    s._pos = buffer;
+    s._end = buffer + size;
     result.deserialize(s);
     return result;
 }

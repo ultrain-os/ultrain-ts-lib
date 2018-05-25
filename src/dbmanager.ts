@@ -6,7 +6,7 @@ import "../lib/db.d";
 import { ultrain_assert } from "../lib/system";
 import { currentReceiver, currentSender } from "../lib/action";
 import { ISerializer } from "../utils/serializer";
-import { pack, unpack } from "../utils/datastream";
+import { pack, unpack, packSize } from "../utils/datastream";
 import { db_store_i64, db_update_i64, db_find_i64, db_remove_i64, db_get_i64 } from "../lib/db.d";
 import { Log } from "../lib/log";
 
@@ -25,10 +25,10 @@ export class DItem<T extends ISerializer> {
 }
 
 export class DBManager<T extends ISerializer> {
-    private _tblname: u64;
-    private _code: u64;
-    private _scope: u64;
-    private _items_vector: DItem<T>[];
+    public _tblname: u64;
+    public _code: u64;
+    public _scope: u64;
+    public _items_vector: DItem<T>[];
 
     constructor(tblname: u64, code: u64, scope: u64) {
         this._tblname = tblname;
@@ -45,21 +45,21 @@ export class DBManager<T extends ISerializer> {
         let item: DItem<T> = new DItem<T>(this);
         item._value = obj;
 
-        let bytes: u8[] = pack(item._value);
-        let size: i32 = bytes.length;
+        let size: i32 = packSize(item._value);
+        let buffer: usize = pack(item._value, size);
 
-        Log.s("packed bytes: size = ").i(size, 16);
+        // Log.s("packed bytes: size = ").i(size, 16);
         // for (let i: i32 = 0; i < size; ++i) {
         //     Log.s(" ").i(bytes[i], 16);
         // }
-        Log.flush();
+        // Log.flush();
 
-        let buffer: usize = allocate_memory(1 * size);
-        let ptr: usize = buffer;
-        for (let i: i32 = 0; i < size; ++i) {
-            store<u8>(ptr, bytes[i]);
-            ++ptr;
-        }
+        // let buffer: usize = allocate_memory(1 * size);
+        // let ptr: usize = buffer;
+        // for (let i: i32 = 0; i < size; ++i) {
+        //     store<u8>(ptr, bytes[i]);
+        //     ++ptr;
+        // }
         // let pk: u64 = item._value.primary_key();
         Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(size, 16).flush();
         item._primary_itr = db_store_i64(this._scope, this._tblname, payer, primary, buffer, size);
@@ -73,14 +73,14 @@ export class DBManager<T extends ISerializer> {
         let item: DItem<T>;
         let len: i32 = this._items_vector.length;
         let idx: i32 = 0;
-        Log.s("modify x1").flush();
+
         for (; idx < len; ++idx) {
             if (newobj.primary_key() == this._items_vector[idx]._value.primary_key()) {
                 item = this._items_vector[idx];
                 break;
             }
         }
-        Log.s("modify x2").flush();
+
         ultrain_assert( idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
         ultrain_assert(this._code == currentReceiver(), "can not modify objects in table of another contract.");
         // TODO(fanliangqin): update secondary iterators
@@ -89,19 +89,12 @@ export class DBManager<T extends ISerializer> {
         let pk: u64 = item._value.primary_key();
         item._value = newobj;
         ultrain_assert(pk == item._value.primary_key(), "updater cannot change primary key when modifying an object.");
-        Log.s("modify x3").flush();
-        let bytes: u8[] = pack(item._value);
-        let size: i32 = bytes.length;
-        Log.s("modify x4").flush();
-        let buffer: usize = allocate_memory(1 * size);
-        let ptr: usize = buffer;
-        for (let i: i32 = 0; i < size; ++i) {
-            store<u8>(ptr, bytes[i]);
-            ++ptr;
-        }
-        Log.s("modify x5").flush();
+
+        let size: i32 = packSize(item._value);
+        let buffer: usize = pack(item._value, size);
+
         db_update_i64(item._primary_itr, payer, buffer, size);
-        Log.s("modify x6").flush();
+
         free_memory(buffer);
 
         // TODO(fanliangqin): update secondary items here
@@ -112,35 +105,17 @@ export class DBManager<T extends ISerializer> {
         // remove find _items_vector logic, it seems not required.
         let size: i32 = db_get_i64(itr, 0, 0);
         Log.s("dbmanager.load_object size = ").i(size, 16).flush();
-        ultrain_assert( size >= 0, "DBManager error reading iterator.");
 
-        let buffer: usize = allocate_memory(1 * size);
+        let buffer: usize = allocate_memory(sizeof<u8>() * size);
         size = db_get_i64(itr, buffer, size);
-        Log.s("dbmanager.load_obj read buffer size = ").i(size, 16).flush();
-        let bytes: u8[] = [];
-        let ptr: usize = buffer;
-        for(let i: i32 = 0; i < size; ++i) {
-            let ch: u8 = load<u8>(ptr);
-            bytes.push(ch);
-            ++ptr;
-        }
+
+        let val: T = unpack<T>(buffer, size);
+        val.inited = true;
+
         free_memory(buffer);
 
-        Log.s("load from db bytes:  ")
-        for (let i: i32 = 0; i < size; ++i) {
-            Log.i(bytes[i], 16).s(" ");
-        }
-        Log.flush();
-
-        Log.s("dbmanager.load_obj start to unpack item.").flush();
-        // let item:DItem<T> = new DItem<T>(this);
-        // item._primary_itr = itr;
-        let val: T = unpack<T>(bytes);
-        // item._value = val;
-        Log.s("dbmanager.load_obj unpack finished.").flush();
         // TODO(fanliangqin): update secondary items here
         // codes wait here.
-        val.inited = true;
         return val;
     }
 
@@ -174,7 +149,7 @@ export class DBManager<T extends ISerializer> {
 
         Log.s("dbmanager.get code = ").i(this._code, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
         let itr: i32 = db_find_i64(this._code, this._scope, this._tblname, primary);
-        Log.s("dbmanager.get itr = ").i(itr, 16).flush();
+        Log.s("dbmanager.get itr = ").i(itr).flush();
         if (itr < 0) return out;
 
         out = this.load_object_by_primary_iterator(itr);

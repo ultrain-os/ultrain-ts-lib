@@ -87,8 +87,8 @@ export class Token extends Contract {
         let sym: SymbolType = maximum_supply.symbol;
         ultrain_assert(sym.is_valid(), "Token.create: invalid symbol name.");
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.self, sym.name());
-        // let cs: CurrencyStats = new CurrencyStats();
         let cs: CurrencyStats = statstable.get(sym.name());
+
         ultrain_assert( !cs.inited, "token with symbol already exists.");
 
         cs.supply.symbol = sym;
@@ -104,20 +104,18 @@ export class Token extends Contract {
     public issue(to: account_name, quantity: Asset, memo: string): void {
         let symname: SymbolName = quantity.symbol.name();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.self, symname);
-        // let st: CurrencyStats = new CurrencyStats();
         let st: CurrencyStats = statstable.get(symname);
+
         ultrain_assert(st.inited, "token.issue symbol name is not exist.");
 
-        Log.s("start to check authority of ").i(st.issuer, 16).flush();
         requireAuth(st.issuer);
-        Log.s("checked????").flush();
+
         ultrain_assert(quantity.isValid(), "invalid quantity.");
         ultrain_assert(quantity.amount > 0, "must issue positive quantity.");
-        Log.s("issue  1").flush();
+
         st.supply.amount += quantity.amount;
 
         statstable.modify(st, 0);
-        Log.s("issue  2").flush();
         this.add_balance(st.issuer, quantity, st, st.issuer);
         Log.s("issue  3").flush();
         if (to != st.issuer) {
@@ -131,8 +129,8 @@ export class Token extends Contract {
 
         let symname: SymbolName = quantity.symbol.name();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.self, symname);
-        // let st: CurrencyStats = new CurrencyStats();
         let st: CurrencyStats = statstable.get(symname);
+
         ultrain_assert(st.inited, "token.transfer symbol name is not exist.");
 
         requireRecipient(from);
@@ -147,8 +145,8 @@ export class Token extends Contract {
 
     private sub_balance(owner: account_name, value: Asset, st: CurrencyStats): void {
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.self, owner);
-        // let from: Account = new Account();
         let from: Account = ats.get(value.symbol.name());
+
         ultrain_assert(from.inited, "token.sub_balance from account is not exist.");
         ultrain_assert(from.balance.amount >= value.amount, "overdrawing balance.");
 
@@ -168,11 +166,9 @@ export class Token extends Contract {
 
     private add_balance(owner: account_name, value: Asset, st: CurrencyStats, ram_payer: account_name): void {
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.self, owner);
-        // let to: Account = new Account();
         let to: Account = toaccount.get(value.symbol.name());
-        ultrain_assert(to.inited, "token.add_balance to account is not exist.");
 
-        if (to == null) {
+        if (!to.inited) {
             ultrain_assert(!st.enforce_whitelist, "can only transfer to white listed accounts.");
             let a: Account = new Account();
             a.balance = value;

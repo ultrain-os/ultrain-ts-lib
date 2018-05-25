@@ -4,6 +4,8 @@
 import "allocator/arena";
 import { Log } from "./log";
 import { ASCIICHAR } from "./utils";
+import { ISerializer } from "../utils/serializer";
+import { DataStream } from "../utils/datastream";
 
 declare function ts_action_init(): i32;
 declare function ts_action_params_count(): i64;
@@ -93,6 +95,24 @@ export function sendInline(serialization_action: u8[], size: i32): void {
 
 export function sendContextFreeInline(serialization_action: u8[], size: i32): void {
     sendInline(serialization_action, size);
+}
+
+export class PermissionLevel extends ISerializer {
+    public actor: account_name;
+    public permission: permission_name;
+
+    public equal(rhs: PermissionLevel) {
+        return this.actor == rhs.actor && this.permission == rhs.permission;
+    }
+
+    public serialize(s: DataStream): void {
+        s.serialize64(this.actor);
+        s.serialize64(this.permission);
+     }
+     public deserialize(s: DataStream): void {
+        this.actor = s.deserialize64();
+        this.permission = s.deserialize64();
+     }
 }
 
 export class Action {
