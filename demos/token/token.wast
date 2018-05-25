@@ -4339,7 +4339,19 @@
  (func $../../utils/serializer/ISerializer#primary_key (; 67 ;) (type $iI) (param $0 i32) (result i64)
   (i64.const 0)
  )
- (func $../../utils/datastream/DataStream#get (; 68 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/Bytes#alloc (; 68 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (i32.store
+   (get_local $0)
+   (call $~lib/allocator/arena/allocate_memory
+    (get_local $1)
+   )
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $1)
+  )
+ )
+ (func $../../utils/datastream/DataStream#get (; 69 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (call $../../lib/system/ultrain_assert
    (i32.lt_u
@@ -4370,12 +4382,12 @@
   )
   (get_local $1)
  )
- (func $../../utils/datastream/DataStream#deserialize8 (; 69 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#deserialize8 (; 70 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../utils/datastream/DataStream#get
    (get_local $0)
   )
  )
- (func $../../utils/datastream/DataStream#deserialize16 (; 70 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#deserialize16 (; 71 ;) (type $ii) (param $0 i32) (result i32)
   (i32.or
    (i32.shl
     (call $../../utils/datastream/DataStream#deserialize8
@@ -4388,7 +4400,7 @@
    )
   )
  )
- (func $../../utils/datastream/DataStream#deserialize32 (; 71 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#deserialize32 (; 72 ;) (type $ii) (param $0 i32) (result i32)
   (i32.or
    (i32.shl
     (i32.and
@@ -4407,7 +4419,7 @@
    )
   )
  )
- (func $../../utils/datastream/DataStream#deserialize64 (; 72 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../utils/datastream/DataStream#deserialize64 (; 73 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.or
@@ -4438,7 +4450,7 @@
   )
   (get_local $1)
  )
- (func $../../src/asset/SymbolType#deserialize (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/SymbolType#deserialize (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#s
     (get_global $../../lib/log/Log)
@@ -4452,7 +4464,7 @@
    )
   )
  )
- (func $../../src/asset/Asset#deserialize (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#deserialize (; 75 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#s
     (get_global $../../lib/log/Log)
@@ -4472,7 +4484,7 @@
    (get_local $1)
   )
  )
- (func $../../utils/datastream/DataStream#deserializebool (; 75 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#deserializebool (; 76 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../utils/datastream/DataStream#deserialize8
@@ -4500,7 +4512,7 @@
    )
   )
  )
- (func $token/CurrencyStats#deserialize (; 76 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/CurrencyStats#deserialize (; 77 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load offset=4
     (get_local $0)
@@ -4550,35 +4562,63 @@
    )
   )
  )
- (func $../../utils/datastream/unpack<CurrencyStats> (; 77 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/unpack<CurrencyStats> (; 78 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
   (local $2 i32)
-  (local $3 i32)
   (i32.store
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=8
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=4
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (drop
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=12
-   (get_local $2)
+   (get_local $1)
    (i32.add
-    (get_local $0)
-    (get_local $1)
+    (i32.load
+     (get_local $0)
+    )
+    (i32.load offset=4
+     (get_local $0)
+    )
    )
   )
   (call $token/CurrencyStats#deserialize
-   (get_local $3)
    (get_local $2)
+   (get_local $1)
   )
-  (get_local $3)
+  (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#load_object_by_primary_iterator (; 78 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/Bytes#free (; 79 ;) (type $iv) (param $0 i32)
+  (if
+   (i32.load
+    (get_local $0)
+   )
+   (call $~lib/allocator/arena/free_memory
+    (i32.load
+     (get_local $0)
+    )
+   )
+  )
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#load_object_by_primary_iterator (; 80 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
   (set_local $0
    (call $../../lib/db.d/db_get_i64
     (get_local $1)
@@ -4598,32 +4638,35 @@
     (i32.const 16)
    )
   )
-  (set_local $0
+  (call $../../utils/datastream/Bytes#alloc
+   (get_local $2)
+   (get_local $0)
+  )
+  (drop
    (call $../../lib/db.d/db_get_i64
     (get_local $1)
-    (tee_local $1
-     (call $~lib/allocator/arena/allocate_memory
-      (get_local $0)
-     )
+    (i32.load
+     (get_local $2)
     )
-    (get_local $0)
+    (i32.load offset=4
+     (get_local $2)
+    )
    )
   )
   (i32.store8
    (tee_local $0
     (call $../../utils/datastream/unpack<CurrencyStats>
-     (get_local $1)
-     (get_local $0)
+     (get_local $2)
     )
    )
    (i32.const 1)
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $1)
+  (call $../../utils/datastream/Bytes#free
+   (get_local $2)
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DItem<CurrencyStats>#constructor (; 79 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/dbmanager/DItem<CurrencyStats>#constructor (; 81 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store
    (if (result i32)
@@ -4659,7 +4702,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 80 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 82 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4830,17 +4873,17 @@
   )
   (get_local $3)
  )
- (func $../../lib/action/currentReceiver (; 81 ;) (type $I) (result i64)
+ (func $../../lib/action/currentReceiver (; 83 ;) (type $I) (result i64)
   (call $../../lib/action/current_receiver)
  )
- (func $../../utils/datastream/DataStream#valueIsNull (; 82 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#valueIsNull (; 84 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eqz
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../utils/datastream/DataStream#put (; 83 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/DataStream#put (; 85 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (call $../../utils/datastream/DataStream#valueIsNull
@@ -4865,7 +4908,7 @@
   )
   (i32.const 1)
  )
- (func $../../utils/datastream/DataStream#serialize8 (; 84 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/DataStream#serialize8 (; 86 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (drop
    (call $../../utils/datastream/DataStream#put
     (get_local $0)
@@ -4874,7 +4917,7 @@
   )
   (get_local $0)
  )
- (func $../../utils/datastream/DataStream#serialize16 (; 85 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/DataStream#serialize16 (; 87 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (drop
    (call $../../utils/datastream/DataStream#serialize8
     (get_local $0)
@@ -4898,7 +4941,7 @@
   )
   (get_local $0)
  )
- (func $../../utils/datastream/DataStream#serialize32 (; 86 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/DataStream#serialize32 (; 88 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (drop
    (call $../../utils/datastream/DataStream#serialize16
     (get_local $0)
@@ -4922,7 +4965,7 @@
   )
   (get_local $0)
  )
- (func $../../utils/datastream/DataStream#serialize64 (; 87 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../utils/datastream/DataStream#serialize64 (; 89 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#i
     (call $../../lib/log/Logger#s
@@ -4960,7 +5003,7 @@
   )
   (get_local $0)
  )
- (func $../../src/asset/SymbolType#serialize (; 88 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/SymbolType#serialize (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (drop
    (call $../../utils/datastream/DataStream#serialize64
     (get_local $1)
@@ -4970,7 +5013,7 @@
    )
   )
  )
- (func $../../src/asset/Asset#serialize (; 89 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#serialize (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#s
     (get_global $../../lib/log/Log)
@@ -4992,7 +5035,7 @@
    (get_local $1)
   )
  )
- (func $../../utils/datastream/DataStream#serializebool (; 90 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/DataStream#serializebool (; 92 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#i
@@ -5023,7 +5066,7 @@
   )
   (get_local $0)
  )
- (func $token/CurrencyStats#serialize (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/CurrencyStats#serialize (; 93 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load offset=4
     (get_local $0)
@@ -5085,7 +5128,7 @@
    )
   )
  )
- (func $../../utils/datastream/DataStream#pos (; 92 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#pos (; 94 ;) (type $ii) (param $0 i32) (result i32)
   (i32.sub
    (i32.load offset=4
     (get_local $0)
@@ -5095,12 +5138,12 @@
    )
   )
  )
- (func $../../utils/datastream/DataStream#tellp (; 93 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/DataStream#tellp (; 95 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../utils/datastream/DataStream#pos
    (get_local $0)
   )
  )
- (func $../../utils/datastream/packSize<CurrencyStats> (; 94 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/packSize<CurrencyStats> (; 96 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (get_local $1)
@@ -5126,41 +5169,54 @@
    (get_local $1)
   )
  )
- (func $../../utils/datastream/pack<CurrencyStats> (; 95 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/pack<CurrencyStats> (; 97 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
   (local $2 i32)
   (local $3 i32)
+  (local $4 i32)
   (i32.store
-   (get_local $2)
-   (tee_local $3
+   (get_local $1)
+   (tee_local $2
     (call $~lib/allocator/arena/allocate_memory
-     (get_local $1)
+     (tee_local $3
+      (call $../../utils/datastream/packSize<CurrencyStats>
+       (get_local $0)
+      )
+     )
     )
    )
   )
   (i32.store offset=8
+   (get_local $1)
    (get_local $2)
-   (get_local $3)
   )
   (i32.store offset=4
+   (get_local $1)
    (get_local $2)
-   (get_local $3)
   )
   (i32.store offset=12
-   (get_local $2)
+   (get_local $1)
    (i32.add
+    (get_local $2)
     (get_local $3)
-    (get_local $1)
    )
   )
   (call $token/CurrencyStats#serialize
    (get_local $0)
+   (get_local $1)
+  )
+  (i32.store
+   (get_local $4)
    (get_local $2)
   )
-  (get_local $3)
+  (i32.store offset=4
+   (get_local $4)
+   (get_local $3)
+  )
+  (get_local $4)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 96 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 98 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
   (local $4 i32)
-  (local $5 i32)
   (call $../../lib/system/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -5180,18 +5236,10 @@
    (get_local $2)
   )
   (set_local $2
-   (call $../../utils/datastream/packSize<CurrencyStats>
-    (i32.load offset=12
-     (get_local $4)
-    )
-   )
-  )
-  (set_local $5
    (call $../../utils/datastream/pack<CurrencyStats>
     (i32.load offset=12
      (get_local $4)
     )
-    (get_local $2)
    )
   )
   (call $../../lib/log/Logger#flush
@@ -5233,7 +5281,9 @@
      (i32.const 3376)
     )
     (i64.extend_s/i32
-     (get_local $2)
+     (i32.load offset=4
+      (get_local $2)
+     )
     )
     (i32.const 16)
    )
@@ -5249,12 +5299,16 @@
     )
     (get_local $1)
     (get_local $3)
-    (get_local $5)
-    (get_local $2)
+    (i32.load
+     (get_local $2)
+    )
+    (i32.load offset=4
+     (get_local $2)
+    )
    )
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $5)
+  (call $../../utils/datastream/Bytes#free
+   (get_local $2)
   )
   (drop
    (call $~lib/array/Array<String>#push
@@ -5265,7 +5319,7 @@
    )
   )
  )
- (func $token/Token#create (; 97 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $token/Token#create (; 99 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -5358,7 +5412,7 @@
    )
   )
  )
- (func $../../src/asset/Asset#isValid (; 98 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isValid (; 100 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (tee_local $1
@@ -5374,7 +5428,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 99 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 101 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5480,18 +5534,10 @@
    (i32.const 3824)
   )
   (set_local $3
-   (call $../../utils/datastream/packSize<CurrencyStats>
-    (i32.load offset=12
-     (get_local $4)
-    )
-   )
-  )
-  (set_local $0
    (call $../../utils/datastream/pack<CurrencyStats>
     (i32.load offset=12
      (get_local $4)
     )
-    (get_local $3)
    )
   )
   (call $../../lib/db.d/db_update_i64
@@ -5499,14 +5545,18 @@
     (get_local $4)
    )
    (get_local $2)
-   (get_local $0)
+   (i32.load
+    (get_local $3)
+   )
+   (i32.load offset=4
+    (get_local $3)
+   )
+  )
+  (call $../../utils/datastream/Bytes#free
    (get_local $3)
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $0)
-  )
  )
- (func $token/Account#deserialize (; 100 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/Account#deserialize (; 102 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/log/Logger#flush
    (call $../../lib/log/Logger#s
     (get_global $../../lib/log/Log)
@@ -5532,35 +5582,51 @@
    )
   )
  )
- (func $../../utils/datastream/unpack<Account> (; 101 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/unpack<Account> (; 103 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
   (local $2 i32)
-  (local $3 i32)
   (i32.store
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=8
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=4
-   (get_local $2)
-   (get_local $0)
+   (get_local $1)
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (drop
+   (i32.load
+    (get_local $0)
+   )
   )
   (i32.store offset=12
-   (get_local $2)
+   (get_local $1)
    (i32.add
-    (get_local $0)
-    (get_local $1)
+    (i32.load
+     (get_local $0)
+    )
+    (i32.load offset=4
+     (get_local $0)
+    )
    )
   )
   (call $token/Account#deserialize
-   (get_local $3)
    (get_local $2)
+   (get_local $1)
   )
-  (get_local $3)
+  (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Account>#load_object_by_primary_iterator (; 102 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#load_object_by_primary_iterator (; 104 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
   (set_local $0
    (call $../../lib/db.d/db_get_i64
     (get_local $1)
@@ -5580,32 +5646,35 @@
     (i32.const 16)
    )
   )
-  (set_local $0
+  (call $../../utils/datastream/Bytes#alloc
+   (get_local $2)
+   (get_local $0)
+  )
+  (drop
    (call $../../lib/db.d/db_get_i64
     (get_local $1)
-    (tee_local $1
-     (call $~lib/allocator/arena/allocate_memory
-      (get_local $0)
-     )
+    (i32.load
+     (get_local $2)
     )
-    (get_local $0)
+    (i32.load offset=4
+     (get_local $2)
+    )
    )
   )
   (i32.store8
    (tee_local $0
     (call $../../utils/datastream/unpack<Account>
-     (get_local $1)
-     (get_local $0)
+     (get_local $2)
     )
    )
    (i32.const 1)
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $1)
+  (call $../../utils/datastream/Bytes#free
+   (get_local $2)
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<Account>#get (; 103 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#get (; 105 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5776,7 +5845,7 @@
   )
   (get_local $3)
  )
- (func $token/Account#constructor (; 104 ;) (type $ii) (param $0 i32) (result i32)
+ (func $token/Account#constructor (; 106 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (get_local $0)
@@ -5806,7 +5875,7 @@
    )
   )
  )
- (func $token/Account#serialize (; 105 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/Account#serialize (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load offset=4
     (get_local $0)
@@ -5830,7 +5899,7 @@
    )
   )
  )
- (func $../../utils/datastream/packSize<Account> (; 106 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../utils/datastream/packSize<Account> (; 108 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (get_local $1)
@@ -5856,41 +5925,54 @@
    (get_local $1)
   )
  )
- (func $../../utils/datastream/pack<Account> (; 107 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../utils/datastream/pack<Account> (; 109 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
   (local $2 i32)
   (local $3 i32)
+  (local $4 i32)
   (i32.store
-   (get_local $2)
-   (tee_local $3
+   (get_local $1)
+   (tee_local $2
     (call $~lib/allocator/arena/allocate_memory
-     (get_local $1)
+     (tee_local $3
+      (call $../../utils/datastream/packSize<Account>
+       (get_local $0)
+      )
+     )
     )
    )
   )
   (i32.store offset=8
+   (get_local $1)
    (get_local $2)
-   (get_local $3)
   )
   (i32.store offset=4
+   (get_local $1)
    (get_local $2)
-   (get_local $3)
   )
   (i32.store offset=12
-   (get_local $2)
+   (get_local $1)
    (i32.add
+    (get_local $2)
     (get_local $3)
-    (get_local $1)
    )
   )
   (call $token/Account#serialize
    (get_local $0)
+   (get_local $1)
+  )
+  (i32.store
+   (get_local $4)
    (get_local $2)
   )
-  (get_local $3)
+  (i32.store offset=4
+   (get_local $4)
+   (get_local $3)
+  )
+  (get_local $4)
  )
- (func $../../src/dbmanager/DBManager<Account>#emplace (; 108 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+ (func $../../src/dbmanager/DBManager<Account>#emplace (; 110 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
   (local $4 i32)
-  (local $5 i32)
   (call $../../lib/system/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -5910,18 +5992,10 @@
    (get_local $2)
   )
   (set_local $2
-   (call $../../utils/datastream/packSize<Account>
-    (i32.load offset=12
-     (get_local $4)
-    )
-   )
-  )
-  (set_local $5
    (call $../../utils/datastream/pack<Account>
     (i32.load offset=12
      (get_local $4)
     )
-    (get_local $2)
    )
   )
   (call $../../lib/log/Logger#flush
@@ -5963,7 +6037,9 @@
      (i32.const 3376)
     )
     (i64.extend_s/i32
-     (get_local $2)
+     (i32.load offset=4
+      (get_local $2)
+     )
     )
     (i32.const 16)
    )
@@ -5979,12 +6055,16 @@
     )
     (get_local $1)
     (get_local $3)
-    (get_local $5)
-    (get_local $2)
+    (i32.load
+     (get_local $2)
+    )
+    (i32.load offset=4
+     (get_local $2)
+    )
    )
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $5)
+  (call $../../utils/datastream/Bytes#free
+   (get_local $2)
   )
   (drop
    (call $~lib/array/Array<String>#push
@@ -5995,7 +6075,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#modify (; 109 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../src/dbmanager/DBManager<Account>#modify (; 111 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6101,18 +6181,10 @@
    (i32.const 3824)
   )
   (set_local $3
-   (call $../../utils/datastream/packSize<Account>
-    (i32.load offset=12
-     (get_local $4)
-    )
-   )
-  )
-  (set_local $0
    (call $../../utils/datastream/pack<Account>
     (i32.load offset=12
      (get_local $4)
     )
-    (get_local $3)
    )
   )
   (call $../../lib/db.d/db_update_i64
@@ -6120,14 +6192,18 @@
     (get_local $4)
    )
    (get_local $2)
-   (get_local $0)
+   (i32.load
+    (get_local $3)
+   )
+   (i32.load offset=4
+    (get_local $3)
+   )
+  )
+  (call $../../utils/datastream/Bytes#free
    (get_local $3)
   )
-  (call $~lib/allocator/arena/free_memory
-   (get_local $0)
-  )
  )
- (func $token/Token#add_balance (; 110 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $token/Token#add_balance (; 112 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i32)
   (if
    (i32.load8_u
@@ -6223,7 +6299,7 @@
    )
   )
  )
- (func $token/Token#issue (; 111 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $token/Token#issue (; 113 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (set_local $4
@@ -6327,12 +6403,12 @@
    )
   )
  )
- (func $../../lib/action/requireRecipient (; 112 ;) (type $Iv) (param $0 i64)
+ (func $../../lib/action/requireRecipient (; 114 ;) (type $Iv) (param $0 i64)
   (call $../../lib/action/require_recipient
    (get_local $0)
   )
  )
- (func $../../lib/action/hasAuth (; 113 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../lib/action/hasAuth (; 115 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../lib/action/has_auth
@@ -6358,7 +6434,7 @@
    (i32.const 0)
   )
  )
- (func $token/Token#sub_balance (; 114 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $token/Token#sub_balance (; 116 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (call $../../lib/system/ultrain_assert
@@ -6497,7 +6573,7 @@
    (get_local $1)
   )
  )
- (func $token/Token#transfer (; 115 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
+ (func $token/Token#transfer (; 117 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
   (local $5 i64)
   (call $../../lib/action/requireAuth
    (get_local $1)
@@ -6564,7 +6640,7 @@
    (get_local $1)
   )
  )
- (func $main/apply (; 116 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $main/apply (; 118 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (if
@@ -6785,7 +6861,7 @@
    )
   )
  )
- (func $start (; 117 ;) (type $v)
+ (func $start (; 119 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

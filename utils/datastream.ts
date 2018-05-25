@@ -172,7 +172,8 @@ export class DataStream {
     }
 }
 
-export function packSize<T extends ISerializer>(t: T): i32 {
+
+ function packSize<T extends ISerializer>(t: T): i32 {
     let s: DataStream;// = new DataStream(null, 0);
     s._value = 0;
     s._start = 0;
@@ -182,8 +183,30 @@ export function packSize<T extends ISerializer>(t: T): i32 {
     return s.tellp();
 }
 
-export function pack<T extends ISerializer>(t: T, size: i32): usize {
-    // let size: i32  =packSize(t);
+export class Bytes {
+    public value: usize = 0;
+    public size: i32 = 0;
+
+    public alloc(size: i32):void {
+        this.value = allocate_memory(sizeof<u8>() * size);
+        this.size = size;
+    }
+
+    public free(): void {
+        if (this.value != 0) {
+            free_memory(this.value);
+        }
+    }
+
+    public prints(): void {
+
+    }
+}
+
+export function pack<T extends ISerializer>(t: T): Bytes {
+    let bytes: Bytes;
+
+    let size: i32  =packSize(t);
     let buffer: usize = allocate_memory(sizeof<u8>() * size);
     let s: DataStream;// = new DataStream(buffer, size);
     s._value = buffer;
@@ -191,16 +214,19 @@ export function pack<T extends ISerializer>(t: T, size: i32): usize {
     s._pos = buffer;
     s._end = buffer + size;
     t.serialize(s);
-    return buffer;
+
+    bytes.value = buffer;
+    bytes.size = size;
+    return bytes;
 }
 
-export function unpack<T extends ISerializer>(buffer: usize, size: i32): T {
+export function unpack<T extends ISerializer>(bytes: Bytes): T {
     let result: T;
     let s: DataStream;// = new DataStream(buffer, size);
-    s._value = buffer;
-    s._start = buffer;
-    s._pos = buffer;
-    s._end = buffer + size;
+    s._value = bytes.value;
+    s._start = bytes.value;
+    s._pos = bytes.value;bytes.value
+    s._end = bytes.value + bytes.size;
     result.deserialize(s);
     return result;
 }

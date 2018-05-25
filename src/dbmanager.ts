@@ -6,7 +6,7 @@ import "../lib/db.d";
 import { ultrain_assert } from "../lib/system";
 import { currentReceiver, currentSender } from "../lib/action";
 import { ISerializer } from "../utils/serializer";
-import { pack, unpack, packSize } from "../utils/datastream";
+import { pack, unpack, Bytes } from "../utils/datastream";
 import { db_store_i64, db_update_i64, db_find_i64, db_remove_i64, db_get_i64 } from "../lib/db.d";
 import { Log } from "../lib/log";
 
@@ -45,25 +45,12 @@ export class DBManager<T extends ISerializer> {
         let item: DItem<T> = new DItem<T>(this);
         item._value = obj;
 
-        let size: i32 = packSize(item._value);
-        let buffer: usize = pack(item._value, size);
 
-        // Log.s("packed bytes: size = ").i(size, 16);
-        // for (let i: i32 = 0; i < size; ++i) {
-        //     Log.s(" ").i(bytes[i], 16);
-        // }
-        // Log.flush();
+        let bytes: Bytes = pack(item._value);
 
-        // let buffer: usize = allocate_memory(1 * size);
-        // let ptr: usize = buffer;
-        // for (let i: i32 = 0; i < size; ++i) {
-        //     store<u8>(ptr, bytes[i]);
-        //     ++ptr;
-        // }
-        // let pk: u64 = item._value.primary_key();
-        Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(size, 16).flush();
-        item._primary_itr = db_store_i64(this._scope, this._tblname, payer, primary, buffer, size);
-        free_memory(buffer);
+        Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(bytes.size, 16).flush();
+        item._primary_itr = db_store_i64(this._scope, this._tblname, payer, primary, bytes.value, bytes.size);
+        bytes.free();
 
         this._items_vector.push(item);
         // TODO(fanliangqin): update secondary iterators and update next_primary_key.
@@ -90,12 +77,11 @@ export class DBManager<T extends ISerializer> {
         item._value = newobj;
         ultrain_assert(pk == item._value.primary_key(), "updater cannot change primary key when modifying an object.");
 
-        let size: i32 = packSize(item._value);
-        let buffer: usize = pack(item._value, size);
+        let bytes: Bytes = pack(item._value);
 
-        db_update_i64(item._primary_itr, payer, buffer, size);
+        db_update_i64(item._primary_itr, payer, bytes.value, bytes.size);
 
-        free_memory(buffer);
+        bytes.free();
 
         // TODO(fanliangqin): update secondary items here
         // codes wait here
@@ -106,13 +92,15 @@ export class DBManager<T extends ISerializer> {
         let size: i32 = db_get_i64(itr, 0, 0);
         Log.s("dbmanager.load_object size = ").i(size, 16).flush();
 
-        let buffer: usize = allocate_memory(sizeof<u8>() * size);
-        size = db_get_i64(itr, buffer, size);
+        let bytes: Bytes;
+        bytes.alloc(size);
 
-        let val: T = unpack<T>(buffer, size);
+        db_get_i64(itr, bytes.value, bytes.size);
+
+        let val: T = unpack<T>(bytes);
         val.inited = true;
 
-        free_memory(buffer);
+        bytes.free();
 
         // TODO(fanliangqin): update secondary items here
         // codes wait here.

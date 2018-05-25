@@ -101,7 +101,7 @@ export class PermissionLevel extends ISerializer {
     public actor: account_name;
     public permission: permission_name;
 
-    public equal(rhs: PermissionLevel) {
+    public equal(rhs: PermissionLevel): boolean {
         return this.actor == rhs.actor && this.permission == rhs.permission;
     }
 
