@@ -4272,17 +4272,31 @@
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream#write<u64> (; 59 ;) (type $iIv) (param $0 i32) (param $1 i64)
-  (i64.store
-   (i32.add
-    (i32.load
-     (get_local $0)
-    )
-    (i32.load offset=8
+ (func $../../src/datastream/DataStream#isMesureMode (; 59 ;) (type $ii) (param $0 i32) (result i32)
+  (i32.eqz
+   (i32.load
+    (get_local $0)
+   )
+  )
+ )
+ (func $../../src/datastream/DataStream#write<u64> (; 60 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  (if
+   (i32.eqz
+    (call $../../src/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
-   (get_local $1)
+   (i64.store
+    (i32.add
+     (i32.load
+      (get_local $0)
+     )
+     (i32.load offset=8
+      (get_local $0)
+     )
+    )
+    (get_local $1)
+   )
   )
   (i32.store offset=8
    (get_local $0)
@@ -4294,7 +4308,7 @@
    )
   )
  )
- (func $../../src/asset/Asset#serialize (; 60 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#serialize (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -4308,17 +4322,24 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#write<u8> (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (i32.store8
-   (i32.add
-    (i32.load
-     (get_local $0)
-    )
-    (i32.load offset=8
+ (func $../../src/datastream/DataStream#write<u8> (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (if
+   (i32.eqz
+    (call $../../src/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
-   (get_local $1)
+   (i32.store8
+    (i32.add
+     (i32.load
+      (get_local $0)
+     )
+     (i32.load offset=8
+      (get_local $0)
+     )
+    )
+    (get_local $1)
+   )
   )
   (i32.store offset=8
    (get_local $0)
@@ -4330,7 +4351,7 @@
    )
   )
  )
- (func $token/CurrencyStats#serialize (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/CurrencyStats#serialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -4380,7 +4401,23 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 63 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 64 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (call $token/CurrencyStats#serialize
+   (get_local $0)
+   (tee_local $1
+    (call $../../src/datastream/DataStream#constructor
+     (i32.const 0)
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (i32.load offset=8
+   (get_local $1)
+  )
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 65 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -4410,10 +4447,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $3
+        (call $../../src/datastream/DataStream.measure<CurrencyStats>
+         (get_local $2)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $3)
     )
    )
   )
@@ -4496,7 +4537,7 @@
    )
   )
  )
- (func $token/Token#create (; 64 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $token/Token#create (; 66 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i64)
   (local $8 i32)
@@ -4594,7 +4635,7 @@
    (get_local $6)
   )
  )
- (func $../../src/datastream/DataStream#readVarint32 (; 65 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVarint32 (; 67 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4637,7 +4678,7 @@
   )
   (get_local $1)
  )
- (func $~lib/internal/string/allocate (; 66 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/string/allocate (; 68 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if
    (i32.eqz
@@ -4681,7 +4722,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readString (; 67 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readString (; 69 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4733,7 +4774,7 @@
   )
   (get_local $3)
  )
- (func $../../src/asset/Asset#isAmountWithinRange (; 68 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isAmountWithinRange (; 70 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (tee_local $1
@@ -4753,7 +4794,7 @@
    (get_local $1)
   )
  )
- (func $../../src/asset/Asset#isValid (; 69 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isValid (; 71 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (tee_local $1
@@ -4767,18 +4808,18 @@
    (get_local $1)
   )
  )
- (func $../../src/asset/Asset#getAmount (; 70 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getAmount (; 72 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setAmount (; 71 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setAmount (; 73 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 72 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 74 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4894,10 +4935,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $5
+        (call $../../src/datastream/DataStream.measure<CurrencyStats>
+         (get_local $1)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $5)
     )
    )
   )
@@ -4914,7 +4959,7 @@
    )
   )
  )
- (func $token/Account#constructor (; 73 ;) (type $iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $token/Account#constructor (; 75 ;) (type $iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (if
    (i32.eqz
@@ -4977,7 +5022,7 @@
   )
   (get_local $0)
  )
- (func $token/Account#deserialize (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/Account#deserialize (; 76 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -5003,7 +5048,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 75 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 77 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -5040,7 +5085,7 @@
    (get_local $4)
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#get (; 76 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#get (; 78 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -5184,7 +5229,7 @@
   )
   (i32.const 1)
  )
- (func $token/Account#serialize (; 77 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $token/Account#serialize (; 79 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -5204,7 +5249,23 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#emplace (; 78 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/datastream/DataStream.measure<Account> (; 80 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (call $token/Account#serialize
+   (get_local $0)
+   (tee_local $1
+    (call $../../src/datastream/DataStream#constructor
+     (i32.const 0)
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (i32.load offset=8
+   (get_local $1)
+  )
+ )
+ (func $../../src/dbmanager/DBManager<Account>#emplace (; 81 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -5234,10 +5295,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $3
+        (call $../../src/datastream/DataStream.measure<Account>
+         (get_local $2)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $3)
     )
    )
   )
@@ -5320,7 +5385,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#modify (; 79 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../src/dbmanager/DBManager<Account>#modify (; 82 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5436,10 +5501,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $5
+        (call $../../src/datastream/DataStream.measure<Account>
+         (get_local $1)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $5)
     )
    )
   )
@@ -5456,7 +5525,7 @@
    )
   )
  )
- (func $token/Token#addBalance (; 80 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $token/Token#addBalance (; 83 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i32)
   (set_local $5
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -5549,7 +5618,7 @@
    )
   )
  )
- (func $../../src/action/TransferParams#constructor (; 81 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
+ (func $../../src/action/TransferParams#constructor (; 84 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (i64.store
    (if (result i32)
@@ -5611,7 +5680,7 @@
   )
   (get_local $0)
  )
- (func $../../src/action/TransferParams#constructor|trampoline (; 82 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
+ (func $../../src/action/TransferParams#constructor|trampoline (; 85 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
   (block $4of4
    (block $3of4
     (block $2of4
@@ -5648,7 +5717,7 @@
    (get_local $4)
   )
  )
- (func $../../src/log/Logger#i|trampoline (; 83 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/log/Logger#i|trampoline (; 86 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (block $1of1
    (block $0of1
     (block $oob
@@ -5671,7 +5740,7 @@
    (get_local $2)
   )
  )
- (func $../../src/asset/Asset#prints (; 84 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#prints (; 87 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (call $../../src/log/Logger#i
@@ -5705,7 +5774,7 @@
    )
   )
  )
- (func $../../src/action/ActionImpl#constructor (; 85 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/action/ActionImpl#constructor (; 88 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (if (result i32)
@@ -5759,7 +5828,7 @@
   )
   (get_local $0)
  )
- (func $../../src/datastream/DataStream#writeVarint32 (; 86 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVarint32 (; 89 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (loop $continue|0
    (call $../../src/datastream/DataStream#write<u8>
     (get_local $0)
@@ -5791,7 +5860,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeString (; 87 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeString (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $../../src/datastream/DataStream#writeVarint32
    (get_local $0)
@@ -5812,26 +5881,33 @@
     (get_local $1)
    )
   )
-  (call $~lib/memory/move_memory
-   (i32.add
-    (i32.load
-     (get_local $0)
-    )
-    (i32.load offset=8
+  (if
+   (i32.eqz
+    (call $../../src/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
-   (i32.add
-    (i32.load
-     (get_local $1)
+   (call $~lib/memory/move_memory
+    (i32.add
+     (i32.load
+      (get_local $0)
+     )
+     (i32.load offset=8
+      (get_local $0)
+     )
     )
-    (i32.const 8)
-   )
-   (i32.sub
-    (call $~lib/array/Array<DataItem<CurrencyStats>>#get:length
-     (get_local $1)
+    (i32.add
+     (i32.load
+      (get_local $1)
+     )
+     (i32.const 8)
     )
-    (i32.const 1)
+    (i32.sub
+     (call $~lib/array/Array<DataItem<CurrencyStats>>#get:length
+      (get_local $1)
+     )
+     (i32.const 1)
+    )
    )
   )
   (i32.store offset=8
@@ -5849,7 +5925,7 @@
    )
   )
  )
- (func $../../src/action/TransferParams#serialize (; 88 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/TransferParams#serialize (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -5875,7 +5951,23 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#constructor|trampoline (; 89 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<TransferParams> (; 92 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (call $../../src/action/TransferParams#serialize
+   (get_local $0)
+   (tee_local $1
+    (call $../../src/datastream/DataStream#constructor
+     (i32.const 0)
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (i32.load offset=8
+   (get_local $1)
+  )
+ )
+ (func $~lib/array/Array<u8>#constructor|trampoline (; 93 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (block $1of1
    (block $0of1
     (block $oob
@@ -5894,7 +5986,7 @@
    (get_local $1)
   )
  )
- (func $~lib/array/Array<u8>#__set (; 90 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<u8>#__set (; 94 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.ge_u
@@ -5952,7 +6044,7 @@
    (get_local $2)
   )
  )
- (func $../../src/datastream/DataStream#toArray<u8> (; 91 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#toArray<u8> (; 95 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6022,7 +6114,7 @@
   )
   (get_local $3)
  )
- (func $../../src/action/PermissionLevel#serialize (; 92 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/PermissionLevel#serialize (; 96 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -6060,7 +6152,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#__get (; 93 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 97 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -6082,7 +6174,7 @@
    (unreachable)
   )
  )
- (func $../../src/datastream/DataStream#writeVector<u8> (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVector<u8> (; 98 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (call $../../src/datastream/DataStream#writeVarint32
@@ -6118,7 +6210,7 @@
    )
   )
  )
- (func $../../src/action/ActionImpl#serialize (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/ActionImpl#serialize (; 99 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (call $../../src/datastream/DataStream#write<u64>
@@ -6176,7 +6268,23 @@
    )
   )
  )
- (func $../../src/action/dispatchInline (; 96 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $../../src/datastream/DataStream.measure<ActionImpl> (; 100 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (call $../../src/action/ActionImpl#serialize
+   (get_local $0)
+   (tee_local $1
+    (call $../../src/datastream/DataStream#constructor
+     (i32.const 0)
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (i32.load offset=8
+   (get_local $1)
+  )
+ )
+ (func $../../src/action/dispatchInline (; 101 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (drop
    (call $~lib/array/Array<DataItem<CurrencyStats>>#push
@@ -6206,10 +6314,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $0
+        (call $../../src/datastream/DataStream.measure<TransferParams>
+         (get_local $3)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $0)
     )
    )
   )
@@ -6227,10 +6339,14 @@
      (i32.load
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
-       (i32.const 64000)
+       (tee_local $0
+        (call $../../src/datastream/DataStream.measure<ActionImpl>
+         (get_local $4)
+        )
+       )
       )
      )
-     (i32.const 64000)
+     (get_local $0)
     )
    )
   )
@@ -6243,7 +6359,7 @@
    )
   )
  )
- (func $token/Token#issue (; 97 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $token/Token#issue (; 102 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6422,7 +6538,7 @@
    )
   )
  )
- (func $token/Token#subBalance (; 98 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $token/Token#subBalance (; 103 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
@@ -6569,7 +6685,7 @@
    (get_local $1)
   )
  )
- (func $token/Token#transfer (; 99 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
+ (func $token/Token#transfer (; 104 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
   (local $5 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
@@ -6673,7 +6789,7 @@
    (get_local $1)
   )
  )
- (func $main/apply (; 100 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $main/apply (; 105 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6834,7 +6950,7 @@
    )
   )
  )
- (func $start (; 101 ;) (type $v)
+ (func $start (; 106 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

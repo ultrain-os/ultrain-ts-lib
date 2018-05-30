@@ -11,7 +11,6 @@ import {
 import { string2cstr, toUTF8Array } from "./utils";
 
 export class DataStream {
-
     buffer: u32;
     len: u32;
     pos: u32;
@@ -20,6 +19,17 @@ export class DataStream {
         this.buffer = buffer;
         this.len = len;
         this.pos = 0;
+    }
+
+    private isMesureMode(): boolean {
+        return this.buffer == 0;
+    }
+
+    static measure<T>(obj: T): u32 {
+        let ins = new DataStream(0, 0);
+        obj.serialize(ins);
+
+        return ins.pos;
     }
 
     readVarint32(): u32 {
@@ -42,7 +52,9 @@ export class DataStream {
     }
 
     write<T>(value: T): void {
-        store<T>(this.buffer + this.pos, value);
+        if (!this.isMesureMode()) {
+            store<T>(this.buffer + this.pos, value);
+        }
         this.pos += sizeof<T>();
     }
 
@@ -107,9 +119,10 @@ export class DataStream {
         if (len == 0) return;
 
         let cstr = toUTF8Array(str);
-        var ptr: u32 = load<u32>(<usize>cstr) + sizeof<u64>();
-
-        move_memory(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
+        if (!this.isMesureMode()) {
+            var ptr: u32 = load<u32>(<usize>cstr) + sizeof<u64>();
+            move_memory(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
+        }
         this.pos += cstr.length - 1;
     }
 

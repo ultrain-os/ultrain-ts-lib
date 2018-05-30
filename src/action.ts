@@ -109,13 +109,15 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: u64, params:
     actimpl.account = code;
     actimpl.name = act;
 
-    let arr = new Uint8Array(64000);
-    let ds = new DataStream(<usize>arr.buffer, 64000);
+    let len = DataStream.measure<TransferParams>(params);
+    let arr = new Uint8Array(len);
+    let ds = new DataStream(<usize>arr.buffer, len);
     params.serialize(ds);
     actimpl.data = ds.toArray<u8>();
 
-    arr = new Uint8Array(64000);
-    ds = new DataStream(<usize>arr.buffer, 64000);
+    len = DataStream.measure<ActionImpl>(actimpl);
+    arr = new Uint8Array(len);
+    ds = new DataStream(<usize>arr.buffer, len);
     actimpl.serialize(ds);
     ultrain.send_inline(<usize>ds.buffer, ds.pos);
 }

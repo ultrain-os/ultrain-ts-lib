@@ -43,10 +43,11 @@ export class DBManager<T> {
         let item: DataItem<T> = new DataItem<T>(this);
         item._value = obj;
 
-        let arr = new Uint8Array(64000);
-        let ds = new DataStream(<usize>arr.buffer, 64000);
-
+        let len = DataStream.measure<T>(obj);
+        let arr = new Uint8Array(len);
+        let ds = new DataStream(<usize>arr.buffer, len);
         obj.serialize(ds);
+
         let primary = obj.primaryKey();
         Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(ds.pos, 16).flush();
         item._primary_itr = ultrain.db_store_i64(this._scope, this._tblname, payer, primary, ds.buffer, ds.pos);
@@ -75,9 +76,11 @@ export class DBManager<T> {
         item._value = newobj;
         ultrain_assert(pk == item._value.primaryKey(), "updater cannot change primary key when modifying an object.");
 
-        let arr = new Uint8Array(64000);
-        let ds = new DataStream(<usize>arr.buffer, 64000);
 
+        len = DataStream.measure<T>(newobj);
+
+        let arr = new Uint8Array(len);
+        let ds = new DataStream(<usize>arr.buffer, len);
         newobj.serialize(ds);
 
         ultrain.db_update_i64(item._primary_itr, payer, ds.buffer, ds.pos);
