@@ -2,44 +2,37 @@
  * @author fanliangqin@ultrain.io
  */
 
-import "allocator/arena";
-import "../../lib/alias";
+import "../../src/alias";
 import { Contract } from "../../src/contract";
-import { requireAuth, action_data_size, read_action_data } from "../../lib/action";
-import { setPrivileged, setResourceLimits, setActiveProducer } from "../../lib/privileged";
-import { producer_schedule } from "../../src/producer_schedule";
+import { env as ultrain } from "../../src/ultrain-lib";
 
 export class Bios extends Contract {
-    constructor(self: action_name) {
-        // super(self);
-        this.self = self;
-    }
 
-    setpriv(account: account_name, ispriv: boolean): void {
-        requireAuth(this.self);
-        setPrivileged(account, ispriv);
+    setpriv(account: u64, ispriv: u8): void {
+        ultrain.require_auth(this.receiver);
+        ultrain.set_privileged(account, ispriv);
     }
 
     setalimits(account: account_name, ram_bytes: u64, net_weight: u64, cpu_weight: u64): void {
-        requireAuth(this.self);
-        setResourceLimits(account, ram_bytes, net_weight, cpu_weight);
+        ultrain.require_auth(this.receiver);
+        ultrain.set_resource_limits(account, ram_bytes, net_weight, cpu_weight);
     }
 
     setglimits(ram: u64, net: u64, cpu: u64): void {
-        requireAuth(this.self);
+        ultrain.require_auth(this.receiver);
     }
 
-    setprods(sch: producer_schedule): void {
-        requireAuth(this.self);
-        let actlen: i32 = action_data_size();
-        let dataptr: usize = allocate_memory(sizeof<u8>() * actlen);
-        read_action_data(dataptr, actlen);
-        setActiveProducer(dataptr, actlen);
+    setprods(): void {
+        ultrain.require_auth(this.receiver);
 
-        free_memory(dataptr);
+        let len = ultrain.action_data_size();
+        let arr = new Uint8Array(len);
+        ultrain.read_action_data(<usize>arr.buffer, len);
+
+        ultrain.set_active_producers(<usize>arr.buffer, len);
     }
 
-    reqauth(from: action_name): void {
-        requireAuth(from);
+    reqauth(from: u64): void {
+        ultrain.require_auth(from);
     }
 }

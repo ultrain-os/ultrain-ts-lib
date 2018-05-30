@@ -1,54 +1,11 @@
-/**
- * @author fanliangqin@ultrain.io
- */
-import "../lib/alias";
-import { printString, printStringL, printInt } from "../lib/utils";
-import { ultrain_assert } from "../lib/system";
-import { CHARCODE } from "../lib/utils";
-import { Log } from "../lib/log";
-import { DataStream } from "../utils/datastream";
-import { ISerializer } from "../utils/serializer";
+import { ISerializable } from "./contract";
+import { DataStream } from "./datastream";
+import { Log } from "./log";
 
-const CHARA: u8 = 0x41;
-const CHARZ: u8 = 0x5A;
+const CHAR_A: u8 = 0x41;
+const CHAR_Z: u8 = 0x5A;
 
-export function string_to_symbol(precision: u8, str: string): u64 {
-    // CAUTION(fanliangqin): str.length must be less than 7
-    let len: u8 = <u8>str.length;
-    ultrain_assert(len <= 7, "length of symbol name must be less than 7.");
-    let result: u64 = 0;
-    for (let i: u8 = 0; i < len; ++i) {
-        let charCode: u8 = <u8>(str.charCodeAt(i) & 0xff);
-        if (charCode < CHARA || charCode > CHARZ) {
-            Log.s("string_to_symbol failed for not supoort code : ").i(charCode, 16).flush();
-        } else {
-            result |= ((<u64>charCode) << ((8 * (i + 1))));
-        }
-    }
-
-    result |= <u64>precision;
-    return result;
-}
-
-function is_valid_symbol(sym: SymbolName): boolean {
-    // TODO(fanliangqin): 好像这个实现有点问题，移位操作超出了64位范围？？ 需要重新check
-    sym >>= 8;
-    for (let i: i32 = 0; i < 7; ++i) {
-        let c: u8 = <u8>(sym & 0xff);
-        if (!(CHARA <= c && c <= CHARZ)) return false;
-        sym >>= 8;
-        if ((sym & 0xff) == 0) {
-            do {
-                sym >>= 8;
-                if ((sym & 0xff) != 0) return false;
-                ++i;
-            } while (i < 7);
-        }
-    }
-    return true;
-}
-
-function SymbolNameLength(tmp: SymbolName): u32 {
+function SymbolNameLength(tmp: u64): u32 {
     tmp >>= 8; // skip precision
     let length: u32 = 0;
     while ((tmp & 0xff) != 0 && length <= 7) {
@@ -59,202 +16,62 @@ function SymbolNameLength(tmp: SymbolName): u32 {
     return length;
 }
 
-export class SymbolType extends ISerializer {
-    private value: SymbolName;
-    constructor(symn: SymbolName) {
-        // super();
-        this.value = symn;
+const MAX_AMOUNT: u64 = ((1 << 62) - 1);
+
+export class Asset implements ISerializable {
+    private amount: u64;
+    private symbol: u64;
+
+    constructor(amt: u64 = 0, sy: u64 = 0) {
+        this.amount = amt;
+        this.symbol = sy;
     }
-    public is_valid(): boolean { return is_valid_symbol(this.value); }
-    public precision(): u64 { return this.value & 0xff; }
-    public name(): u64 { return this.value >> 8; }
-    public name_length(): u32 { return SymbolNameLength(this.value); }
 
-    public get(): SymbolName { return this.value; }
+    deserialize(ds: DataStream): void {
+        this.amount = ds.read<u64>();
+        this.symbol = ds.read<u64>();
+    }
 
-    public print(show_precision: boolean = true): void {
-        if (show_precision) {
-            Log.i(this.precision()).s(",");
-        }
+    serialize(ds: DataStream): void {
+        ds.write<u64>(this.amount);
+        ds.write<u64>(this.symbol);
+    }
 
-        let sym: SymbolName = this.value;
-        sym >>= 8;
+    isSymbolValid(): boolean {
+        let sym = this.symbol;
+        sym >>= 8; // remove precious bits
         for (let i: i32 = 0; i < 7; ++i) {
             let c: u8 = <u8>(sym & 0xff);
-            if (c == 0) break;
-            Log.i(c);
+            if (c < CHAR_A || c > CHAR_Z) return false;
             sym >>= 8;
+            if ((sym & 0xff) == 0) {
+                do {
+                    sym >>= 8;
+                    if ((sym & 0xff) != 0) return false;
+                    ++i;
+                } while (i < 7);
+            }
         }
-        Log.flush();
+        return true;
     }
 
-    public serialize(s: DataStream): void {
-        s.serialize64(this.value);
+    getAmount(): u64 { return this.amount; }
+    setAmount(newAmount: u64): void { this.amount = newAmount; }
+    getSymbol(): u64 { return this.symbol; }
+    setSymbol(newSymbol: u64): void { this.symbol = newSymbol; }
+    symbolPrecision(): u64 { return this.symbol & 0xff; }
+    symbolName(): u64 { return this.symbol >> 8; }
+    symbolNameLength(): u32 { return SymbolNameLength(this.symbol); }
+
+    isAmountWithinRange(): boolean {
+        return 0 <= this.amount && this.amount <= MAX_AMOUNT;
     }
 
-    public deserialize(s: DataStream): void {
-        Log.s("SymbolType deserialize.").flush();
-        this.value = s.deserialize64();
+    isValid(): boolean {
+        return this.isAmountWithinRange() && this.isSymbolValid();
+    }
+
+    prints(tag: string): void {
+        Log.s(tag).s(" [ Asset:  amount = ").i(this.amount).s(" symbol = ").i(this.symbol, 16).s(" ]").flush();
     }
 }
-
-export class ExtendSymbol extends SymbolType {
-    contract: account_name;
-    constructor(s: SymbolName = 0, c: account_name = 0) {
-        // super();
-        this.value = s;
-        this.contract = c;
-    }
-
-    print(): void {
-        super.print();
-        printString("@");
-        printInt(this.contract);
-    }
-
-    equal(es: ExtendSymbol): boolean {
-        return this.value == es.value && this.contract == es.contract;
-    }
-}
-
-export class Asset extends ISerializer {
-    static max_amount: i64 = (1 << 62) - 1;
-    public amount: i64;
-    public symbol: SymbolType;
-
-    constructor(amount: i64, s: SymbolName) {
-        this.amount = amount;
-        this.symbol = new SymbolType(s);
-        ultrain_assert(this.isAmountWithinRange(), "Asset.constructor: magnitude of asset amount must be less than 2^62");
-        ultrain_assert(this.symbol.is_valid(), "Asset.constructor: invalid symbol name");
-    }
-
-    public isAmountWithinRange(): boolean {
-        return -Asset.max_amount <= this.amount && this.amount <= Asset.max_amount;
-    }
-
-    public isValid(): boolean { return this.isAmountWithinRange() && this.symbol.is_valid(); }
-
-    public setAmount(a: i64): void {
-        this.amount = a;
-        ultrain_assert(this.isAmountWithinRange(), " magnitude of asset amount must be less than 2^62");
-    }
-    /**
-     * symentic of ==
-     * @param asset rhs operator
-     */
-    public equal(asset: Asset): boolean {
-        ultrain_assert(asset.symbol == this.symbol, "comparison of assets with different symbols is not allowed.");
-        return this.amount == asset.amount;
-    }
-    /**
-     * symentic of <
-     * @param asset rhs
-     */
-    public lt(asset: Asset): boolean {
-        ultrain_assert(asset.symbol == this.symbol, "comparison of assets with different symbols is not allowed.");
-        return this.amount < asset.amount;
-    }
-    /**
-     * symentic of <=
-     * @param asset rhs
-     */
-    public lte(asset: Asset): boolean {
-        ultrain_assert(asset.symbol == this.symbol, "comparison of assets with different symbols is not allowed.");
-        return this.amount <= asset.amount;
-    }
-    /**
-     * symentic of >
-     * @param asset rhs
-     */
-    public gt(asset: Asset): boolean {
-        ultrain_assert(asset.symbol == this.symbol, "comparison of assets with different symbols is not allowed.");
-        return this.amount > asset.amount;
-    }
-    /**
-     * symentic of >=
-     * @param asset rhs
-     */
-    public gte(asset: Asset): boolean {
-        ultrain_assert(asset.symbol == this.symbol, "comparison of assets with different symbols is not allowed.");
-        return this.amount >= asset.amount;
-    }
-
-    public add(asset: Asset): Asset {
-        ultrain_assert(this.symbol == asset.symbol, "add asset with different symbol is not allowed.");
-        this.amount += asset.amount;
-        ultrain_assert(this.amount <= Asset.max_amount, "add asset overflow.");
-        ultrain_assert(this.amount >= -Asset.max_amount, "add asset underflow.");
-        return this;
-    }
-
-    public sub(asset: Asset): Asset {
-        ultrain_assert(this.symbol == asset.symbol, "sub asset with different symbol is not allowed.");
-        this.amount -= asset.amount;
-        ultrain_assert(this.amount <= Asset.max_amount, "sub asset overflow.");
-        ultrain_assert(this.amount >= -Asset.max_amount, "sub asset underflow.");
-        return this;
-    }
-
-    public mul(asset: Asset): Asset {
-        ultrain_assert(this.symbol == asset.symbol, "mul asset with different symbol is not allowed.");
-        ultrain_assert(asset.amount == 0 || (this.amount * asset.amount) / asset.amount == this.amount, "multiple asset underflow or overflow.");
-        this.amount *= asset.amount;
-        ultrain_assert(this.amount <= Asset.max_amount, "mul asset overflow.");
-        ultrain_assert(this.amount >= -Asset.max_amount, "mul asset underflow.");
-        return this;
-    }
-
-    public div(asset: Asset): Asset {
-        ultrain_assert(this.symbol == asset.symbol, "mul asset with different symbol is not allowed.");
-        ultrain_assert(asset.amount == 0, "multiple asset underflow or overflow.");
-        this.amount /= asset.amount;
-        ultrain_assert(this.amount <= Asset.max_amount, "mul asset overflow.");
-        ultrain_assert(this.amount >= -Asset.max_amount, "mul asset underflow.");
-        return this;
-    }
-
-   public print(): void {
-        let p: i64 = <i64>this.symbol.precision();
-        let p10: i64 = 1;
-        while (p > 0) {
-            p10 *= 10;
-            --p;
-        }
-
-        let change: i64 = this.amount % p10;
-        Log.i(this.amount / p10).s(".").i(change).flush();
-        this.symbol.print(false);
-    }
-
-    public serialize(s: DataStream): void {
-        Log.s("Assert start serialize").flush();
-        s.serialize64(this.amount);
-        this.symbol.serialize(s);
-    }
-
-    public deserialize(s: DataStream): void {
-        Log.s("Assert deserialize.").flush();
-        this.amount = s.deserialize64();
-        this.symbol.deserialize(s);
-    }
-}
-
-export class ExtendAsset extends Asset {
-    private contract: account_name;
-    constructor(asset: Asset, c: account) {
-        // super();
-        this.symbol = asset.symbol;
-        this.amount = asset.amount;
-        this.contract = c;
-    }
-
-    public getExtendedSymbol(): ExtendSymbol { return new ExtendSymbol(this.symbol, this.contract); }
-
-    public print(): void {
-        super.print();
-        printString("@");
-        printInt(this.contract);
-    }
-}
-

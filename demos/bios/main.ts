@@ -1,42 +1,40 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../lib/alias";
+import "allocator/arena";
+import "../../src/alias";
 import { Bios } from "./bios";
-import { Action } from "../../lib/action";
-import { Log } from "../../lib/log";
+import { N, RN } from "../../src/utils";
+import { env as ultrain } from "../../src/ultrain-lib";
 
-export function apply(receiver: u64, code: u64, actioncode: u64): void {
+export function apply(receiver: u64, code: u64, action: u64): void {
     if (receiver == code) {
-        let action: Action = new Action(actioncode);
-        if (!action.init()) {
-            Log.s("demo bios init action failed.").flush();
-            return;
-        }
+        let bios = new Bios(receiver);
+        let ds = bios.getDataStream();
 
-        let bios: Bios = new Bios(receiver);
-        if (action.name == "setpriv") {
-            let account: account_name = action.i_params[0];
-            let ispriv: boolean = action.i_params[1] == 1;
+        if (action == N("setpriv")) {
+            let account = ds.read<u64>();
+            let ispriv = ds.read<u8>();
+
             bios.setpriv(account, ispriv);
-        } else if (action.name == "setalimits") {
-            let account: account_name = action.i_params[0];
-            let rambytes: u64 = <u64>action.i_params[1];
-            let netweight: u64 = <u64>action.i_params[2];
-            let cpuweight: u64 = <u64>action.i_params[3];
+        } else if (action == N("setalimits")) {
+            let account = ds.read<u64>();
+            let rambytes = ds.read<u64>();
+            let netweight = ds.read<u64>();
+            let cpuweight = ds.read<u64>();
             bios.setalimits(account, rambytes, netweight, cpuweight);
-        } else if (action.name == "setglimits") {
-            let ram: u64 = <u64>action.i_params[0];
-            let net: u64 = <u64>action.i_params[1];
-            let cpu: u64 = <u64>action.i_params[2];
+        } else if (action == N("setglimits")) {
+            let ram = ds.read<u64>();
+            let net = ds.read<u64>();
+            let cpu = ds.read<u64>();
             bios.setglimits(ram, net, cpu);
-        } else if (action.name == "setprods") {
-            bios.setprods(null);
-        } else if (action.name == "reqauth") {
-            let from: action_name = <u64>action.i_params[0];
+        } else if (action == N("setprods")) {
+            bios.setprods();
+        } else if (action == N("reqauth")) {
+            let from = ds.read<u64>();
             bios.reqauth(from);
         } else {
-            Log.s("demo bios can not accept action '").s(action.name).s("', please check your command.").flush();
+            ultrain.eosio_exit(0);
         }
     }
 }
