@@ -1,0 +1,19 @@
+{
+  "name": "TsSDK",
+  "version": "0.0.1",
+  "description": "The Ultrain Smart Contract TypeScript SDK",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ultrain-os/TsSDk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ultrain-os/TsSDk/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.9"
+  }
+}
