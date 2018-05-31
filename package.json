@@ -11,7 +11,6 @@
     "url": "https://github.com/ultrain-os/TsSDk/issues"
   },
   "dependencies": {},
-  "devDependencies": {},
   "main": "index.js",
   "engines": {
     "node": ">=8.9"
