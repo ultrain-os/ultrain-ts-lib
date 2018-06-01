@@ -78,6 +78,17 @@ export class DataStream {
         return arr;
     }
 
+    static fromArray<T>(from: T[]): DataStream {
+        let len = from.length;
+        let bytes = len * sizeof<T>();
+        let arr = new Uint8Array(bytes);
+        let ds = new DataStream(<usize>arr.buffer, bytes);
+        for (let i: i32 = 0; i < len; i++) {
+            ds.write<T>(from[i]);
+        }
+        return ds;
+    }
+
     readVector<T>(): T[] {
         var len = this.readVarint32();
         if (len == 0) return new Array<T>();

@@ -9,7 +9,8 @@ import { env as ultrain } from "../../src/ultrain-lib";
 import { DataStream } from "../../src/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
-import { PermissionLevel, TransferParams, dispatchInline } from "../../src/action";
+import { TransferParams, dispatchInline } from "../../src/action";
+import { PermissionLevel } from "../../src/permission-level";
 
 class Account implements ISerializable {
     balance: Asset;
@@ -134,7 +135,7 @@ export class Token extends Contract {
 
         statstable.modify(st, 0);
         this.addBalance(st.issuer, quantity, st, st.issuer);
-        Log.s("issue  3").flush();
+
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;

@@ -24,6 +24,7 @@ export namespace env {
     declare function printn(name: u64): void;
     declare function eosio_assert(condition: u32, cstr: u32): void;
     declare function eosio_exit(code: i32): void;
+    declare function now(): u32;
 
     // db
     declare function db_find_i64(code: u64, scope: u64, table: u64, id: u64): i32;

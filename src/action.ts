@@ -6,6 +6,11 @@ import { DataStream } from "./datastream";
 import { ISerializable } from "./contract";
 import { Log } from "./log";
 import { env as ultrain } from "./ultrain-lib";
+import { PermissionLevel } from "./permission-level";
+
+export function requirePermissionLevel(pl: PermissionLevel) {
+    ultrain.require_auth2(pl.actor, pl.permission);
+}
 
 export class TransferParams implements ISerializable {
     public from: u64;
@@ -37,32 +42,6 @@ export class TransferParams implements ISerializable {
 
     public bytesLength(): u32 {
         return 0;
-    }
-}
-
-export class PermissionLevel implements ISerializable {
-    public actor: u64;
-    public permission: u64;
-
-    constructor(actor: u64 = 0, permission: u64 = 0) {
-        this.actor = actor;
-        this.permission = permission;
-    }
-
-    public equal(rhs: PermissionLevel): boolean {
-        return this.actor == rhs.actor && this.permission == rhs.permission;
-    }
-
-    public serialize(ds: DataStream): void {
-        ds.write<u64>(this.actor);
-        ds.write<u64>(this.permission);
-        Log.s(" actor: ").i(this.actor, 16);
-        Log.s(" permission: ").i(this.permission, 16);
-    }
-
-    public deserialize(ds: DataStream): void {
-        this.actor = ds.read<u64>();
-        this.permission = ds.read<u64>();
     }
 }
 
@@ -122,4 +101,10 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: u64, params:
     ultrain.send_inline(<usize>ds.buffer, ds.pos);
 }
 
+
+export class Action implements ISerializable {
+
+    serialize(ds: DataStream): void {}
+    deserialize(ds: DataStream): void {}
+}
 
