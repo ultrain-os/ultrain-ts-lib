@@ -10,6 +10,18 @@ export namespace env {
     declare function send_inline(data: usize, len: i32): void;
     declare function send_context_free_inline(data: usize, len: i32): void;
 
+    //transaction_api
+    declare function send_defferred(sender_id: u64, payer: u64, data: usize, len: i32): void;
+    declare function cancel_defferred(sender_id: u64): void;
+    declare function read_transaction(buffer: usize, len: u32): u32;
+    declare function transaction_size(): u32;
+    declare function tapos_block_num(): i32;
+    declare function tapos_block_prefix(): i32;
+    declare function expiration(): u32;
+    declare function get_action(type: u32, index: u32, buffer: usize, size: u32): i32;
+    declare function get_context_free_data(index: u32, buffer: usize, size: u32): i32;
+    declare function check_auth(trs_buff: usize, size: u32, permi_buff: usize, psize: u32): void;
+
     // auth
     declare function require_auth(user: u64): void;
     declare function require_auth2(account_name: u64, permission: u64): void;

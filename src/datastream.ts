@@ -15,6 +15,42 @@ export class DataStream {
     len: u32;
     pos: u32;
 
+    /**
+     * make a DataStream from an existing array.
+     * @param from an array of basic class, like u8/i8, u16/i16, u32/i32, u64/i64
+     */
+    static fromArray<T>(from: T[]): DataStream {
+        let len = from.length;
+        let bytes = len * sizeof<T>();
+        let arr = new Uint8Array(bytes);
+        let ds = new DataStream(<usize>arr.buffer, bytes);
+        for (let i: i32 = 0; i < len; i++) {
+            ds.write<T>(from[i]);
+        }
+        return ds;
+    }
+
+    /**
+     * to measure the length of serialized buffer.
+     * @param obj an instance of class which implements ISerializable.
+     */
+    static measure<T>(obj: T): u32 {
+        let ins = new DataStream(0, 0);
+        obj.serialize(ins);
+
+        return ins.pos;
+    }
+
+    static measureComplexVector<T>(arr: T[]): u32 {
+        let ins = new DataStream(0, 0);
+        let len = arr.length;
+        ins.writeVarint32(len);
+        for (let i: i32 = 0; i < len; i++) {
+            arr[i].serialize(ins);
+        }
+        return ins.pos;
+    }
+
     constructor(buffer: u32, len: u32) {
         this.buffer = buffer;
         this.len = len;
@@ -23,13 +59,6 @@ export class DataStream {
 
     private isMesureMode(): boolean {
         return this.buffer == 0;
-    }
-
-    static measure<T>(obj: T): u32 {
-        let ins = new DataStream(0, 0);
-        obj.serialize(ins);
-
-        return ins.pos;
     }
 
     readVarint32(): u32 {
@@ -78,17 +107,6 @@ export class DataStream {
         return arr;
     }
 
-    static fromArray<T>(from: T[]): DataStream {
-        let len = from.length;
-        let bytes = len * sizeof<T>();
-        let arr = new Uint8Array(bytes);
-        let ds = new DataStream(<usize>arr.buffer, bytes);
-        for (let i: i32 = 0; i < len; i++) {
-            ds.write<T>(from[i]);
-        }
-        return ds;
-    }
-
     readVector<T>(): T[] {
         var len = this.readVarint32();
         if (len == 0) return new Array<T>();
@@ -106,6 +124,31 @@ export class DataStream {
         this.writeVarint32(len);
         for (let i: i32 = 0; i < len; i++) {
             this.write<T>(arr[i]);
+        }
+    }
+
+    /**
+     * read array of complex class which implements ISerializable interface.
+     */
+    readComplexVector<T>(): T[] {
+        let len = this.readVarint32();
+        if (len == 0) return new Array<T>();
+
+        let arr = new Array<T>(len);
+        for (let i: i32 = 0; i < len; i++) {
+            arr[i].deserialize(this);
+        }
+        return arr;
+    }
+
+    /**
+     * write array of complex class which implements ISerialzable interface.
+     */
+    writeComplexVector<T>(arr: T[]): void {
+        let len = arr.length;
+        this.writeVarint32(len);
+        for (let i: i32 = 0; i < len; ++i) {
+            arr[i].serialize(this);
         }
     }
 

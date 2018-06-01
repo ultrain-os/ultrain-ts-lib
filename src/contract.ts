@@ -5,7 +5,15 @@ export interface ISerializable {
     public deserialize(ds: DataStream): void { };
     public serialize(ds : DataStream) : void {};
     public bytesLength(): u32 { return 0; }
-  }
+}
+
+export function DataStreamFromCurrentAction(): DataStream {
+    let len = ultrain.action_data_size();
+    let arr = new Uint8Array(len);
+    ultrain.read_action_data(<usize>arr.buffer, len);
+    let ds = new DataStream(<usize>arr.buffer, len);
+    return ds;
+}
 
 export class Contract {
 
@@ -16,10 +24,6 @@ export class Contract {
     }
 
     getDataStream(): DataStream {
-        let len = ultrain.action_data_size();
-        let arr = new Uint8Array(len);
-        ultrain.read_action_data(<usize>arr.buffer, len);
-        let ds = new DataStream(<usize>arr.buffer, len);
-        return ds;
+        return DataStreamFromCurrentAction();
     }
 }

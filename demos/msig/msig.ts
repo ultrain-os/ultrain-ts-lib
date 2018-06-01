@@ -167,8 +167,12 @@ export class MultiSig extends Contract {
 
         ultrain_assert(existing, "proposal not found");
 
-        // check_auth();
-        // send_deferred();
+        // TODO(fanliangqin): send_deferred() method need 'uint128_t', how to deal with it?
+        let buffer: u32 = load<u32>(<usize>pp.packed_transaction);
+        let size = pp.packed_transaction.length;
+
+        checkAuth(buffer, size, pp.provided_approvals);
+        ultrain.send_deferred(proposal_name, executer, buffer, size);
 
         db.erase(pp);
     }
