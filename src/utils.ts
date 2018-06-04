@@ -58,7 +58,7 @@ export function printstr(str: string): void {
 
 export function ultrain_assert(condition: bool, msg: string): void {
     if (condition == false) {
-        console.eosio_assert(0, string2cstr(msg));
+        console.ultrainio_assert(0, string2cstr(msg));
     }
 }
 

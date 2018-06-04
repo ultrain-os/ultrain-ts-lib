@@ -129,24 +129,19 @@ export class Token extends Contract {
 
         ultrain_assert(quantity.isValid(), "invalid quantity.");
         ultrain_assert(quantity.getAmount() > 0, "must issue positive quantity.");
-
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-
         statstable.modify(st, 0);
         this.addBalance(st.issuer, quantity, st, st.issuer);
-
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
             pl.permission = N("active");
-
             let params = new TransferParams();
             params.from = st.issuer;
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-
             params.quantity.prints("before dispatchInline");
             dispatchInline(pl, this.receiver, N("transfer"), params);
         }

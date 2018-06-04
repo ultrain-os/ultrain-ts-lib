@@ -4,11 +4,10 @@
 import { Asset } from "./asset";
 import { DataStream } from "./datastream";
 import { ISerializable } from "./contract";
-import { Log } from "./log";
 import { env as ultrain } from "./ultrain-lib";
 import { PermissionLevel } from "./permission-level";
 
-export function requirePermissionLevel(pl: PermissionLevel) {
+export function requirePermissionLevel(pl: PermissionLevel): void {
     ultrain.require_auth2(pl.actor, pl.permission);
 }
 

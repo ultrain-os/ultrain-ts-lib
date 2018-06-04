@@ -34,8 +34,8 @@ export namespace env {
     declare function prints_l(cstr: usize, len: u32): void;
     declare function prints(cstr: usize): void;
     declare function printn(name: u64): void;
-    declare function eosio_assert(condition: u32, cstr: u32): void;
-    declare function eosio_exit(code: i32): void;
+    declare function ultrainio_assert(condition: u32, cstr: u32): void;
+    declare function ultrainio_exit(code: i32): void;
     declare function now(): u32;
 
     // db
@@ -55,7 +55,7 @@ export namespace env {
     declare function set_privileged(account: u64, is_priv: i32): void;
     declare function activate_feature(feature: i64): void;
 
-    declare function set_active_producers(producer_data: usize, producer_data_size: u32): void;
+    declare function set_proposed_producers(producer_data: usize, producer_data_size: u32): i64;
     declare function set_blockchain_parameters_packed(data: usize, datalen: u32): void;
     declare function get_blockchain_parameters_packed(data: usize, datalen: u32): u32;
 }

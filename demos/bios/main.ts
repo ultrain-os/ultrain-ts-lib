@@ -34,7 +34,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
             let from = ds.read<u64>();
             bios.reqauth(from);
         } else {
-            ultrain.eosio_exit(0);
+            ultrain.ultrainio_exit(0);
         }
     }
 }

@@ -72,6 +72,6 @@ export class Asset implements ISerializable {
     }
 
     prints(tag: string): void {
-        Log.s(tag).s(" [ Asset:  amount = ").i(this.amount).s(" symbol = ").i(this.symbol, 16).s(" ]").flush();
+        Log.s(tag).s(" [ Asset:  amount = ").i(this.amount, 10).s(" symbol = ").i(this.symbol, 16).s(" ]").flush();
     }
 }

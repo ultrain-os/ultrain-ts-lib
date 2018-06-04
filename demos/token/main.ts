@@ -37,7 +37,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
 
             token.transfer(from, to, quantity, memo);
         } else {
-            ultrain.eosio_exit(0);
+            ultrain.ultrainio_exit(0);
         }
     }
 }

@@ -29,7 +29,7 @@ export class Bios extends Contract {
         let arr = new Uint8Array(len);
         ultrain.read_action_data(<usize>arr.buffer, len);
 
-        ultrain.set_active_producers(<usize>arr.buffer, len);
+        ultrain.set_proposed_producers(<usize>arr.buffer, len);
     }
 
     reqauth(from: u64): void {

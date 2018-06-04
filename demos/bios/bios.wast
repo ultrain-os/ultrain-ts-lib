@@ -4,7 +4,7 @@
  (type $iIi (func (param i32 i64) (result i32)))
  (type $ii (func (param i32) (result i32)))
  (type $iii (func (param i32 i32) (result i32)))
- (type $iiiiv (func (param i32 i32 i32 i32)))
+ (type $v (func))
  (type $iiiv (func (param i32 i32 i32)))
  (type $iiii (func (param i32 i32 i32) (result i32)))
  (type $iI (func (param i32) (result i64)))
@@ -15,17 +15,16 @@
  (type $IIIIv (func (param i64 i64 i64 i64)))
  (type $iIIIv (func (param i32 i64 i64 i64)))
  (type $iv (func (param i32)))
- (type $iiv (func (param i32 i32)))
+ (type $iiI (func (param i32 i32) (result i64)))
  (type $iIv (func (param i32 i64)))
- (type $v (func))
  (import "env" "action_data_size" (func $../../src/ultrain-lib/env.action_data_size (result i32)))
- (import "env" "abort" (func $abort (param i32 i32 i32 i32)))
+ (import "env" "abort" (func $abort))
  (import "env" "read_action_data" (func $../../src/ultrain-lib/env.read_action_data (param i32 i32) (result i32)))
  (import "env" "require_auth" (func $../../src/ultrain-lib/env.require_auth (param i64)))
  (import "env" "set_privileged" (func $../../src/ultrain-lib/env.set_privileged (param i64 i32)))
  (import "env" "set_resource_limits" (func $../../src/ultrain-lib/env.set_resource_limits (param i64 i64 i64 i64)))
- (import "env" "set_active_producers" (func $../../src/ultrain-lib/env.set_active_producers (param i32 i32)))
- (import "env" "eosio_exit" (func $../../src/ultrain-lib/env.eosio_exit (param i32)))
+ (import "env" "set_proposed_producers" (func $../../src/ultrain-lib/env.set_proposed_producers (param i32 i32) (result i64)))
+ (import "env" "ultrainio_exit" (func $../../src/ultrain-lib/env.ultrainio_exit (param i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $HEAP_BASE i32 (i32.const 1540))
@@ -733,7 +732,8 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/Contract#getDataStream (; 15 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/contract/DataStreamFromCurrentAction (; 15 ;) (type $i) (result i32)
+  (local $0 i32)
   (local $1 i32)
   (drop
    (call $../../src/ultrain-lib/env.read_action_data
@@ -758,7 +758,10 @@
    (get_local $0)
   )
  )
- (func $~lib/string/String#charCodeAt (; 16 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/contract/Contract#getDataStream (; 16 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../src/contract/DataStreamFromCurrentAction)
+ )
+ (func $~lib/string/String#charCodeAt (; 17 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (get_local $0)
@@ -794,7 +797,7 @@
    )
   )
  )
- (func $../../src/utils/char_to_symbol (; 17 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/utils/char_to_symbol (; 18 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (if (result i32)
@@ -862,7 +865,7 @@
   )
   (i64.const 0)
  )
- (func $../../src/utils/N (; 18 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/utils/N (; 19 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i64)
@@ -956,7 +959,7 @@
   )
   (get_local $3)
  )
- (func $../../src/datastream/DataStream#read<u64> (; 19 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/datastream/DataStream#read<u64> (; 20 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -981,7 +984,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#read<u8> (; 20 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u8> (; 21 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -1006,7 +1009,7 @@
   )
   (get_local $1)
  )
- (func $bios/Bios#setpriv (; 21 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $bios/Bios#setpriv (; 22 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $../../src/ultrain-lib/env.require_auth
    (i64.load
     (get_local $0)
@@ -1020,7 +1023,7 @@
    )
   )
  )
- (func $bios/Bios#setalimits (; 22 ;) (type $iIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64)
+ (func $bios/Bios#setalimits (; 23 ;) (type $iIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64)
   (call $../../src/ultrain-lib/env.require_auth
    (i64.load
     (get_local $0)
@@ -1033,14 +1036,14 @@
    (get_local $4)
   )
  )
- (func $bios/Bios#setglimits (; 23 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $bios/Bios#setglimits (; 24 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $../../src/ultrain-lib/env.require_auth
    (i64.load
     (get_local $0)
    )
   )
  )
- (func $bios/Bios#setprods (; 24 ;) (type $iv) (param $0 i32)
+ (func $bios/Bios#setprods (; 25 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (call $../../src/ultrain-lib/env.require_auth
    (i64.load
@@ -1062,19 +1065,21 @@
     (get_local $0)
    )
   )
-  (call $../../src/ultrain-lib/env.set_active_producers
-   (i32.load
-    (get_local $1)
+  (drop
+   (call $../../src/ultrain-lib/env.set_proposed_producers
+    (i32.load
+     (get_local $1)
+    )
+    (get_local $0)
    )
-   (get_local $0)
   )
  )
- (func $bios/Bios#reqauth (; 25 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $bios/Bios#reqauth (; 26 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $../../src/ultrain-lib/env.require_auth
    (get_local $1)
   )
  )
- (func $main/apply (; 26 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $main/apply (; 27 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (if
@@ -1173,7 +1178,7 @@
            (get_local $3)
           )
          )
-         (call $../../src/ultrain-lib/env.eosio_exit
+         (call $../../src/ultrain-lib/env.ultrainio_exit
           (i32.const 0)
          )
         )
@@ -1184,7 +1189,7 @@
    )
   )
  )
- (func $start (; 27 ;) (type $v)
+ (func $start (; 28 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

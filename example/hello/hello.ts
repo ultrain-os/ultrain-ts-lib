@@ -17,7 +17,7 @@ export class HelloContract extends Contract {
     dummy: u64;
 
     on_hi(name: u64, age: u32, msg: string): void {
-        Log.s("on_hi: name = ").s(RN(name)).s(" age = ").i(age).s(" msg = ").s(msg).flush();
+        Log.s("on_hi: name = ").s(RN(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
     }
 
     apply(code: u64, action: u64): void {
@@ -30,7 +30,7 @@ export class HelloContract extends Contract {
             let amount = ds.read<u64>();
             let symbol = ds.read<u64>();
 
-            Log.s("amount = ").i(amount).s(" symbol = ").i(symbol, 16).flush();
+            Log.s("amount = ").i(amount, 10).s(" symbol = ").i(symbol, 16).flush();
             this.on_hi(name, age, msg);
         } else {
             ultrain_assert(false, "unknown action");
