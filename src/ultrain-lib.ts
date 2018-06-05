@@ -12,7 +12,7 @@ export namespace env {
     declare function is_account(account: account_name): boolean;
 
     //transaction_api
-    declare function send_defferred(sender_id: u64, payer: u64, data: usize, len: i32): void;
+    declare function send_deferred(sender_id: u64, payer: u64, data: usize, len: i32, replace_existing: u32): void;
     declare function cancel_defferred(sender_id: u64): void;
     declare function read_transaction(buffer: usize, len: u32): u32;
     declare function transaction_size(): u32;
@@ -59,4 +59,7 @@ export namespace env {
     declare function set_proposed_producers(producer_data: usize, producer_data_size: u32): i64;
     declare function set_blockchain_parameters_packed(data: usize, datalen: u32): void;
     declare function get_blockchain_parameters_packed(data: usize, datalen: u32): u32;
+
+    // permission
+    declare function check_transaction_authorization(trx_buffer: usize, trx_size: u32, pubkeys_buffer: usize, pubkeys_size: u32, perms_buffer: usize, perms_size: u32): i32;
 }

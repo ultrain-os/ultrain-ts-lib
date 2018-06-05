@@ -3,9 +3,11 @@
  */
 
 import "../../src/alias";
+import "../../lib/types.d";
+import { public_key } from "../../src/types";
 import { Contract, ISerializable } from "../../src/contract";
 import { env as ultrain } from "../../src/ultrain-lib";
-import { DataStream } from "../../src/datastream";
+import { DataStream, DSHelper } from "../../src/datastream";
 import { PermissionLevel } from "../../src/permission-level";
 import { TransactionHeader, checkAuth, Transaction } from "../../src/transaction";
 import { ultrain_assert, N } from "../../src/utils";
@@ -14,40 +16,49 @@ import { requirePermissionLevel } from "../../src/action";
 
 class Proposal implements ISerializable {
     proposal_name: u64;
-    requested_approvals: PermissionLevel[];
-    provided_approvals: PermissionLevel[];
     packed_transaction: u8[];
+
+    constructor() {
+        this.proposal_name = 0;
+        this.packed_transaction = [];
+    }
 
     serialize(ds: DataStream): void {
         ds.write<u64>(this.proposal_name);
-        let len = this.requested_approvals.length;
-        ds.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
-            this.requested_approvals[i].serialize(ds);
-        }
-        len = this.provided_approvals.length;
-        ds.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
-            this.provided_approvals[i].serialize(ds);
-        }
         ds.writeVector<u8>(this.packed_transaction);
     }
 
     deserialize(ds: DataStream): void {
         this.proposal_name = ds.read<u64>();
-        let len = ds.readVarint32();
-        for (let i: i32 = 0; i < len; i++) {
-            let pl = new PermissionLevel();
-            pl.deserialize(ds);
-            this.requested_approvals.push(pl);
-        }
-        len = ds.readVarint32();
-        for (let i: i32 = 0; i < len; i++) {
-            let pa = new PermissionLevel();
-            pa.deserialize(ds);
-            this.provided_approvals.push(pa);
-        }
         this.packed_transaction = ds.readVector<u8>();
+    }
+
+    primaryKey(): u64 {
+        return this.proposal_name;
+    }
+}
+
+class ApprovalsInfo implements ISerializable {
+    proposal_name: u64;
+    requested_approvals: PermissionLevel[];
+    provided_approvals: PermissionLevel[];
+
+    constructor() {
+        this.proposal_name = 0;
+        this.requested_approvals = [];
+        this.provided_approvals = [];
+    }
+
+    serialize(ds: DataStream): void {
+        ds.write<u64>(this.proposal_name);
+        ds.writeComplexVector<PermissionLevel>(this.requested_approvals);
+        ds.writeComplexVector<PermissionLevel>(this.provided_approvals);
+    }
+
+    deserialize(ds: DataStream): void {
+        this.proposal_name = ds.read<u64>();
+        this.requested_approvals = ds.readComplexVector<PermissionLevel>();
+        this.provided_approvals = ds.readComplexVector<PermissionLevel>();
     }
 
     primaryKey(): u64 {
@@ -67,7 +78,7 @@ export class MultiSig extends Contract {
         proposer = ds.read<u64>();
         proposal_name = ds.read<u64>();
         let len = ds.readVarint32();
-        for (let i: i32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             let pl = new PermissionLevel();
             pl.deserialize(ds);
             requested.push(pl);
@@ -76,104 +87,130 @@ export class MultiSig extends Contract {
         let trx_pos = ds.pos;
         trx_header.deserialize(ds);
         ultrain.require_auth(proposer);
-        ultrain_assert(trx_header.expiration > ultrain.now(), "transaction expired");
+        // TODO(liangqin): ultrain.now should change to time_point_sec.
+        ultrain_assert(trx_header.expiration > ultrain.now(), "msig.propose: transaction expired");
 
-        let db = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
-        let pp = new Proposal();
-        let existing = db.get(proposal_name, pp);
-        ultrain_assert(!existing, "proposal with the same name exists");
+        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let prop = new Proposal();
+        let existing = proptable.get(proposal_name, prop);
+        ultrain_assert(!existing, "msig.propose: proposal with the same name exists");
 
-        checkAuth(ds.buffer + trx_pos, ds.len - trx_pos, requested);
+        let packed_requested = DSHelper.serializeComplexVector<PermissionLevel>(requested);
+
+        let res = ultrain.check_transaction_authorization(ds.buffer + trx_pos, ds.len - trx_pos, 0, 0, packed_requested.pointer(), packed_requested.size());
+        ultrain_assert(res > 0, "msig.propose: transaction authorization failed.");
+
         let obj = new Proposal();
         obj.proposal_name = proposal_name;
         obj.packed_transaction = ds.toArray<u8>().slice(trx_pos + 1);
-        obj.requested_approvals = requested;
+        proptable.emplace(proposer, obj);
 
-        db.emplace(proposal_name, obj);
+
+        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let a = new ApprovalsInfo();
+        a.proposal_name = proposal_name;
+        a.requested_approvals = requested;
+        approvals.emplace(proposer, a);
+
     }
 
     approve(proposer: u64, proposal_name: u64, level: PermissionLevel): void {
         requirePermissionLevel(level);
-        let db = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
-        let pp = new Proposal();
-        let existing = db.get(proposal_name, pp);
+        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approval = new ApprovalsInfo();
+        let existing = approvals.get(proposal_name, approval);
 
-        ultrain_assert(existing, "proposal not found");
+        ultrain_assert(existing, "msig.approve: proposal not found");
 
         let idx = -1;
-        for (let i: i32 = 0; i < pp.requested_approvals.length; ++i) {
-            if (pp.requested_approvals[i].equal(level)) {
+        for (let i: i32 = 0; i < approval.requested_approvals.length; ++i) {
+            if (approval.requested_approvals[i].equal(level)) {
                 idx = i;
                 break;
             }
         }
 
-        ultrain_assert(idx != -1, "approval is not on the list of requested approvals");
-        pp.provided_approvals.push(level);
-        pp.requested_approvals.splice(idx, 1);
+        ultrain_assert(idx != -1, "msig.approve: approval is not on the list of requested approvals");
+        approval.provided_approvals.push(level);
+        approval.requested_approvals.splice(idx, 1);
 
-        db.modify(pp, proposer);
+        approvals.modify(approval, proposer);
     }
 
     unapprove(proposer: u64, proposal_name: u64, level: PermissionLevel): void {
         requirePermissionLevel(level);
-        let db = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
-        let pp = new Proposal();
-        let existing = db.get(proposal_name, pp);
+        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approval = new ApprovalsInfo();
+        let existing = approvals.get(proposal_name, approval);
 
-        ultrain_assert(existing, "proposal not found");
+        ultrain_assert(existing, "msig.unapprove: proposal not found");
 
         let idx = -1;
-        for (let i: i32 = 0; i < pp.provided_approvals.length; ++i) {
-            if (pp.provided_approvals[i].equal(level)) {
+        for (let i: i32 = 0; i < approval.provided_approvals.length; ++i) {
+            if (approval.provided_approvals[i].equal(level)) {
                 idx = i;
                 break;
             }
         }
 
-        ultrain_assert(idx != -1, "no approval perviously granted.");
+        ultrain_assert(idx != -1, "msgi.unapprove: no approval perviously granted.");
 
-        pp.requested_approvals.push(level);
-        pp.provided_approvals.splice(idx, 1);
+        approval.requested_approvals.push(level);
+        approval.provided_approvals.splice(idx, 1);
 
-        db.modify(pp, proposer);
+        approvals.modify(approval, proposer);
     }
 
     cancel(proposer: u64, proposal_name: u64, canceler: u64): void {
         ultrain.require_auth(canceler);
 
-        let db = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
-        let pp = new Proposal();
-        let existing = db.get(proposal_name, pp);
+        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let prop = new Proposal();
+        let existing = proptable.get(proposal_name, prop);
 
-        ultrain_assert(existing, "proposal not found");
+        ultrain_assert(existing, "msig.cancel: proposal not found");
 
         if (proposer != canceler) {
-            let ds = DataStream.fromArray(pp.packed_transaction);
+            let ds = DataStream.fromArray<u8>(prop.packed_transaction);
             let trs = new Transaction();
             trs.deserialize(ds);
-            ultrain_assert(trs.header.expiration < ultrain.now(), "cannot cancel until expiration");
+            // TODO(liangqin): change now() to time_point_sec().
+            ultrain_assert(trs.header.expiration < ultrain.now(), "msig.cancel: cannot cancel until expiration");
         }
+        proptable.erase(prop);
 
-        db.erase(pp);
+        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approval = new ApprovalsInfo();
+        existing = approvals.get(proposer, approval);
+        ultrain_assert(existing, "msig.cancel: approvals not found.");
+        approvals.erase(approval);
     }
 
-    exec(proposer: u64, proposal_name: u64, executer: u64): void {
+    exec(proposer: account_name, proposal_name: u64, executer: u64): void {
         ultrain.require_auth(executer);
 
-        let db = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
-        let pp = new Proposal();
-        let existing = db.get(proposal_name, pp);
+        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let prop = new Proposal();
+        let existing = proptable.get(proposal_name, prop);
+        ultrain_assert(existing, "msig.exec: proposal not found.");
 
-        ultrain_assert(existing, "proposal not found");
+        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approval = new ApprovalsInfo();
+        existing = approvals.get(proposal_name, approval);
+        ultrain_assert(existing, "msig.exec: approval not found.");
 
+        let pds = DataStream.fromArray<u8>(prop.packed_transaction);
+        let trx_header = new TransactionHeader();
+        trx_header.deserialize(pds);
+        ultrain_assert(trx_header.expiration >= ultrain.now(), "msig.exec: transaction expired.");
+
+        let ppa = DSHelper.serializeComplexVector<PermissionLevel>(approval.provided_approvals);
+        let res = ultrain.check_transaction_authorization(pds.pointer(), pds.size(), 0, 0, ppa.pointer(), ppa.size());
+        ultrain_assert(res > 0, "msig.exec: transaction authorization failed.");
         // TODO(fanliangqin): send_deferred() method need 'uint128_t', how to deal with it?
-        let buffer: u32 = load<u32>(<usize>pp.packed_transaction);
-        let size = pp.packed_transaction.length;
+        ultrain.send_deferred(proposal_name, executer, pds.pointer(), pds.size(), 0);
 
-        checkAuth(buffer, size, pp.provided_approvals);
-        ultrain.send_deferred(proposal_name, executer, buffer, size);
-
-        db.erase(pp);
+        proptable.erase(prop);
+        approvals.erase(approval);
     }
 }
