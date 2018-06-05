@@ -15,4 +15,4 @@ declare type asset_symbol = u64;
 declare type share_type = i16;
 declare type weight_type = u16;
 
-declare type SymbolName = u64;
+declare type symbol_name = u64;

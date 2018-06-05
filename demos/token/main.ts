@@ -16,11 +16,8 @@ export function apply(receiver: u64, code: u64, action: u64): void {
             let issuer = ds.read<u64>();;
             let max_supply = new Asset();
             max_supply.deserialize(ds);
-            let issuer_can_freeze = ds.read<u8>() != 0;
-            let issuer_can_recall = ds.read<u8>() != 0;
-            let issuer_can_whitelist = ds.read<u8>() != 0;
 
-            token.create(issuer, max_supply, issuer_can_freeze, issuer_can_recall, issuer_can_whitelist);
+            token.create(issuer, max_supply);
         } else if (action == N("issue")) {
             let to = ds.read<u64>();
             let quantity = new Asset();

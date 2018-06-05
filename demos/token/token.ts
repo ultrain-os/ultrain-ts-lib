@@ -14,29 +14,21 @@ import { PermissionLevel } from "../../src/permission-level";
 
 class Account implements ISerializable {
     balance: Asset;
-    frozen: boolean = false;
-    whitelist: boolean = true;
 
-    constructor(blc: Asset = null, frozen: boolean = false, whitelist: boolean = true) {
+    constructor(blc: Asset = null) {
         if (blc == null) blc = new Asset();
 
         this.balance = blc;
-        this.frozen = frozen;
-        this.whitelist = whitelist;
     }
 
-    primaryKey(): u64 { return this.balance.getSymbol(); }
+    primaryKey(): u64 { return this.balance.symbolName(); }
 
     deserialize(ds: DataStream): void {
         this.balance.deserialize(ds);
-        this.frozen = (ds.read<u8>() != 0);
-        this.whitelist = (ds.read<u8>() != 0);
     }
 
     serialize(ds: DataStream): void {
         this.balance.serialize(ds);
-        ds.write<u8>(this.frozen);
-        ds.write<u8>(this.whitelist);
     }
 }
 
@@ -44,50 +36,35 @@ class CurrencyStats implements ISerializable {
     supply: Asset;
     max_supply: Asset;
     issuer: u64;
-    can_freeze: boolean = true;
-    can_recall: boolean = true;
-    can_whitelist: boolean = true;
-    is_frozen: boolean = false;
-    enforce_whitelist: boolean = false;
 
-    constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0,
-                can_freeze: boolean = false, can_recall: boolean = false,
-                can_whitelist: boolean = false, is_frozen: boolean = false, enforce_whitelist: boolean = false) {
+    constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0) {
         if (supply == null) supply = new Asset();
         if (max_supply == null) max_supply = new Asset();
         this.supply = supply;
         this.max_supply = max_supply;
         this.issuer = issuer;
-        this.can_freeze = can_freeze;
-        this.can_recall = can_recall;
-        this.can_whitelist = can_whitelist;
-        this.is_frozen = is_frozen;
-        this.enforce_whitelist = enforce_whitelist;
     }
 
-    primaryKey(): u64 { return this.supply.getSymbol(); }
+    primaryKey(): u64 { return this.supply.symbolName(); }
 
     deserialize(ds: DataStream): void {
         this.supply.deserialize(ds);
         this.max_supply.deserialize(ds);
         this.issuer = ds.read<u64>();
-        this.can_freeze = (ds.read<u8>() != 0);
-        this.can_recall = (ds.read<u8>() != 0);
-        this.can_whitelist = (ds.read<u8>() != 0);
-        this.is_frozen = (ds.read<u8>() != 0);
-        this.enforce_whitelist = (ds.read<u8>() != 0);
     }
 
     serialize(ds: DataStream): void {
         this.supply.serialize(ds);
         this.max_supply.serialize(ds);
         ds.write<u64>(this.issuer);
-        ds.write<u8>(this.can_freeze);
-        ds.write<u8>(this.can_recall);
-        ds.write<u8>(this.can_whitelist);
-        ds.write<u8>(this.is_frozen);
-        ds.write<u8>(this.enforce_whitelist);
     }
+}
+
+class TransferArgs {
+    from: account_name;
+    to: account_name;
+    quantity: Asset;
+    memo: string;
 }
 
 const STATSTABLE: string = "stat";
@@ -95,13 +72,14 @@ const ACCOUNTTABLE: string = "accounts";
 
 export class Token extends Contract {
 
-    public create(issuer: account_name, maximum_supply: Asset, issuer_can_freeze: boolean, issuer_can_recall: boolean, issuer_can_whitelist: boolean ): void {
+    public create(issuer: account_name, maximum_supply: Asset): void {
         ultrain.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
-        ultrain_assert(maximum_supply.isSymbolValid(), "Token.create: invalid symbol name.");
+        ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
+        ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats(null, null, 0, false, false, false, false, false);
+        let cs: CurrencyStats = new CurrencyStats(null, null, 0);
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -109,30 +87,29 @@ export class Token extends Contract {
         cs.supply.setSymbol(maximum_supply.getSymbol());
         cs.max_supply = maximum_supply;
         cs.issuer = issuer;
-        cs.can_freeze = issuer_can_freeze;
-        cs.can_recall = issuer_can_recall;
-        cs.can_whitelist = issuer_can_whitelist;
         statstable.emplace(this.receiver, cs);
-
     }
 
     public issue(to: account_name, quantity: Asset, memo: string): void {
-        // let symname: SymbolName = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0, false, false, false, false, false);
-        let existing = statstable.get(quantity.getSymbol(), st);
+        ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
+        ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
-        ultrain_assert(existing, "token.issue symbol name is not exist.");
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
+        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let existing = statstable.get(quantity.symbolName(), st);
+
+        ultrain_assert(existing, "token.issue: symbol name is not exist.");
 
 
         ultrain.require_auth(st.issuer);
+        ultrain_assert(quantity.isValid(), "token.issue: invalid quantity.");
+        ultrain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
+        ultrain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
 
-        ultrain_assert(quantity.isValid(), "invalid quantity.");
-        ultrain_assert(quantity.getAmount() > 0, "must issue positive quantity.");
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
         statstable.modify(st, 0);
-        this.addBalance(st.issuer, quantity, st, st.issuer);
+        this.addBalance(st.issuer, quantity, st.issuer);
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
@@ -142,70 +119,82 @@ export class Token extends Contract {
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-            params.quantity.prints("before dispatchInline");
+            // params.quantity.prints("before dispatchInline");
             dispatchInline(pl, this.receiver, N("transfer"), params);
         }
     }
 
     public transfer(from: u64, to: u64, quantity: Asset, memo: string): void {
-        Log.s("Transfer: ").i(from, 16).s("     ").i(to, 16).s("     ").s(memo).flush();
-        quantity.prints("Transfer");
-
+        // Log.s("Transfer: ").i(from, 16).s("     ").i(to, 16).s("     ").s(memo).flush();
+        // quantity.prints("Transfer");
+        ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
         ultrain.require_auth(from);
+        ultrain_assert(ultrain.is_account(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0, false, false, false, false, false);
-        let existing = statstable.get(quantity.getSymbol(), st);
+        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
 
-        ultrain.require_recipient(to);
         ultrain.require_recipient(from);
+        ultrain.require_recipient(to);
 
-        ultrain_assert(quantity.isValid(), "invalid quantity.");
-        ultrain_assert(quantity.getAmount() > 0, "must transfer positive quantity.");
+        ultrain_assert(quantity.isValid(), "token.transfer: invalid quantity.");
+        ultrain_assert(quantity.getSymbol() == st.supply.getSymbol(), "token.transfer: symbol precision mismatch.");
+        ultrain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
 
-        this.subBalance(from, quantity, st);
-        this.addBalance(to, quantity, st, from);
+        this.subBalance(from, quantity);
+        this.addBalance(to, quantity, from);
     }
 
-    private subBalance(owner: u64, value: Asset, st: CurrencyStats): void {
+    private subBalance(owner: u64, value: Asset): void {
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let from: Account = new Account(null, false, false);
-        let existing = ats.get(value.getSymbol(), from);
+        let from: Account = new Account(null);
+        let existing = ats.get(value.symbolName(), from);
 
-        ultrain_assert(existing, "token.subBalance from account is not exist.");
-        ultrain_assert(from.balance.getAmount() >= value.getAmount(), "overdrawing balance.");
+        ultrain_assert(existing, "token.subBalance: from account is not exist.");
+        ultrain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
 
-        if (ultrain.has_auth(owner)) {
-            ultrain_assert(!st.can_freeze || !from.frozen, "account is frozen by issuer.");
-            ultrain_assert(!st.can_freeze || !st.is_frozen, "all transfrers are frozen by issuer.");
-            ultrain_assert(!st.enforce_whitelist || from.whitelist, "account is not whitelist.");
-        } else if (ultrain.has_auth(st.issuer)) {
-            ultrain_assert(st.can_recall, "issuer may not recall token.");
+        if (from.balance.getAmount() == value.getAmount()) {
+            ats.erase(from);
         } else {
-            ultrain_assert(false, "insufficient authority.");
+            let amount = from.balance.getAmount() - value.getAmount();
+            from.balance.setAmount(amount);
+            ats.modify(from, owner);
         }
-        let amount = from.balance.getAmount() - value.getAmount();
-        from.balance.setAmount(amount);
-        ats.modify(from, owner);
     }
 
-    private addBalance(owner: u64, value: Asset, st: CurrencyStats, ram_payer: u64): void {
+    private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account(null, false, false);
-        let existing = toaccount.get(value.getSymbol(), to);
+        let to: Account = new Account(null);
+        let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
-            ultrain_assert(!st.enforce_whitelist, "can only transfer to white listed accounts.");
-            let a: Account = new Account(value, false, false);
+            let a: Account = new Account(value);
             toaccount.emplace(ram_payer, a);
         } else {
-            ultrain_assert(!st.enforce_whitelist || to.whitelist, "receiver requires whitelist by issuer.");
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
             toaccount.modify(to, 0);
         }
+    }
+
+    public getSupply(symname: symbol_name): Asset {
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
+        let st = new CurrencyStats();
+        let existing = statstable.get(symname, st);
+        ultrain_assert(existing, "getSupply failed, states is not existed.");
+        return st.supply;
+    }
+
+    public getBalance(owner: account_name, symname: symbol_name): Asset {
+        let accounts: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
+        let account = new Account();
+        let existing = accounts.get(symname, account);
+        ultrain_assert(existing, "getBalance failed, account is not existed.")
+
+        return account.balance;
     }
 }

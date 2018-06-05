@@ -9,6 +9,7 @@ export namespace env {
     declare function current_sender(): u64;
     declare function send_inline(data: usize, len: i32): void;
     declare function send_context_free_inline(data: usize, len: i32): void;
+    declare function is_account(account: account_name): boolean;
 
     //transaction_api
     declare function send_defferred(sender_id: u64, payer: u64, data: usize, len: i32): void;
