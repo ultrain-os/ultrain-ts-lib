@@ -24,7 +24,7 @@ export class DataStream {
         let bytes = len * sizeof<T>();
         let arr = new Uint8Array(bytes);
         let ds = new DataStream(<usize>arr.buffer, bytes);
-        for (let i: i32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             ds.write<T>(from[i]);
         }
         return ds;
@@ -45,7 +45,7 @@ export class DataStream {
         let ins = new DataStream(0, 0);
         let len = arr.length;
         ins.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             arr[i].serialize(ins);
         }
         return ins.pos;
@@ -135,7 +135,7 @@ export class DataStream {
         if (len == 0) return new Array<T>();
 
         let arr = new Array<T>(len);
-        for (let i: i32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             arr[i].deserialize(this);
         }
         return arr;
@@ -147,7 +147,7 @@ export class DataStream {
     writeComplexVector<T>(arr: T[]): void {
         let len = arr.length;
         this.writeVarint32(len);
-        for (let i: i32 = 0; i < len; ++i) {
+        for (let i: u32 = 0; i < len; ++i) {
             arr[i].serialize(this);
         }
     }
