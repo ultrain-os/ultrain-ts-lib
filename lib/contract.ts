@@ -1,10 +1,9 @@
-import { DataStream } from "./datastream";
-import { env as ultrain } from "./ultrain-lib";
+import { DataStream } from "../src/datastream";
+import { env as ultrain } from "../src/ultrain-lib";
 
 export interface ISerializable {
     public deserialize(ds: DataStream): void { };
     public serialize(ds : DataStream) : void {};
-    public bytesLength(): u32 { return 0; }
 }
 
 export function DataStreamFromCurrentAction(): DataStream {

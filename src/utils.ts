@@ -116,3 +116,28 @@ export function RN(name: u64): string {
     }
     return str;
 }
+
+export function NameSuffix(n: u64): u64 {
+    let remaining_bits_after_last_actual_dot: u32 = 0;
+    let tmp: u32 = 0;
+
+    for (let remaing_bits: i32 = 59; remaing_bits >= 4; remaing_bits -= 5) {
+        let c: u64 = (n >> remaing_bits) & 0x000000000000001F; /* 64 bits */
+        if (c == 0) {
+            tmp = <u32>remaing_bits;
+        } else {
+            remaining_bits_after_last_actual_dot = tmp;
+        }
+    }
+
+    let thirteenth_character: u64 = n & 0x000000000000000F;
+    if (thirteenth_character != 0) {
+        remaining_bits_after_last_actual_dot = tmp;
+    }
+
+    if (remaining_bits_after_last_actual_dot == 0) return n; // no actual dot in the name except leading dots.
+
+    let mask: u64 = (0x0000000000000001 << remaining_bits_after_last_actual_dot) - 16;
+    let shift = 64 - remaining_bits_after_last_actual_dot;
+    return (((n & mask) << shift) + (thirteenth_character << (shift - 1)));
+}

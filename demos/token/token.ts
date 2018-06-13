@@ -1,8 +1,8 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../src/alias";
-import { Contract, ISerializable } from "../../src/contract";
+import "../../internal/alias.d";
+import { Contract, ISerializable } from "../../lib/contract";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";
 import { env as ultrain } from "../../src/ultrain-lib";

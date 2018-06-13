@@ -280,7 +280,7 @@
   )
   (i32.const 0)
  )
- (func $../../src/contract/Contract#constructor (; 20 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/contract/Contract#constructor (; 20 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (if (result i32)
@@ -788,7 +788,7 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/DataStreamFromCurrentAction (; 26 ;) (type $i) (result i32)
+ (func $../../lib/contract/DataStreamFromCurrentAction (; 26 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (drop
@@ -814,8 +814,8 @@
    (get_local $0)
   )
  )
- (func $../../src/contract/Contract#getDataStream (; 27 ;) (type $ii) (param $0 i32) (result i32)
-  (call $../../src/contract/DataStreamFromCurrentAction)
+ (func $../../lib/contract/Contract#getDataStream (; 27 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../lib/contract/DataStreamFromCurrentAction)
  )
  (func $~lib/string/String#charCodeAt (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
@@ -1079,7 +1079,7 @@
   )
   (get_local $0)
  )
- (func $../../src/transaction/TransactionHeader#constructor (; 32 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/TransactionHeader#constructor (; 32 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (if (result i32)
@@ -1151,7 +1151,7 @@
   )
   (get_local $0)
  )
- (func $../../src/transaction/TransactionHeader#constructor|trampoline (; 33 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/TransactionHeader#constructor|trampoline (; 33 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -1173,7 +1173,7 @@
     (i32.const 0)
    )
   )
-  (call $../../src/transaction/TransactionHeader#constructor
+  (call $../../lib/transaction/TransactionHeader#constructor
    (get_local $0)
    (get_local $1)
    (get_local $2)
@@ -3454,7 +3454,7 @@
   )
   (get_local $1)
  )
- (func $../../src/transaction/TransactionHeader#deserialize (; 46 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/transaction/TransactionHeader#deserialize (; 46 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i32.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u32>
@@ -5244,7 +5244,7 @@
   (local $7 i32)
   (local $8 i32)
   (set_local $1
-   (call $../../src/contract/Contract#getDataStream
+   (call $../../lib/contract/Contract#getDataStream
     (get_local $0)
    )
   )
@@ -5258,7 +5258,7 @@
    (i32.const 0)
   )
   (set_local $2
-   (call $../../src/transaction/TransactionHeader#constructor|trampoline
+   (call $../../lib/transaction/TransactionHeader#constructor|trampoline
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -5322,7 +5322,7 @@
     (get_local $1)
    )
   )
-  (call $../../src/transaction/TransactionHeader#deserialize
+  (call $../../lib/transaction/TransactionHeader#deserialize
    (get_local $2)
    (get_local $1)
   )
@@ -6264,7 +6264,7 @@
   )
   (get_local $2)
  )
- (func $../../src/transaction/Transaction#constructor (; 102 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/Transaction#constructor (; 102 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (if (result i32)
@@ -6292,7 +6292,7 @@
      )
     )
    )
-   (call $../../src/transaction/TransactionHeader#constructor
+   (call $../../lib/transaction/TransactionHeader#constructor
     (i32.const 0)
     (get_local $1)
     (get_local $2)
@@ -6314,7 +6314,7 @@
   )
   (get_local $0)
  )
- (func $../../src/transaction/Transaction#constructor|trampoline (; 103 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/Transaction#constructor|trampoline (; 103 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -6336,7 +6336,7 @@
     (i32.const 0)
    )
   )
-  (call $../../src/transaction/Transaction#constructor
+  (call $../../lib/transaction/Transaction#constructor
    (get_local $0)
    (get_local $1)
    (get_local $2)
@@ -6401,8 +6401,8 @@
   )
   (get_local $3)
  )
- (func $../../src/transaction/Transaction#deserialize (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/transaction/TransactionHeader#deserialize
+ (func $../../lib/transaction/Transaction#deserialize (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/transaction/TransactionHeader#deserialize
    (i32.load
     (get_local $0)
    )
@@ -6556,13 +6556,13 @@
       )
      )
     )
-    (call $../../src/transaction/Transaction#deserialize
+    (call $../../lib/transaction/Transaction#deserialize
      (block (result i32)
       (set_global $~argc
        (i32.const 0)
       )
       (tee_local $7
-       (call $../../src/transaction/Transaction#constructor|trampoline
+       (call $../../lib/transaction/Transaction#constructor|trampoline
         (i32.const 0)
         (i32.const 0)
         (i32.const 0)
@@ -6678,13 +6678,13 @@
     )
    )
   )
-  (call $../../src/transaction/TransactionHeader#deserialize
+  (call $../../lib/transaction/TransactionHeader#deserialize
    (block (result i32)
     (set_global $~argc
      (i32.const 0)
     )
     (tee_local $4
-     (call $../../src/transaction/TransactionHeader#constructor|trampoline
+     (call $../../lib/transaction/TransactionHeader#constructor|trampoline
       (i32.const 0)
       (i32.const 0)
       (i32.const 0)
@@ -6762,9 +6762,9 @@
    )
    (block
     (set_local $3
-     (call $../../src/contract/Contract#getDataStream
+     (call $../../lib/contract/Contract#getDataStream
       (tee_local $4
-       (call $../../src/contract/Contract#constructor
+       (call $../../lib/contract/Contract#constructor
         (i32.const 0)
         (get_local $0)
        )

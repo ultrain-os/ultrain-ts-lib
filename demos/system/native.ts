@@ -2,15 +2,15 @@
  * @author fanliangqin@ultrain.io
  */
 
-import "../../lib/types.d";
+import "../../internal/alias.d";
 
-import { ISerializable, Contract } from "../../src/contract";
+import { ISerializable, Contract } from "../../lib/contract";
 import { PermissionLevel } from "../../src/permission-level";
 import { DataStream } from "../../src/datastream";
-import { PublicKey, Checksum256, NameSuffix } from "../../src/types";
+import { PublicKey, Checksum256 } from "../../src/types";
 import { DBManager } from "../../src/dbmanager";
-import { UserResources } from "./structs";
-import { N, ultrain_assert } from "../../src/utils";
+import { UserResources } from "./delegatebandwidth";
+import { N, ultrain_assert, NameSuffix } from "../../src/utils";
 import { env as ultrain } from "../../src/ultrain-lib";
 
 
@@ -75,7 +75,7 @@ export class Authority implements ISerializable {
 }
 
 /*
- * BlockHeader is not used yet, let it go temply.
+ * BlockHeader is not used yet, let it go temporaryly.
  */
 // class BlockHeader implements ISerializable {
 //     timestamp: u32;
@@ -103,7 +103,7 @@ export class Native extends Contract {
             if (has_dot) {
                 let suffix = NameSuffix(newact);
                 if (suffix == newact) {
-                    // TODO(liangqin): DBManager需要有sedondary支持， 怎么弄？？？？？？？
+                    // TODO(liangqin): DBManager需要有secondary支持， 怎么弄？？？？？？？
                 } else {
                     ultrain_assert(creator == suffix, "native.newaccount: only suffix may create this account.");
                 }

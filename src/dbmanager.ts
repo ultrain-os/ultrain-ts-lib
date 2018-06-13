@@ -4,7 +4,7 @@
 
 import { env as ultrain } from "./ultrain-lib";
 import { Log } from "./log";
-import { ISerializable } from "./contract";
+import { ISerializable } from "../lib/contract";
 import { DataStream } from "./datastream";
 import { ultrain_assert } from "./utils";
 

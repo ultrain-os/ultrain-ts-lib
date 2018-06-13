@@ -3,7 +3,7 @@
  */
 import { Asset } from "./asset";
 import { DataStream } from "./datastream";
-import { ISerializable } from "./contract";
+import { ISerializable } from "../lib/contract";
 import { env as ultrain } from "./ultrain-lib";
 import { PermissionLevel } from "./permission-level";
 
@@ -37,10 +37,6 @@ export class TransferParams implements ISerializable {
         if (this.quantity == null) this.quantity = new Asset();
         this.quantity.deserialize(ds);
         this.memo = ds.readString();
-    }
-
-    public bytesLength(): u32 {
-        return 0;
     }
 }
 

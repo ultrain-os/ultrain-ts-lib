@@ -224,7 +224,7 @@
   )
   (i32.const 0)
  )
- (func $../../src/contract/Contract#constructor (; 9 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/contract/Contract#constructor (; 9 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (if (result i32)
@@ -732,7 +732,7 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/DataStreamFromCurrentAction (; 15 ;) (type $i) (result i32)
+ (func $../../lib/contract/DataStreamFromCurrentAction (; 15 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (drop
@@ -758,8 +758,8 @@
    (get_local $0)
   )
  )
- (func $../../src/contract/Contract#getDataStream (; 16 ;) (type $ii) (param $0 i32) (result i32)
-  (call $../../src/contract/DataStreamFromCurrentAction)
+ (func $../../lib/contract/Contract#getDataStream (; 16 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../lib/contract/DataStreamFromCurrentAction)
  )
  (func $~lib/string/String#charCodeAt (; 17 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
@@ -1089,9 +1089,9 @@
    )
    (block
     (set_local $3
-     (call $../../src/contract/Contract#getDataStream
+     (call $../../lib/contract/Contract#getDataStream
       (tee_local $4
-       (call $../../src/contract/Contract#constructor
+       (call $../../lib/contract/Contract#constructor
         (i32.const 0)
         (get_local $0)
        )

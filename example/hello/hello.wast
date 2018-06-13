@@ -3,11 +3,10 @@
  (type $ii (func (param i32) (result i32)))
  (type $IIIv (func (param i64 i64 i64)))
  (type $iii (func (param i32 i32) (result i32)))
- (type $iiiiv (func (param i32 i32 i32 i32)))
+ (type $v (func))
  (type $iv (func (param i32)))
  (type $Ii (func (param i64) (result i32)))
  (type $iiiv (func (param i32 i32 i32)))
- (type $v (func))
  (type $iIi (func (param i32 i64) (result i32)))
  (type $iIIv (func (param i32 i64 i64)))
  (type $iI (func (param i32) (result i64)))
@@ -17,18 +16,17 @@
  (type $iIiiv (func (param i32 i64 i32 i32)))
  (type $iiv (func (param i32 i32)))
  (type $iIv (func (param i32 i64)))
- (import "env" "abort" (func $abort (param i32 i32 i32 i32)))
+ (import "env" "abort" (func $abort))
  (import "env" "ts_log_print_s" (func $../../src/log/ts_log_print_s (param i32)))
  (import "env" "ts_log_done" (func $../../src/log/ts_log_done))
  (import "env" "action_data_size" (func $../../src/ultrain-lib/env.action_data_size (result i32)))
  (import "env" "read_action_data" (func $../../src/ultrain-lib/env.read_action_data (param i32 i32) (result i32)))
  (import "env" "ts_log_print_i" (func $../../src/log/ts_log_print_i (param i64 i32)))
- (import "env" "eosio_assert" (func $../../src/ultrain-lib/env.eosio_assert (param i32 i32)))
+ (import "env" "ultrainio_assert" (func $../../src/ultrain-lib/env.ultrainio_assert (param i32 i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
- (global $~argc (mut i32) (i32.const 0))
- (global $HEAP_BASE i32 (i32.const 1876))
+ (global $HEAP_BASE i32 (i32.const 1912))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 ")
  (data (i32.const 16) "\01\00\00\00!")
@@ -134,14 +132,16 @@
  (data (i32.const 1572) "\04\00\00\00n\00u\00l\00l")
  (data (i32.const 1584) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
  (data (i32.const 1636) "\07\00\00\00 \00c\00o\00d\00e\00:\00 ")
- (data (i32.const 1656) "\02\00\00\00h\00i")
- (data (i32.const 1664) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s")
- (data (i32.const 1724) "\t\00\00\00a\00m\00o\00u\00n\00t\00 \00=\00 ")
- (data (i32.const 1748) "\n\00\00\00 \00s\00y\00m\00b\00o\00l\00 \00=\00 ")
- (data (i32.const 1772) "\0e\00\00\00o\00n\00_\00h\00i\00:\00 \00n\00a\00m\00e\00 \00=\00 ")
- (data (i32.const 1804) "\07\00\00\00 \00a\00g\00e\00 \00=\00 ")
- (data (i32.const 1824) "\07\00\00\00 \00m\00s\00g\00 \00=\00 ")
- (data (i32.const 1844) "\0e\00\00\00u\00n\00k\00n\00o\00w\00n\00 \00a\00c\00t\00i\00o\00n")
+ (data (i32.const 1656) "\05\00\00\00e\00n\00t\00r\00y")
+ (data (i32.const 1672) "\02\00\00\00h\00i")
+ (data (i32.const 1680) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s")
+ (data (i32.const 1740) "\07\00\00\00a\00a\00a\00a\00a\00 \00 ")
+ (data (i32.const 1760) "\t\00\00\00a\00m\00o\00u\00n\00t\00 \00=\00 ")
+ (data (i32.const 1784) "\n\00\00\00 \00s\00y\00m\00b\00o\00l\00 \00=\00 ")
+ (data (i32.const 1808) "\0e\00\00\00o\00n\00_\00h\00i\00:\00 \00n\00a\00m\00e\00 \00=\00 ")
+ (data (i32.const 1840) "\07\00\00\00 \00a\00g\00e\00 \00=\00 ")
+ (data (i32.const 1860) "\07\00\00\00 \00m\00s\00g\00 \00=\00 ")
+ (data (i32.const 1880) "\0e\00\00\00u\00n\00k\00n\00o\00w\00n\00 \00a\00c\00t\00i\00o\00n")
  (export "HelloContract#on_hi" (func $hello/HelloContract#on_hi))
  (export "HelloContract#apply" (func $hello/HelloContract#apply))
  (export "apply" (func $hello/apply))
@@ -3039,7 +3039,7 @@
  (func $../../src/log/Logger#flush (; 23 ;) (type $iv) (param $0 i32)
   (call $../../src/log/ts_log_done)
  )
- (func $../../src/contract/Contract#constructor (; 24 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/contract/Contract#constructor (; 24 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (if (result i32)
@@ -3235,7 +3235,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 1664)
+     (i32.const 1680)
      (i32.const 18)
      (i32.const 34)
     )
@@ -3330,7 +3330,8 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/Contract#getDataStream (; 29 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/contract/DataStreamFromCurrentAction (; 29 ;) (type $i) (result i32)
+  (local $0 i32)
   (local $1 i32)
   (drop
    (call $../../src/ultrain-lib/env.read_action_data
@@ -3355,7 +3356,10 @@
    (get_local $0)
   )
  )
- (func $../../src/datastream/DataStream#read<u64> (; 30 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/contract/Contract#getDataStream (; 30 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../lib/contract/DataStreamFromCurrentAction)
+ )
+ (func $../../src/datastream/DataStream#read<u64> (; 31 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -3380,7 +3384,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#read<u32> (; 31 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u32> (; 32 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load
@@ -3405,7 +3409,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#read<u8> (; 32 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u8> (; 33 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -3430,7 +3434,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readVarint32 (; 33 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVarint32 (; 34 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3473,7 +3477,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readString (; 34 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readString (; 35 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3525,64 +3529,36 @@
   )
   (get_local $3)
  )
- (func $../../src/log/Logger#i (; 35 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/log/Logger#i (; 36 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (call $../../src/log/ts_log_print_i
    (get_local $1)
    (get_local $2)
   )
   (get_local $0)
  )
- (func $../../src/log/Logger#i|trampoline (; 36 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
-  (block $1of1
-   (block $0of1
-    (block $oob
-     (br_table $0of1 $1of1 $oob
-      (i32.sub
-       (get_global $~argc)
-       (i32.const 1)
-      )
-     )
-    )
-    (unreachable)
-   )
-   (set_local $2
-    (i32.const 10)
-   )
-  )
-  (call $../../src/log/Logger#i
-   (get_local $0)
-   (get_local $1)
-   (get_local $2)
-  )
- )
  (func $hello/HelloContract#on_hi (; 37 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (call $../../src/log/Logger#s
-     (block (result i32)
-      (set_global $~argc
-       (i32.const 1)
-      )
-      (call $../../src/log/Logger#i|trampoline
+     (call $../../src/log/Logger#i
+      (call $../../src/log/Logger#s
        (call $../../src/log/Logger#s
         (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#s
-          (get_global $../../src/log/Log)
-          (i32.const 1772)
-         )
-         (call $../../src/utils/RN
-          (get_local $1)
-         )
+         (get_global $../../src/log/Log)
+         (i32.const 1808)
         )
-        (i32.const 1804)
+        (call $../../src/utils/RN
+         (get_local $1)
+        )
        )
-       (i64.extend_s/i32
-        (get_local $2)
-       )
-       (i32.const 0)
+       (i32.const 1840)
       )
+      (i64.extend_s/i32
+       (get_local $2)
+      )
+      (i32.const 10)
      )
-     (i32.const 1824)
+     (i32.const 1860)
     )
     (get_local $3)
    )
@@ -3917,7 +3893,7 @@
      (i32.const 1)
     )
    )
-   (call $../../src/ultrain-lib/env.eosio_assert
+   (call $../../src/ultrain-lib/env.ultrainio_assert
     (i32.const 0)
     (call $../../src/utils/string2cstr
      (get_local $1)
@@ -3930,20 +3906,37 @@
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
+  (call $../../src/log/Logger#flush
+   (call $../../src/log/Logger#s
+    (get_global $../../src/log/Log)
+    (i32.const 1656)
+   )
+  )
   (if
    (i64.eq
     (get_local $2)
     (call $../../src/utils/N
-     (i32.const 1656)
+     (i32.const 1672)
     )
    )
    (block
     (set_local $1
      (call $../../src/datastream/DataStream#read<u64>
       (tee_local $3
-       (call $../../src/contract/Contract#getDataStream
+       (call $../../lib/contract/Contract#getDataStream
         (get_local $0)
        )
+      )
+     )
+    )
+    (call $../../src/log/Logger#flush
+     (call $../../src/log/Logger#s
+      (call $../../src/log/Logger#s
+       (get_global $../../src/log/Log)
+       (i32.const 1740)
+      )
+      (call $../../src/utils/RN
+       (get_local $1)
       )
      )
     )
@@ -3970,20 +3963,15 @@
     (call $../../src/log/Logger#flush
      (call $../../src/log/Logger#i
       (call $../../src/log/Logger#s
-       (block (result i32)
-        (set_global $~argc
-         (i32.const 1)
+       (call $../../src/log/Logger#i
+        (call $../../src/log/Logger#s
+         (get_global $../../src/log/Log)
+         (i32.const 1760)
         )
-        (call $../../src/log/Logger#i|trampoline
-         (call $../../src/log/Logger#s
-          (get_global $../../src/log/Log)
-          (i32.const 1724)
-         )
-         (get_local $2)
-         (i32.const 0)
-        )
+        (get_local $2)
+        (i32.const 10)
        )
-       (i32.const 1748)
+       (i32.const 1784)
       )
       (get_local $6)
       (i32.const 16)
@@ -3998,7 +3986,7 @@
    )
    (call $../../src/utils/ultrain_assert
     (i32.const 0)
-    (i32.const 1844)
+    (i32.const 1880)
    )
   )
  )
@@ -4023,7 +4011,7 @@
    )
   )
   (call $hello/HelloContract#apply
-   (call $../../src/contract/Contract#constructor
+   (call $../../lib/contract/Contract#constructor
     (i32.const 0)
     (get_local $0)
    )

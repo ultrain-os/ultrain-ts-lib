@@ -26,7 +26,3 @@ export class AccountPermission {
     account: account_name;
     permission: permission_name;
 }
-
-export function NameSuffix(n: u64): u64 {
-    return 0;
-}

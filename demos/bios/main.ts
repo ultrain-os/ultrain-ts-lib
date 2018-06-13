@@ -2,7 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "../../src/alias";
 import { Bios } from "./bios";
 import { N, RN } from "../../src/utils";
 import { env as ultrain } from "../../src/ultrain-lib";

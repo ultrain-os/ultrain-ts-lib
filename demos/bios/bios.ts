@@ -1,9 +1,8 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-
-import "../../src/alias";
-import { Contract } from "../../src/contract";
+import "../../internal/alias.d";
+import { Contract } from "../../lib/contract";
 import { env as ultrain } from "../../src/ultrain-lib";
 
 export class Bios extends Contract {

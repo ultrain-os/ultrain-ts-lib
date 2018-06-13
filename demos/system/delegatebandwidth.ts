@@ -1,9 +1,9 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../lib/types.d";
+import "../../internal/alias.d";
 import { Asset } from "../../src/asset";
-import { ISerializable } from "../../src/contract";
+import { ISerializable } from "../../lib/contract";
 import { DataStream } from "../../src/datastream";
 
 export let refund_delay: time = 3 * 24 * 3600;
@@ -76,10 +76,10 @@ export class RefundRequest implements ISerializable {
     cpu_amount: Asset;
 
     constructor() {
-        this.owner = 0;
+        this.owner        = 0;
         this.request_time = 0;
-        this.net_amount = new Asset();
-        this.cpu_amount = new Asset();
+        this.net_amount   = new Asset();
+        this.cpu_amount   = new Asset();
     }
 
     serialize(ds: DataStream): void {
@@ -90,7 +90,7 @@ export class RefundRequest implements ISerializable {
     }
 
     deserialize(ds: DataStream): void {
-        this.owner = ds.read<account_name>();
+        this.owner        = ds.read<account_name>();
         this.request_time = ds.read<time>();
         this.net_amount.deserialize(ds);
         this.cpu_amount.deserialize(ds);

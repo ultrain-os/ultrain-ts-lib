@@ -1,9 +1,9 @@
-import { ISerializable, DataStreamFromCurrentAction } from "./contract";
-import { DataStream } from "./datastream";
-import { env as ultrain } from "./ultrain-lib";
-import { PermissionLevel } from "./permission-level";
-import { Action } from "./action";
-import { ultrain_assert } from "./utils";
+import { ISerializable, DataStreamFromCurrentAction } from "../lib/contract";
+import { DataStream } from "../src/datastream";
+import { env as ultrain } from "../src/ultrain-lib";
+import { PermissionLevel } from "../src/permission-level";
+import { Action } from "../src/action";
+import { ultrain_assert } from "../src/utils";
 
 export class TransactionHeader implements ISerializable {
 

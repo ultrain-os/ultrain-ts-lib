@@ -4,7 +4,7 @@ import "allocator/arena";
 import { DataStream } from "../../src/datastream";
 import { printstr, N, ultrain_assert, RN } from "../../src/utils";
 import { Log } from "../../src/log";
-import { Contract } from "../../src/contract";
+import { Contract } from "../../lib/contract";
 
 export function apply(receiver: u64, code: u64, action: u64): void {
     Log.s("receiver: ").s(RN(receiver)).s(" code: ").s(RN(code)).flush();
@@ -21,9 +21,12 @@ export class HelloContract extends Contract {
     }
 
     apply(code: u64, action: u64): void {
+        Log.s("entry").flush();
         if (action == N("hi")) {
             let ds = this.getDataStream();
             let name = ds.read<u64>();
+
+            Log.s("aaaaa  ").s(RN(name)).flush();
             let age = ds.read<u32>();
             let msg = ds.readString();
 

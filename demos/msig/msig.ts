@@ -2,14 +2,13 @@
  * @author fanliangqin@ultrain.io
  */
 
-import "../../src/alias";
-import "../../lib/types.d";
-import { public_key } from "../../src/types";
-import { Contract, ISerializable } from "../../src/contract";
+import "../../internal/alias.d";
+import "../../internal/alias.d";
+import { Contract, ISerializable } from "../../lib/contract";
 import { env as ultrain } from "../../src/ultrain-lib";
 import { DataStream, DSHelper } from "../../src/datastream";
 import { PermissionLevel } from "../../src/permission-level";
-import { TransactionHeader, checkAuth, Transaction } from "../../src/transaction";
+import { TransactionHeader, checkAuth, Transaction } from "../../lib/transaction";
 import { ultrain_assert, N } from "../../src/utils";
 import { DBManager } from "../../src/dbmanager";
 import { requirePermissionLevel } from "../../src/action";

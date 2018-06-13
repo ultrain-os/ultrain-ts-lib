@@ -2,7 +2,7 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "../../src/alias";
+import "../../internal/alias.d";
 import { MultiSig } from "./msig";
 import { N } from "../../src/utils";
 import { env as ultrain } from "../../src/ultrain-lib";
