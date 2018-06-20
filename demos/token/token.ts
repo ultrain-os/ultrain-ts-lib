@@ -5,12 +5,12 @@ import "../../internal/alias.d";
 import { Contract, ISerializable } from "../../lib/contract";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";
-import { env as ultrain } from "../../src/ultrain-lib";
 import { DataStream } from "../../src/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
 import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
+import { env as action } from "../../internal/action.d";
 
 class Account implements ISerializable {
     balance: Asset;
@@ -73,7 +73,7 @@ const ACCOUNTTABLE: string = "accounts";
 export class Token extends Contract {
 
     public create(issuer: account_name, maximum_supply: Asset): void {
-        ultrain.require_auth(this.receiver);
+        action.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
@@ -101,7 +101,7 @@ export class Token extends Contract {
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
 
 
-        ultrain.require_auth(st.issuer);
+        action.require_auth(st.issuer);
         ultrain_assert(quantity.isValid(), "token.issue: invalid quantity.");
         ultrain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
         ultrain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
@@ -128,8 +128,8 @@ export class Token extends Contract {
         // Log.s("Transfer: ").i(from, 16).s("     ").i(to, 16).s("     ").s(memo).flush();
         // quantity.prints("Transfer");
         ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
-        ultrain.require_auth(from);
-        ultrain_assert(ultrain.is_account(to), "token.transfer: to account does not exist.");
+        action.require_auth(from);
+        ultrain_assert(action.is_account(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
@@ -138,8 +138,8 @@ export class Token extends Contract {
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
 
-        ultrain.require_recipient(from);
-        ultrain.require_recipient(to);
+        action.require_recipient(from);
+        action.require_recipient(to);
 
         ultrain_assert(quantity.isValid(), "token.transfer: invalid quantity.");
         ultrain_assert(quantity.getSymbol() == st.supply.getSymbol(), "token.transfer: symbol precision mismatch.");

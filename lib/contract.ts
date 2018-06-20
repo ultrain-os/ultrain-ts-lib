@@ -1,5 +1,5 @@
 import { DataStream } from "../src/datastream";
-import { env as ultrain } from "../src/ultrain-lib";
+import { env as action } from "../internal/action.d";
 
 export interface ISerializable {
     public deserialize(ds: DataStream): void { };
@@ -7,9 +7,9 @@ export interface ISerializable {
 }
 
 export function DataStreamFromCurrentAction(): DataStream {
-    let len = ultrain.action_data_size();
+    let len = action.action_data_size();
     let arr = new Uint8Array(len);
-    ultrain.read_action_data(<usize>arr.buffer, len);
+    action.read_action_data(<usize>arr.buffer, len);
     let ds = new DataStream(<usize>arr.buffer, len);
     return ds;
 }

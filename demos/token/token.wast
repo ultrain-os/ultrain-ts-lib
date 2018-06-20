@@ -28,29 +28,29 @@
  (type $iIIiv (func (param i32 i64 i64 i32)))
  (type $iIIiiv (func (param i32 i64 i64 i32 i32)))
  (type $Ii (func (param i64) (result i32)))
- (import "env" "action_data_size" (func $../../src/ultrain-lib/env.action_data_size (result i32)))
+ (import "env" "action_data_size" (func $../../internal/action.d/env.action_data_size (result i32)))
  (import "env" "abort" (func $abort))
- (import "env" "read_action_data" (func $../../src/ultrain-lib/env.read_action_data (param i32 i32) (result i32)))
- (import "env" "require_auth" (func $../../src/ultrain-lib/env.require_auth (param i64)))
- (import "env" "ultrainio_assert" (func $../../src/ultrain-lib/env.ultrainio_assert (param i32 i32)))
+ (import "env" "read_action_data" (func $../../internal/action.d/env.read_action_data (param i32 i32) (result i32)))
+ (import "env" "require_auth" (func $../../internal/action.d/env.require_auth (param i64)))
+ (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/ts_log_print_s (param i32)))
  (import "env" "ts_log_print_i" (func $../../src/log/ts_log_print_i (param i64 i32)))
  (import "env" "ts_log_done" (func $../../src/log/ts_log_done))
- (import "env" "db_find_i64" (func $../../src/ultrain-lib/env.db_find_i64 (param i64 i64 i64 i64) (result i32)))
- (import "env" "db_get_i64" (func $../../src/ultrain-lib/env.db_get_i64 (param i32 i32 i32) (result i32)))
- (import "env" "current_receiver" (func $../../src/ultrain-lib/env.current_receiver (result i64)))
- (import "env" "db_store_i64" (func $../../src/ultrain-lib/env.db_store_i64 (param i64 i64 i64 i64 i32 i32) (result i32)))
- (import "env" "db_update_i64" (func $../../src/ultrain-lib/env.db_update_i64 (param i32 i64 i32 i32)))
- (import "env" "send_inline" (func $../../src/ultrain-lib/env.send_inline (param i32 i32)))
- (import "env" "is_account" (func $../../src/ultrain-lib/env.is_account (param i64) (result i32)))
- (import "env" "require_recipient" (func $../../src/ultrain-lib/env.require_recipient (param i64)))
- (import "env" "db_remove_i64" (func $../../src/ultrain-lib/env.db_remove_i64 (param i32)))
- (import "env" "ultrainio_exit" (func $../../src/ultrain-lib/env.ultrainio_exit (param i32)))
+ (import "env" "db_find_i64" (func $../../internal/db.d/env.db_find_i64 (param i64 i64 i64 i64) (result i32)))
+ (import "env" "db_get_i64" (func $../../internal/db.d/env.db_get_i64 (param i32 i32 i32) (result i32)))
+ (import "env" "current_receiver" (func $../../internal/action.d/env.current_receiver (result i64)))
+ (import "env" "db_store_i64" (func $../../internal/db.d/env.db_store_i64 (param i64 i64 i64 i64 i32 i32) (result i32)))
+ (import "env" "db_update_i64" (func $../../internal/db.d/env.db_update_i64 (param i32 i64 i32 i32)))
+ (import "env" "send_inline" (func $../../internal/action.d/env.send_inline (param i32 i32)))
+ (import "env" "is_account" (func $../../internal/action.d/env.is_account (param i64) (result i32)))
+ (import "env" "require_recipient" (func $../../internal/action.d/env.require_recipient (param i64)))
+ (import "env" "db_remove_i64" (func $../../internal/db.d/env.db_remove_i64 (param i32)))
+ (import "env" "ultrainio_exit" (func $../../internal/system.d/env.ultrainio_exit (param i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
  (global $~argc (mut i32) (i32.const 0))
- (global $HEAP_BASE i32 (i32.const 4024))
+ (global $HEAP_BASE i32 (i32.const 3908))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 ")
  (data (i32.const 16) "\01\00\00\00!")
@@ -162,35 +162,32 @@
  (data (i32.const 1744) "\06\00\00\00 \00i\00d\00 \00=\00 ")
  (data (i32.const 1760) "!\00\00\00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00y\00m\00b\00o\00l\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00s\00.")
  (data (i32.const 1832) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t")
- (data (i32.const 1940) "\1a\00\00\00d\00b\00m\00a\00n\00a\00g\00e\00r\00.\00e\00m\00p\00l\00a\00c\00e\00 \00s\00c\00o\00p\00e\00 \00=\00 ")
- (data (i32.const 1996) "\t\00\00\00 \00p\00a\00y\00e\00r\00 \00=\00 ")
- (data (i32.const 2020) "\0f\00\00\00 \00b\00u\00f\00f\00e\00r\00_\00s\00i\00z\00e\00 \00=\00 ")
- (data (i32.const 2056) "\05\00\00\00i\00s\00s\00u\00e")
- (data (i32.const 2072) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
- (data (i32.const 2124) " \00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e")
- (data (i32.const 2192) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.")
- (data (i32.const 2280) "&\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
- (data (i32.const 2360) "\1e\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.")
- (data (i32.const 2424) "\'\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.")
- (data (i32.const 2508) "/\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00e\00x\00c\00e\00e\00d\00s\00 \00a\00v\00a\00i\00l\00a\00b\00l\00e\00 \00s\00u\00p\00p\00l\00y\00.")
- (data (i32.const 2608) "1\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 2712) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
- (data (i32.const 2820) ";\00\00\00u\00p\00d\00a\00t\00e\00r\00 \00c\00a\00n\00n\00o\00t\00 \00c\00h\00a\00n\00g\00e\00 \00p\00r\00i\00m\00a\00r\00y\00 \00k\00e\00y\00 \00w\00h\00e\00n\00 \00m\00o\00d\00i\00f\00y\00i\00n\00g\00 \00a\00n\00 \00o\00b\00j\00e\00c\00t\00.")
- (data (i32.const 2944) "\06\00\00\00a\00c\00t\00i\00v\00e")
- (data (i32.const 2960) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r")
- (data (i32.const 2980) "\08\00\00\00 \00a\00c\00t\00o\00r\00:\00 ")
- (data (i32.const 3000) "\0d\00\00\00 \00p\00e\00r\00m\00i\00s\00s\00i\00o\00n\00:\00 ")
- (data (i32.const 3032) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00c\00a\00n\00n\00o\00t\00 \00t\00r\00a\00n\00s\00f\00e\00r\00 \00t\00o\00 \00s\00e\00l\00f\00.")
- (data (i32.const 3116) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00 \00a\00c\00c\00o\00u\00n\00t\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
- (data (i32.const 3204) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
- (data (i32.const 3288) "!\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.")
- (data (i32.const 3360) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.")
- (data (i32.const 3448) "-\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.")
- (data (i32.const 3544) ",\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00f\00r\00o\00m\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
- (data (i32.const 3636) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.")
- (data (i32.const 3716) "3\00\00\00a\00t\00t\00e\00m\00p\00t\00 \00t\00o\00 \00r\00e\00m\00o\00v\00e\00 \00o\00b\00j\00e\00c\00t\00 \00t\00h\00a\00t\00 \00w\00a\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 3824) "+\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00e\00r\00a\00s\00e\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 3916) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
+ (data (i32.const 1940) "\05\00\00\00i\00s\00s\00u\00e")
+ (data (i32.const 1956) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s")
+ (data (i32.const 2008) " \00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e")
+ (data (i32.const 2076) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.")
+ (data (i32.const 2164) "&\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
+ (data (i32.const 2244) "\1e\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.")
+ (data (i32.const 2308) "\'\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.")
+ (data (i32.const 2392) "/\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00e\00x\00c\00e\00e\00d\00s\00 \00a\00v\00a\00i\00l\00a\00b\00l\00e\00 \00s\00u\00p\00p\00l\00y\00.")
+ (data (i32.const 2492) "1\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 2596) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
+ (data (i32.const 2704) ";\00\00\00u\00p\00d\00a\00t\00e\00r\00 \00c\00a\00n\00n\00o\00t\00 \00c\00h\00a\00n\00g\00e\00 \00p\00r\00i\00m\00a\00r\00y\00 \00k\00e\00y\00 \00w\00h\00e\00n\00 \00m\00o\00d\00i\00f\00y\00i\00n\00g\00 \00a\00n\00 \00o\00b\00j\00e\00c\00t\00.")
+ (data (i32.const 2828) "\06\00\00\00a\00c\00t\00i\00v\00e")
+ (data (i32.const 2844) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r")
+ (data (i32.const 2864) "\08\00\00\00 \00a\00c\00t\00o\00r\00:\00 ")
+ (data (i32.const 2884) "\0d\00\00\00 \00p\00e\00r\00m\00i\00s\00s\00i\00o\00n\00:\00 ")
+ (data (i32.const 2916) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00c\00a\00n\00n\00o\00t\00 \00t\00r\00a\00n\00s\00f\00e\00r\00 \00t\00o\00 \00s\00e\00l\00f\00.")
+ (data (i32.const 3000) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00 \00a\00c\00c\00o\00u\00n\00t\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
+ (data (i32.const 3088) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
+ (data (i32.const 3172) "!\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.")
+ (data (i32.const 3244) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.")
+ (data (i32.const 3332) "-\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.")
+ (data (i32.const 3428) ",\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00f\00r\00o\00m\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.")
+ (data (i32.const 3520) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.")
+ (data (i32.const 3600) "3\00\00\00a\00t\00t\00e\00m\00p\00t\00 \00t\00o\00 \00r\00e\00m\00o\00v\00e\00 \00o\00b\00j\00e\00c\00t\00 \00t\00h\00a\00t\00 \00w\00a\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 3708) "+\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00e\00r\00a\00s\00e\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 3800) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
  (export "apply" (func $main/apply))
  (export "memory" (memory $0))
  (start $start)
@@ -795,13 +792,13 @@
   (local $0 i32)
   (local $1 i32)
   (drop
-   (call $../../src/ultrain-lib/env.read_action_data
+   (call $../../internal/action.d/env.read_action_data
     (i32.load
      (tee_local $1
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.action_data_size)
+        (call $../../internal/action.d/env.action_data_size)
        )
       )
      )
@@ -3547,7 +3544,7 @@
      (i32.const 1)
     )
    )
-   (call $../../src/ultrain-lib/env.ultrainio_assert
+   (call $../../internal/system.d/env.ultrainio_assert
     (i32.const 0)
     (call $../../src/utils/string2cstr
      (get_local $1)
@@ -3888,7 +3885,7 @@
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.db_get_i64
+        (call $../../internal/db.d/env.db_get_i64
          (get_local $1)
          (i32.const 0)
          (i32.const 0)
@@ -3901,7 +3898,7 @@
    )
   )
   (drop
-   (call $../../src/ultrain-lib/env.db_get_i64
+   (call $../../internal/db.d/env.db_get_i64
     (get_local $1)
     (i32.load
      (get_local $3)
@@ -4121,7 +4118,7 @@
   (if
    (i32.lt_s
     (tee_local $3
-     (call $../../src/ultrain-lib/env.db_find_i64
+     (call $../../internal/db.d/env.db_find_i64
       (i64.load offset=8
        (get_local $0)
       )
@@ -4274,7 +4271,7 @@
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
    (i32.const 1832)
   )
@@ -4311,55 +4308,9 @@
     (get_local $2)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#i
-      (call $../../src/log/Logger#s
-       (call $../../src/log/Logger#i
-        (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#i
-          (call $../../src/log/Logger#s
-           (call $../../src/log/Logger#i
-            (call $../../src/log/Logger#s
-             (get_global $../../src/log/Log)
-             (i32.const 1940)
-            )
-            (i64.load offset=16
-             (get_local $0)
-            )
-            (i32.const 16)
-           )
-           (i32.const 1720)
-          )
-          (i64.load
-           (get_local $0)
-          )
-          (i32.const 16)
-         )
-         (i32.const 1996)
-        )
-        (get_local $1)
-        (i32.const 16)
-       )
-       (i32.const 1744)
-      )
-      (get_local $5)
-      (i32.const 16)
-     )
-     (i32.const 2020)
-    )
-    (i64.extend_s/i32
-     (i32.load offset=8
-      (get_local $3)
-     )
-    )
-    (i32.const 16)
-   )
-  )
   (i32.store offset=4
    (get_local $4)
-   (call $../../src/ultrain-lib/env.db_store_i64
+   (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
     )
@@ -4389,7 +4340,7 @@
   (local $3 i32)
   (local $4 i64)
   (local $5 i32)
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (i64.load
     (get_local $0)
    )
@@ -4552,7 +4503,7 @@
    (block
     (call $abort
      (i32.const 0)
-     (i32.const 2072)
+     (i32.const 1956)
      (i32.const 20)
      (i32.const 2)
     )
@@ -4713,16 +4664,16 @@
     )
     (get_local $3)
    )
-   (i32.const 2608)
+   (i32.const 2492)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2712)
+   (i32.const 2596)
   )
   (set_local $6
    (call $token/CurrencyStats#primaryKey
@@ -4744,7 +4695,7 @@
      )
     )
    )
-   (i32.const 2820)
+   (i32.const 2704)
   )
   (call $token/CurrencyStats#serialize
    (get_local $1)
@@ -4765,7 +4716,7 @@
     )
    )
   )
-  (call $../../src/ultrain-lib/env.db_update_i64
+  (call $../../internal/db.d/env.db_update_i64
    (i32.load offset=4
     (get_local $4)
    )
@@ -4838,7 +4789,7 @@
       (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.db_get_i64
+        (call $../../internal/db.d/env.db_get_i64
          (get_local $1)
          (i32.const 0)
          (i32.const 0)
@@ -4851,7 +4802,7 @@
    )
   )
   (drop
-   (call $../../src/ultrain-lib/env.db_get_i64
+   (call $../../internal/db.d/env.db_get_i64
     (get_local $1)
     (i32.load
      (get_local $3)
@@ -4961,7 +4912,7 @@
   (if
    (i32.lt_s
     (tee_local $3
-     (call $../../src/ultrain-lib/env.db_find_i64
+     (call $../../internal/db.d/env.db_find_i64
       (i64.load offset=8
        (get_local $0)
       )
@@ -5041,7 +4992,7 @@
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
    (i32.const 1832)
   )
@@ -5078,55 +5029,9 @@
     (get_local $2)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#i
-      (call $../../src/log/Logger#s
-       (call $../../src/log/Logger#i
-        (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#i
-          (call $../../src/log/Logger#s
-           (call $../../src/log/Logger#i
-            (call $../../src/log/Logger#s
-             (get_global $../../src/log/Log)
-             (i32.const 1940)
-            )
-            (i64.load offset=16
-             (get_local $0)
-            )
-            (i32.const 16)
-           )
-           (i32.const 1720)
-          )
-          (i64.load
-           (get_local $0)
-          )
-          (i32.const 16)
-         )
-         (i32.const 1996)
-        )
-        (get_local $1)
-        (i32.const 16)
-       )
-       (i32.const 1744)
-      )
-      (get_local $5)
-      (i32.const 16)
-     )
-     (i32.const 2020)
-    )
-    (i64.extend_s/i32
-     (i32.load offset=8
-      (get_local $3)
-     )
-    )
-    (i32.const 16)
-   )
-  )
   (i32.store offset=4
    (get_local $4)
-   (call $../../src/ultrain-lib/env.db_store_i64
+   (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
     )
@@ -5227,16 +5132,16 @@
     )
     (get_local $3)
    )
-   (i32.const 2608)
+   (i32.const 2492)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2712)
+   (i32.const 2596)
   )
   (set_local $6
    (call $token/CurrencyStats#primaryKey
@@ -5258,7 +5163,7 @@
      )
     )
    )
-   (i32.const 2820)
+   (i32.const 2704)
   )
   (call $token/Account#serialize
    (get_local $1)
@@ -5279,7 +5184,7 @@
     )
    )
   )
-  (call $../../src/ultrain-lib/env.db_update_i64
+  (call $../../internal/db.d/env.db_update_i64
    (i32.load offset=4
     (get_local $4)
    )
@@ -5840,7 +5745,7 @@
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
      (get_global $../../src/log/Log)
-     (i32.const 2980)
+     (i32.const 2864)
     )
     (i64.load
      (get_local $0)
@@ -5852,7 +5757,7 @@
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
      (get_global $../../src/log/Log)
-     (i32.const 3000)
+     (i32.const 2884)
     )
     (i64.load offset=8
      (get_local $0)
@@ -6059,7 +5964,7 @@
     )
    )
   )
-  (call $../../src/ultrain-lib/env.send_inline
+  (call $../../internal/action.d/env.send_inline
    (i32.load
     (get_local $0)
    )
@@ -6077,7 +5982,7 @@
    (call $../../src/asset/Asset#isSymbolValid
     (get_local $2)
    )
-   (i32.const 2124)
+   (i32.const 2008)
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -6086,7 +5991,7 @@
     )
     (i32.const 256)
    )
-   (i32.const 2192)
+   (i32.const 2076)
   )
   (set_local $5
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -6118,9 +6023,9 @@
     )
     (get_local $4)
    )
-   (i32.const 2280)
+   (i32.const 2164)
   )
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (i64.load offset=8
     (get_local $4)
    )
@@ -6129,7 +6034,7 @@
    (call $../../src/asset/Asset#isValid
     (get_local $2)
    )
-   (i32.const 2360)
+   (i32.const 2244)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6142,7 +6047,7 @@
      )
     )
    )
-   (i32.const 2424)
+   (i32.const 2308)
   )
   (call $../../src/utils/ultrain_assert
    (i64.le_u
@@ -6162,7 +6067,7 @@
      )
     )
    )
-   (i32.const 2508)
+   (i32.const 2392)
   )
   (set_local $7
    (i64.add
@@ -6223,7 +6128,7 @@
     (i64.store offset=8
      (get_local $6)
      (call $../../src/utils/N
-      (i32.const 2944)
+      (i32.const 2828)
      )
     )
     (set_global $~argc
@@ -6261,7 +6166,7 @@
       (get_local $0)
      )
      (call $../../src/utils/N
-      (i32.const 2960)
+      (i32.const 2844)
      )
      (get_local $5)
     )
@@ -6421,7 +6326,7 @@
     (get_local $2)
     (get_local $3)
    )
-   (i32.const 3716)
+   (i32.const 3600)
   )
   (call $../../src/utils/ultrain_assert
    (i32.eq
@@ -6437,16 +6342,16 @@
     )
     (get_local $0)
    )
-   (i32.const 3824)
+   (i32.const 3708)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 3916)
+   (i32.const 3800)
   )
   (call $~lib/array/Array<DataItem<Account>>#splice
    (i32.load offset=24
@@ -6455,7 +6360,7 @@
    (get_local $2)
    (i32.const 1)
   )
-  (call $../../src/ultrain-lib/env.db_remove_i64
+  (call $../../internal/db.d/env.db_remove_i64
    (i32.load offset=4
     (get_local $1)
    )
@@ -6490,7 +6395,7 @@
     )
     (get_local $0)
    )
-   (i32.const 3544)
+   (i32.const 3428)
   )
   (call $../../src/utils/ultrain_assert
    (i64.ge_u
@@ -6503,7 +6408,7 @@
      (get_local $2)
     )
    )
-   (i32.const 3636)
+   (i32.const 3520)
   )
   (if
    (i64.eq
@@ -6555,16 +6460,16 @@
     (get_local $1)
     (get_local $2)
    )
-   (i32.const 3032)
+   (i32.const 2916)
   )
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (get_local $1)
   )
   (call $../../src/utils/ultrain_assert
-   (call $../../src/ultrain-lib/env.is_account
+   (call $../../internal/action.d/env.is_account
     (get_local $2)
    )
-   (i32.const 3116)
+   (i32.const 3000)
   )
   (set_local $6
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -6596,19 +6501,19 @@
     )
     (get_local $5)
    )
-   (i32.const 3204)
+   (i32.const 3088)
   )
-  (call $../../src/ultrain-lib/env.require_recipient
+  (call $../../internal/action.d/env.require_recipient
    (get_local $1)
   )
-  (call $../../src/ultrain-lib/env.require_recipient
+  (call $../../internal/action.d/env.require_recipient
    (get_local $2)
   )
   (call $../../src/utils/ultrain_assert
    (call $../../src/asset/Asset#isValid
     (get_local $3)
    )
-   (i32.const 3288)
+   (i32.const 3172)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6621,7 +6526,7 @@
      )
     )
    )
-   (i32.const 3360)
+   (i32.const 3244)
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -6630,7 +6535,7 @@
     )
     (i32.const 256)
    )
-   (i32.const 3448)
+   (i32.const 3332)
   )
   (call $token/Token#subBalance
    (get_local $0)
@@ -6702,7 +6607,7 @@
       (i64.eq
        (get_local $2)
        (call $../../src/utils/N
-        (i32.const 2056)
+        (i32.const 1940)
        )
       )
       (block
@@ -6739,7 +6644,7 @@
        (i64.eq
         (get_local $2)
         (call $../../src/utils/N
-         (i32.const 2960)
+         (i32.const 2844)
         )
        )
        (block
@@ -6778,7 +6683,7 @@
          )
         )
        )
-       (call $../../src/ultrain-lib/env.ultrainio_exit
+       (call $../../internal/system.d/env.ultrainio_exit
         (i32.const 0)
        )
       )

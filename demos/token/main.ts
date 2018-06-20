@@ -5,7 +5,7 @@ import "allocator/arena";
 import { Token } from "./token";
 import { Asset } from "../../src/asset";
 import { N } from "../../src/utils";
-import { env as ultrain } from "../../src/ultrain-lib";
+import { env as system } from "../../internal/system.d";
 
 export function apply(receiver: u64, code: u64, action: u64): void {
     if (receiver == code) {
@@ -34,7 +34,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
 
             token.transfer(from, to, quantity, memo);
         } else {
-            ultrain.ultrainio_exit(0);
+            system.ultrainio_exit(0);
         }
     }
 }

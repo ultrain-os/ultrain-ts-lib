@@ -1,4 +1,5 @@
-import { env as console } from "./ultrain-lib"
+import { env as console } from "../internal/print.d";
+import { env as system } from "../internal/system.d";
 
 export const ASCIICHAR: string[/*95*/] = [
     " ", "!", "\"", "#", "$", "%", "&", "'",
@@ -58,7 +59,7 @@ export function printstr(str: string): void {
 
 export function ultrain_assert(condition: bool, msg: string): void {
     if (condition == false) {
-        console.ultrainio_assert(0, string2cstr(msg));
+        system.ultrainio_assert(0, string2cstr(msg));
     }
 }
 

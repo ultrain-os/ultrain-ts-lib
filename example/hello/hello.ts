@@ -5,11 +5,11 @@ import { DataStream } from "../../src/datastream";
 import { printstr, N, ultrain_assert, RN } from "../../src/utils";
 import { Log } from "../../src/log";
 import { Contract } from "../../lib/contract";
-import { env as ultrain } from "../../src/ultrain-lib";
+import { env as Action } from "../../internal/action.d";
 
 export function apply(receiver: u64, code: u64, action: u64): void {
     Log.s("receiver: ").s(RN(receiver)).s(" code: ").s(RN(code)).flush();
-    let sender: u64 = ultrain.current_sender();
+    let sender: u64 = Action.current_sender();
     Log.s("current sender = ").s(RN(sender)).flush();
     var gol: HelloContract = new HelloContract(receiver);
     gol.apply(code, action);

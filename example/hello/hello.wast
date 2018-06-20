@@ -20,11 +20,11 @@
  (import "env" "abort" (func $abort))
  (import "env" "ts_log_print_s" (func $../../src/log/ts_log_print_s (param i32)))
  (import "env" "ts_log_done" (func $../../src/log/ts_log_done))
- (import "env" "current_sender" (func $../../src/ultrain-lib/env.current_sender (result i64)))
- (import "env" "action_data_size" (func $../../src/ultrain-lib/env.action_data_size (result i32)))
- (import "env" "read_action_data" (func $../../src/ultrain-lib/env.read_action_data (param i32 i32) (result i32)))
+ (import "env" "current_sender" (func $../../internal/action.d/env.current_sender (result i64)))
+ (import "env" "action_data_size" (func $../../internal/action.d/env.action_data_size (result i32)))
+ (import "env" "read_action_data" (func $../../internal/action.d/env.read_action_data (param i32 i32) (result i32)))
  (import "env" "ts_log_print_i" (func $../../src/log/ts_log_print_i (param i64 i32)))
- (import "env" "ultrainio_assert" (func $../../src/ultrain-lib/env.ultrainio_assert (param i32 i32)))
+ (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
@@ -3228,7 +3228,7 @@
   )
   (get_local $3)
  )
- (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<u8,u32>#constructor (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if
    (i32.gt_u
@@ -3337,13 +3337,13 @@
   (local $0 i32)
   (local $1 i32)
   (drop
-   (call $../../src/ultrain-lib/env.read_action_data
+   (call $../../internal/action.d/env.read_action_data
     (i32.load
      (tee_local $1
-      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.action_data_size)
+        (call $../../internal/action.d/env.action_data_size)
        )
       )
      )
@@ -3896,7 +3896,7 @@
      (i32.const 1)
     )
    )
-   (call $../../src/ultrain-lib/env.ultrainio_assert
+   (call $../../internal/system.d/env.ultrainio_assert
     (i32.const 0)
     (call $../../src/utils/string2cstr
      (get_local $1)
@@ -4015,7 +4015,7 @@
    )
   )
   (set_local $3
-   (call $../../src/ultrain-lib/env.current_sender)
+   (call $../../internal/action.d/env.current_sender)
   )
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s

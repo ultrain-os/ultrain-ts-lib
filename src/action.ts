@@ -4,11 +4,11 @@
 import { Asset } from "./asset";
 import { DataStream } from "./datastream";
 import { ISerializable } from "../lib/contract";
-import { env as ultrain } from "./ultrain-lib";
 import { PermissionLevel } from "./permission-level";
+import { env as action } from "../internal/action.d";
 
 export function requirePermissionLevel(pl: PermissionLevel): void {
-    ultrain.require_auth2(pl.actor, pl.permission);
+    action.require_auth2(pl.actor, pl.permission);
 }
 
 export class TransferParams implements ISerializable {
@@ -93,7 +93,7 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: u64, params:
     arr = new Uint8Array(len);
     ds = new DataStream(<usize>arr.buffer, len);
     actimpl.serialize(ds);
-    ultrain.send_inline(<usize>ds.buffer, ds.pos);
+    action.send_inline(<usize>ds.buffer, ds.pos);
 }
 
 

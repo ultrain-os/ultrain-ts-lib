@@ -27,30 +27,30 @@
  (type $iIiiv (func (param i32 i64 i32 i32)))
  (type $iIIIv (func (param i32 i64 i64 i64)))
  (type $IIiiiv (func (param i64 i64 i32 i32 i32)))
- (import "env" "action_data_size" (func $../../src/ultrain-lib/env.action_data_size (result i32)))
+ (import "env" "action_data_size" (func $../../internal/action.d/env.action_data_size (result i32)))
  (import "env" "abort" (func $abort))
- (import "env" "read_action_data" (func $../../src/ultrain-lib/env.read_action_data (param i32 i32) (result i32)))
- (import "env" "now" (func $../../src/ultrain-lib/env.now (result i32)))
- (import "env" "require_auth" (func $../../src/ultrain-lib/env.require_auth (param i64)))
- (import "env" "ultrainio_assert" (func $../../src/ultrain-lib/env.ultrainio_assert (param i32 i32)))
+ (import "env" "read_action_data" (func $../../internal/action.d/env.read_action_data (param i32 i32) (result i32)))
+ (import "env" "current_time" (func $../../internal/system.d/env.current_time (result i64)))
+ (import "env" "require_auth" (func $../../internal/action.d/env.require_auth (param i64)))
+ (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/ts_log_print_s (param i32)))
  (import "env" "ts_log_print_i" (func $../../src/log/ts_log_print_i (param i64 i32)))
  (import "env" "ts_log_done" (func $../../src/log/ts_log_done))
- (import "env" "db_find_i64" (func $../../src/ultrain-lib/env.db_find_i64 (param i64 i64 i64 i64) (result i32)))
- (import "env" "db_get_i64" (func $../../src/ultrain-lib/env.db_get_i64 (param i32 i32 i32) (result i32)))
- (import "env" "check_transaction_authorization" (func $../../src/ultrain-lib/env.check_transaction_authorization (param i32 i32 i32 i32 i32 i32) (result i32)))
- (import "env" "current_receiver" (func $../../src/ultrain-lib/env.current_receiver (result i64)))
- (import "env" "db_store_i64" (func $../../src/ultrain-lib/env.db_store_i64 (param i64 i64 i64 i64 i32 i32) (result i32)))
- (import "env" "require_auth2" (func $../../src/ultrain-lib/env.require_auth2 (param i64 i64)))
- (import "env" "db_update_i64" (func $../../src/ultrain-lib/env.db_update_i64 (param i32 i64 i32 i32)))
- (import "env" "db_remove_i64" (func $../../src/ultrain-lib/env.db_remove_i64 (param i32)))
- (import "env" "send_deferred" (func $../../src/ultrain-lib/env.send_deferred (param i64 i64 i32 i32 i32)))
- (import "env" "ultrainio_exit" (func $../../src/ultrain-lib/env.ultrainio_exit (param i32)))
+ (import "env" "db_find_i64" (func $../../internal/db.d/env.db_find_i64 (param i64 i64 i64 i64) (result i32)))
+ (import "env" "db_get_i64" (func $../../internal/db.d/env.db_get_i64 (param i32 i32 i32) (result i32)))
+ (import "env" "check_transaction_authorization" (func $../../internal/permission.d/env.check_transaction_authorization (param i32 i32 i32 i32 i32 i32) (result i32)))
+ (import "env" "current_receiver" (func $../../internal/action.d/env.current_receiver (result i64)))
+ (import "env" "db_store_i64" (func $../../internal/db.d/env.db_store_i64 (param i64 i64 i64 i64 i32 i32) (result i32)))
+ (import "env" "require_auth2" (func $../../internal/action.d/env.require_auth2 (param i64 i64)))
+ (import "env" "db_update_i64" (func $../../internal/db.d/env.db_update_i64 (param i32 i64 i32 i32)))
+ (import "env" "db_remove_i64" (func $../../internal/db.d/env.db_remove_i64 (param i32)))
+ (import "env" "send_deferred" (func $../../internal/transaction.d/env.send_deferred (param i64 i64 i32 i32 i32)))
+ (import "env" "ultrainio_exit" (func $../../internal/system.d/env.ultrainio_exit (param i32)))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
  (global $~argc (mut i32) (i32.const 0))
- (global $HEAP_BASE i32 (i32.const 3796))
+ (global $HEAP_BASE i32 (i32.const 3680))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 ")
  (data (i32.const 16) "\01\00\00\00!")
@@ -163,31 +163,28 @@
  (data (i32.const 1808) "\0d\00\00\00 \00p\00e\00r\00m\00i\00s\00s\00i\00o\00n\00:\00 ")
  (data (i32.const 1840) "/\00\00\00m\00s\00i\00g\00.\00p\00r\00o\00p\00o\00s\00e\00:\00 \00t\00r\00a\00n\00s\00a\00c\00t\00i\00o\00n\00 \00a\00u\00t\00h\00o\00r\00i\00z\00a\00t\00i\00o\00n\00 \00f\00a\00i\00l\00e\00d\00.")
  (data (i32.const 1940) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t")
- (data (i32.const 2048) "\1a\00\00\00d\00b\00m\00a\00n\00a\00g\00e\00r\00.\00e\00m\00p\00l\00a\00c\00e\00 \00s\00c\00o\00p\00e\00 \00=\00 ")
- (data (i32.const 2104) "\t\00\00\00 \00p\00a\00y\00e\00r\00 \00=\00 ")
- (data (i32.const 2128) "\0f\00\00\00 \00b\00u\00f\00f\00e\00r\00_\00s\00i\00z\00e\00 \00=\00 ")
- (data (i32.const 2164) "\t\00\00\00a\00p\00p\00r\00o\00v\00a\00l\00s")
- (data (i32.const 2188) "\07\00\00\00a\00p\00p\00r\00o\00v\00e")
- (data (i32.const 2208) " \00\00\00m\00s\00i\00g\00.\00a\00p\00p\00r\00o\00v\00e\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
- (data (i32.const 2276) "@\00\00\00m\00s\00i\00g\00.\00a\00p\00p\00r\00o\00v\00e\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00i\00s\00 \00n\00o\00t\00 \00o\00n\00 \00t\00h\00e\00 \00l\00i\00s\00t\00 \00o\00f\00 \00r\00e\00q\00u\00e\00s\00t\00e\00d\00 \00a\00p\00p\00r\00o\00v\00a\00l\00s")
- (data (i32.const 2408) "1\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 2512) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
- (data (i32.const 2620) ";\00\00\00u\00p\00d\00a\00t\00e\00r\00 \00c\00a\00n\00n\00o\00t\00 \00c\00h\00a\00n\00g\00e\00 \00p\00r\00i\00m\00a\00r\00y\00 \00k\00e\00y\00 \00w\00h\00e\00n\00 \00m\00o\00d\00i\00f\00y\00i\00n\00g\00 \00a\00n\00 \00o\00b\00j\00e\00c\00t\00.")
- (data (i32.const 2744) "\t\00\00\00u\00n\00a\00p\00p\00r\00o\00v\00e")
- (data (i32.const 2768) "\"\00\00\00m\00s\00i\00g\00.\00u\00n\00a\00p\00p\00r\00o\00v\00e\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
- (data (i32.const 2840) "/\00\00\00m\00s\00g\00i\00.\00u\00n\00a\00p\00p\00r\00o\00v\00e\00:\00 \00n\00o\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00p\00e\00r\00v\00i\00o\00u\00s\00l\00y\00 \00g\00r\00a\00n\00t\00e\00d\00.")
- (data (i32.const 2940) "\06\00\00\00c\00a\00n\00c\00e\00l")
- (data (i32.const 2956) "\1f\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
- (data (i32.const 3024) "+\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00c\00a\00n\00n\00o\00t\00 \00c\00a\00n\00c\00e\00l\00 \00u\00n\00t\00i\00l\00 \00e\00x\00p\00i\00r\00a\00t\00i\00o\00n")
- (data (i32.const 3116) "3\00\00\00a\00t\00t\00e\00m\00p\00t\00 \00t\00o\00 \00r\00e\00m\00o\00v\00e\00 \00o\00b\00j\00e\00c\00t\00 \00t\00h\00a\00t\00 \00w\00a\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 3224) "+\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00e\00r\00a\00s\00e\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
- (data (i32.const 3316) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
- (data (i32.const 3424) "!\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
- (data (i32.const 3496) "\04\00\00\00e\00x\00e\00c")
- (data (i32.const 3508) "\1e\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
- (data (i32.const 3572) "\1e\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
- (data (i32.const 3636) "\1f\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00t\00r\00a\00n\00s\00a\00c\00t\00i\00o\00n\00 \00e\00x\00p\00i\00r\00e\00d\00.")
- (data (i32.const 3704) ",\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00t\00r\00a\00n\00s\00a\00c\00t\00i\00o\00n\00 \00a\00u\00t\00h\00o\00r\00i\00z\00a\00t\00i\00o\00n\00 \00f\00a\00i\00l\00e\00d\00.")
+ (data (i32.const 2048) "\t\00\00\00a\00p\00p\00r\00o\00v\00a\00l\00s")
+ (data (i32.const 2072) "\07\00\00\00a\00p\00p\00r\00o\00v\00e")
+ (data (i32.const 2092) " \00\00\00m\00s\00i\00g\00.\00a\00p\00p\00r\00o\00v\00e\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
+ (data (i32.const 2160) "@\00\00\00m\00s\00i\00g\00.\00a\00p\00p\00r\00o\00v\00e\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00i\00s\00 \00n\00o\00t\00 \00o\00n\00 \00t\00h\00e\00 \00l\00i\00s\00t\00 \00o\00f\00 \00r\00e\00q\00u\00e\00s\00t\00e\00d\00 \00a\00p\00p\00r\00o\00v\00a\00l\00s")
+ (data (i32.const 2292) "1\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 2396) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
+ (data (i32.const 2504) ";\00\00\00u\00p\00d\00a\00t\00e\00r\00 \00c\00a\00n\00n\00o\00t\00 \00c\00h\00a\00n\00g\00e\00 \00p\00r\00i\00m\00a\00r\00y\00 \00k\00e\00y\00 \00w\00h\00e\00n\00 \00m\00o\00d\00i\00f\00y\00i\00n\00g\00 \00a\00n\00 \00o\00b\00j\00e\00c\00t\00.")
+ (data (i32.const 2628) "\t\00\00\00u\00n\00a\00p\00p\00r\00o\00v\00e")
+ (data (i32.const 2652) "\"\00\00\00m\00s\00i\00g\00.\00u\00n\00a\00p\00p\00r\00o\00v\00e\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
+ (data (i32.const 2724) "/\00\00\00m\00s\00g\00i\00.\00u\00n\00a\00p\00p\00r\00o\00v\00e\00:\00 \00n\00o\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00p\00e\00r\00v\00i\00o\00u\00s\00l\00y\00 \00g\00r\00a\00n\00t\00e\00d\00.")
+ (data (i32.const 2824) "\06\00\00\00c\00a\00n\00c\00e\00l")
+ (data (i32.const 2840) "\1f\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d")
+ (data (i32.const 2908) "+\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00c\00a\00n\00n\00o\00t\00 \00c\00a\00n\00c\00e\00l\00 \00u\00n\00t\00i\00l\00 \00e\00x\00p\00i\00r\00a\00t\00i\00o\00n")
+ (data (i32.const 3000) "3\00\00\00a\00t\00t\00e\00m\00p\00t\00 \00t\00o\00 \00r\00e\00m\00o\00v\00e\00 \00o\00b\00j\00e\00c\00t\00 \00t\00h\00a\00t\00 \00w\00a\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 3108) "+\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00e\00r\00a\00s\00e\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.")
+ (data (i32.const 3200) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.")
+ (data (i32.const 3308) "!\00\00\00m\00s\00i\00g\00.\00c\00a\00n\00c\00e\00l\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
+ (data (i32.const 3380) "\04\00\00\00e\00x\00e\00c")
+ (data (i32.const 3392) "\1e\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00p\00r\00o\00p\00o\00s\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
+ (data (i32.const 3456) "\1e\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00a\00p\00p\00r\00o\00v\00a\00l\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00.")
+ (data (i32.const 3520) "\1f\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00t\00r\00a\00n\00s\00a\00c\00t\00i\00o\00n\00 \00e\00x\00p\00i\00r\00e\00d\00.")
+ (data (i32.const 3588) ",\00\00\00m\00s\00i\00g\00.\00e\00x\00e\00c\00:\00 \00t\00r\00a\00n\00s\00a\00c\00t\00i\00o\00n\00 \00a\00u\00t\00h\00o\00r\00i\00z\00a\00t\00i\00o\00n\00 \00f\00a\00i\00l\00e\00d\00.")
  (export "apply" (func $main/apply))
  (export "memory" (memory $0))
  (start $start)
@@ -683,7 +680,7 @@
    )
   )
  )
- (func $~lib/internal/typedarray/TypedArray<u8,u32>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if
    (i32.gt_u
@@ -792,13 +789,13 @@
   (local $0 i32)
   (local $1 i32)
   (drop
-   (call $../../src/ultrain-lib/env.read_action_data
+   (call $../../internal/action.d/env.read_action_data
     (i32.load
      (tee_local $1
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.action_data_size)
+        (call $../../internal/action.d/env.action_data_size)
        )
       )
      )
@@ -1151,7 +1148,15 @@
   )
   (get_local $0)
  )
- (func $../../lib/transaction/TransactionHeader#constructor|trampoline (; 33 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../internal/system.d/env.now (; 33 ;) (type $i) (result i32)
+  (i32.wrap/i64
+   (i64.div_u
+    (call $../../internal/system.d/env.current_time)
+    (i64.const 1000000)
+   )
+  )
+ )
+ (func $../../lib/transaction/TransactionHeader#constructor|trampoline (; 34 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -1164,7 +1169,7 @@
     )
     (set_local $1
      (i32.add
-      (call $../../src/ultrain-lib/env.now)
+      (call $../../internal/system.d/env.now)
       (i32.const 60)
      )
     )
@@ -1179,7 +1184,7 @@
    (get_local $2)
   )
  )
- (func $../../src/datastream/DataStream#read<u64> (; 34 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/datastream/DataStream#read<u64> (; 35 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -1204,7 +1209,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#read<u8> (; 35 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u8> (; 36 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -1229,7 +1234,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readVarint32 (; 36 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVarint32 (; 37 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1272,7 +1277,7 @@
   )
   (get_local $1)
  )
- (func $../../src/permission-level/PermissionLevel#constructor (; 37 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../src/permission-level/PermissionLevel#constructor (; 38 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (if (result i32)
@@ -1304,7 +1309,7 @@
   )
   (get_local $0)
  )
- (func $../../src/permission-level/PermissionLevel#constructor|trampoline (; 38 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../src/permission-level/PermissionLevel#constructor|trampoline (; 39 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -1329,7 +1334,7 @@
    (get_local $2)
   )
  )
- (func $../../src/permission-level/PermissionLevel#deserialize (; 39 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/permission-level/PermissionLevel#deserialize (; 40 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u64>
@@ -1343,7 +1348,7 @@
    )
   )
  )
- (func $~lib/memory/copy_memory (; 40 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/copy_memory (; 41 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (loop $continue|0
@@ -2919,7 +2924,7 @@
    )
   )
  )
- (func $~lib/memory/move_memory (; 41 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/move_memory (; 42 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.eq
@@ -3206,7 +3211,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/reallocUnsafe (; 42 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocUnsafe (; 43 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -3330,7 +3335,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<PermissionLevel>#push (; 43 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#push (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3404,7 +3409,7 @@
   )
   (get_local $3)
  )
- (func $../../src/datastream/DataStream#read<u32> (; 44 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u32> (; 45 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load
@@ -3429,7 +3434,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#read<u16> (; 45 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u16> (; 46 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load16_u
@@ -3454,7 +3459,7 @@
   )
   (get_local $1)
  )
- (func $../../lib/transaction/TransactionHeader#deserialize (; 46 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/transaction/TransactionHeader#deserialize (; 47 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i32.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u32>
@@ -3498,7 +3503,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#constructor (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#constructor (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -3559,7 +3564,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u8>#push (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#push (; 49 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3624,7 +3629,7 @@
   )
   (get_local $3)
  )
- (func $../../src/utils/toUTF8Array (; 49 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/utils/toUTF8Array (; 50 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3809,7 +3814,7 @@
   )
   (get_local $2)
  )
- (func $../../src/utils/string2cstr (; 50 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/utils/string2cstr (; 51 ;) (type $ii) (param $0 i32) (result i32)
   (i32.add
    (i32.load
     (call $../../src/utils/toUTF8Array
@@ -3819,7 +3824,7 @@
    (i32.const 8)
   )
  )
- (func $../../src/utils/ultrain_assert (; 51 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/utils/ultrain_assert (; 52 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (i32.and
@@ -3827,7 +3832,7 @@
      (i32.const 1)
     )
    )
-   (call $../../src/ultrain-lib/env.ultrainio_assert
+   (call $../../internal/system.d/env.ultrainio_assert
     (i32.const 0)
     (call $../../src/utils/string2cstr
      (get_local $1)
@@ -3835,7 +3840,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Proposal>#constructor (; 52 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Proposal>#constructor (; 53 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (if (result i32)
@@ -3886,7 +3891,7 @@
   )
   (get_local $0)
  )
- (func $msig/Proposal#constructor (; 53 ;) (type $ii) (param $0 i32) (result i32)
+ (func $msig/Proposal#constructor (; 54 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (if (result i32)
@@ -3921,12 +3926,12 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<DataItem<Proposal>>#get:length (; 54 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<DataItem<Proposal>>#get:length (; 55 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<DataItem<Proposal>>#__get (; 55 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<DataItem<Proposal>>#__get (; 56 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -3954,12 +3959,12 @@
    (unreachable)
   )
  )
- (func $msig/Proposal#primaryKey (; 56 ;) (type $iI) (param $0 i32) (result i64)
+ (func $msig/Proposal#primaryKey (; 57 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/log/Logger#s (; 57 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/log/Logger#s (; 58 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (loop $continue|0
    (if
@@ -3988,17 +3993,17 @@
   )
   (get_local $0)
  )
- (func $../../src/log/Logger#i (; 58 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/log/Logger#i (; 59 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (call $../../src/log/ts_log_print_i
    (get_local $1)
    (get_local $2)
   )
   (get_local $0)
  )
- (func $../../src/log/Logger#flush (; 59 ;) (type $iv) (param $0 i32)
+ (func $../../src/log/Logger#flush (; 60 ;) (type $iv) (param $0 i32)
   (call $../../src/log/ts_log_done)
  )
- (func $~lib/array/Array<u8>#constructor|trampoline (; 60 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#constructor|trampoline (; 61 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (block $1of1
    (block $0of1
     (block $oob
@@ -4017,7 +4022,7 @@
    (get_local $1)
   )
  )
- (func $~lib/array/Array<u8>#__set (; 61 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<u8>#__set (; 62 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.ge_u
@@ -4075,7 +4080,7 @@
    (get_local $2)
   )
  )
- (func $../../src/datastream/DataStream#readVector<u8> (; 62 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVector<u8> (; 63 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4131,7 +4136,7 @@
   )
   (get_local $3)
  )
- (func $msig/Proposal#deserialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $msig/Proposal#deserialize (; 64 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u64>
@@ -4145,7 +4150,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Proposal>#loadObjectByPrimaryIterator (; 64 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Proposal>#loadObjectByPrimaryIterator (; 65 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -4153,10 +4158,10 @@
     (i32.const 0)
     (i32.load
      (tee_local $3
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.db_get_i64
+        (call $../../internal/db.d/env.db_get_i64
          (get_local $1)
          (i32.const 0)
          (i32.const 0)
@@ -4169,7 +4174,7 @@
    )
   )
   (drop
-   (call $../../src/ultrain-lib/env.db_get_i64
+   (call $../../internal/db.d/env.db_get_i64
     (get_local $1)
     (i32.load
      (get_local $3)
@@ -4182,7 +4187,7 @@
    (get_local $4)
   )
  )
- (func $../../src/dbmanager/DataItem<Proposal>#constructor (; 65 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/dbmanager/DataItem<Proposal>#constructor (; 66 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store
    (if (result i32)
@@ -4218,7 +4223,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<Proposal>#get (; 66 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Proposal>#get (; 67 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -4315,7 +4320,7 @@
   (if
    (i32.lt_s
     (tee_local $3
-     (call $../../src/ultrain-lib/env.db_find_i64
+     (call $../../internal/db.d/env.db_find_i64
       (i64.load offset=8
        (get_local $0)
       )
@@ -4362,14 +4367,14 @@
   )
   (i32.const 1)
  )
- (func $../../src/datastream/DataStream#isMesureMode (; 67 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#isMesureMode (; 68 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eqz
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/datastream/DataStream#write<u8> (; 68 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#write<u8> (; 69 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (call $../../src/datastream/DataStream#isMesureMode
@@ -4398,7 +4403,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeVarint32 (; 69 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVarint32 (; 70 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (loop $continue|0
    (call $../../src/datastream/DataStream#write<u8>
     (get_local $0)
@@ -4430,7 +4435,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#write<u64> (; 70 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/datastream/DataStream#write<u64> (; 71 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
     (call $../../src/datastream/DataStream#isMesureMode
@@ -4459,7 +4464,7 @@
    )
   )
  )
- (func $../../src/permission-level/PermissionLevel#serialize (; 71 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/permission-level/PermissionLevel#serialize (; 72 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -4497,7 +4502,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measureComplexVector<PermissionLevel> (; 72 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measureComplexVector<PermissionLevel> (; 73 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4543,7 +4548,7 @@
    (get_local $2)
   )
  )
- (func $../../src/datastream/DataStream#writeComplexVector<PermissionLevel> (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeComplexVector<PermissionLevel> (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (call $../../src/datastream/DataStream#writeVarint32
@@ -4579,14 +4584,14 @@
    )
   )
  )
- (func $../../src/datastream/DSHelper.serializeComplexVector<PermissionLevel> (; 74 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DSHelper.serializeComplexVector<PermissionLevel> (; 75 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (call $../../src/datastream/DataStream#writeComplexVector<PermissionLevel>
    (tee_local $1
     (call $../../src/datastream/DataStream#constructor
      (i32.const 0)
      (i32.load
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $1
         (call $../../src/datastream/DataStream.measureComplexVector<PermissionLevel>
@@ -4602,17 +4607,17 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#pointer (; 75 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#pointer (; 76 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../src/datastream/DataStream#size (; 76 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#size (; 77 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/datastream/DataStream#toArray<u8> (; 77 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#toArray<u8> (; 78 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4682,7 +4687,7 @@
   )
   (get_local $3)
  )
- (func $~lib/array/Array<u8>#slice (; 78 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<u8>#slice (; 79 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -4799,7 +4804,7 @@
   )
   (get_local $3)
  )
- (func $~lib/array/Array<u8>#slice|trampoline (; 79 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<u8>#slice|trampoline (; 80 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -4824,7 +4829,7 @@
    (get_local $2)
   )
  )
- (func $~lib/array/Array<u8>#__get (; 80 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 81 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (i32.lt_u
@@ -4846,7 +4851,7 @@
    (unreachable)
   )
  )
- (func $../../src/datastream/DataStream#writeVector<u8> (; 81 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVector<u8> (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (call $../../src/datastream/DataStream#writeVarint32
@@ -4882,7 +4887,7 @@
    )
   )
  )
- (func $msig/Proposal#serialize (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $msig/Proposal#serialize (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -4896,7 +4901,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<Proposal> (; 83 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<Proposal> (; 84 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (call $msig/Proposal#serialize
    (get_local $0)
@@ -4912,7 +4917,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<Proposal>#emplace (; 84 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Proposal>#emplace (; 85 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -4921,7 +4926,7 @@
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
    (i32.const 1940)
   )
@@ -4940,7 +4945,7 @@
     (call $../../src/datastream/DataStream#constructor
      (i32.const 0)
      (i32.load
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $3
         (call $../../src/datastream/DataStream.measure<Proposal>
@@ -4958,55 +4963,9 @@
     (get_local $2)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#i
-      (call $../../src/log/Logger#s
-       (call $../../src/log/Logger#i
-        (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#i
-          (call $../../src/log/Logger#s
-           (call $../../src/log/Logger#i
-            (call $../../src/log/Logger#s
-             (get_global $../../src/log/Log)
-             (i32.const 2048)
-            )
-            (i64.load offset=16
-             (get_local $0)
-            )
-            (i32.const 16)
-           )
-           (i32.const 1648)
-          )
-          (i64.load
-           (get_local $0)
-          )
-          (i32.const 16)
-         )
-         (i32.const 2104)
-        )
-        (get_local $1)
-        (i32.const 16)
-       )
-       (i32.const 1672)
-      )
-      (get_local $5)
-      (i32.const 16)
-     )
-     (i32.const 2128)
-    )
-    (i64.extend_s/i32
-     (i32.load offset=8
-      (get_local $3)
-     )
-    )
-    (i32.const 16)
-   )
-  )
   (i32.store offset=4
    (get_local $4)
-   (call $../../src/ultrain-lib/env.db_store_i64
+   (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
     )
@@ -5032,7 +4991,7 @@
    )
   )
  )
- (func $msig/ApprovalsInfo#constructor (; 85 ;) (type $ii) (param $0 i32) (result i32)
+ (func $msig/ApprovalsInfo#constructor (; 86 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (if (result i32)
@@ -5078,7 +5037,7 @@
   )
   (get_local $0)
  )
- (func $msig/ApprovalsInfo#serialize (; 86 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $msig/ApprovalsInfo#serialize (; 87 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -5098,7 +5057,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<ApprovalsInfo> (; 87 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<ApprovalsInfo> (; 88 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (call $msig/ApprovalsInfo#serialize
    (get_local $0)
@@ -5114,7 +5073,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<ApprovalsInfo>#emplace (; 88 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<ApprovalsInfo>#emplace (; 89 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -5123,7 +5082,7 @@
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
    (i32.const 1940)
   )
@@ -5142,7 +5101,7 @@
     (call $../../src/datastream/DataStream#constructor
      (i32.const 0)
      (i32.load
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $3
         (call $../../src/datastream/DataStream.measure<ApprovalsInfo>
@@ -5160,55 +5119,9 @@
     (get_local $2)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#i
-      (call $../../src/log/Logger#s
-       (call $../../src/log/Logger#i
-        (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#i
-          (call $../../src/log/Logger#s
-           (call $../../src/log/Logger#i
-            (call $../../src/log/Logger#s
-             (get_global $../../src/log/Log)
-             (i32.const 2048)
-            )
-            (i64.load offset=16
-             (get_local $0)
-            )
-            (i32.const 16)
-           )
-           (i32.const 1648)
-          )
-          (i64.load
-           (get_local $0)
-          )
-          (i32.const 16)
-         )
-         (i32.const 2104)
-        )
-        (get_local $1)
-        (i32.const 16)
-       )
-       (i32.const 1672)
-      )
-      (get_local $5)
-      (i32.const 16)
-     )
-     (i32.const 2128)
-    )
-    (i64.extend_s/i32
-     (i32.load offset=8
-      (get_local $3)
-     )
-    )
-    (i32.const 16)
-   )
-  )
   (i32.store offset=4
    (get_local $4)
-   (call $../../src/ultrain-lib/env.db_store_i64
+   (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
     )
@@ -5234,7 +5147,7 @@
    )
   )
  )
- (func $msig/MultiSig#propose (; 89 ;) (type $iv) (param $0 i32)
+ (func $msig/MultiSig#propose (; 90 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5326,7 +5239,7 @@
    (get_local $2)
    (get_local $1)
   )
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (get_local $4)
   )
   (call $../../src/utils/ultrain_assert
@@ -5334,7 +5247,7 @@
     (i32.load
      (get_local $2)
     )
-    (call $../../src/ultrain-lib/env.now)
+    (call $../../internal/system.d/env.now)
    )
    (i32.const 1484)
   )
@@ -5368,7 +5281,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (i32.gt_s
-    (call $../../src/ultrain-lib/env.check_transaction_authorization
+    (call $../../internal/permission.d/env.check_transaction_authorization
      (i32.add
       (i32.load
        (get_local $1)
@@ -5427,7 +5340,7 @@
    (call $../../src/dbmanager/DBManager<Proposal>#constructor
     (i32.const 0)
     (call $../../src/utils/N
-     (i32.const 2164)
+     (i32.const 2048)
     )
     (i64.load
      (get_local $0)
@@ -5453,8 +5366,8 @@
    (get_local $0)
   )
  )
- (func $../../src/action/requirePermissionLevel (; 90 ;) (type $iv) (param $0 i32)
-  (call $../../src/ultrain-lib/env.require_auth2
+ (func $../../src/action/requirePermissionLevel (; 91 ;) (type $iv) (param $0 i32)
+  (call $../../internal/action.d/env.require_auth2
    (i64.load
     (get_local $0)
    )
@@ -5463,7 +5376,7 @@
    )
   )
  )
- (func $~lib/array/Array<PermissionLevel>#constructor|trampoline (; 91 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#constructor|trampoline (; 92 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (block $1of1
    (block $0of1
     (block $oob
@@ -5482,7 +5395,7 @@
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream#readComplexVector<PermissionLevel> (; 92 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readComplexVector<PermissionLevel> (; 93 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5538,7 +5451,7 @@
   )
   (get_local $3)
  )
- (func $msig/ApprovalsInfo#deserialize (; 93 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $msig/ApprovalsInfo#deserialize (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u64>
@@ -5558,7 +5471,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<ApprovalsInfo>#loadObjectByPrimaryIterator (; 94 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<ApprovalsInfo>#loadObjectByPrimaryIterator (; 95 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -5566,10 +5479,10 @@
     (i32.const 0)
     (i32.load
      (tee_local $3
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
-        (call $../../src/ultrain-lib/env.db_get_i64
+        (call $../../internal/db.d/env.db_get_i64
          (get_local $1)
          (i32.const 0)
          (i32.const 0)
@@ -5582,7 +5495,7 @@
    )
   )
   (drop
-   (call $../../src/ultrain-lib/env.db_get_i64
+   (call $../../internal/db.d/env.db_get_i64
     (get_local $1)
     (i32.load
      (get_local $3)
@@ -5595,7 +5508,7 @@
    (get_local $4)
   )
  )
- (func $../../src/dbmanager/DBManager<ApprovalsInfo>#get (; 95 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<ApprovalsInfo>#get (; 96 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $4
@@ -5692,7 +5605,7 @@
   (if
    (i32.lt_s
     (tee_local $3
-     (call $../../src/ultrain-lib/env.db_find_i64
+     (call $../../internal/db.d/env.db_find_i64
       (i64.load offset=8
        (get_local $0)
       )
@@ -5739,7 +5652,7 @@
   )
   (i32.const 1)
  )
- (func $../../src/permission-level/PermissionLevel#equal (; 96 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/permission-level/PermissionLevel#equal (; 97 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -5763,7 +5676,7 @@
    (get_local $2)
   )
  )
- (func $~lib/array/Array<PermissionLevel>#splice (; 97 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<PermissionLevel>#splice (; 98 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (if
@@ -5865,7 +5778,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<ApprovalsInfo>#modify (; 98 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../src/dbmanager/DBManager<ApprovalsInfo>#modify (; 99 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5940,16 +5853,16 @@
     )
     (get_local $3)
    )
-   (i32.const 2408)
+   (i32.const 2292)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2512)
+   (i32.const 2396)
   )
   (set_local $6
    (call $msig/Proposal#primaryKey
@@ -5971,7 +5884,7 @@
      )
     )
    )
-   (i32.const 2620)
+   (i32.const 2504)
   )
   (call $msig/ApprovalsInfo#serialize
    (get_local $1)
@@ -5979,7 +5892,7 @@
     (call $../../src/datastream/DataStream#constructor
      (i32.const 0)
      (i32.load
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $5
         (call $../../src/datastream/DataStream.measure<ApprovalsInfo>
@@ -5992,7 +5905,7 @@
     )
    )
   )
-  (call $../../src/ultrain-lib/env.db_update_i64
+  (call $../../internal/db.d/env.db_update_i64
    (i32.load offset=4
     (get_local $4)
    )
@@ -6005,7 +5918,7 @@
    )
   )
  )
- (func $msig/MultiSig#approve (; 99 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $msig/MultiSig#approve (; 100 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6018,7 +5931,7 @@
      (call $../../src/dbmanager/DBManager<Proposal>#constructor
       (i32.const 0)
       (call $../../src/utils/N
-       (i32.const 2164)
+       (i32.const 2048)
       )
       (i64.load
        (get_local $0)
@@ -6033,7 +5946,7 @@
      )
     )
    )
-   (i32.const 2208)
+   (i32.const 2092)
   )
   (set_local $5
    (i32.const -1)
@@ -6086,7 +5999,7 @@
     (get_local $5)
     (i32.const -1)
    )
-   (i32.const 2276)
+   (i32.const 2160)
   )
   (drop
    (call $~lib/array/Array<PermissionLevel>#push
@@ -6109,7 +6022,7 @@
    (get_local $1)
   )
  )
- (func $msig/MultiSig#unapprove (; 100 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $msig/MultiSig#unapprove (; 101 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6122,7 +6035,7 @@
      (call $../../src/dbmanager/DBManager<Proposal>#constructor
       (i32.const 0)
       (call $../../src/utils/N
-       (i32.const 2164)
+       (i32.const 2048)
       )
       (i64.load
        (get_local $0)
@@ -6137,7 +6050,7 @@
      )
     )
    )
-   (i32.const 2768)
+   (i32.const 2652)
   )
   (set_local $5
    (i32.const -1)
@@ -6190,7 +6103,7 @@
     (get_local $5)
     (i32.const -1)
    )
-   (i32.const 2840)
+   (i32.const 2724)
   )
   (drop
    (call $~lib/array/Array<PermissionLevel>#push
@@ -6213,7 +6126,7 @@
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream.fromArray<u8> (; 101 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.fromArray<u8> (; 102 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6221,7 +6134,7 @@
    (call $../../src/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
-     (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+     (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
       (i32.const 0)
       (tee_local $1
        (tee_local $3
@@ -6264,7 +6177,7 @@
   )
   (get_local $2)
  )
- (func $../../lib/transaction/Transaction#constructor (; 102 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/Transaction#constructor (; 103 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (if (result i32)
@@ -6314,7 +6227,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/transaction/Transaction#constructor|trampoline (; 103 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/transaction/Transaction#constructor|trampoline (; 104 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (block $2of2
    (block $1of2
     (block $0of2
@@ -6327,7 +6240,7 @@
     )
     (set_local $1
      (i32.add
-      (call $../../src/ultrain-lib/env.now)
+      (call $../../internal/system.d/env.now)
       (i32.const 60)
      )
     )
@@ -6342,10 +6255,10 @@
    (get_local $2)
   )
  )
- (func $../../src/action/Action#deserialize (; 104 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/Action#deserialize (; 105 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (nop)
  )
- (func $../../src/datastream/DataStream#readComplexVector<Action> (; 105 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readComplexVector<Action> (; 106 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6401,7 +6314,7 @@
   )
   (get_local $3)
  )
- (func $../../lib/transaction/Transaction#deserialize (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/transaction/Transaction#deserialize (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../lib/transaction/TransactionHeader#deserialize
    (i32.load
     (get_local $0)
@@ -6421,7 +6334,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Proposal>#erase (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/dbmanager/DBManager<Proposal>#erase (; 108 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $3
@@ -6472,7 +6385,7 @@
     (get_local $2)
     (get_local $3)
    )
-   (i32.const 3116)
+   (i32.const 3000)
   )
   (call $../../src/utils/ultrain_assert
    (i32.eq
@@ -6488,16 +6401,16 @@
     )
     (get_local $0)
    )
-   (i32.const 3224)
+   (i32.const 3108)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
      (get_local $0)
     )
-    (call $../../src/ultrain-lib/env.current_receiver)
+    (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 3316)
+   (i32.const 3200)
   )
   (call $~lib/array/Array<PermissionLevel>#splice
    (i32.load offset=24
@@ -6506,18 +6419,18 @@
    (get_local $2)
    (i32.const 1)
   )
-  (call $../../src/ultrain-lib/env.db_remove_i64
+  (call $../../internal/db.d/env.db_remove_i64
    (i32.load offset=4
     (get_local $1)
    )
   )
  )
- (func $msig/MultiSig#cancel (; 108 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $msig/MultiSig#cancel (; 109 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (get_local $3)
   )
   (call $../../src/utils/ultrain_assert
@@ -6541,7 +6454,7 @@
      )
     )
    )
-   (i32.const 2956)
+   (i32.const 2840)
   )
   (if
    (i64.ne
@@ -6578,9 +6491,9 @@
         (get_local $7)
        )
       )
-      (call $../../src/ultrain-lib/env.now)
+      (call $../../internal/system.d/env.now)
      )
-     (i32.const 3024)
+     (i32.const 2908)
     )
    )
   )
@@ -6594,7 +6507,7 @@
      (call $../../src/dbmanager/DBManager<Proposal>#constructor
       (i32.const 0)
       (call $../../src/utils/N
-       (i32.const 2164)
+       (i32.const 2048)
       )
       (i64.load
        (get_local $0)
@@ -6609,20 +6522,20 @@
      )
     )
    )
-   (i32.const 3424)
+   (i32.const 3308)
   )
   (call $../../src/dbmanager/DBManager<Proposal>#erase
    (get_local $0)
    (get_local $4)
   )
  )
- (func $msig/MultiSig#exec (; 109 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $msig/MultiSig#exec (; 110 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
-  (call $../../src/ultrain-lib/env.require_auth
+  (call $../../internal/action.d/env.require_auth
    (get_local $3)
   )
   (call $../../src/utils/ultrain_assert
@@ -6646,7 +6559,7 @@
      )
     )
    )
-   (i32.const 3508)
+   (i32.const 3392)
   )
   (call $../../src/utils/ultrain_assert
    (call $../../src/dbmanager/DBManager<ApprovalsInfo>#get
@@ -6654,7 +6567,7 @@
      (call $../../src/dbmanager/DBManager<Proposal>#constructor
       (i32.const 0)
       (call $../../src/utils/N
-       (i32.const 2164)
+       (i32.const 2048)
       )
       (i64.load
        (get_local $0)
@@ -6669,7 +6582,7 @@
      )
     )
    )
-   (i32.const 3572)
+   (i32.const 3456)
   )
   (set_local $0
    (call $../../src/datastream/DataStream.fromArray<u8>
@@ -6698,9 +6611,9 @@
     (i32.load
      (get_local $4)
     )
-    (call $../../src/ultrain-lib/env.now)
+    (call $../../internal/system.d/env.now)
    )
-   (i32.const 3636)
+   (i32.const 3520)
   )
   (set_local $4
    (call $../../src/datastream/DSHelper.serializeComplexVector<PermissionLevel>
@@ -6711,7 +6624,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (i32.gt_s
-    (call $../../src/ultrain-lib/env.check_transaction_authorization
+    (call $../../internal/permission.d/env.check_transaction_authorization
      (call $../../src/datastream/DataStream#pointer
       (get_local $0)
      )
@@ -6729,9 +6642,9 @@
     )
     (i32.const 0)
    )
-   (i32.const 3704)
+   (i32.const 3588)
   )
-  (call $../../src/ultrain-lib/env.send_deferred
+  (call $../../internal/transaction.d/env.send_deferred
    (get_local $2)
    (get_local $3)
    (call $../../src/datastream/DataStream#pointer
@@ -6751,7 +6664,7 @@
    (get_local $6)
   )
  )
- (func $main/apply (; 110 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
+ (func $main/apply (; 111 ;) (type $IIIv) (param $0 i64) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6785,7 +6698,7 @@
       (i64.eq
        (get_local $2)
        (call $../../src/utils/N
-        (i32.const 2188)
+        (i32.const 2072)
        )
       )
       (block
@@ -6825,7 +6738,7 @@
        (i64.eq
         (get_local $2)
         (call $../../src/utils/N
-         (i32.const 2744)
+         (i32.const 2628)
         )
        )
        (block
@@ -6865,7 +6778,7 @@
         (i64.eq
          (get_local $2)
          (call $../../src/utils/N
-          (i32.const 2940)
+          (i32.const 2824)
          )
         )
         (call $msig/MultiSig#cancel
@@ -6884,7 +6797,7 @@
          (i64.eq
           (get_local $2)
           (call $../../src/utils/N
-           (i32.const 3496)
+           (i32.const 3380)
           )
          )
          (call $msig/MultiSig#exec
@@ -6899,7 +6812,7 @@
            (get_local $3)
           )
          )
-         (call $../../src/ultrain-lib/env.ultrainio_exit
+         (call $../../internal/system.d/env.ultrainio_exit
           (i32.const 0)
          )
         )
@@ -6910,7 +6823,7 @@
    )
   )
  )
- (func $start (; 111 ;) (type $v)
+ (func $start (; 112 ;) (type $v)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
     (i32.add

@@ -7,12 +7,11 @@ import "../../internal/alias.d";
 import { ISerializable, Contract } from "../../lib/contract";
 import { PermissionLevel } from "../../src/permission-level";
 import { DataStream } from "../../src/datastream";
-import { PublicKey, Checksum256 } from "../../src/types";
+import { PublicKey, Checksum256 } from "../../internal/types";
 import { DBManager } from "../../src/dbmanager";
 import { UserResources } from "./delegatebandwidth";
 import { N, ultrain_assert, NameSuffix } from "../../src/utils";
-import { env as ultrain } from "../../src/ultrain-lib";
-
+import { env as privileged } from "../../internal/privileged.d";
 
 declare type bytes = Array<u8>;
 
@@ -115,7 +114,7 @@ export class Native extends Contract {
         res.owner = newact;
         userres.emplace(newact, res);
 
-        ultrain.set_resource_limits(newact, 0, 0, 0);
+        privileged.set_resource_limits(newact, 0, 0, 0);
     }
 
     updateauth(): void { }
