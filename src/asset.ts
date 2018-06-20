@@ -1,9 +1,28 @@
-import { ISerializable } from "./contract";
+import { ISerializable } from "../lib/contract";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
+import { ultrain_assert } from "./utils";
 
 const CHAR_A: u8 = 0x41;
 const CHAR_Z: u8 = 0x5A;
+
+export function StringToSymbol(precision: u8, str: string): u64 {
+    // CAUTION(fanliangqin): str.length must be less than 7
+    let len: u8 = <u8>str.length;
+    ultrain_assert(len <= 7, "length of symbol name must be less than 7.");
+    let result: u64 = 0;
+    for (let i: u8 = 0; i < len; ++i) {
+        let charCode: u8 = <u8>(str.charCodeAt(i) & 0xff);
+        if (charCode < CHAR_A || charCode > CHAR_Z) {
+            Log.s("string_to_symbol failed for not supoort code : ").i(charCode, 16).flush();
+        } else {
+            result |= ((<u64>charCode) << ((8 * (i + 1))));
+        }
+    }
+
+    result |= <u64>precision;
+    return result;
+}
 
 function SymbolNameLength(tmp: u64): u32 {
     tmp >>= 8; // skip precision

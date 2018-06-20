@@ -2,11 +2,11 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "../../src/alias";
+import "../../internal/alias.d";
 import { MultiSig } from "./msig";
 import { N } from "../../src/utils";
-import { env as ultrain } from "../../src/ultrain-lib";
 import { PermissionLevel } from "../../src/permission-level";
+import { env as system } from "../../internal/system.d";
 
 export function apply(receiver: u64, code: u64, action: u64): void {
     if (receiver == code) {
@@ -42,7 +42,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
 
             msig.exec(proposer, proposal_name, executer);
         } else {
-            ultrain.eosio_exit(0);
+            system.ultrainio_exit(0);
         }
     }
 }

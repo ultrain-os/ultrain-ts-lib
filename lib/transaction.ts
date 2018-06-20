@@ -1,9 +1,9 @@
-import { ISerializable, DataStreamFromCurrentAction } from "./contract";
-import { DataStream } from "./datastream";
-import { env as ultrain } from "./ultrain-lib";
-import { PermissionLevel } from "./permission-level";
-import { Action } from "./action";
-import { ultrain_assert } from "./utils";
+import { ISerializable, DataStreamFromCurrentAction } from "../lib/contract";
+import { DataStream } from "../src/datastream";
+import { Action } from "../src/action";
+import { ultrain_assert } from "../src/utils";
+import { env as system } from "../internal/system.d";
+import { env as transaction } from "../internal/transaction.d";
 
 export class TransactionHeader implements ISerializable {
 
@@ -16,7 +16,7 @@ export class TransactionHeader implements ISerializable {
     kcpu_usage: u32;
     delay_sec: u32;
 
-    constructor(exp: u32 = ultrain.now() + 60, r: u16 = 0) {
+    constructor(exp: u32 = system.now() + 60, r: u16 = 0) {
         this.expiration = exp;
         this.region = r;
         this.ref_block_num = 0;
@@ -52,7 +52,7 @@ export class Transaction implements ISerializable {
     context_free_actions: Action[];
     actions: Action[];
 
-    constructor(exp: u32 = ultrain.now() + 60, regId: u16 = 0) {
+    constructor(exp: u32 = system.now() + 60, regId: u16 = 0) {
         this.header = new TransactionHeader(exp, regId);
         this.context_free_actions = [];
         this.actions = [];
@@ -64,7 +64,7 @@ export class Transaction implements ISerializable {
         let ds = new DataStream(<usize>arr.buffer, len);
         this.serialize(ds);
 
-        ultrain.send_defferred(sender_id, payer, ds.buffer, ds.pos);
+        transaction.send_deferred(sender_id, payer, ds.buffer, ds.pos, 0);
     }
 
     serialize(ds: DataStream): void {
@@ -79,7 +79,7 @@ export class Transaction implements ISerializable {
         this.actions = ds.readComplexVector<Action>();
     }
 }
-
+// TODO(liangqin): transaction should support datatype u128.
 type u128 = u64;
 export class DeferredTransaction implements ISerializable {
     transaction: Transaction;
@@ -123,22 +123,22 @@ export class DeferredTransaction implements ISerializable {
 }
 
 
-export function checkAuth(trs_buffer: usize, size: u64, permission: PermissionLevel[]): void {
+// export function checkAuth(trs_buffer: usize, size: u64, permission: PermissionLevel[]): void {
 
-    let len = DataStream.measureComplexVector<PermissionLevel>(permission);
-    let arr = new Uint8Array(len);
-    let ds = new DataStream(<usize>arr.buffer, len);
-    ds.writeComplexVector<PermissionLevel>(permission);
+//     let len = DataStream.measureComplexVector<PermissionLevel>(permission);
+//     let arr = new Uint8Array(len);
+//     let ds = new DataStream(<usize>arr.buffer, len);
+//     ds.writeComplexVector<PermissionLevel>(permission);
 
-    ultrain.check_auth(trs_buffer, size, ds.buffer, ds.pos);
-}
+//     ultrain.check_auth(trs_buffer, size, ds.buffer, ds.pos);
+// }
 
 export function getAction(type: u32, index: u32): Action {
-    let size1 = ultrain.get_action(type, index, 0, 0);
+    let size1 = transaction.get_action(type, index, 0, 0);
     ultrain_assert(size1 > 0, "get_action size failed.");
 
     let arr = new Uint8Array(size1);
-    let size2 = ultrain.get_action(type, index, <usize>arr.buffer, size1);
+    let size2 = transaction.get_action(type, index, <usize>arr.buffer, size1);
     ultrain_assert(size1 == size2, "get_action failed, size1 != size2");
     let ds = new DataStream(<usize>arr.buffer, size1);
     let action = new Action();

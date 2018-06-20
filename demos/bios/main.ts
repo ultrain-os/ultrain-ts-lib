@@ -2,10 +2,9 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "../../src/alias";
 import { Bios } from "./bios";
 import { N, RN } from "../../src/utils";
-import { env as ultrain } from "../../src/ultrain-lib";
+import { env as system } from "../../internal/system.d";
 
 export function apply(receiver: u64, code: u64, action: u64): void {
     if (receiver == code) {
@@ -34,7 +33,7 @@ export function apply(receiver: u64, code: u64, action: u64): void {
             let from = ds.read<u64>();
             bios.reqauth(from);
         } else {
-            ultrain.ultrainio_exit(0);
+            system.ultrainio_exit(0);
         }
     }
 }

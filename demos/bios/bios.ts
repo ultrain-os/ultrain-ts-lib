@@ -1,38 +1,38 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-
-import "../../src/alias";
-import { Contract } from "../../src/contract";
-import { env as ultrain } from "../../src/ultrain-lib";
+import "../../internal/alias.d";
+import { Contract } from "../../lib/contract";
+import { env as action } from "../../internal/action.d";
+import { env as privileged } from "../../internal/privileged.d";
 
 export class Bios extends Contract {
 
     setpriv(account: u64, ispriv: u8): void {
-        ultrain.require_auth(this.receiver);
-        ultrain.set_privileged(account, ispriv);
+        action.require_auth(this.receiver);
+        privileged.set_privileged(account, ispriv != 0);
     }
 
     setalimits(account: account_name, ram_bytes: u64, net_weight: u64, cpu_weight: u64): void {
-        ultrain.require_auth(this.receiver);
-        ultrain.set_resource_limits(account, ram_bytes, net_weight, cpu_weight);
+        action.require_auth(this.receiver);
+        privileged.set_resource_limits(account, ram_bytes, net_weight, cpu_weight);
     }
 
     setglimits(ram: u64, net: u64, cpu: u64): void {
-        ultrain.require_auth(this.receiver);
+        action.require_auth(this.receiver);
     }
 
     setprods(): void {
-        ultrain.require_auth(this.receiver);
+        action.require_auth(this.receiver);
 
-        let len = ultrain.action_data_size();
+        let len = action.action_data_size();
         let arr = new Uint8Array(len);
-        ultrain.read_action_data(<usize>arr.buffer, len);
+        action.read_action_data(<usize>arr.buffer, len);
 
-        ultrain.set_proposed_producers(<usize>arr.buffer, len);
+        privileged.set_proposed_producers(<usize>arr.buffer, len);
     }
 
     reqauth(from: u64): void {
-        ultrain.require_auth(from);
+        action.require_auth(from);
     }
 }

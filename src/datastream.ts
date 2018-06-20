@@ -10,6 +10,30 @@ import {
 
 import { string2cstr, toUTF8Array } from "./utils";
 
+export class DSHelper {
+    static serializeComplexVector<T>(arr: T[]): DataStream {
+        let len = DataStream.measureComplexVector<T>(arr);
+        let data = new Uint8Array(len);
+        let ds = new DataStream(<usize>data.buffer, len);
+        ds.writeComplexVector<T>(arr);
+        return ds;
+    }
+
+    static serializeComplex<T>(t: T): DataStream {
+        let len = DataStream.measure<T>(t);
+        let data = new Uint8Array(len);
+        let ds = new DataStream(<usize>data.buffer, len);
+        t.serialize(ds);
+        return ds;
+    }
+
+    static getDataStreamWithLength(len: u32): DataStream {
+        let arr = new Uint8Array(len);
+        let ds = new DataStream(<usize>arr.buffer, len);
+        return ds;
+    }
+}
+
 export class DataStream {
     buffer: u32;
     len: u32;
@@ -59,6 +83,14 @@ export class DataStream {
 
     private isMesureMode(): boolean {
         return this.buffer == 0;
+    }
+
+    pointer(): usize {
+        return <usize>this.buffer;
+    }
+
+    size(): u32 {
+        return this.pos;
     }
 
     readVarint32(): u32 {
@@ -179,5 +211,8 @@ export class DataStream {
         }
         this.pos += cstr.length - 1;
     }
+
+    writeDouble(d: f64): void {}
+    readDouble(): f64 { return 0.0; }
 
 };

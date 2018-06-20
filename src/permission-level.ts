@@ -1,4 +1,4 @@
-import { ISerializable } from "./contract";
+import { ISerializable } from "../lib/contract";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
 
@@ -11,9 +11,12 @@ export class PermissionLevel implements ISerializable {
         this.permission = permission;
     }
 
+    @operator("==")
     public equal(rhs: PermissionLevel): boolean {
         return this.actor == rhs.actor && this.permission == rhs.permission;
     }
+
+
 
     public serialize(ds: DataStream): void {
         ds.write<u64>(this.actor);

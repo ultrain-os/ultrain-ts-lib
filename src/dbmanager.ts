@@ -2,11 +2,12 @@
  * @author fanliangqin@ultrain.io
  */
 
-import { env as ultrain } from "./ultrain-lib";
 import { Log } from "./log";
-import { ISerializable } from "./contract";
+import { ISerializable } from "../lib/contract";
 import { DataStream } from "./datastream";
 import { ultrain_assert } from "./utils";
+import { env as action } from "../internal/action.d";
+import { env as db } from "../internal/db.d";
 
 export class DataItem<T> {
     public _dbmgr: DBManager<T>;
@@ -39,7 +40,7 @@ export class DBManager<T> {
     public getScope(): u64 { return this._scope; }
 
     public emplace(payer: u64, obj: T): void {
-        ultrain_assert(this._code == ultrain.current_receiver(), "can not create objects in table of another contract");
+        ultrain_assert(this._code == action.current_receiver(), "can not create objects in table of another contract");
         let item: DataItem<T> = new DataItem<T>(this);
         item._value = obj;
 
@@ -49,8 +50,8 @@ export class DBManager<T> {
         obj.serialize(ds);
 
         let primary = obj.primaryKey();
-        Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(ds.pos, 16).flush();
-        item._primary_itr = ultrain.db_store_i64(this._scope, this._tblname, payer, primary, ds.buffer, ds.pos);
+        // Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(ds.pos, 16).flush();
+        item._primary_itr = db.db_store_i64(this._scope, this._tblname, payer, primary, ds.buffer, ds.pos);
         this._items_vector.push(item);
         // TODO(fanliangqin): update secondary iterators and update next_primaryKey.
     }
@@ -68,7 +69,7 @@ export class DBManager<T> {
         }
 
         ultrain_assert(idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
-        ultrain_assert(this._code == ultrain.current_receiver(), "can not modify objects in table of another contract.");
+        ultrain_assert(this._code == action.current_receiver(), "can not modify objects in table of another contract.");
         // TODO(fanliangqin): update secondary iterators
         // waiting code here
 
@@ -83,7 +84,7 @@ export class DBManager<T> {
         let ds = new DataStream(<usize>arr.buffer, len);
         newobj.serialize(ds);
 
-        ultrain.db_update_i64(item._primary_itr, payer, ds.buffer, ds.pos);
+        db.db_update_i64(item._primary_itr, payer, ds.buffer, ds.pos);
 
         // TODO(fanliangqin): update secondary items here
         // codes wait here
@@ -91,11 +92,11 @@ export class DBManager<T> {
 
     private loadObjectByPrimaryIterator(itr: i32, out: T): void {
         // remove find _items_vector logic, it seems not required.
-        let len: i32 = ultrain.db_get_i64(itr, 0, 0);
+        let len: i32 = db.db_get_i64(itr, 0, 0);
 
         let arr = new Uint8Array(len);
         let ds = new DataStream(<usize>arr.buffer, len);
-        ultrain.db_get_i64(itr, <usize>arr.buffer, len);
+        db.db_get_i64(itr, <usize>arr.buffer, len);
 
         out.deserialize(ds);
 
@@ -114,7 +115,7 @@ export class DBManager<T> {
         }
 
         Log.s("dbmanager.get code = ").i(this._code, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
-        let itr: i32 = ultrain.db_find_i64(this._code, this._scope, this._tblname, primary);
+        let itr: i32 = db.db_find_i64(this._code, this._scope, this._tblname, primary);
         if (itr < 0) return false;
 
         this.loadObjectByPrimaryIterator(itr, out);
@@ -139,10 +140,10 @@ export class DBManager<T> {
 
         let item: DataItem<T> = this._items_vector[i];
         ultrain_assert(item._dbmgr == this, "object passed to erase is not in DBManager.");
-        ultrain_assert(this._code == ultrain.current_receiver(), "can not erase objects in table of another contract.");
+        ultrain_assert(this._code == action.current_receiver(), "can not erase objects in table of another contract.");
 
         this._items_vector.splice(i, 1);
-        ultrain.db_remove_i64(item._primary_itr);
+        db.db_remove_i64(item._primary_itr);
 
         // TODO(fanliangqin): remove secondary iterators
         // codes wait here

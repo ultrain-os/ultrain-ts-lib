@@ -2,7 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 
-declare function printi(cnt: i64): void;
 declare function ts_log_print_s(ch: i32): void;
 declare function ts_log_print_i(i: i64, fmt: u32): void;
 declare function ts_log_done(): void;
