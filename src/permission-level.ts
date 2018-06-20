@@ -16,8 +16,6 @@ export class PermissionLevel implements ISerializable {
         return this.actor == rhs.actor && this.permission == rhs.permission;
     }
 
-
-
     public serialize(ds: DataStream): void {
         ds.write<u64>(this.actor);
         ds.write<u64>(this.permission);

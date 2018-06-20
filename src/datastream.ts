@@ -44,7 +44,7 @@ export class DataStream {
      * @param from an array of basic class, like u8/i8, u16/i16, u32/i32, u64/i64
      */
     static fromArray<T>(from: T[]): DataStream {
-        let len = from.length;
+        let len: u32 = <u32>from.length;
         let bytes = len * sizeof<T>();
         let arr = new Uint8Array(bytes);
         let ds = new DataStream(<usize>arr.buffer, bytes);
@@ -67,7 +67,7 @@ export class DataStream {
 
     static measureComplexVector<T>(arr: T[]): u32 {
         let ins = new DataStream(0, 0);
-        let len = arr.length;
+        let len: u32 = <u32>arr.length;
         ins.writeVarint32(len);
         for (let i: u32 = 0; i < len; i++) {
             arr[i].serialize(ins);
@@ -140,11 +140,11 @@ export class DataStream {
     }
 
     readVector<T>(): T[] {
-        var len = this.readVarint32();
+        let len = this.readVarint32();
         if (len == 0) return new Array<T>();
 
         let arr = new Array<T>(len);
-        for (var i: u32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             arr[i] = this.read<T>();
         }
 
@@ -152,9 +152,9 @@ export class DataStream {
     }
 
     writeVector<T>(arr: T[]): void {
-        let len = arr.length;
+        let len: u32 = <u32>arr.length;
         this.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
+        for (let i: u32 = 0; i < len; i++) {
             this.write<T>(arr[i]);
         }
     }

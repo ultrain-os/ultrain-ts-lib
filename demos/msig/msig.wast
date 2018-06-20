@@ -4522,7 +4522,7 @@
   )
   (loop $continue|0
    (if
-    (i32.lt_s
+    (i32.lt_u
      (get_local $1)
      (get_local $3)
     )
@@ -4864,7 +4864,7 @@
   )
   (loop $continue|0
    (if
-    (i32.lt_s
+    (i32.lt_u
      (get_local $2)
      (get_local $3)
     )
@@ -6153,7 +6153,7 @@
   )
   (loop $continue|0
    (if
-    (i32.lt_s
+    (i32.lt_u
      (get_local $1)
      (get_local $3)
     )

@@ -3228,7 +3228,7 @@
   )
   (get_local $3)
  )
- (func $~lib/internal/typedarray/TypedArray<u8,u32>#constructor (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if
    (i32.gt_u
@@ -3340,7 +3340,7 @@
    (call $../../internal/action.d/env.read_action_data
     (i32.load
      (tee_local $1
-      (call $~lib/internal/typedarray/TypedArray<u8,u32>#constructor
+      (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
        (i32.const 0)
        (tee_local $0
         (call $../../internal/action.d/env.action_data_size)
