@@ -1,4 +1,4 @@
-import { ISerializable } from "../lib/contract";
+import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
 

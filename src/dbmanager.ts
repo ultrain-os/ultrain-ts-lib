@@ -3,7 +3,6 @@
  */
 
 import { Log } from "./log";
-import { ISerializable } from "../lib/contract";
 import { DataStream } from "./datastream";
 import { ultrain_assert } from "./utils";
 import { env as action } from "../internal/action.d";

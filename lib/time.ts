@@ -1,4 +1,4 @@
-import { ISerializable } from "./contract";
+import { ISerializable } from "./ISerializable";
 import { DataStream } from "../src/datastream";
 import { ultrain_assert } from "../src/utils";
 

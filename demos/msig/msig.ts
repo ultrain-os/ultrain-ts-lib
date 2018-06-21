@@ -4,7 +4,8 @@
 
 import "../../internal/alias.d";
 import "../../internal/alias.d";
-import { Contract, ISerializable } from "../../lib/contract";
+import { Contract } from "../../lib/contract";
+import { ISerializable } from "../../lib/ISerializable";
 import { DataStream, DSHelper } from "../../src/datastream";
 import { PermissionLevel } from "../../src/permission-level";
 import { TransactionHeader, Transaction } from "../../lib/transaction";

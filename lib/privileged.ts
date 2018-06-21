@@ -1,8 +1,8 @@
 import "../internal/alias";
-import { ISerializable } from "./contract";
+import { ISerializable } from "./ISerializable";
 import { DataStream, DSHelper } from "../src/datastream";
 import { PublicKey } from "../internal/types";
-import { set_blockchain_parameters_packed, get_blockchain_parameters_packed } from "../internal/privileged.d";
+import { env as privileged } from "../internal/privileged.d";
 import { ultrain_assert } from "../src/utils";
 
 export class BlockchainParameters implements ISerializable {
@@ -92,13 +92,13 @@ export class BlockchainParameters implements ISerializable {
 
  export function setBlockchainParameters(params: BlockchainParameters): void {
     let ds = DSHelper.serializeComplex<BlockchainParameters>(params);
-    set_blockchain_parameters_packed(ds.pointer(), ds.size());
+    privileged.set_blockchain_parameters_packed(ds.pointer(), ds.size());
  }
 
  export function getBlockchainParameters(params: BlockchainParameters): void {
     let len  = DataStream.measure<BlockchainParameters>(params);
     let ds   = DSHelper.getDataStreamWithLength(len);
-    let size = get_blockchain_parameters_packed(ds.pointer(), ds.size());
+    let size = privileged.get_blockchain_parameters_packed(ds.pointer(), ds.size());
     ultrain_assert(size <= len, "privileged.getBlockchainParameters buffer is too small.");
     params.deserialize(ds);
  }

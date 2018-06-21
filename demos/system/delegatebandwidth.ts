@@ -3,7 +3,7 @@
  */
 import "../../internal/alias.d";
 import { Asset } from "../../src/asset";
-import { ISerializable } from "../../lib/contract";
+import { ISerializable } from "../../lib/ISerializable";
 import { DataStream } from "../../src/datastream";
 
 export let refund_delay: time = 3 * 24 * 3600;

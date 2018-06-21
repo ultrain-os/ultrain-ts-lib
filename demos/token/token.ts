@@ -2,12 +2,12 @@
  * @author fanliangqin@ultrain.io
  */
 import "../../internal/alias.d";
-import { Contract, ISerializable } from "../../lib/contract";
+import { Contract } from "../../lib/contract";
+import { ISerializable } from "../../lib/ISerializable";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";
 import { DataStream } from "../../src/datastream";
 import { DBManager } from "../../src/dbmanager";
-import { Log } from "../../src/log";
 import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";

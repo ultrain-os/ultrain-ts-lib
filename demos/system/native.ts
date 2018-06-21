@@ -4,7 +4,8 @@
 
 import "../../internal/alias.d";
 
-import { ISerializable, Contract } from "../../lib/contract";
+import { ISerializable } from "../../lib/ISerializable";
+import { Contract } from "../../lib/contract";
 import { PermissionLevel } from "../../src/permission-level";
 import { DataStream } from "../../src/datastream";
 import { PublicKey, Checksum256 } from "../../internal/types";

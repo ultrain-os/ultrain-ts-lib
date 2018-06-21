@@ -177,7 +177,7 @@ export class DataStream {
      * write array of complex class which implements ISerialzable interface.
      */
     writeComplexVector<T>(arr: T[]): void {
-        let len = arr.length;
+        let len: u32 = <u32>arr.length;
         this.writeVarint32(len);
         for (let i: u32 = 0; i < len; ++i) {
             arr[i].serialize(this);

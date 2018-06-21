@@ -1,12 +1,6 @@
 import { DataStream } from "../src/datastream";
 import { env as action } from "../internal/action.d";
 
-export interface ISerializable {
-    public deserialize(ds: DataStream): void { };
-    public serialize(ds : DataStream) : void {};
-    public primaryKey(): u64 { return 0; }
-}
-
 export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
     let arr = new Uint8Array(len);

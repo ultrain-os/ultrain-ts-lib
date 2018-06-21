@@ -3,7 +3,7 @@
  */
 import { Asset } from "./asset";
 import { DataStream } from "./datastream";
-import { ISerializable } from "../lib/contract";
+import { ISerializable } from "../lib/ISerializable";
 import { PermissionLevel } from "./permission-level";
 import { env as action } from "../internal/action.d";
 

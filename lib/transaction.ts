@@ -1,4 +1,5 @@
-import { ISerializable, DataStreamFromCurrentAction } from "../lib/contract";
+import { DataStreamFromCurrentAction } from "../lib/contract";
+import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "../src/datastream";
 import { Action } from "../src/action";
 import { ultrain_assert } from "../src/utils";

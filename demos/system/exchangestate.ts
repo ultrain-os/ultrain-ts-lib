@@ -2,7 +2,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { ISerializable } from "../../lib/contract";
+import { ISerializable } from "../../lib/ISerializable";
 import { Asset } from "../../src/asset";
 import { DataStream } from "../../src/datastream";
 
