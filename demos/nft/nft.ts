@@ -34,12 +34,12 @@ class Account implements ISerializable {
 
 // TODO add serializable implements
 class CurrencyStats implements ISerializable {
-	supply: Asset;
-	max_supply: Asset;
-	issuer: account_name;
-	current_id: id_type;
+   supply: Asset;
+   max_supply: Asset;
+   issuer: account_name;
+   current_id: id_type;
 
-	constructor(supply: Asset = null, max_supply:Asset= null, issuer: u64 = 0) {
+   constructor(supply: Asset = null, max_supply:Asset= null, issuer: u64 = 0) {
         if (supply == null) supply = new Asset();
         this.supply = supply;
         this.issuer = issuer;
@@ -47,10 +47,10 @@ class CurrencyStats implements ISerializable {
 
     primaryKey(): u64 { return this.supply.symbolName(); }
 
-   	increaseId(): id_type{
-   		this.current_id ++;
-   		return this.current_id;
-   	}
+      increaseId(): id_type{
+         this.current_id ++;
+         return this.current_id;
+    }
 
     deserialize(ds: DataStream): void {
         this.supply.deserialize(ds);
@@ -71,35 +71,35 @@ class CurrencyStats implements ISerializable {
 
 class Token implements ISerializable{
 
-	id: id_type;
-	owner: account_name;
-	value: Asset;
-	uri: string;
-	name: string;
+   id: id_type;
+   owner: account_name;
+   value: Asset; //  1 asset
+   uri: string; //
+   name: string;
 
-	primaryKey(): id_type { return this.id;}
-	getSymbol(): account_name { return this.value.symbolName() }
+   primaryKey(): id_type { return this.id;}
+   getSymbol(): account_name { return this.value.symbolName() }
 
 
-	constructor(id: id_type, owner: account_name, value: Asset, uri: string, name: string){
-		this.id = id;
-		this.owner = owner;
-		this.value = value;
-		this.uri = uri;
-		this.name = name;
-	}
+   constructor(id: id_type, owner: account_name, value: Asset, uri: string, name: string){
+      this.id = id;
+      this.owner = owner;
+      this.value = value;
+      this.uri = uri;
+      this.name = name;
+   }
 
- 	deserialize(ds: DataStream): void {
- 		this.id = ds.read<u64>();
- 		this.owner = ds.read<u64>();
+    deserialize(ds: DataStream): void {
+       this.id = ds.read<u64>();
+       this.owner = ds.read<u64>();
         this.value.deserialize(ds);
         this.uri = ds.readString();
         this.name = ds.readString();
     }
 
     serialize(ds: DataStream): void {
-    	ds.write<u64>(this.id);
-    	ds.write<u64>(this.owner);
+       ds.write<u64>(this.id);
+       ds.write<u64>(this.owner);
         this.value.serialize(ds);
         ds.writeString(this.uri);
         ds.writeString(this.name);
@@ -115,9 +115,9 @@ const TOKENTABLE: string = "token";
 
 export class Nft extends Contract{
 
-	create(issuer:account_name,  maximum_supply: Asset): void{
+   create(issuer:account_name,  maximum_supply: Asset): void{
 
-		action.require_auth(this.receiver);
+      action.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
@@ -132,12 +132,12 @@ export class Nft extends Contract{
         cs.max_supply = maximum_supply;
         cs.issuer = issuer;
         statstable.emplace(this.receiver, cs);
-	}
+   }
 
 
-	issue(to: account_name, quantity: Asset, uris: Array<string>, name: string, memo: string):void {
+   issue(to: account_name, quantity: Asset, uris: Array<string>, memo: string):void {
 
-		ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
+      ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
@@ -156,9 +156,9 @@ export class Nft extends Contract{
         // issue token
         let oneAsset: Asset =  new Asset(1, quantity.symbolName());
         for(let index = 0 ; index < uris.length; index ++ ) {
-        	let uri = uris[index];
-        	let id = st.increaseId();
-        	this.mint(id, to, st.issuer, oneAsset, uri, name);
+           let uri = uris[index];
+           let id = st.increaseId();
+           this.mint(id, to, st.issuer, oneAsset, uri, name);
         }
         this.subSupply(quantity);
 
@@ -175,12 +175,12 @@ export class Nft extends Contract{
             // params.quantity.prints("before dispatchInline");
             dispatchInline(pl, this.receiver, N("transfer"), params);
         }
-	}
+   }
 
 
-	transfer(from: account_name, to: account_name, symname:symbol_name, id: id_type, memo: string): void{
+   transfer(from: account_name, to: account_name, symname:symbol_name, id: id_type, memo: string): void{
 
-		ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
+      ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
         action.require_auth(from);
         ultrain_assert(action.is_account(to), "token.transfer: to account does not exist.");
 
@@ -199,58 +199,58 @@ export class Nft extends Contract{
         let token:Token = new Token(null, null, null, null, null);
         let tokenExisting = tokens.get(id, token);
 
-      	ultrain_assert(tokenExisting, "token.transfer: token with specified ID does not exist");
+         ultrain_assert(tokenExisting, "token.transfer: token with specified ID does not exist");
 
         ultrain_assert(from == token.owner , "token.transfer: sender does not own token with specified ID.");
         ultrain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
 
         // modify the owner and balance, transfer token
-       	token.owner = to;
-       	tokens.modify(token, 0);
+          token.owner = to;
+          tokens.modify(token, 0);
 
-       	let oneToken = new Asset(1, symname);
+          let oneToken = new Asset(1, symname);
         this.subBalance(from, oneToken);
         this.addBalance(to, oneToken, from);
-	}
+   }
 
 
-	ownerof(id: id_type, symname: symbol_name): account_name {
+   ownerof(id: id_type, symname: symbol_name): account_name {
 
-		let tokens:DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, symname);
-		let token: Token = new Token(null, null, null, null, null);
-		let existing = tokens.get(id, token);
+      let tokens:DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, symname);
+      let token: Token = new Token(null, null, null, null, null);
+      let existing = tokens.get(id, token);
 
-		ultrain_assert(existing, "getBalance failed, account is not existed.")		
-		return token.owner;
-	}
+      ultrain_assert(existing, "getBalance failed, account is not existed.")      
+      return token.owner;
+   }
 
-	private mint(id: id_type ,owner: account_name, ram_payer:account_name, value: Asset, uri:string, name:string):void{
+   private mint(id: id_type ,owner: account_name, ram_payer:account_name, value: Asset, uri:string, name:string):void{
 
-		let tokens:DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, value.getSymbol());
-		let token:Token = new Token(id, owner, value, uri, name);
-		tokens.emplace(ram_payer, token)
-	}
+      let tokens:DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, value.getSymbol());
+      let token:Token = new Token(id, owner, value, uri, name);
+      tokens.emplace(ram_payer, token)
+   }
 
 
-	private addBalance(owner: account_name, value: Asset, ram_payer: account_name): void{
+   private addBalance(owner: account_name, value: Asset, ram_payer: account_name): void{
 
-		let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-		let to: Account = new Account(null);
-		let existing = toaccount.get(value.symbolName(), to);
+      let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
+      let to: Account = new Account(null);
+      let existing = toaccount.get(value.symbolName(), to);
 
-		if(!existing) {
-			let account:Account = new Account(value);
-			toaccount.emplace(ram_payer, account);
-		} else{
-			let amount = to.balance.getAmount() + value.getAmount();
-			to.balance.setAmount(amount);
-			toaccount.modify(to, 0); // ram_payer or 0 
-		}
-	}
+      if(!existing) {
+         let account:Account = new Account(value);
+         toaccount.emplace(ram_payer, account);
+      } else{
+         let amount = to.balance.getAmount() + value.getAmount();
+         to.balance.setAmount(amount);
+         toaccount.modify(to, 0); // ram_payer or 0 
+      }
+   }
 
-	private subBalance(owner: account_name, value: Asset):void{
+   private subBalance(owner: account_name, value: Asset):void{
 
-		let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
+      let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
         let from: Account = new Account(null);
         let existing = ats.get(value.symbolName(), from);
 
@@ -265,23 +265,23 @@ export class Nft extends Contract{
             ats.modify(from, owner);
         }
 
-	}
+   }
 
-	private subSupply(quantity: Asset): void{
+   private subSupply(quantity: Asset): void{
 
-		let symname = quantity.symbolName();
-		let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
-		let st: CurrencyStats = new CurrencyStats();
-  		let existing = statstable.get(symname, st);
+      let symname = quantity.symbolName();
+      let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
+      let st: CurrencyStats = new CurrencyStats();
+        let existing = statstable.get(symname, st);
         ultrain_assert(existing, "subSupply failed, states is not existed.");
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
         statstable.modify(st, 0);
-	}
+   }
 
 
-	public getSupply(symname: symbol_name): Asset {
+   public getSupply(symname: symbol_name): Asset {
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
         let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
