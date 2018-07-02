@@ -1,6 +1,6 @@
 {
-  "name": "TsSDK",
-  "version": "0.0.1",
+  "name": "ContractSdk",
+  "version": "0.0.2",
   "description": "The Ultrain Smart Contract TypeScript SDK",
   "license": "Apache-2.0",
   "repository": {
