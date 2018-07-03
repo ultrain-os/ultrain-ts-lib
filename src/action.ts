@@ -102,4 +102,3 @@ export class Action implements ISerializable {
     serialize(ds: DataStream): void {}
     deserialize(ds: DataStream): void {}
 }
-

@@ -3,13 +3,13 @@ import { DataStream } from "../src/datastream";
 import { ultrain_assert } from "../src/utils";
 
 export class Microseconds implements ISerializable {
-    _count: i64;
+    _count: u64;
 
     static maximum(): Microseconds {
         return new Microseconds(0x7FFFFFFFFFFFFFFF);
     }
 
-    constructor(c: i64 = 0) {
+    constructor(c: u64 = 0) {
         this._count = c;
     }
 
@@ -43,40 +43,40 @@ export class Microseconds implements ISerializable {
         return this;
     }
 
-    count(): i64 { return this._count; }
+    count(): u64 { return this._count; }
 
-    toSeconds(): i64 { return this._count / 1000000; }
+    toSeconds(): u64 { return this._count / 1000000; }
 
     serialize(ds: DataStream): void {
-        ds.write<i64>(this._count);
+        ds.write<u64>(this._count);
     }
 
     deserialize(ds: DataStream): void {
-        this._count = ds.read<i64>();
+        this._count = ds.read<u64>();
     }
 }
 
-export function milliseconds(c: i64): Microseconds {
+export function milliseconds(c: u64): Microseconds {
     let mis = new Microseconds(c * 1000);
     return mis;
 }
 
-export function seconds(sec: i64): Microseconds {
+export function seconds(sec: u64): Microseconds {
     let mis = milliseconds(sec * 1000);
     return mis;
 }
 
-export function minutes(m: i64): Microseconds {
+export function minutes(m: u64): Microseconds {
     let mis = seconds(m * 60);
     return mis;
 }
 
-export function hours(h: i64): Microseconds {
+export function hours(h: u64): Microseconds {
     let mis = minutes(h * 60);
     return mis;
 }
 
-export function days(d: i64): Microseconds {
+export function days(d: u64): Microseconds {
     let mis = hours(d * 24);
     return mis;
 }
@@ -133,8 +133,8 @@ export class TimePointSec implements ISerializable {
     deserialize(ds: DataStream): void { this.utc_seconds = ds.read<u32>(); }
 }
 
-const block_interval_ms: i32 = 500;
-const block_timestamp_epoch: i64 = 946684800000; // epoch since year 2000.
+const block_interval_ms: u32 = 500;
+const block_timestamp_epoch: u64 = 946684800000; // epoch since year 2000.
 
 export class BlockTimestamp implements ISerializable {
     _slot: u32;
@@ -165,7 +165,7 @@ export class BlockTimestamp implements ISerializable {
     }
 
     toTimePoint(): TimePoint {
-        let msec: i64 = this._slot * <i64>block_interval_ms;
+        let msec: u64 = this._slot * <u64>block_interval_ms;
         msec += block_timestamp_epoch;
 
         return new TimePoint(milliseconds(msec));

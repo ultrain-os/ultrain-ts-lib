@@ -9,7 +9,6 @@ export declare namespace env{
 }
 
 
-
 class Logger {
     /**
      * print a string message to console.
