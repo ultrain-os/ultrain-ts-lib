@@ -74,6 +74,89 @@ export class Asset implements ISerializable {
         return true;
     }
 
+    private static checkOperaotrCondition(rhs: Asset, lhs: Asset): void {
+        ultrain_assert(rhs.symbol == lhs.symbol, "can not compare Asset with different symbol.");
+    }
+
+    @operator(">")
+    private static _gt(rhs: Asset, lhs: Asset): boolean {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        return rhs.amount > lhs.amount;
+    }
+
+    @operator(">=")
+    private static _gte(rhs: Asset, lhs: Asset): boolean {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        return rhs.amount >= lhs.amount;
+    }
+
+    @operator("<")
+    private static _lt(rhs: Asset, lhs: Asset): boolean {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        return rhs.amount < lhs.amount;
+    }
+
+    @operator("<=")
+    private static _lte(rhs: Asset, lhs: Asset): boolean {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        return rhs.amount <= lhs.amount;
+    }
+
+    @operator("==")
+    private static _eq(rhs: Asset, lhs: Asset): boolean {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        return rhs.amount == lhs.amount;
+    }
+
+    @operator("+")
+    private _add(rhs: Asset, lhs: Asset): Asset {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        let result = new Asset();
+        result.setSymbol(rhs.getSymbol())
+        result.setAmount(rhs.getAmount() + lhs.getAmount());
+        return result;
+    }
+
+    @operator("-")
+    private _sub(rhs: Asset, lhs: Asset): Asset {
+        Asset.checkOperaotrCondition(rhs, lhs);
+        let result = new Asset();
+        result.setSymbol(rhs.getSymbol())
+        result.setAmount(rhs.getAmount() - lhs.getAmount());
+        return result;
+    }
+
+    clone(): Asset {
+        let ast = new Asset();
+        ast.amount = this.amount;
+        ast.symbol = this.symbol;
+
+        return ast;
+    }
+
+    add(rhs: Asset): Asset {
+        ultrain_assert(rhs.symbol == this.symbol, "can not compare Asset with different symbol.");
+        this.amount += rhs.amount;
+        return this;
+    }
+
+    sub(rhs: Asset): Asset {
+        ultrain_assert(rhs.symbol == this.symbol, "can not compare Asset with different symbol.");
+        this.amount += rhs.amount;
+        return this;
+    }
+
+    multi(rhs: u64): Asset {
+        this.amount *= rhs;
+        return this;
+    }
+
+    divide(rhs: u64): Asset {
+        ultrain_assert(rhs != 0, "divide by 0");
+        this.amount /= rhs;
+        return this;
+    }
+
     getAmount(): u64 { return this.amount; }
     setAmount(newAmount: u64): void { this.amount = newAmount; }
     getSymbol(): u64 { return this.symbol; }

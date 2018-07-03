@@ -20,26 +20,43 @@ export class DataItem<T> {
 }
 /**
  * class DBManager is used to manager reading or writing to system db.
- * the type T must be implements some methods link @{Token.Account} or @{Token.CurrencyStats}
+ * the type T must be implements interface ISerializable,
+ * reference @{Token.Account} or @{Token.CurrencyStats}
  */
+
+// FIXME: till now, the sementic like "class DBManager<T implements ISerializable>" is not
+// supported by AssemblyScript.
+// Should fix this issue when AssemblyScript can do this.
+
 export class DBManager<T> {
     public _tblname: u64;
-    public _code: u64;
+    public _owner: u64;
     public _scope: u64;
     public _items_vector: DataItem<T>[];
-
-    constructor(tblname: u64, code: u64, scope: u64) {
+    /**
+     * create a table to persistent data.
+     * @param tblname the table name
+     * @param owner the owner of the table, who can read and write the table, anyone else is read-only.
+     * @param scope the scope of rows,
+     *        if you write a row with scope A, then you must read the row with scope A too,
+     *        otherwise you get nothing.
+     */
+    constructor(tblname: u64, owner: u64, scope: u64) {
         this._tblname = tblname;
-        this._code = code;
+        this._owner = owner;
         this._scope = scope;
         this._items_vector = [];
     }
 
-    public getCode(): u64 { return this._code; }
+    public getCode(): u64 { return this._owner; }
     public getScope(): u64 { return this._scope; }
-
+    /**
+     * insert a new record to database.
+     * @param payer an account_name, who pays for the storing action.
+     * @param obj the data to be sotred.
+     */
     public emplace(payer: u64, obj: T): void {
-        ultrain_assert(this._code == action.current_receiver(), "can not create objects in table of another contract");
+        ultrain_assert(this._owner == action.current_receiver(), "can not create objects in table of another contract");
         let item: DataItem<T> = new DataItem<T>(this);
         item._value = obj;
 
@@ -54,7 +71,11 @@ export class DBManager<T> {
         this._items_vector.push(item);
         // TODO(fanliangqin): update secondary iterators and update next_primaryKey.
     }
-
+    /**
+     * update a row.
+     * @param newobj the updated data to be stored.
+     * @param payer account name who pays for the updating action.
+     */
     public modify(newobj: T, payer: u64): void {
         let item: DataItem<T>;
         let len: i32 = this._items_vector.length;
@@ -68,7 +89,7 @@ export class DBManager<T> {
         }
 
         ultrain_assert(idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
-        ultrain_assert(this._code == action.current_receiver(), "can not modify objects in table of another contract.");
+        ultrain_assert(this._owner == action.current_receiver(), "can not modify objects in table of another contract.");
         // TODO(fanliangqin): update secondary iterators
         // waiting code here
 
@@ -103,7 +124,12 @@ export class DBManager<T> {
         // codes wait here.
         // return val;
     }
-
+    /**
+     * read a record form database.
+     * @param primary the primary key of data
+     * @param out the data struct if success.
+     * @returns true if the primary key exists, otherwise false.
+     */
     public get(primary: u64, out: T): boolean {
         let len: i32 = this._items_vector.length;
         for (let i: i32 = 0; i < len; ++i) {
@@ -113,8 +139,8 @@ export class DBManager<T> {
             }
         }
 
-        Log.s("dbmanager.get code = ").i(this._code, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
-        let itr: i32 = db.db_find_i64(this._code, this._scope, this._tblname, primary);
+        Log.s("dbmanager.get code = ").i(this._owner, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
+        let itr: i32 = db.db_find_i64(this._owner, this._scope, this._tblname, primary);
         if (itr < 0) return false;
 
         this.loadObjectByPrimaryIterator(itr, out);
@@ -126,7 +152,10 @@ export class DBManager<T> {
         this._items_vector.push(item);
         return true;
     }
-
+    /**
+     * remove a record from database.
+     * @param obj data to be removed.
+     */
     public erase(obj: T): void {
         let len: i32 = this._items_vector.length;
         let i: i32 = 0;
@@ -139,7 +168,7 @@ export class DBManager<T> {
 
         let item: DataItem<T> = this._items_vector[i];
         ultrain_assert(item._dbmgr == this, "object passed to erase is not in DBManager.");
-        ultrain_assert(this._code == action.current_receiver(), "can not erase objects in table of another contract.");
+        ultrain_assert(this._owner == action.current_receiver(), "can not erase objects in table of another contract.");
 
         this._items_vector.splice(i, 1);
         db.db_remove_i64(item._primary_itr);

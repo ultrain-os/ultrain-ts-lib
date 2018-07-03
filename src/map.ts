@@ -55,6 +55,19 @@ export class Map<K, V> {
         return this.find(key) != -1;
     }
 
+    @operator("[]")
+    private _valueAt(key: K): V {
+        let i = this.find(key);
+        if (i != -1) {
+            return this._values[i];
+        } else {
+            this._keys.push(key);
+            // TODO(liangqin): should handle new V() if V does not have a default constructor.
+            this._values.push(null);
+            return this._values[this._values.length - 1];
+        }
+    }
+
     private find(key: K): i32 {
         for (let i: i32 = 0; i < this._keys.length; ++i) {
             if (this._keys[i] == key) {
