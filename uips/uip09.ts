@@ -6,6 +6,7 @@ export interface UIP09{
 
 	/**
 	 * Create a non-fungbile token
+	 * 
 	 * @param issuer the tokne issurer
 	 * @param maximum_supply the total token supply amouont
 	 */
@@ -30,7 +31,6 @@ export interface UIP09{
 	 * @param to the token recevier
 	 * @param token_id the identity of the token
 	 * @param memeo the memeo for transfer action
-	 * 
 	 */
 	transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {};
 
@@ -38,6 +38,7 @@ export interface UIP09{
 	 * Get the owner account by the token_id
 	 * 
 	 * @param token_id the identity token_id
+	 * 
 	 * @returns return the token owner account name
 	 */
 	ownerof(token_id: id_type): account_name {};
@@ -57,6 +58,7 @@ export interface UIP09{
 	 * Get the token attribute uri by the token_id
 	 * 
 	 * @param token_id the token id
+	 * 
 	 * @returns the uri of the token
 	 */
 	uriof(token_id: id_type): string {};
