@@ -115,7 +115,7 @@ const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
 const TOKENTABLE: string = "token";
 
-export class Nft implements UEP09 {
+export class Nft implements UIP09 {
 
     private token_scope: u64 = N("token");
     private receiver: u64;
@@ -239,7 +239,7 @@ export class Nft implements UEP09 {
         return token.uri;
     }
 
-    tokenbyindex(owner: account_name, sym_name: string, index: i32): account_name {
+    tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = N(sym_name);
         let accounts: DBManager<Account>= new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
         let account: Account = new Account();
@@ -248,8 +248,7 @@ export class Nft implements UEP09 {
         ultrain_assert(existing, "tokenOfOwnerByIndex failed, account is not existed.")
         ultrain_assert(account.token_ids.length > index, "tokenOfOwnerByIndex failed, the index beyond the range.");
 
-        let token_id = account.token_ids[index];
-        return this.ownerof(token_id);
+        return account.token_ids[index];
     }
 
 
@@ -341,13 +340,11 @@ export class Nft implements UEP09 {
         }
     }
 
-    private addTokenIds(token_ids: Array<id_type>, added_ids:Array<id_type>):Array<id_type>{
-
-      // for(let id of added_ids) {
-      //   token_ids.push(id);
-      // }
-
-      return token_ids;
+    private addTokenIds(token_ids: Array<id_type>, added_ids:Array<id_type>):Array<id_type>{    
+        for(let index = 0; index <= added_ids.length; index ++ ){
+            token_ids.push(added_ids[index]);
+        }
+        return token_ids;
     }
 
 
