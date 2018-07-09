@@ -55,8 +55,13 @@ export class Map<K, V> {
         return this.find(key) != -1;
     }
 
+    // FIXME the operator [] can only read from the map,
+    // but can not write to the map, because:
+    // 1. in typescript, basic variable types as int/string/double is passed by value,
+    // and can not passed by reference.
+    // 2. for some value type V, there is no default constructor
     @operator("[]")
-    private _valueAt(key: K): V {
+    private _valueAt(key: K): V | null {
         let i = this.find(key);
         if (i != -1) {
             return this._values[i];
@@ -64,7 +69,7 @@ export class Map<K, V> {
             this._keys.push(key);
             // TODO(liangqin): should handle new V() if V does not have a default constructor.
             this._values.push(null);
-            return this._values[this._values.length - 1];
+            return null;
         }
     }
 

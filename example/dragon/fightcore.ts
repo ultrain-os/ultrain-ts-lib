@@ -68,7 +68,7 @@ class FightContractData {
 
 }
 
-class FightCore extends Pausable {
+export class FightCore extends Pausable {
     private dataes: FightContractData;
     private match: MatchCore;
 
@@ -179,21 +179,21 @@ class FightCore extends Pausable {
         d1.attackIndex = d1.attackIndex % 5;
     }
 
-    public startFight(betid: u64, did1: DragonId, gen1: GenType, did2: DragonId, gen2: GenType): DragonId {
+    /*@action*/public startFight(betid: u64, did1: DragonId, gen1: GenType, did2: DragonId, gen2: GenType, nonce: u64): DragonId {
         let d1 = new DragonInfo();
         d1.id = did1;
         d1.blood = this.getBlood(gen1);
         d1.skills = this.getSkills(gen1);
         d1.skillLevels = this.getSkillsLevel(gen1);
         // TODO(liangqin): set seed for random uint64 generator.
-        d1.seed = Action.random_uint64(0);
+        d1.seed = Action.random_uint64(nonce);
 
         let d2 = new DragonInfo();
         d2.id = did2;
         d2.blood = this.getBlood(gen2);
         d2.skills = this.getSkills(gen2);
         d2.skillLevels = this.getSkillsLevel(gen2);
-        d2.seed = Action.random_uint64(0); // TODO here as upper line
+        d2.seed = Action.random_uint64(nonce); // TODO here as upper line
 
         this.getAddition(gen1, d1);
         this.getAddition(gen2, d2);

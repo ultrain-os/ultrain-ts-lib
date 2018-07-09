@@ -2,12 +2,10 @@
 import "allocator/arena";
 
 import { DataStream } from "../../src/datastream";
-import { printstr, N, ultrain_assert, RN } from "../../src/utils";
-import { Log } from "../../src/log";
-import { Contract } from "../../lib/contract";
+import { N, ultrain_assert } from "../../src/utils";
 import { env as Action } from "../../internal/action.d";
 import { GenType } from "./genetype";
-import { minutes, Microseconds, hours, days, seconds } from "../../lib/time";
+import { minutes, hours, days, seconds } from "../../lib/time";
 import { SaleClockAuction, SireClockAuction } from "./saleclockauction";
 import { Map } from "../../src/map";
 import { GeneScience } from "./genescience";
@@ -18,14 +16,7 @@ import { Asset, StringToSymbol } from "../../src/asset";
 import { MatchCore } from "./match";
 import "../../internal/alias.d";
 import "./consts";
-
-// export function apply(receiver: u64, code: u64, action: u64): void {
-//     Log.s("receiver: ").s(RN(receiver)).s(" code: ").s(RN(code)).flush();
-//     let sender: u64 = Action.current_sender();
-//     Log.s("current sender = ").s(RN(sender)).flush();
-//     var gol: HelloContract = new HelloContract(receiver);
-//     gol.apply(code, action);
-// }
+import { Titles } from "./titles";
 
 class DragonAccessControl {
     ceoAddress: account_name;
@@ -135,7 +126,7 @@ class Dragon implements ISerializable {
     primaryKey(): u64 { return this.id; }
 }
 
-class DragonBase extends DragonAccessControl {
+class DragonBase extends DragonAccessControl implements ISerializable {
     // TODO(liangqin): define events
     /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
     ///  includes any time a dragon is created through the giveBirth method, but it is also called
@@ -150,6 +141,100 @@ class DragonBase extends DragonAccessControl {
 
     // event setBirthFee(val: Asset);
 
+    dragons: Dragon[] = [];
+    // a map from dragon's id to owner's address
+    dragonIndexToOwner: Map<DragonId, account_name> = new Map<DragonId, account_name>();
+    // a map from owner address to count of tokens that the address owns.
+    ownershipTokenCount: Map<account_name, u64> = new Map<account_name, u64>();
+    // a map from dragon's id to approved address which can call transferFrom().
+    // Each dragon can only have one aporoved address for transfer at any time.
+    // A zero value means no approval is outstanding.
+    dragonIndextoApproved: Map<DragonId, account_name> = new Map<DragonId, account_name>();
+    // a map from dragon's id to an address that has been approved to use this Dragon
+    // for siring via breedWith().
+    // Each dragon can only have one approved address for siring at any time. A zero
+    // value means no approval is outstanding.
+    sireAllowedToAddress: Map<DragonId, account_name> = new Map<DragonId, account_name>();
+
+    // a map from GenType's subtype to its count.
+    specialDragon: Map<u32, u32> = new Map<u32, u32>();
+    // a map from GenType's subtype to its limits.
+    specialDragonLimit: Map<u32, u32> = new Map<u32, u32>();
+
+    // Limits the number of dragons the contract owner can ever create.
+    promoCreatedCount: u64;
+    gen0CreatedCount: u64;
+
+    /// @notice The minimum payment required to use breedWithAuto(). This fee goes towards
+    ///  the gas cost paid by whatever calls giveBirth(), and can be dynamically updated by
+    ///  the COO role as the gas price changes.
+    autoBirthFee: Asset = new Asset(8, SYM);
+
+    // Keeps track of number of pregnant dragons
+    pregnantDragons: u64;
+
+    private serializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
+        let cnt: u64 = <u64>mp.size();
+        let keys = mp.keys();
+        let vals = mp.values();
+
+        ds.write<u64>(cnt);
+        for (let i: u64 = 0; i < cnt; i++) {
+            ds.write<K>(keys[i]);
+            ds.write<V>(vals[i]);
+        }
+    }
+
+    private deserializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
+        let cnt: u64 = ds.read<u64>();
+
+        for (let i: u64 = 0; i < cnt; i++) {
+            let key = ds.read<K>();
+            let val = ds.read<V>();
+
+            mp.set(key, val);
+        }
+    }
+
+    public serialize(ds: DataStream): void {
+        ds.write<account_name>(this.ceoAddress);
+        ds.write<account_name>(this.cfoAddress);
+        ds.write<account_name>(this.apiAddress);
+        ds.write<boolean>(this.paused);
+        ds.writeComplexVector<Dragon>(this.dragons);
+        this.serializeMap<DragonId, account_name>(this.dragonIndexToOwner, ds);
+        this.serializeMap<DragonId, account_name>(this.ownershipTokenCount, ds);
+        this.serializeMap<DragonId, u64>(this.dragonIndextoApproved, ds);
+        this.serializeMap<DragonId, account_name>(this.sireAllowedToAddress, ds);
+        this.serializeMap<u32, u32>(this.specialDragon, ds);
+        this.serializeMap<u32, u32>(this.specialDragonLimit, ds);
+        ds.write<u64>(this.promoCreatedCount);
+        ds.write<u64>(this.gen0CreatedCount);
+        ds.write<u64>(this.pregnantDragons);
+        this.autoBirthFee.serialize(ds);
+    }
+
+    public deserialize(ds: DataStream): void {
+        this.ceoAddress = ds.read<account_name>();
+        this.cfoAddress = ds.read<account_name>();
+        this.apiAddress= ds.read<account_name>();
+        this.paused = ds.read<boolean>();
+        this.dragons = ds.readComplexVector<Dragon>();
+        this.deserializeMap<DragonId, account_name>(this.dragonIndexToOwner, ds);
+        this.deserializeMap<DragonId, account_name>(this.ownershipTokenCount, ds);
+        this.deserializeMap<DragonId, u64>(this.dragonIndextoApproved, ds);
+        this.deserializeMap<DragonId, account_name>(this.sireAllowedToAddress, ds);
+        this.deserializeMap<u32, u32>(this.specialDragon, ds);
+        this.deserializeMap<u32, u32>(this.specialDragonLimit, ds);
+        this.promoCreatedCount = ds.read<u64>();
+        this.gen0CreatedCount = ds.read<u64>();
+        this.pregnantDragons = ds.read<u64>();
+        this.autoBirthFee.deserialize(ds);
+    }
+
+    public primaryKey(): u64 { return <u64>0; }
+
+    // NEXT CONSTS does not need to store
     cooldowns: u64[] = [
         minutes(1).toSeconds(),
         minutes(2).toSeconds(),
@@ -168,20 +253,7 @@ class DragonBase extends DragonAccessControl {
     ];
     // seconds between blocks, in Ultrain, it is 10 seconds approximation.
     secondsPerBlock: u64 = seconds(10).toSeconds();
-    dragons: Dragon[] = [];
-    // a map from dragon's id to owner's address
-    dragonIndexToOwner: Map<DragonId, account_name> = new Map<DragonId, account_name>();
-    // a map from owner address to count of tokens that the address owns.
-    ownershipTokenCount: Map<account_name, u64> = new Map<account_name, u64>();
-    // a map from dragon's id to approved address which can call transferFrom().
-    // Each dragon can only have one aporoved address for transfer at any time.
-    // A zero value means no approval is outstanding.
-    dragonIndextoApproved: Map<DragonId, account_name> = new Map<DragonId, account_name>();
-    // a map from dragon's id to an address that has been approved to use this Dragon
-    // for siring via breedWith().
-    // Each dragon can only have one approved address for siring at any time. A zero
-    // value means no approval is outstanding.
-    sireAllowedToAddress: Map<DragonId, account_name> = new Map<DragonId, account_name>();
+
     /// @dev The address of the ClockAuction contract that handles sales of Dragons. This
     ///  same contract handles both peer-to-peer sales as well as the gen0 sales which are
     ///  initiated every 15 minutes.
@@ -190,16 +262,6 @@ class DragonBase extends DragonAccessControl {
     ///  auctions. Needs to be separate from saleAuction because the actions taken on success
     ///  after a sales and siring auction are quite different.
     siringAuction: SireClockAuction;
-
-    // a map from GenType's subtype to its count.
-    specialDragon: Map<u32, u32> = new Map<u32, u32>();
-    // a map from GenType's subtype to its limits.
-    specialDragonLimit: Map<u32, u32> = new Map<u32, u32>();
-
-    // Limits the number of dragons the contract owner can ever create.
-    promoCreatedCount: u64;
-    gen0CreatedCount: uu64;
-
     // delegate contracts
     protected genScience: GeneScience;
     protected matchInterface: MatchCore;
@@ -305,14 +367,6 @@ class DragonBreeding extends DragonOwnership {
     ///  timer begins for the matron.
     // event Pregnant(owner: account_name, matronId: DragonId, sireId: DragonId, cooldownEndBlock: u64);
     // event UpdateGenes(dragonId: DragonId, genes: GenType);
-
-    /// @notice The minimum payment required to use breedWithAuto(). This fee goes towards
-    ///  the gas cost paid by whatever calls giveBirth(), and can be dynamically updated by
-    ///  the COO role as the gas price changes.
-    autoBirthFee: Asset = new Asset(8, SYM);
-
-    // Keeps track of number of pregnant dragons
-    pregnantDragons: u64;
 
     protected _isReadyToBreed(dra: Dragon): boolean {
         // In addition to checking the cooldownEndBlock, we also need to check to see if
@@ -691,19 +745,15 @@ class DragonMatch extends DragonMinting {
 
         // emit FightCooldown(dragonId, cooldownIndex, cooldownTime, dra.fightCooldownEndBlock);
     }
-    /* Composite of dragon Titles in solidity */
-    /* H----------------------------------------------L*/
-    /* .............        FF   FF  FF                     FF*/
-    /*          |- 22bit match id-||- 2bit ranking-||-8bit titles count -|*/
-    public setTitles(dragonId: DragonId, matchId: u64, title: u64): void {
-        let dra  =this.dragons[dragonId];
-        let count = dra.titles & 0xff;
-        if (count >= 10) return;
 
-        // FIXME(liangqin): titles是怎么组成的，移位操作的含义是什么
-        dra.titles += 1;
-        dra.titles += (matchId << (8 + count * 24));
-        dra.titles += (title << (8 + count * 24 + 22));
+    public setTitles(dragonId: DragonId, matchId: u64, rank: u64): void {
+        let dra  =this.dragons[dragonId];
+        let t: Titles = new Titles(dra.titles);
+
+        t.count += 1;
+        t.match = Titles.compositeMatchIdAndRank(matchId, rank);
+
+        dra.titles = t.title;
 
         // emit UpdateTitle(dragonId, dra.titles);
     }

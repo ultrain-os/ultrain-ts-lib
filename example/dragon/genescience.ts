@@ -509,7 +509,7 @@ export class GeneScience {
             return genes;
         } else {
             let subtype = genes.subtype;
-            // TODO(liangqin): 调用主合约，产生特殊龙的信息
+
             let cur: u64 = this.master.specialDragon.get(subtype);
             let limit: u64 = this.master.specialDragonLimit.get(subtype);
             if (cur < limit) {

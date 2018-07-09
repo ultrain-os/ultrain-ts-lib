@@ -21,4 +21,6 @@ export namespace env {
     export declare function current_receiver(): u64;
     export declare function current_sender(): u64;
     export declare function random_uint64(seed: u64): u64;
+    export declare function set_result_str(cstr: usize): void;
+    export declare function set_result_int(val: u64): void;
 }

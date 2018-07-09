@@ -137,7 +137,7 @@ export class Nft extends Contract{
 
    issue(to: account_name, quantity: Asset, uris: Array<string>, memo: string):void {
 
-      ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
+        ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
@@ -220,7 +220,7 @@ export class Nft extends Contract{
       let token: Token = new Token(null, null, null, null, null);
       let existing = tokens.get(id, token);
 
-      ultrain_assert(existing, "getBalance failed, account is not existed.")      
+      ultrain_assert(existing, "getBalance failed, account is not existed.")
       return token.owner;
    }
 
@@ -244,7 +244,7 @@ export class Nft extends Contract{
       } else{
          let amount = to.balance.getAmount() + value.getAmount();
          to.balance.setAmount(amount);
-         toaccount.modify(to, 0); // ram_payer or 0 
+         toaccount.modify(to, 0); // ram_payer or 0
       }
    }
 

@@ -76,7 +76,7 @@ export class DBManager<T> {
      * @param newobj the updated data to be stored.
      * @param payer account name who pays for the updating action.
      */
-    public modify(newobj: T, payer: u64): void {
+    public modify(payer: u64, newobj: T): void {
         let item: DataItem<T>;
         let len: i32 = this._items_vector.length;
         let idx: i32 = 0;
@@ -139,7 +139,7 @@ export class DBManager<T> {
             }
         }
 
-        Log.s("dbmanager.get code = ").i(this._owner, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
+        // Log.s("dbmanager.get code = ").i(this._owner, 16).s(" scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" id = ").i(primary, 16).flush();
         let itr: i32 = db.db_find_i64(this._owner, this._scope, this._tblname, primary);
         if (itr < 0) return false;
 

@@ -3,69 +3,13 @@
  */
 import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
-import { ISerializable } from "../../lib/ISerializable";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";
-import { DataStream } from "../../src/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
-
-class Account implements ISerializable {
-    balance: Asset;
-
-    constructor(blc: Asset = null) {
-        if (blc == null) blc = new Asset();
-
-        this.balance = blc;
-    }
-
-    primaryKey(): u64 { return this.balance.symbolName(); }
-
-    deserialize(ds: DataStream): void {
-        this.balance.deserialize(ds);
-    }
-
-    serialize(ds: DataStream): void {
-        this.balance.serialize(ds);
-    }
-}
-
-class CurrencyStats implements ISerializable {
-    supply: Asset;
-    max_supply: Asset;
-    issuer: u64;
-
-    constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0) {
-        if (supply == null) supply = new Asset();
-        if (max_supply == null) max_supply = new Asset();
-        this.supply = supply;
-        this.max_supply = max_supply;
-        this.issuer = issuer;
-    }
-
-    primaryKey(): u64 { return this.supply.symbolName(); }
-
-    deserialize(ds: DataStream): void {
-        this.supply.deserialize(ds);
-        this.max_supply.deserialize(ds);
-        this.issuer = ds.read<u64>();
-    }
-
-    serialize(ds: DataStream): void {
-        this.supply.serialize(ds);
-        this.max_supply.serialize(ds);
-        ds.write<u64>(this.issuer);
-    }
-}
-
-class TransferArgs {
-    from: account_name;
-    to: account_name;
-    quantity: Asset;
-    memo: string;
-}
+import { CurrencyStats, Account } from "../../src/balance";
 
 const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
@@ -108,7 +52,7 @@ export class Token extends Contract {
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(st, 0);
+        statstable.modify(0, st);
         this.addBalance(st.issuer, quantity, st.issuer);
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
@@ -162,7 +106,7 @@ export class Token extends Contract {
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
-            ats.modify(from, owner);
+            ats.modify(owner, from);
         }
     }
 
@@ -177,7 +121,7 @@ export class Token extends Contract {
         } else {
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
-            toaccount.modify(to, 0);
+            toaccount.modify(0, to);
         }
     }
 
