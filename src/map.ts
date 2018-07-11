@@ -3,10 +3,10 @@
  */
 
 export class Map<K, V> {
-    private _keys: K[] = []
-    private _values: V[] = [];
+    private _keys: K[] = [];
+    private _values: V[] =[];
 
-    constructor() {}
+    // constructor() {}
 
     set(key: K, val: V): void {
         let idx: i32 = this.find(key);
@@ -18,20 +18,20 @@ export class Map<K, V> {
         }
     }
 
-    get(key: K): V | null {
+    get(key: K): V {
         let idx: i32 = this.find(key);
         if (idx == -1)  return null;
 
         return this._values[idx];
     }
 
-    remove(key: K): V | null {
+    remove(key: K): boolean {
         let idx: i32 = this.find(key);
-        if (idx == -1) return null;
+        if (idx == -1) return false;
 
         this._keys.splice(idx, 1);
-        let ret: V[] = this._values.splice(idx, 1);
-        return ret[0];
+        this._values.splice(idx, 1);
+        return true;
     }
 
     size(): i32 {
@@ -50,9 +50,10 @@ export class Map<K, V> {
         this._keys = [];
         this._values = [];
     }
-
-    contains(key: K): boolean {
-        return this.find(key) != -1;
+    // FIXME: 为什么直接返回boolean就是不可以？？？？？
+    contains(key: K): u32 {
+        // return this.find(key) != -1;
+        return this.find(key);
     }
 
     // FIXME the operator [] can only read from the map,
@@ -61,7 +62,7 @@ export class Map<K, V> {
     // and can not passed by reference.
     // 2. for some value type V, there is no default constructor
     @operator("[]")
-    private _valueAt(key: K): V | null {
+    private _valueAt(key: K): V {
         let i = this.find(key);
         if (i != -1) {
             return this._values[i];

@@ -11,7 +11,7 @@ export function DataStreamFromCurrentAction(): DataStream {
 
 export class Contract {
 
-    private _receiver: account_name;
+    protected _receiver: account_name;
 
     constructor(receiver: account_name) {
         this._receiver = receiver;

@@ -2,7 +2,7 @@ import { env as Action } from "../../internal/action.d";
 import { ultrain_assert, N } from "../../src/utils";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Map } from "../../src/map";
-import { Microseconds, hours, days } from "../../lib/time";
+import { hours, days } from "../../lib/time";
 import { Pausable } from "./pausable";
 import { DragonCore } from "./dragoncore";
 import { FightCore } from "./fightcore";
@@ -13,7 +13,7 @@ import { DataStream } from "../../src/datastream";
 import { GenType } from "./genetype";
 import { DBManager } from "../../src/dbmanager";
 
-const SYM = StringToSymbol(4, "UGS");
+let SYM = StringToSymbol(4, "UGS");
 
 class JoinUser implements ISerializable {
     dragon_id: u64;
@@ -88,7 +88,7 @@ class MatchInfo implements ISerializable {
     level: u64;
     status: boolean;
     joinNum: u64;
-    fightGroup: account_name[2][];
+    fightGroup: account_name[/* 2 */][];
     joinList: Map<account_name, JoinUser>;
     // map struct: betid => { dragonId => GuessInfo }
     guessList: Map<u64, GuessListValue>;
@@ -189,8 +189,8 @@ class MatchInfo implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-const MatchInfoTable: u64 = N("hd.matches");
-const MatchInfoTableScope: u64 = N("mat.scope");
+let MatchInfoTable: u64 = N("hd.matches");
+let MatchInfoTableScope: u64 = N("mat.scope");
 
 class MatchBase extends Pausable implements ISerializable {
     // match id
@@ -401,11 +401,11 @@ export class MatchCore extends MatchBase {
         this._escrow(joinUser, dragonId);
 
         let matchInfo = this.matchList[this.match_id];
-        ultrain_assert(fee >= this.regfees[matchInfo.level - 1], "supplied fee is small than the lower limit.");
+        ultrain_assert(fee >= this.regfees[<i32>(matchInfo.level - 1)], "supplied fee is small than the lower limit.");
         ultrain_assert(this.isCanJoin(joinUser), "can not join this match.");
 
         let gene = this.getDragonGene(dragonId);
-        let gemLimit: u64[2] = this.genLimit.get(matchInfo.level);
+        let gemLimit: u64[/* 2 */] = this.genLimit.get(matchInfo.level);
         if (gemLimit[1] > 0) {
             ultrain_assert(gene >= gemLimit[0] && gene <=gemLimit[1], "the dragon gene is not between the gene limit.");
         }
@@ -418,7 +418,7 @@ export class MatchCore extends MatchBase {
 
         // emit JoinMatch(this.match_id, joinUser, dragonId);
 
-        if (matchInfo.joinNum >= this.joinLimit[this.match_id]) {
+        if (matchInfo.joinNum >= this.joinLimit[<i32>this.match_id]) {
             matchInfo.step = 1;
             // emit CompleteJoin(this.match_id);
         }
@@ -529,7 +529,6 @@ export class MatchCore extends MatchBase {
     /*@action*/public dissolve(matchId: u64): void {
         this.onlyOwner();
         let matchInfo = this.matchList[this.match_id];
-        let i: u32;
         let did1: u32;
         let did2: u32;
 
@@ -542,7 +541,7 @@ export class MatchCore extends MatchBase {
         } else { // 从winner中退还
             for (let i: u32 = 0; i < matchInfo.winner.length; i++) {
                 ad1 = matchInfo.winner[i];
-                did1: matchInfo.joinList[ad1].dragon_id;
+                did1 = matchInfo.joinList[ad1].dragon_id;
 
                 if (true/*dragon belongs to owner*/) { // TODO
                     this.transfer(ad1, did1);
@@ -566,7 +565,7 @@ export class MatchCore extends MatchBase {
         let matchInfo = this.matchList[this.match_id];
         if (matchInfo.status == false) return false;
         if (matchInfo.joinList[joinUser] != null && matchInfo.joinList[joinUser].dragon_id != 0) return false;
-        if (matchInfo.joinNum >= this.joinLimit[matchInfo.level - 1]) return false;
+        if (matchInfo.joinNum >= this.joinLimit[<i32>(matchInfo.level - 1)]) return false;
         return true;
     }
 

@@ -25,6 +25,8 @@ class HelloContract extends Contract {
     on_hi(name: u64, age: u32, msg: string): void {
         Log.s("on_hi: name = ").s(RN(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
 
+         let num = age + "";
+        Log.s("The age is:  ").s(num).flush();
         // Return(10086);
         let ass = queryBalance(N("tester"));
 

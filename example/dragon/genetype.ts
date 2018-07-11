@@ -96,7 +96,6 @@ export class GenType implements ISerializable {
         this.lsb2 = mask | temp;
     }
 
-    public
     /* 隐性基因 */
     public get recessive(): u64 {
         return this.hsb1;

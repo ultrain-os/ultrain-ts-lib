@@ -41,8 +41,9 @@ export class Titles {
     }
 
     public set count(cnt: u8) {
-        this._title = (this._title >> 4) << 4;
-        this._title += (cnt & 0xF);
+
+        this._title = (this._title & 0xFFFFFFFFFFFFFFF0);
+        this._title = this._title + (cnt & 0xF);
     }
 
     // 最新一场的排名
@@ -69,24 +70,14 @@ export class Titles {
         return <u32>(match & 0x3FF);
     }
 
-    // public set matchid(mid: u32) {
-    //     let cnt = this.count;
-    //     let rank = this.rank;
-
-    //     let t: u64 = (<u64>mid) << 2 + rank;
-    //     t = (t << 8) + cnt;
-
-    //     this._title = t;
-    // }
-
-    // 设置一场比赛的结果
-    public set match(mt: u64) {
-        let cnt = this.count;
-        let last4matches = ((this._title >> 4) << 16);
-        this._title = last4matches + ((mt & 0xFFF) << 4) + cnt;
-    }
 
     public get title(): u64 {
         return this._title;
+    }
+    // 设置一场比赛的结果
+    public setAMatch(mt: u64): void {
+        let cnt = this.count;
+        let last4matches = ((this._title >> 4) << 16);
+        this._title = last4matches + ((mt & 0xFFF) << 4) + cnt;
     }
 }

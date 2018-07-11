@@ -37,12 +37,12 @@ export class GeneScience {
         }
         let sal = new SkillAndLevel();
         let scores: u64[] = [];
-        let t = 0;
+        let t: u64 = 0;
         let m: u64;
         let skillKey: u64;
         let additional: u64[] = [];
 
-        for (let i = 0; i < this.skillRate.length; i++) {
+        for (let i: i32 = 0; i < this.skillRate.length; i++) {
             if (have_skill > 0) {
                 for ( let j = 0; j < 10; j++) {
                     if (((have_skill >> (8 * j)) & 0xff) == (i + 1)) {
@@ -54,12 +54,12 @@ export class GeneScience {
             scores[i] = t;
         }
 
-        for (let i: u64 = 0; i < skillCount; i++) {
+        for (let i: i32 = 0; i < <i32>skillCount; i++) {
             m = seed % t;
             for (let j: u32 = 0; j < (<u32>scores.length); j++) {
                 if ( m < scores[j]) {
-                    sal.skills += ((j + 1) << (32 - i * 8));
-                    sal.skillsLevel += (1 << (16 - i * 4));
+                    sal.skills += <u32>((j + 1) << (32 - i * 8));
+                    sal.skillsLevel += <u32>(1 << (16 - i * 4));
                     skillKey = j;
                     t -= this.skillRate[j] * (100 + additional[i]) / 100;
                     scores[j] = 0;
@@ -69,7 +69,7 @@ export class GeneScience {
             // reset scores
             for (let j: u32 = 0; j < (<u32>scores.length); j++) {
                 if (j > skillKey && scores[j] > 0) {
-                    scores[j] -= this.skillRate[skillKey] * (100 + additional[i]) / 100;
+                    scores[j] -= this.skillRate[<i32>skillKey] * (100 + additional[i]) / 100;
                 }
             }
 
@@ -307,11 +307,11 @@ export class GeneScience {
     public gen0Genes(genes: GenType): GenType {
         let seed = Action.random_uint64(0);
 
-        genes.blood += seed % 21;
+        genes.blood += <u32>(seed % 21);
         genes.type += 2;
 
-        let skillCount = 0;
-        let t = 0;
+        let skillCount: u64 = 0;
+        let t: u64 = 0;
         let scores: u64[] = [];
 
         for (let i: i32 = 0; i < (<i32>this.gen0SkillCount.length); i++) {
@@ -322,7 +322,7 @@ export class GeneScience {
         seed /= 10;
         for (let i = 0; i < scores.length; i++) {
             if ((seed % t) < scores[i]) {
-                skillCount = i;
+                skillCount = <u64>i;
                 break;
             }
         }
@@ -484,7 +484,8 @@ export class GeneScience {
                 let factor: u64 = pow(10, (skill_cnt + 2));
                 mod = r % factor;
                 r /= factor;
-                if (mod < ((total_gen + 1) * (skill1_cnt * skill1_cnt + skill2_cnt * skill2_cnt))) {
+                let target = (total_gen + 1) * (skill1_cnt * skill1_cnt + skill2_cnt * skill2_cnt);
+                if (mod < target) {
                     skill_cnt += 1;
                 } else {
                     break;

@@ -9,6 +9,7 @@ import { Asset } from "../../src/asset";
 import { DragonCore } from "./dragoncore";
 import { ultrain_assert } from "../../src/utils";
 import { env as system } from "../../internal/system.d";
+import { Map } from "../../src/map";
 
 class Auction {
     // current owner of NFT

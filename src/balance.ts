@@ -33,7 +33,7 @@ export class Account implements ISerializable {
 export class CurrencyStats implements ISerializable {
     supply: Asset;
     max_supply: Asset;
-    issuer: u64;
+    issuer: account_name;
 
     constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0) {
         if (supply == null) supply = new Asset();
@@ -48,13 +48,13 @@ export class CurrencyStats implements ISerializable {
     deserialize(ds: DataStream): void {
         this.supply.deserialize(ds);
         this.max_supply.deserialize(ds);
-        this.issuer = ds.read<u64>();
+        this.issuer = ds.read<account_name>();
     }
 
     serialize(ds: DataStream): void {
         this.supply.serialize(ds);
         this.max_supply.serialize(ds);
-        ds.write<u64>(this.issuer);
+        ds.write<account_name>(this.issuer);
     }
 }
 

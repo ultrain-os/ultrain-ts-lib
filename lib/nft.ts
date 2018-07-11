@@ -266,7 +266,7 @@ export class Nft implements UIP09 {
         let accounts: DBManager<Account>= new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
         let account = new Account();
         let existing = accounts.get(symname, account);
-        ultrain_assert(existing, "getBalance failed, account is not existed.")
+        ultrain_assert(existing, "getBalance failed, account is n ot existed.")
 
         return account.balance;
     }
@@ -290,7 +290,7 @@ export class Nft implements UIP09 {
           tokens.emplace(0, token);
         } else {
           ultrain_assert(max_token_id > token.current_id, "updateMaxPrimaryKey failed: the updated primary is less than the existing primay key.");
-          tokens.modify(token, 0);
+          tokens.modify(0, token);
         }
     }
 
@@ -317,7 +317,7 @@ export class Nft implements UIP09 {
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
             to.token_ids = this.addTokenIds(to.token_ids,token_ids);
-            toaccount.modify(to, 0); // ram_payer or 0 
+            toaccount.modify(0, to); // ram_payer or 0
         }
     }
 
@@ -336,11 +336,11 @@ export class Nft implements UIP09 {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
             from.token_ids = this.filterTokenId(from.token_ids, token_id);
-            ats.modify(from, owner);
+            ats.modify(owner, from);
         }
     }
 
-    private addTokenIds(token_ids: Array<id_type>, added_ids:Array<id_type>):Array<id_type>{    
+    private addTokenIds(token_ids: Array<id_type>, added_ids:Array<id_type>):Array<id_type>{
         for(let index = 0; index <= added_ids.length; index ++ ){
             token_ids.push(added_ids[index]);
         }
@@ -369,7 +369,7 @@ export class Nft implements UIP09 {
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(st, 0);
+        statstable.modify(0, st);
     }
 
 }
