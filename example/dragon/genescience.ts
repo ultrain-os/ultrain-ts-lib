@@ -106,9 +106,9 @@ export class GeneScience {
             c2 += (h2 << 20);
         }
 
-        result.schar = this.joint(seed, c1, c2);
+        result.schar = <u32>this.joint(seed, c1, c2);
         seed /= 1000000;
-        result.hchar = this.joint(seed, h1, h2);
+        result.hchar = <u32>this.joint(seed, h1, h2);
 
         return result;
     }
@@ -150,8 +150,8 @@ export class GeneScience {
         hchar += c;
 
         let result = new CharAndHchar();
-        result.schar = dchar;
-        result.hchar = hchar;
+        result.schar = <u32>dchar;
+        result.hchar = <u32>hchar;
 
         return result;
     }
@@ -160,8 +160,8 @@ export class GeneScience {
         let character: u64 = 0;
         let mod: u64 = 0;
         let t: u64;
-        let ckey: u64 = 0;
-        let c: u64 = 0;
+        let ckey: i32 = 0;
+        let c: i32 = 0;
 
         mod  = seed % 100;
         if (mod >= 70) {
@@ -173,11 +173,13 @@ export class GeneScience {
         if (c == 0) return character;
 
         let characterScores: u64[] = [];
-        for (let i: u32 = 0; i < allCharacter.length; i++) {
+        let idx: i32 = 0;
+        for (let i: i32 = 0; i < allCharacter.length; i++) {
+            idx = <i32>(allCharacter[i] - 1);
             if (type == 1) {
-                t += this.characterRate[allCharacter[i] - 1];
+                t += this.characterRate[idx];
             } else {
-                t += this.outsideRate[allCharacter[i] - 1];
+                t += this.outsideRate[idx];
             }
             characterScores.push(t);
         }
@@ -189,21 +191,21 @@ export class GeneScience {
                 list.push(i + 1);
             }
 
-            for (let j: u32 = 0; j < (<u23>allCharacter.length); j++) {
+            for (let j: i32 = 0; j < allCharacter.length; j++) {
                 character += ((allCharacter[j]) << (5 - j * 5));
-                list[allCharacter[j] - 1] = 0;
+                list[<i32>(allCharacter[j] - 1)] = 0;
             }
 
-            for (let j: u32 = allCharacter.length; j < <u32>c; j++) {
+            for (let j: i32 = allCharacter.length; j < c; j++) {
                 mod = seed % 30;
-                while(list[mod] == 0) { mod = (mod + 1) % 30; }
-                character += (list[mod] << (5 - j * 5));
-                list[mod] = 0;
+                while(list[<i32>mod] == 0) { mod = (mod + 1) % 30; }
+                character += (list[<i32>mod] << (5 - j * 5));
+                list[<i32>mod] = 0;
             }
         } else {
-            for (let i: u64 = 0; i < c; i++) {
+            for (let i: i32 = 0; i < c; i++) {
                 mod = seed % t;
-                for (let j: u32 = 0; j < (<u32>characterScores.length); j++) {
+                for (let j: i32 = 0; j < characterScores.length; j++) {
                     if (mod < characterScores[j]) {
                         character += ((allCharacter[j]) << (5 - i * 5));
                         ckey = j;
@@ -217,7 +219,7 @@ export class GeneScience {
                     }
                 }
                 if (i < c) {
-                    for (let j: u32 = 0; j < (<u32>characterScores.length); j++) {
+                    for (let j: i32 = 0; j < characterScores.length; j++) {
                         if (j > ckey && characterScores[j] > 0) {
                             if (type == 1) {
                                 characterScores[j] -= this.characterRate[ckey];
@@ -416,7 +418,7 @@ export class GeneScience {
             }
         }
         // blood type exterior
-        new_gene_1.blood = b;
+        new_gene_1.blood = <u32>b;
         // recessive
         new_gene_1.recessive = new_gene_2.color;
         // skills and skillsLevel
@@ -425,7 +427,7 @@ export class GeneScience {
         new_gene_1.skillsLevel = sal.skillsLevel;
         // tid
         if (tp == 1) {
-            new_gene_1.subtype = tid;
+            new_gene_1.subtype = <u32>tid;
         }
 
         if (gene1.type == 1 || gene2.type == 1) {
@@ -481,7 +483,13 @@ export class GeneScience {
             }
 
             while (skill_cnt < 5) {
-                let factor: u64 = pow(10, (skill_cnt + 2));
+                // FIXME "**" operator is not implements.
+                // let factor: u64 = <u64>(10 ** (skill_cnt + 2));
+                let factor: u64 = 1;
+                for (let i: u64 = 0; i < (skill_cnt + 2); i++) {
+                    factor *= 10;
+                }
+
                 mod = r % factor;
                 r /= factor;
                 let target = (total_gen + 1) * (skill1_cnt * skill1_cnt + skill2_cnt * skill2_cnt);
@@ -495,8 +503,8 @@ export class GeneScience {
         return this.createSkillAndLevel(r, skill_cnt, all_skill);
     }
 
-    public mixExtend(extend1: GenType, gen1: u64, extend2: GenType, gen2): GenType {
-        return new GenType();
+    public mixExtend(extend1: u64, gen1: u64, extend2: u64, gen2: u64): u64 {
+        return 0;
     }
 
     public genDragon(owner: account_name, key: u64): GenType {

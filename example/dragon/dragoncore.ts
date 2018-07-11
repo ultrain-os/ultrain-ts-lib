@@ -131,6 +131,10 @@ class DragonAssetControl extends DragonAccessControl {
     public transferFrom(from: account_name, to: account_name, tokeId: TokenId): void {
 
     }
+
+    public transfer(receiver: account_name, tokenId: TokenId): void {
+
+    }
 }
 
 class DragonBase extends DragonAssetControl implements ISerializable {
@@ -346,7 +350,7 @@ class DragonOwnership extends DragonBase {
     /// @param _claimant the address we are validating against.
     /// @param _tokenId dragon id, only valid when > 0
     protected _owns(claimant: account_name, tokenId: TokenId): boolean {
-        return (this.dragonIndexToOwner.contains(tokenId) != -1)
+        return (this.dragonIndexToOwner.contains(tokenId))
            && (this.dragonIndexToOwner.get(tokenId) == claimant);
     }
 
@@ -530,7 +534,7 @@ class DragonBreeding extends DragonOwnership {
         ultrain_assert(this._isSiringPermitted(sireId, matronId), "matronId and sireId is not premitted to breed.");
 
         let matron = this.dragons[<i32>matronId];
-        ultrain_assert(this.isReadyToBreed(matron), "matron is not ready to breed.");
+        ultrain_assert(this._isReadyToBreed(matron), "matron is not ready to breed.");
 
         let sire = this.dragons[<i32>sireId];
         ultrain_assert(this._isReadyToBreed(sire), "sire is not ready to breed.");
@@ -563,7 +567,7 @@ class DragonBreeding extends DragonOwnership {
 
         let childGenes: GenType = this.genScience.mixGenes(matron.genes, matron.generation,
                 sire.genes, sire.generation, tid);
-        let childExtend: GenType = this.genScience.mixExtend(matron.extend, matron.generation, sire.extend, sire.generation);
+        let childExtend: u64 = this.genScience.mixExtend(matron.extend, matron.generation, sire.extend, sire.generation);
 
         let owner: account_name = this.dragonIndexToOwner.get(matronId);
         let dragonId: DragonId = this._createDragon(matronId, matron.siringWithId, parentGen + 1, childGenes, 0, owner, childExtend);
@@ -602,7 +606,7 @@ class DragonAuction extends DragonBreeding {
         ultrain_assert(this.siringAuction.isSireClockAuction, "it is not a siring clock auction.");
     }
 
-    public createSaleAuction(dragonId: DragonId, startingPrice: Asset, endingPrice, duration: u64): void {
+    public createSaleAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
         this.whenNotPaused();
         let seller = Action.current_sender();
         // Auction contract checks input sizes
@@ -613,7 +617,8 @@ class DragonAuction extends DragonBreeding {
         // contract accidentally receiving ownership of the child.
         // NOTE: the dragon IS allowed to be in a cooldown.
         ultrain_assert(!this.isPregnant(dragonId), "this dragon is pregnent.");
-        this._approve(dragonId, this.saleAuction);
+        // FIXME approve to who??
+        this._approve(dragonId, this.cfoAddress);
         // Sale auction throws if inputs are invalid and clears
         // transfer and sire approval after escrowing the dragon.
         this.saleAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
@@ -625,8 +630,8 @@ class DragonAuction extends DragonBreeding {
         let seller = Action.current_sender();
         ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
         ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
-
-        this._approve(dragonId, this.siringAuction);
+        // FIXME approve to who??
+        this._approve(dragonId, this.cfoAddress);
 
         this.siringAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
     }

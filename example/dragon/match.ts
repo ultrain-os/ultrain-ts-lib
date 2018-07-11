@@ -387,7 +387,7 @@ export class MatchCore extends MatchBase {
 
         this.matchList.set(this.match_id, matchInfo);
 
-        let level = _level - 1;
+        let level: i32 = <i32>_level - 1;
         let reward_factor = this.joinLimit[level] * this.rewardMultiple[level] / 10000;
         let re1st = this.regfees[level].multi(15 * reward_factor);
         let re2nd = this.regfees[level].multi(10 * reward_factor);
@@ -472,7 +472,9 @@ export class MatchCore extends MatchBase {
     }
 
     /*@action*/public getEntryFee(): Asset {
-        return this.regfees[this.matchList[this.match_id].level - 1];
+        let id: i32 = <i32>this.match_id;
+        let lidx: i32 = <i32>this.matchList[id].level - 1;
+        return this.regfees[lidx];
     }
 
     /*@action*/public withdrawBalance(): void {
@@ -498,7 +500,7 @@ export class MatchCore extends MatchBase {
         this.onlyOwner();
         ultrain_assert(joinLimit.length == this.joinLimit.length, "join limit array length is not same.");
         this.joinLimit = [];
-        for (let i: u32 = 0; i < joinLimit.length; i++) {
+        for (let i: i32 = 0; i < joinLimit.length; i++) {
             this.joinLimit.push(joinLimit[i]);
         }
     }
@@ -507,7 +509,7 @@ export class MatchCore extends MatchBase {
         this.onlyOwner();
         ultrain_assert(regfees.length == this.regfees.length, "regfees limit array length is not same.");
         this.regfees = [];
-        for (let i: u32 = 0; i < regfees.length; ++i) {
+        for (let i: i32 = 0; i < regfees.length; ++i) {
             this.regfees.push(regfees[i]);
         }
     }
@@ -516,7 +518,7 @@ export class MatchCore extends MatchBase {
         this.onlyOwner();
         ultrain_assert(rewardMultiple.length == this.rewardMultiple.length, "reward multiple limit array length is not same.");
         this.rewardMultiple = [];
-        for (let i: u32 = 0; i < rewardMultiple.length; i++) {
+        for (let i: i32 = 0; i < rewardMultiple.length; i++) {
             this.rewardMultiple.push(rewardMultiple[i]);
         }
     }
@@ -528,9 +530,9 @@ export class MatchCore extends MatchBase {
 
     /*@action*/public dissolve(matchId: u64): void {
         this.onlyOwner();
-        let matchInfo = this.matchList[this.match_id];
-        let did1: u32;
-        let did2: u32;
+        let matchInfo = this.matchList.get(this.match_id);
+        let did1: u64;
+        let did2: u64;
 
         let ad1: account_name;
         let ad2: account_name;
@@ -539,9 +541,9 @@ export class MatchCore extends MatchBase {
         if (matchInfo.step == 2 || matchInfo.step == 3) {
             // TODO(liangqin):
         } else { // 从winner中退还
-            for (let i: u32 = 0; i < matchInfo.winner.length; i++) {
+            for (let i: i32 = 0; i < matchInfo.winner.length; i++) {
                 ad1 = matchInfo.winner[i];
-                did1 = matchInfo.joinList[ad1].dragon_id;
+                did1 = matchInfo.joinList.get(ad1).dragon_id;
 
                 if (true/*dragon belongs to owner*/) { // TODO
                     this.transfer(ad1, did1);
@@ -562,7 +564,7 @@ export class MatchCore extends MatchBase {
     }
 
     /*@action*/public isCanJoin(joinUser: account_name): boolean {
-        let matchInfo = this.matchList[this.match_id];
+        let matchInfo = this.matchList.get(this.match_id);
         if (matchInfo.status == false) return false;
         if (matchInfo.joinList[joinUser] != null && matchInfo.joinList[joinUser].dragon_id != 0) return false;
         if (matchInfo.joinNum >= this.joinLimit[<i32>(matchInfo.level - 1)]) return false;
@@ -574,27 +576,29 @@ export class MatchCore extends MatchBase {
         return dragon.generation;
     }
     // Random grouping
-    private giveGroup(nonce: u32): void {
+    private giveGroup(nonce: u64): void {
         let matchInfo: MatchInfo = this.matchList.get(this.match_id);
-        let num = matchInfo.winner.length;
+        let num: u64 = <u64>matchInfo.winner.length;
         let betId = (this.match_id << 12) + matchInfo.round;
         let groupEnd: u64 = min(num / 2, matchInfo.groupIndex + this.groupLimit);
         let a1: account_name;
         let a2: account_name;
 
         let seed = Action.random_uint64(nonce);
-        let r: u64;
-
+        let r: i32;
+        let idx: i32 = 0;
         for (let i: u64 = 0; i < groupEnd; i++) {
-            r = seed % (num - 2*i);
+            r = <i32>(seed % (num - 2*i));
             a1 = matchInfo.winner[r];
-            matchInfo.winner[r] = matchInfo.winner[num - 2*i - 1];
-            matchInfo.winner[num - 2*i - 1] = 0;
+            idx = <i32>(num - 2*i - 1);
+            matchInfo.winner[r] = matchInfo.winner[idx];
+            matchInfo.winner[idx] = 0;
             seed /= 10;
-            r = seed % (num - 2*i - 1);
+            r = <i32>(seed % (num - 2*i - 1));
+            idx = <i32>(num - 2*i - 2);
             a2 = matchInfo.winner[r];
-            matchInfo.winner[r] = matchInfo.winner[num - 2*i - 2];
-            matchInfo.winner[num - 2*i - 2] = 0;
+            matchInfo.winner[r] = matchInfo.winner[r];
+            matchInfo.winner[r] = 0;
 
             matchInfo.fightGroup.push([a1, a2]);
             // emit CreateGroup(this.match_id, matchInfo.joinList[a1].dragon_id, matchInfo.joinList[a2].dragon_id,
@@ -613,7 +617,7 @@ export class MatchCore extends MatchBase {
         }
     }
 
-    private fighting(nonce: u32): void {
+    private fighting(nonce: u64): void {
         ultrain_assert(Action.current_sender() == this.owner, "only owner can run this command.");
 
         let winner: account_name;
@@ -623,14 +627,14 @@ export class MatchCore extends MatchBase {
 
         let betId = <u64>(this.match_id << 12) + <u64>matchInfo.round;
         let thirdWin: u64[] = [];
-        let fightEnd: u64 = matchInfo.fightGroup.length > (matchInfo.fightIndex + this.fightLimit) ?
-                            matchInfo.fightIndex + this.fightLimit : matchInfo.fightGroup.length;
+        let fightEnd: u64 = <u64>matchInfo.fightGroup.length > (matchInfo.fightIndex + this.fightLimit) ?
+                            matchInfo.fightIndex + this.fightLimit : <u64>matchInfo.fightGroup.length;
 
         for (let i = matchInfo.fightIndex; i < fightEnd; i++) {
             // TODO(liangqin): 战胜或战败处理
         }
 
-        if (fightEnd < matchInfo.fightGroup.length) {
+        if (fightEnd < <u64>matchInfo.fightGroup.length) {
             matchInfo.fightIndex += this.fightLimit;
         } else {
             matchInfo.fightIndex = matchInfo.fightGroup.length;
@@ -644,7 +648,7 @@ export class MatchCore extends MatchBase {
         // emit MatchPause(this.match_id);
     }
 
-    private fightWithOther(betid: u64, a1: account_name, a2: account_name, nonce: u32): FightResult {
+    private fightWithOther(betid: u64, a1: account_name, a2: account_name, nonce: u64): FightResult {
         let matchInfo = this.matchList.get(this.match_id);
         let cooldownIndex: u64;
         let cooldownTime: u64;
@@ -709,8 +713,8 @@ export class MatchCore extends MatchBase {
         let loseDragon: DragonId;
         let awardStart = matchInfo.awardKey;
 
-        for (let i: u64 = matchInfo.awardKey; i < matchInfo.fightGroup.length; i++) {
-            betid = baseBetid + (i << 4);
+        for (let i: i32 = <i32>matchInfo.awardKey; i < matchInfo.fightGroup.length; i++) {
+            betid = baseBetid + <u64>(i << 4);
             let fg: account_name[] = matchInfo.fightGroup[i];
             if (matchInfo.winner[i] == fg[0]) {
                 winDragon = matchInfo.joinList.get(fg[0]).dragon_id;
@@ -722,7 +726,7 @@ export class MatchCore extends MatchBase {
             this.sendOne(betid, winDragon, loseDragon);
         }
         // 发完本轮奖励
-        if (awardStart >= matchInfo.fightGroup.length) {
+        if (awardStart >= <u64>matchInfo.fightGroup.length) {
             // 所有人发完奖励 next
             if (matchInfo.fightGroup.length > 1) {
                 matchInfo.step = 1;
@@ -785,11 +789,11 @@ export class MatchCore extends MatchBase {
 
         if (dragonId > 0) {
             let betUsers = matchInfo.guessList.get(betid).get(dragonId).guessUserList;
-            awardEnd = betUsers.length > matchInfo.awardIndex + this.awardLimit ?
+            awardEnd = <u64>betUsers.length > matchInfo.awardIndex + this.awardLimit ?
                     matchInfo.awardIndex + this.awardLimit :
-                    betUsers.length;
+                    <u64>betUsers.length;
             for (let i = matchInfo.awardIndex; i < awardEnd; i++) {
-                money = (rate * betUsers[i].money.amount) / 10000;
+                money = (rate * betUsers[<i32>i].money.amount) / 10000;
                 // TODO transfer to beter
                 // betUsers[i].beter.transfer(money);
 
@@ -802,7 +806,7 @@ export class MatchCore extends MatchBase {
             }
 
             // 未发完 继续
-            if (awardEnd < betUsers.length) {
+            if (awardEnd < <u64>betUsers.length) {
                 matchInfo.awardIndex += this.awardLimit;
                 // emit MatchPause(this.match_id);
             } else {

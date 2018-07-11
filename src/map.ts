@@ -1,6 +1,9 @@
 /**
  * @author fanliangqin@ultrain.io
+ * @datetime 16:53:10, 07/11/2018
+ * All rights reserved by ultrain.io @2018
  */
+
 
 export class Map<K, V> {
     private _keys: K[] = [];
@@ -50,26 +53,26 @@ export class Map<K, V> {
         this._keys = [];
         this._values = [];
     }
-    // FIXME: 为什么直接返回boolean就是不可以？？？？？
-    contains(key: K): u32 {
-        // return this.find(key) != -1;
-        return this.find(key);
+
+    contains(key: K): boolean {
+        return this.find(key) != -1;
     }
 
-    // FIXME the operator [] can only read from the map,
-    // but can not write to the map, because:
-    // 1. in typescript, basic variable types as int/string/double is passed by value,
-    // and can not passed by reference.
-    // 2. for some value type V, there is no default constructor
     @operator("[]")
     private _valueAt(key: K): V {
         let i = this.find(key);
         if (i != -1) {
             return this._values[i];
         } else {
-            this._keys.push(key);
-            // TODO(liangqin): should handle new V() if V does not have a default constructor.
-            this._values.push(null);
+            // FIXME(liangqin): []操作符只能保证读到数据，不能自动将不存在的key加入到map中，
+            // 1. 不是所有的V都有默认的构造函数。
+            // 2. 基本的数据类型，如u32/u64/boolean，只能传值，不能传引用，没办法支持 map[key] += val 这种语法，而这种语法基本是默认要支持的。
+            // 所以如果不能实现基本数据类型传引用，那还不如不支持这种语。所以直接 return null；
+
+            // this._keys.push(key);
+            // this._values.push(new V());
+            // return this._values[-1];
+
             return null;
         }
     }

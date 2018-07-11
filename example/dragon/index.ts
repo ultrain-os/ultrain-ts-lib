@@ -80,7 +80,7 @@ export class HyperDragonContract extends Contract {
         let gen = new GenType(gen_seg4, gen_seg3, gen_seg2, gen_seg1);
         this._dragonCore.createPromoDragon(gen, owner, title, extend);
     }
-/*    // auction apis
+    // auction apis
     @action
     public bidOnSiringAuction(sirId: DragonId, matronId: DragonId, bet: Asset): void {
         this._dragonCore.bidOnSiringAuction(sirId, matronId, bet);
@@ -181,12 +181,6 @@ export class HyperDragonContract extends Contract {
         this._dragonCore.matchInterface.startMatch(id, matchType, level);
     }
 
-    // @action
-    // public joinMatch(joinUser: account_name, id: DragonId, titles: u64,
-    //         gen_seg4: u64, gen_seg3: u64, gen_seg2: u64, gen_seg1: u64): void {
-    //     let gen = new GenType(gen_seg4, gen_seg3, gen_seg2, gen_seg1);
-        // this._dragonCore.matchInterface.joinMatch(joinUser, id, titles, gen);
-    // }
     @action
     public isCanJoin(joinUser: account_name): void {
         let can = this._dragonCore.matchInterface.isCanJoin(joinUser);
@@ -249,5 +243,5 @@ export class HyperDragonContract extends Contract {
     public dissolve(matchId: MatchId): void {
         this._dragonCore.matchInterface.dissolve(matchId);
     }
-*/
+
 }

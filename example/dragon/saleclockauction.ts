@@ -72,7 +72,7 @@ class ClockAuctionBase {
     /// @dev Removes an auction from the list of open auctions.
     /// @param _tokenId - ID of NFT on auction.
     protected removeAuction(tokenId: u64): void {
-        this.tokenIdToAuction.delete(tokenId);
+        this.tokenIdToAuction.remove(tokenId);
     }
 
     // Cancels an auction unconditionally.
@@ -140,6 +140,10 @@ class ClockAuctionBase {
         //  function is always guaranteed to be <= _price.
         let amount = price.getAmount();
         amount = amount * this.ownerCut / 10000;
+
+        let cut = price.clone();
+        cut.setAmount(amount);
+        return cut;
     }
 
     // Computes the price and transfers winnings
