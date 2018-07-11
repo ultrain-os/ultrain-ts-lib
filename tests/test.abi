@@ -1,0 +1,54 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "Asset",
+      "type": "asset"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "aa",
+          "type": "account_name"
+        },
+        {
+          "name": "age",
+          "type": "u64"
+        },
+        {
+          "name": "asset",
+          "type": "Asset"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        }
+      ],
+      "name": "getbrand",
+      "base": ""
+    },
+    {
+      "fields": [],
+      "name": "Car",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "getbrand",
+      "type": "getbrand"
+    }
+  ],
+  "tables": []
+}

@@ -1,0 +1,40 @@
+(module
+ (type $Fi (func (param f64) (result i32)))
+ (type $v (func))
+ (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
+ (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
+ (global $test_buildin/age (mut f64) (f64.const 32))
+ (global $test_buildin/res (mut i32) (i32.const 0))
+ (global $HEAP_BASE i32 (i32.const 8))
+ (memory $0 1)
+ (export "memory" (memory $0))
+ (start $start)
+ (func $isFinite<f64> (; 0 ;) (type $Fi) (param $0 f64) (result i32)
+  (f64.eq
+   (f64.sub
+    (get_local $0)
+    (get_local $0)
+   )
+   (f64.const 0)
+  )
+ )
+ (func $start (; 1 ;) (type $v)
+  (set_global $~lib/allocator/arena/startOffset
+   (i32.and
+    (i32.add
+     (get_global $HEAP_BASE)
+     (i32.const 7)
+    )
+    (i32.const -8)
+   )
+  )
+  (set_global $~lib/allocator/arena/offset
+   (get_global $~lib/allocator/arena/startOffset)
+  )
+  (set_global $test_buildin/res
+   (call $isFinite<f64>
+    (get_global $test_buildin/age)
+   )
+  )
+ )
+)

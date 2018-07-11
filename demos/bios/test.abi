@@ -1,0 +1,87 @@
+{
+  "types": [
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "u8",
+      "type": "uint8"
+    },
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "account",
+          "type": "u64"
+        },
+        {
+          "name": "ispriv",
+          "type": "u8"
+        }
+      ],
+      "name": "setpriv",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "account",
+          "type": "account_name"
+        },
+        {
+          "name": "ram_bytes",
+          "type": "u64"
+        },
+        {
+          "name": "net_weight",
+          "type": "u64"
+        },
+        {
+          "name": "cpu_weight",
+          "type": "u64"
+        }
+      ],
+      "name": "setalimits",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "ram",
+          "type": "u64"
+        },
+        {
+          "name": "net",
+          "type": "u64"
+        },
+        {
+          "name": "cpu",
+          "type": "u64"
+        }
+      ],
+      "name": "setglimits",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "name": "setpriv",
+      "type": "setpriv"
+    },
+    {
+      "name": "setalimits",
+      "type": "setalimits"
+    },
+    {
+      "name": "setglimits",
+      "type": "setglimits"
+    }
+  ],
+  "tables": []
+}

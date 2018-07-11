@@ -1,7 +1,9 @@
 import "../internal/alias.d";
 import { Asset } from "../src/asset";
 
-
+/**
+ * A standard interface for non-fungible tokens
+ */
 export interface UIP09{
 
 	/**
