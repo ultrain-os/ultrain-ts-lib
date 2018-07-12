@@ -1,4 +1,4 @@
-import { ultrain_assert, string2cstr } from "../src/utils";
+import { ultrain_assert, string2cstr, intToString } from "../src/utils";
 import { Map } from "../src/map";
 
 /**
@@ -9,28 +9,43 @@ import { Map } from "../src/map";
 /**
  *
  */
-class EventObject {
+class _EventObject {
     private _strmap: Map<string, string> = new Map<string, string>();
     private _intmap: Map<string, u64> = new Map<string, u64>();
 
-    public set<T>(key: string, val: T): void {
+    public set<T>(key: string, val: T): _EventObject {
         ultrain_assert(key != null && key.length > 0, "parameter 'key' can not be null or empty string.");
 
         if (isString(val)) {
             this._strmap.set(key, val);
         } else if (isInteger(val)) {
-            this._intmap.set(key, val);
+            this._intmap.set(key, <u64>val);
         } else {
             ultrain_assert(false, "only support string and integer value type.");
         }
+        return this;
     }
-
+    // TODO : 拼接string的工作应该在core上完成，否则太耗时间
     public toString(): string {
         let ret = "{";
 
-        for (let i: u32 = 0; i < <u32>this._strmap.size(); i++) {
-
+        let strKeys: string[] = this._strmap.keys();
+        let strVals: string[] = this._strmap.values();
+        for (let i: i32 = 0; i < strKeys.length; i++) {
+            ret += "\"" + strKeys[i] + "\":" + "\"" + strVals[i] + "\",";
         }
+
+        let intKeys: string[] = this._intmap.keys();
+        let intVals: u64[] = this._intmap.values();
+        for (let i: i32 = 0; i < intKeys.length; i++) {
+            ret += "\"" + intKeys[i] + "\":" + intToString(intVals[i]) + ",";
+        }
+
+        ret += "}";
+
+        // use Global mode, MUST call toString() method at last.
+        this._strmap.clear();
+        this._intmap.clear();
 
         return ret;
     }
@@ -40,7 +55,10 @@ namespace env {
     export declare function emit_evnet(name: usize, name_size: u64, param: usize, param_size: u64): void;
 }
 
-export function emit(evtname: string, params: string): void {
+export let EventObject: _EventObject = new _EventObject();
+
+export function emit(evtname: string, obj: _EventObject): void {
     ultrain_assert(evtname != null && evtname.length > 0, "event name must be specified.");
-    env.emit_evnet(string2cstr(evtname), evtname.length, string2cstr(params), params.length);
+    let msg = obj.toString();
+    env.emit_evnet(string2cstr(evtname), evtname.length, string2cstr(msg), msg.length);
 }
