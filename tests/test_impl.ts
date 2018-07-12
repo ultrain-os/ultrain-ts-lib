@@ -28,7 +28,7 @@ export class Audi extends Contract implements ISerializable{
 
 
 	@action
-	getbrand(aa:account_name, age:u64, asset:Asset, car:Car):string{
+	getbrand(aa:account_name, age:u64, asset:Asset, car:Car, assets:Asset[]):string{
 		
 
 		return "audi";

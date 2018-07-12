@@ -1,4 +1,4 @@
-(module
+_imP(module
  (type $iv (func (param i32)))
  (type $ii (func (param i32) (result i32)))
  (type $v (func))
