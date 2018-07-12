@@ -17,6 +17,7 @@ import { MatchCore } from "./match";
 import "../../internal/alias.d";
 import "./consts";
 import { Titles } from "./titles";
+import { emit, EventObject } from "../../lib/events";
 
 class DragonAccessControl {
     ceoAddress: account_name;
@@ -133,24 +134,12 @@ class DragonAssetControl extends DragonAccessControl {
     }
 
     public transfer(receiver: account_name, tokenId: TokenId): void {
-
+        // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
+        emit("GiveDragon", EventObject.set<u64>("from", Action.current_sender()).set<u64>("to", receiver).set<u64>("tokenId", tokenId));
     }
 }
 
 class DragonBase extends DragonAssetControl implements ISerializable {
-    // TODO(liangqin): define events
-    /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
-    ///  includes any time a dragon is created through the giveBirth method, but it is also called
-    ///  when a new gen0 dragon is created.
-    // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
-
-    /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a dragon
-    ///  ownership is assigned, including births.
-    // event Transfer(from: account_name, to: account_name, tokenId: u64);
-
-    // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-
-    // event setBirthFee(val: Asset);
 
     dragons: Dragon[] = [];
     // a map from dragon's id to owner's address
@@ -295,7 +284,7 @@ class DragonBase extends DragonAssetControl implements ISerializable {
 
         if (Action.is_account(from)) {
             status = this.ownershipTokenCount.contains(from);
-            ultrain_assert(status != -1, "account does not own any token can transfer from.");
+            ultrain_assert(status, "account does not own any token can transfer from.");
             let val = this.ownershipTokenCount.get(from);
             val -= 1;
             this.ownershipTokenCount.set(from, val);
@@ -304,8 +293,10 @@ class DragonBase extends DragonAssetControl implements ISerializable {
             this.sireAllowedToAddress.remove(tokenId);
             this.dragonIndextoApproved.remove(tokenId);
         }
-
-        // emit Transfer(from, to, tokenId);
+        /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a dragon
+        ///  ownership is assigned, including births.
+        // event Transfer(from: account_name, to: account_name, tokenId: u64);
+        emit("Transfer", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
     }
 
     protected _createDragon(mathronId: DragonId, sireId: DragonId, generation: u16,
@@ -337,8 +328,14 @@ class DragonBase extends DragonAssetControl implements ISerializable {
         dragon.extend = extend;
 
         let newDragonId = this.dragons.push(dragon) - 1;
+        /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
+        ///  includes any time a dragon is created through the giveBirth method, but it is also called
+        ///  when a new gen0 dragon is created.
+        // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
 
-        // emit Birth(owner, newDragonId, matronId, sireId, genes);
+        emit("Birth", EventObject.set<u64>("owner", owner).set<u64>("dragonId", newDragonId).set<u64>("matronId", mathronId)
+            .set<u64>("sireId", sireId).set<string>("gen", genes.toString()));
+
         this._transfer(0, owner, newDragonId);
 
         return newDragonId;
@@ -379,10 +376,6 @@ class DragonOwnership extends DragonBase {
 
 let SYM = StringToSymbol(4, "HD");
 class DragonBreeding extends DragonOwnership {
-    /// @dev The Pregnant event is fired when two dragons successfully breed and the pregnancy
-    ///  timer begins for the matron.
-    // event Pregnant(owner: account_name, matronId: DragonId, sireId: DragonId, cooldownEndBlock: u64);
-    // event UpdateGenes(dragonId: DragonId, genes: GenType);
 
     protected _isReadyToBreed(dra: Dragon): boolean {
         // In addition to checking the cooldownEndBlock, we also need to check to see if
@@ -431,7 +424,8 @@ class DragonBreeding extends DragonOwnership {
     public setAutoBirthFee(val: Asset): void {
         this.onlyCEO();
         this.autoBirthFee = val;
-        // emit setBirthFee(val);
+        // event setBirthFee(val: Asset);
+        emit("SetBirthFee", EventObject.set<u64>("fee", val.amount));
     }
 
     /// @dev Checks to see if a given Dragon is pregnant and (if so) if the gestation
@@ -519,7 +513,11 @@ class DragonBreeding extends DragonOwnership {
 
         this.pregnantDragons += 1;
 
-        // emit Pregnant(this.dragonIndexToOwner.get(matronId), matronId, sireId, matron.cllodownEndBlock);
+        /// @dev The Pregnant event is fired when two dragons successfully breed and the pregnancy
+        ///  timer begins for the matron.
+        // event Pregnant(owner: account_name, matronId: DragonId, sireId: DragonId, cooldownEndBlock: u64);
+        emit("Pregnant", EventObject.set<u64>("owner", this.dragonIndexToOwner.get(matronId)).set<u64>("matronId", matronId)
+            .set<u64>("sireId", sireId).set<u64>("cooldownEndBlock", matron.cooldownEndBlock));
     }
 
     /// @notice Breed a Dragon you own (as matron) with a sire that you own, or for which you
@@ -585,7 +583,8 @@ class DragonBreeding extends DragonOwnership {
     public updateGenes(dragonId: DragonId, genes: GenType): void {
         let dra = this.dragons[<i32>dragonId];
         dra.genes = genes;
-        // emit UpdateGenes(dragonId, genes);
+        // event UpdateGenes(dragonId: DragonId, genes: GenType);
+        emit("UpdateGenes", EventObject.set<u64>("dragonId", dragonId).set<string>("genes", genes.toString()));
     }
 }
 
@@ -732,8 +731,6 @@ class DragonMinting extends DragonAuction {
 }
 
 class DragonMatch extends DragonMinting {
-    // event UpdateTitle(dragonId: DragonId, titles: u64);
-    // event FightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldownTime: u64, fightCooldownEndBlock: u64);
 
     private _isNotCooldownIng(_dra: Dragon): boolean {
         return (_dra.cooldownEndBlock <= <u64>trx.tapos_block_num())
@@ -767,7 +764,9 @@ class DragonMatch extends DragonMinting {
             dra.fightCooldownEndBlock = cooldowntime / this.secondsPerBlock + trx.tapos_block_num();
             dra.fightcooldownIndex =  cooldownIndex;
 
-            // emit FightCooldown(dragonId, cooldownIndex, cooldownTime, dra.fightCooldownEndBlock);
+            // event FightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldownTime: u64, fightCooldownEndBlock: u64);
+            emit("FightCooldown", EventObject.set<u64>("dragonId", dragonId).set<u64>("cooldownIndex", cooldownIndex)
+                .set<u64>("cooldownTime", cooldowntime).set<u64>("fightCooldownEndblock", dra.fightCooldownEndBlock));
         }
     }
 
@@ -782,19 +781,20 @@ class DragonMatch extends DragonMinting {
             t.setAMatch(Titles.compositeMatchIdAndRank(matchId, rank));
             dra.titles = t.title;
 
-        // emit UpdateTitle(dragonId, dra.titles);
+            // event UpdateTitle(dragonId: DragonId, titles: u64);
+            emit("UpdateTitle", EventObject.set<u64>("dragonId", dragonId).set<u64>("titles", dra.titles));
         }
     }
 }
 
 class DragonExtend extends DragonMatch {
-    // event UpdateExtend(dragonId: DragonId, extend: u64);
 
     public updateExtend(dragonId: DragonId, extend: u64): void {
         let id = <i32>dragonId;
         let dra = this.dragons[id];
         dra.extend = extend;
-        // emit UpdateExtend(dragonId, extend);
+        // event UpdateExtend(dragonId: DragonId, extend: u64);
+        emit("UpdateExtend", EventObject.set<u64>("dragonId", dragonId).set<u64>("extend", extend));
     }
 }
 

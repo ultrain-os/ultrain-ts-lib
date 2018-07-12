@@ -10,6 +10,7 @@ import { DragonCore } from "./dragoncore";
 import { ultrain_assert } from "../../src/utils";
 import { env as system } from "../../internal/system.d";
 import { Map } from "../../src/map";
+import { emit, EventObject } from "../../lib/events";
 
 class Auction {
     // current owner of NFT
@@ -34,10 +35,6 @@ class ClockAuctionBase {
     ownerCut: u64;
     // Map from token ID to thieir corresponding auction.
     tokenIdToAuction: Map<u64, Auction>;
-
-    // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
-    // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
-    // event AuctionCancelled(tokenId: u64);
 
     /**
      * @dev Returns true if the claimant owns the token.
@@ -66,7 +63,9 @@ class ClockAuctionBase {
         ultrain_assert(auction.duration > 60, "the auction's duration is less than 1 minute.");
         this.tokenIdToAuction.set(tokenId, auction);
 
-        // emit AuctionCreated(tokenId, auction.startingPrice, auction.endingPrice, auction.duration);
+        // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
+        emit("AuctionCreated", EventObject.set<u64>("tokenId", tokenId).set<u64>("startingPrice", auction.startingPrice.amount)
+            .set<u64>("endingPrice", auction.endingPrice.amount).set<u64>("duration", auction.duration));
     }
 
     /// @dev Removes an auction from the list of open auctions.
@@ -79,7 +78,8 @@ class ClockAuctionBase {
     protected _cancelAuction(tokenId: u64, seller: account_name): void {
         this.removeAuction(tokenId);
         this.transfer(seller, tokenId);
-        // emit AuctionCancelled(tokenId);
+        // event AuctionCancelled(tokenId: u64);
+        emit("AuctionCancelled", EventObject.set<u64>("tokenId", tokenId));
     }
 
     protected isOnAuction(auction: Auction): boolean {
@@ -182,7 +182,9 @@ class ClockAuctionBase {
         // msg.sender.transfer(bidExcess);
 
         // Tell the world!
-        // emit AuctionSuccessful(tokenId, price, Action.current_sender(), seller);
+        // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
+        emit("AuctionSuccessful", EventObject.set<u64>("tokenId", tokenId).set<u64>("totalPrice", price.amount)
+            .set<u64>("winner", Action.current_sender()).set<u64>("seller", seller));
 
         return price;
     }

@@ -4,6 +4,7 @@
  */
 import { ultrain_assert } from "../../src/utils";
 import { env as Action } from "../../internal/action.d";
+import { emit, EventObject } from "../../lib/events";
 
 class Ownable {
     owner: account_name;
@@ -25,8 +26,6 @@ class Ownable {
 }
 
 export class Pausable extends Ownable {
-    // event Pause();
-    // event Unpause();
 
     paused: boolean = false;
 
@@ -43,6 +42,7 @@ export class Pausable extends Ownable {
         this.whenNotPaused();
         this.paused = true;
         // emit Pause();
+        emit("Pause", EventObject);
         return true;
     }
 
@@ -51,6 +51,7 @@ export class Pausable extends Ownable {
         this.whenPaused();
         this.paused = false;
         // emit Unpause();
+        emit("Unpause", EventObject);
         return true;
     }
 }

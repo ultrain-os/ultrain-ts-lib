@@ -395,14 +395,14 @@ export class MatchCore extends MatchBase {
         let re3rd = this.regfees[level].multi(5 * reward_factor);
 
         // event MatchStart(matchId: u64, matchType: u64, matchLevel: u64, maxNum: u64, regfee: u64, awardfee_1st: u32, awardfee_2nd: u32, awardfee_3rd: u32);
-        emit("MatchStart", EventObject.set("matchId", _id)
-                                      .set("matchType", _matchType)
-                                      .set("matchLevel", _level)
-                                      .set("maxNum", this.joinLimit[level])
-                                      .set("regfee", this.regfees[level])
-                                      .set("awardfee_1st", re1st)
-                                      .set("awardfee_2st", re2nd)
-                                      .set("awardfee_3st", re3rd)
+        emit("MatchStart", EventObject.set<u64>("matchId", _id)
+                                      .set<u64>("matchType", _matchType)
+                                      .set<u64>("matchLevel", _level)
+                                      .set<u64>("maxNum", this.joinLimit[level])
+                                      .set<u64>("regfee", this.regfees[level].amount)
+                                      .set<u64>("awardfee_1st", re1st.amount)
+                                      .set<u64>("awardfee_2st", re2nd.amount)
+                                      .set<u64>("awardfee_3st", re3rd.amount)
                                     );
     }
 
@@ -427,12 +427,14 @@ export class MatchCore extends MatchBase {
         matchInfo.winner.push(joinUser);
 
         // event JoinMatch(matchId: u64, _joinUser: account_name, _dragon_id: u64);
-        emit("JoinMatch", EventObject.set("matchId", this.match_id).set("joinUser", joinUser).set("dragon_id", dragonId));
+        let eobj = EventObject.set<u64>("matchId", this.match_id).set<u64>("joinUser", joinUser).set<u64>("dragon_id", dragonId);
+        emit("JoinMatch", eobj);
 
         if (matchInfo.joinNum >= this.joinLimit[<i32>this.match_id]) {
             matchInfo.step = 1;
             // event CompleteJoin(matchId: u64);
-            emit("CompleteJoin", EventObject.set("matchId", this.match_id));
+            eobj = EventObject.set<u64>("matchId", this.match_id);
+            emit("CompleteJoin", eobj);
         }
     }
 
@@ -465,9 +467,14 @@ export class MatchCore extends MatchBase {
         rate2 = rate2 < 10000 ? 10000 : rate2;
 
         // event GuessDragon(matchId: u64, round: u64, betId: u64, betuser: account_name, dragonId: u64, betfee: u64, rate1: u6, rate2: u64);
-        emit("GuessDragon", EventObject.set("matchId", this.match_id).set("round", round)
-                                .set("betId", betid).set("betuser", guessUser).set("dragonId", dragonId)
-                                .set("betfee", val.amount).set("rate1", rate1).set("rage2", rate2));
+        emit("GuessDragon", EventObject.set<u64>("matchId", this.match_id)
+                                       .set<u64>("round", round)
+                                       .set<u64>("betId", betid)
+                                       .set<u64>("betuser", guessUser.beter)
+                                       .set<u64>("dragonId", dragonId)
+                                       .set<u64>("betfee", val.amount)
+                                       .set<u64>("rate1", rate1)
+                                       .set<u64>("rage2", rate2));
     }
 
     /*@action*/public nextStep(nonce: u64): void {
@@ -617,22 +624,26 @@ export class MatchCore extends MatchBase {
 
             matchInfo.fightGroup.push([a1, a2]);
             // event CreateGroup(matchId: U64, dragonId1: u64, dragonId2: u64, round: u64, betid: u64, left_cn: u64);
-            emit("CreateGroup", EventObject.set("matchId", this.match_id).set("dragonId1", matchInfo.joinList.get(a1).dragon_id)
-                .set("dragonId2", matchInfo.joinList.get(a2).dragon_id).set("round", matchInfo.round)
-                .set("betId", betId + (i << 4)).set("left_cn", num));
+            emit("CreateGroup", EventObject
+                .set<u64>("matchId", this.match_id)
+                .set<u64>("dragonId1", matchInfo.joinList.get(a1).dragon_id)
+                .set<u64>("dragonId2", matchInfo.joinList.get(a2).dragon_id)
+                .set<u64>("round", matchInfo.round)
+                .set<u64>("betId", betId + (i << 4))
+                .set<u64>("left_cn", num));
             seed /= 10;
         }
 
         if (groupEnd < num / 2) {
             matchInfo.groupIndex += this.groupLimit;
             // event MatchPause(matchId: u64);
-            emit("MatchPause", EventObject.set("matchId", this.match_id));
+            emit("MatchPause", EventObject.set<u64>("matchId", this.match_id));
         } else {
             matchInfo.groupIndex += this.groupLimit;
             matchInfo.step = 2;
             matchInfo.winner = [];
             // event CompleteGroup(matchId: u64, round: u64);
-            emit("CompleteGroup", EventObject.set("matchId", this.match_id).set("round", matchInfo.round));
+            emit("CompleteGroup", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round));
         }
     }
 
@@ -662,10 +673,10 @@ export class MatchCore extends MatchBase {
 
         if (matchInfo.fightGroup.length == 2) {
             // event SemifinalResult(matchId: u64, dragonId_3: u64, dragonId_4: u64);
-            emit("SemifinalResult", EventObject.set("matchId", this.match_id).set("dragonid_3", thirdWin[0]).set("dragonId_4", thirdWin[1]));
+            emit("SemifinalResult", EventObject.set<u64>("matchId", this.match_id).set<u64>("dragonid_3", thirdWin[0]).set<u64>("dragonId_4", thirdWin[1]));
         }
 
-        emit("MatchPause", EventObject.set("matchId", this.match_id));
+        emit("MatchPause", EventObject.set<u64>("matchId", this.match_id));
     }
 
     private fightWithOther(betid: u64, a1: account_name, a2: account_name, nonce: u64): FightResult {
@@ -708,7 +719,7 @@ export class MatchCore extends MatchBase {
             this.master.setTitles(dra2.dragon_id, this.match_id, 1);
             this.master.setTitles(dra1.dragon_id, this.match_id, 2);
             // event FinalResult(matchId: u64, dragonId_1: u64, dragonId_2: u64);
-            emit("FinalResult", EventObject.set("matchId", this.match_id).set("dragonId_1", dra2.dragon_id).set("dragonId_2", dra1.dragon_id));
+            emit("FinalResult", EventObject.set<u64>("matchId", this.match_id).set<u64>("dragonId_1", dra2.dragon_id).set<u64>("dragonId_2", dra1.dragon_id));
             // 冠亚军奖励
             // TODO: transfer fee
             // winer.transfer(uint(1500*(regfees[_matchInfo.level-1]*joinLimit[_matchInfo.level-1])* rewardMultiple[_matchInfo.level-1]/1000000));
@@ -751,9 +762,9 @@ export class MatchCore extends MatchBase {
                 matchInfo.step = 1;
                 matchInfo.round += 1;
                 // event NextRound(matchId: u64, round: u64);
-                emit("NextRound", EventObject.set("matchId", this.match_id).set("round", matchInfo.round));
+                emit("NextRound", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round));
                 // event RoundOver(matchId: u64, round: u64);
-                emit("RoundOver", EventObject.set("matchId", this.match_id).set("round", matchInfo.round - 1));
+                emit("RoundOver", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round - 1));
                 matchInfo.groupIndex = 0;
                 matchInfo.fightIndex = 0;
                 matchInfo.awardIndex = 0;
@@ -761,7 +772,7 @@ export class MatchCore extends MatchBase {
             } else {
                 matchInfo.status = false;
                 // event CompleteMatch(matchId: u64);
-                emit("CompleteMatch", EventObject.set("matchId", this.match_id));
+                emit("CompleteMatch", EventObject.set<u64>("matchId", this.match_id));
             }
             matchInfo.fightGroup = [];
         }
@@ -777,8 +788,8 @@ export class MatchCore extends MatchBase {
         if (limit > 0) {
             for (let i: u64 = 0; i < limit; i++) {
                 // event GuessLose(user: account_name, price: u64, dragonId: u64, betId: u64, matchId: u64);
-                emit("GuessLoss", EventObject.set("user", list[i].beter).set("price", list[i].money.amount)
-                    .set("dragonId", dragonId).set("betId", betid).set("matchId", this.match_id));
+                emit("GuessLoss", EventObject.set<u64>("user", list[i].beter).set<u64>("price", list[i].money.amount)
+                    .set<u64>("dragonId", dragonId).set<u64>("betId", betid).set<u64>("matchId", this.match_id));
             }
         }
     }
@@ -815,20 +826,20 @@ export class MatchCore extends MatchBase {
             awardEnd = <u64>betUsers.length > matchInfo.awardIndex + this.awardLimit ?
                     matchInfo.awardIndex + this.awardLimit :
                     <u64>betUsers.length;
-            for (let i = matchInfo.awardIndex; i < awardEnd; i++) {
-                money = (rate * betUsers[<i32>i].money.amount) / 10000;
+            for (let i = <i32>matchInfo.awardIndex; i < <i32>awardEnd; i++) {
+                money = (rate * betUsers[i].money.amount) / 10000;
                 // TODO transfer to beter
                 // betUsers[i].beter.transfer(money);
 
                 // 竞猜获胜 触发event
                 if (dragonId == winDragon) {
                     // event GuessWin(user: account_name, price: u64, dragonId: u64, betId: u64, matchId: u64, money: u64);
-                    emit("GuessWin", EventObject.set("user", betUsers[i].beter).set("price", betUsers[i].money.amount)
-                        .set("dragonId", dragonId).set("betId", betid).set("matchId", this.match_id).set("money", money.amount));
+                    emit("GuessWin", EventObject.set<u64>("user", betUsers[i].beter).set<u64>("price", betUsers[i].money.amount)
+                        .set<u64>("dragonId", dragonId).set<u64>("betId", betid).set<u64>("matchId", this.match_id).set<u64>("money", money));
                 } else {
                     // event GuessLoseReturn(user: account_name, price: u64, dragonId: u64, betId: u64, matchId: u64, money: u64);
-                    emit("GuessLossReturn", EventObject.set("user", betUsers[i].beter).set("price", betUsers[i].money.amount)
-                        .set("dragonId", dragonId).set("betId", betid).set("matchId", this.match_id).set("money", money.amount));
+                    emit("GuessLossReturn", EventObject.set<u64>("user", betUsers[i].beter).set<u64>("price", betUsers[i].money.amount)
+                        .set<u64>("dragonId", dragonId).set<u64>("betId", betid).set<u64>("matchId", this.match_id).set<u64>("money", money));
                 }
             }
 
@@ -836,7 +847,7 @@ export class MatchCore extends MatchBase {
             if (awardEnd < <u64>betUsers.length) {
                 matchInfo.awardIndex += this.awardLimit;
                 // event MatchPause(matchId: u64);
-                emit("MatchPause", EventObject.set("matchId", this.match_id));
+                emit("MatchPause", EventObject.set<u64>("matchId", this.match_id));
             } else {
                 matchInfo.awardIndex = 0;
                 matchInfo.guessList.get(betid).remove(dragonId);

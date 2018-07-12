@@ -6,6 +6,7 @@
 
  import { ISerializable } from "../../lib/ISerializable";
 import { DataStream } from "../../src/datastream";
+import { intToString } from "../../src/utils";
 /**
  * 斗龙的基因组成
  * solidity编写的时候，采用了256bit的int来表示，原始格式如下：
@@ -163,5 +164,14 @@ export class GenType implements ISerializable {
 
     public primaryKey(): u64 {
         return 0;
+    }
+
+    public toString(): string {
+        let str = intToString(this.hsb2);
+        str += intToString(this.hsb1);
+        str += intToString(this.lsb2);
+        str += intToString(this.lsb1);
+
+        return str;
     }
 }

@@ -16,12 +16,12 @@ export const ASCIICHAR: string[/*95*/] = [
     "x", "y", "z", "{", "|", "}", "~"];
 
 export function intToString(_int: u64): string {
-    let remainder = _int % 10;
+    let remainder: i32 = <i32>(_int % 10);
     let rest: u64 = _int / 10;
     let val: string = ASCIICHAR[16 + remainder];
 
     while (rest != 0) {
-        remainder = rest % 10;
+        remainder = <i32>(rest % 10);
         rest = rest / 10;
 
         val += ASCIICHAR[16 + remainder];

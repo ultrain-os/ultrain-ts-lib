@@ -13,6 +13,8 @@ class _EventObject {
     private _strmap: Map<string, string> = new Map<string, string>();
     private _intmap: Map<string, u64> = new Map<string, u64>();
 
+    constructor() {}
+
     public set<T>(key: string, val: T): _EventObject {
         ultrain_assert(key != null && key.length > 0, "parameter 'key' can not be null or empty string.");
 
