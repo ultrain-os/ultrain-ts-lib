@@ -18,13 +18,19 @@ import "../../internal/alias.d";
 import "./consts";
 import { Titles } from "./titles";
 import { emit, EventObject } from "../../lib/events";
+import { UGS } from "../../internal/types";
+import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress } from "./consts";
 
 class DragonAccessControl {
-    ceoAddress: account_name;
-    cfoAddress: account_name;
-    apiAddress: account_name;
+    ceoAddress: account_name = CEO;
+    cfoAddress: account_name = CFO;
+    apiAddress: account_name = API;
 
     paused: boolean = false;
+
+    onlyOwner(): void {
+        ultrain_assert(Action.current_sender() == this.ceoAddress, "only CEO can execute this command.");
+    }
 
     onlyCEO(): void {
         ultrain_assert(Action.current_sender() == this.ceoAddress, "only CEO can execute this command.");
@@ -127,19 +133,7 @@ class Dragon implements ISerializable {
     primaryKey(): u64 { return this.id; }
 }
 
-class DragonAssetControl extends DragonAccessControl {
-
-    public transferFrom(from: account_name, to: account_name, tokeId: TokenId): void {
-
-    }
-
-    public transfer(receiver: account_name, tokenId: TokenId): void {
-        // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.set<u64>("from", Action.current_sender()).set<u64>("to", receiver).set<u64>("tokenId", tokenId));
-    }
-}
-
-class DragonBase extends DragonAssetControl implements ISerializable {
+class DragonBase extends DragonAccessControl implements ISerializable {
 
     dragons: Dragon[] = [];
     // a map from dragon's id to owner's address
@@ -168,10 +162,19 @@ class DragonBase extends DragonAssetControl implements ISerializable {
     /// @notice The minimum payment required to use breedWithAuto(). This fee goes towards
     ///  the gas cost paid by whatever calls giveBirth(), and can be dynamically updated by
     ///  the COO role as the gas price changes.
-    autoBirthFee: Asset = new Asset(8, SYM);
+    autoBirthFee: Asset = new Asset(8, UGS);
 
     // Keeps track of number of pregnant dragons
     pregnantDragons: u64;
+
+    // sale auction originator and cut
+    saleAuctionOriginator: account_name;
+    saleAuctionCut: u64;
+
+    // sire auction originator and cut
+    sireAuctionOriginator: account_name;
+    sireAuctionCut: u64;
+
 
     private serializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
         let cnt: u64 = <u64>mp.size();
@@ -212,6 +215,10 @@ class DragonBase extends DragonAssetControl implements ISerializable {
         ds.write<u64>(this.gen0CreatedCount);
         ds.write<u64>(this.pregnantDragons);
         this.autoBirthFee.serialize(ds);
+        ds.write<u64>(this.saleAuctionOriginator);
+        ds.write<u64>(this.saleAuctionCut);
+        ds.write<u64>(this.sireAuctionOriginator);
+        ds.write<u64>(this.sireAuctionCut);
     }
 
     public deserialize(ds: DataStream): void {
@@ -230,6 +237,10 @@ class DragonBase extends DragonAssetControl implements ISerializable {
         this.gen0CreatedCount = ds.read<u64>();
         this.pregnantDragons = ds.read<u64>();
         this.autoBirthFee.deserialize(ds);
+        this.saleAuctionOriginator = ds.read<u64>();
+        this.saleAuctionCut = ds.read<u64>();
+        this.sireAuctionOriginator = ds.read<u64>();
+        this.sireAuctionCut = ds.read<u64>();
     }
 
     public primaryKey(): u64 { return <u64>0; }
@@ -253,18 +264,6 @@ class DragonBase extends DragonAssetControl implements ISerializable {
     ];
     // seconds between blocks, in Ultrain, it is 10 seconds approximation.
     secondsPerBlock: u64 = seconds(10).toSeconds();
-
-    /// @dev The address of the ClockAuction contract that handles sales of Dragons. This
-    ///  same contract handles both peer-to-peer sales as well as the gen0 sales which are
-    ///  initiated every 15 minutes.
-    public saleAuction: SaleClockAuction;
-    /// @dev The address of a custom ClockAuction subclassed contract that handles siring
-    ///  auctions. Needs to be separate from saleAuction because the actions taken on success
-    ///  after a sales and siring auction are quite different.
-    public siringAuction: SireClockAuction;
-    // delegate contracts
-    public genScience: GeneScience;
-    public matchInterface: MatchCore;
 
     protected containsDragon(id: u64): boolean {
         return (this.dragons.length == 0 || id >= <u64>this.dragons.length);
@@ -299,50 +298,10 @@ class DragonBase extends DragonAssetControl implements ISerializable {
         emit("Transfer", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
     }
 
-    protected _createDragon(mathronId: DragonId, sireId: DragonId, generation: u16,
-                genes: GenType, titles: u64, owner: account_name, extend: u64): u64 {
-        let cooldownIndex = generation / 2;
-
-        if (mathronId != 0) {
-            if (cooldownIndex > 7) cooldownIndex = 7;
-        } else {
-            if (cooldownIndex > 13) cooldownIndex = 13;
-        }
-
-        if (Action.is_account(owner)) {
-            genes = this.genScience.confirmGene(genes);
-        }
-
-        let dragon = new Dragon();
-        dragon.genes = genes;
-        dragon.birthTime = system.now();
-        dragon.cooldownEndBlock = 0;
-        dragon.fightCooldownEndBlock = 0;
-        dragon.matronId = mathronId;
-        dragon.sireId = sireId;
-        dragon.siringWithId = 0;
-        dragon.cooldownIndex = cooldownIndex;
-        dragon.fightcooldownIndex = 0;
-        dragon.generation = generation;
-        dragon.titles = titles;
-        dragon.extend = extend;
-
-        let newDragonId = this.dragons.push(dragon) - 1;
-        /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
-        ///  includes any time a dragon is created through the giveBirth method, but it is also called
-        ///  when a new gen0 dragon is created.
-        // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
-
-        emit("Birth", EventObject.set<u64>("owner", owner).set<u64>("dragonId", newDragonId).set<u64>("matronId", mathronId)
-            .set<u64>("sireId", sireId).set<string>("gen", genes.toString()));
-
-        this._transfer(0, owner, newDragonId);
-
-        return newDragonId;
-    }
 }
 
-class DragonOwnership extends DragonBase {
+class DragonAssetControl extends DragonBase {
+
     /// @dev Checks if a given address is the current owner of a particular Dragon.
     /// @param _claimant the address we are validating against.
     /// @param _tokenId dragon id, only valid when > 0
@@ -368,14 +327,71 @@ class DragonOwnership extends DragonBase {
         this.dragonIndextoApproved.set(tokenId, approved);
     }
 
-    public tokensOfOwner(owner: account_name): TokenId[] {
-        // FIXME(liangqin): 需要ERC721配合才能完成这个方法
-        return [];
+    public transferFrom(from: account_name, to: account_name, tokenId: TokenId): void {
+        ultrain_assert(Action.is_account(to), "'to' account is invalid.");
+        ultrain_assert(to != HyperDragonContract, "can not transfer dragon to mima.dragon");
+        ultrain_assert(this._approvedFor(Action.current_sender(), tokenId), "this asset does not belongs to message sender.");
+        ultrain_assert(this._owns(from, tokenId), "'from' does not own this asset.");
+
+        this._transfer(from, to, tokenId);
+    }
+
+    public transfer(to: account_name, tokenId: TokenId): void {
+        this.whenNotPaused();
+        ultrain_assert(Action.is_account(to), "'to' is invalid account name.");
+        ultrain_assert(to != HyperDragonContract, "can not transfer to 'to' account");
+        ultrain_assert(to != SaleAuctionAddress, "can't transfer to sale auction address.");
+        ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
+        ultrain_assert(this._owns(Action.current_sender(), tokenId), "you don't own this asset.");
+        // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
+        emit("GiveDragon", EventObject.set<u64>("from", Action.current_sender()).set<u64>("to", to).set<u64>("tokenId", tokenId));
+
+        this._transfer(Action.current_sender(), to, tokenId);
+    }
+
+    public ownerOf(tokenId: TokenId): account_name {
+        if (this.dragonIndexToOwner.contains(tokenId)) {
+            return this.dragonIndexToOwner.get(tokenId);
+        }
+        return 0;
+    }
+
+    public totalSupply(): u64 {
+        return <u64>this.dragons.length - 1;
+    }
+
+    public balanceOf(owner: account_name): u64 {
+        return this.ownershipTokenCount.contains(owner) ?
+                this.ownershipTokenCount.get(owner) :
+                0;
+    }
+
+    public approve(to: account_name, tokenId: TokenId): void {
+        this.whenNotPaused();
+        ultrain_assert(this._owns(Action.current_sender(), tokenId), "you do not own this asset.");
+        this._approve(tokenId, to);
+
+        // event Approval(address owner, address approved, uint256 tokenId);
+        emit("Approval", EventObject.set<u64>("owner", Action.current_sender())
+            .set<u64>("to", to).set<u64>("tokenId", tokenId));
+    }
+
+    public tokensOfOwner(owner: account_name): u64[] {
+        let tokenCount = this.balanceOf(owner);
+        let result: account_name[] = [];
+        if (tokenCount != 0) {
+            let totalDragon = this.totalSupply();
+            for (let i: i32 = 1; i <= <i32>totalDragon; i++) {
+                if (this.dragonIndexToOwner.get(i) == owner) {
+                    result.push(i);
+                }
+            }
+        }
+        return result;
     }
 }
 
-let SYM = StringToSymbol(4, "HD");
-class DragonBreeding extends DragonOwnership {
+class DragonBreeding extends DragonAssetControl {
 
     protected _isReadyToBreed(dra: Dragon): boolean {
         // In addition to checking the cooldownEndBlock, we also need to check to see if
@@ -542,44 +558,6 @@ class DragonBreeding extends DragonOwnership {
         this._breedWith(matronId, sireId);
     }
 
-    /// @notice Have a pregnant Dragon give birth!
-    /// @param _matronId A Dragon ready to give birth.
-    /// @return The Dragon ID of the new dragon.
-    /// @dev Looks at a given Dragon and, if pregnant and if the gestation period has passed,
-    ///  combines the genes of the two parents to create a new dragon. The new Dragon is assigned
-    ///  to the current owner of the matron. Upon successful completion, both the matron and the
-    ///  new dragon will be ready to breed again. Note that anyone can call this function (if they
-    ///  are willing to pay the gas!), but the new dragon always goes to the mother's owner.
-    public giveBirth(matronId: DragonId, tid: u64): DragonId {
-        this.onlyAPI();
-        let matron = this.dragons[<i32>matronId];
-
-        ultrain_assert(matron.birthTime != 0, "matron is not valid, its birth time is 0.");
-
-        let sireId = matron.siringWithId;
-        let sire = this.dragons[<i32>sireId];
-        let parentGen = matron.generation;
-        if (sire.generation > matron.generation) {
-            parentGen = sire.generation;
-        }
-
-        let childGenes: GenType = this.genScience.mixGenes(matron.genes, matron.generation,
-                sire.genes, sire.generation, tid);
-        let childExtend: u64 = this.genScience.mixExtend(matron.extend, matron.generation, sire.extend, sire.generation);
-
-        let owner: account_name = this.dragonIndexToOwner.get(matronId);
-        let dragonId: DragonId = this._createDragon(matronId, matron.siringWithId, parentGen + 1, childGenes, 0, owner, childExtend);
-        // Clear the reference to sire from the matron (REQUIRED! Having siringWithId
-        // set is what marks a matron as being pregnant.)
-        matron.siringWithId = 0;
-
-        this.pregnantDragons -= 1;
-        // TODO(liangqin): transfer autoBirthFee to msg.sender
-        // msg.sender.send(this.autoBirthFee);
-
-        return dragonId;
-    }
-
     public updateGenes(dragonId: DragonId, genes: GenType): void {
         let dra = this.dragons[<i32>dragonId];
         dra.genes = genes;
@@ -588,72 +566,18 @@ class DragonBreeding extends DragonOwnership {
     }
 }
 
-class DragonAuction extends DragonBreeding {
+export class DragonAuction extends DragonBreeding {
 
-    public setSaleAuctionAddress(_address: account_name): void {
+    public setSaleAuctionAddress(_address: account_name, cut: u64): void {
         this.onlyCEO();
-        // FIXME: SaleClockAuction needs cut where it come from?
-        this.saleAuction = new SaleClockAuction(_address, 1);
-        ultrain_assert(this.saleAuction.isSaleClockAuction, "it is not a sale clock auction.");
+        this.saleAuctionOriginator = _address;
+        this.saleAuctionCut = cut;
     }
 
-    public setSiringAuctionAddress(_address: account_name): void {
+    public setSiringAuctionAddress(_address: account_name, cut: u64): void {
         this.onlyCEO();
-
-        // FIXME: SiringClockAuction need cut
-        this.siringAuction = new SireClockAuction(_address, 1);
-        ultrain_assert(this.siringAuction.isSireClockAuction, "it is not a siring clock auction.");
-    }
-
-    public createSaleAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
-        this.whenNotPaused();
-        let seller = Action.current_sender();
-        // Auction contract checks input sizes
-        // If dragon is already on any auction, this will throw
-        // because it will be owned by the auction contract.
-        ultrain_assert(this._owns(seller, dragonId), "the dragon id does not belong to trx sender.");
-        // Ensure the dragon is not pregnant to prevent the auction
-        // contract accidentally receiving ownership of the child.
-        // NOTE: the dragon IS allowed to be in a cooldown.
-        ultrain_assert(!this.isPregnant(dragonId), "this dragon is pregnent.");
-        // FIXME approve to who??
-        this._approve(dragonId, this.cfoAddress);
-        // Sale auction throws if inputs are invalid and clears
-        // transfer and sire approval after escrowing the dragon.
-        this.saleAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
-    }
-
-    public createSiringAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
-        this.whenNotPaused();
-
-        let seller = Action.current_sender();
-        ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
-        ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
-        // FIXME approve to who??
-        this._approve(dragonId, this.cfoAddress);
-
-        this.siringAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
-    }
-
-    /// @dev Completes a siring auction by bidding.
-    ///  Immediately breeds the winning matron with the sire on auction.
-    /// @param _sireId - ID of the sire on auction.
-    /// @param _matronId - ID of the matron owned by the bidder.
-    public bidOnSiringAuction(sireId: DragonId, matronId: DragonId, value: Asset): void {
-        this.whenNotPaused();
-        let sender = Action.current_sender();
-        ultrain_assert(this._owns(sender, matronId), "the matron dragon does not belong to trx sender.");
-        ultrain_assert(this.isReadyToBreed(matronId), "the matron dragon is not ready to breed.");
-        ultrain_assert(this._canBreedWithViaAuction(matronId, sireId), "the matron can not breed with the sire dragons via auction.");
-
-        let currentPrice = this.siringAuction.getcurrentPrice(sireId);
-        let lowestPrice = currentPrice.add(this.autoBirthFee);
-        ultrain_assert(value >= lowestPrice, "bid value is too low.");
-
-        // FIXME(liangqin): the sireId is same with tokenId????
-        let bidPrice = value.sub(this.autoBirthFee);
-        this.siringAuction.bid(sireId, bidPrice);
-        this._breedWith(matronId, sireId);
+        this.sireAuctionOriginator = _address;
+        this.sireAuctionCut = cut;
     }
 }
 
@@ -661,59 +585,10 @@ class DragonAuction extends DragonBreeding {
 let PROMO_CREATION_LIMIT: u64 = 15000;
 let GEN0_CREATION_LIMIT: u64  = 45000;
 
-let GEN0_STARTING_PRICE: Asset = new Asset(80, SYM);
+let GEN0_STARTING_PRICE: Asset = new Asset(80, UGS);
 let GEN0_AUCTION_DURATION: u64 = days(1).toSeconds();
 
 class DragonMinting extends DragonAuction {
-    private _computeNextGen0Price(): Asset {
-        let avePrice = this.saleAuction.averageGen0SalePrice();
-
-        let amount = avePrice.getAmount();
-
-        let nextAmount = amount + amount / 2;
-        if (nextAmount < GEN0_STARTING_PRICE.getAmount()) {
-            nextAmount = GEN0_STARTING_PRICE.getAmount();
-        }
-
-        let nextPrice = avePrice.clone();
-        nextPrice.setAmount(nextAmount);
-
-        return nextPrice;
-    }
-
-    public createPromoDragon(_genes: GenType, _owner: account_name, _title: u64, _extend: u64): void {
-        // this.onlyAPI();
-        let dragonOwner = _owner;
-        if (dragonOwner == 0) {
-            dragonOwner = this.cfoAddress;
-        }
-
-        ultrain_assert(this.promoCreatedCount < PROMO_CREATION_LIMIT, "too many dragons created.");
-        this.promoCreatedCount++;
-
-        this._createDragon(0, 0, 0, _genes, _title, dragonOwner, _extend);
-    }
-
-    public createGen0Auction(_genes: GenType, _extend: u64): void {
-        ultrain_assert(this.gen0CreatedCount < GEN0_CREATION_LIMIT, "too many gen0 auctions created.");
-        let genes = this.genScience.gen0Genes(_genes);
-        // FIXME(liangqin): this.cfoAddress is not accurate,
-        // the original is 'address(this)',
-        // and  'this._approve()' is inaccurate.
-        let owner = this.cfoAddress;
-        let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
-
-        this._approve(dragonId, owner);
-        this.saleAuction.createAuction(
-                dragonId,
-                this._computeNextGen0Price(),
-                new Asset(),
-                GEN0_AUCTION_DURATION,
-                owner
-        );
-
-        this.gen0CreatedCount ++;
-    }
 
     public increaseSpecialDragon(_subType: u64): void {
         let exists = this.specialDragon.contains(_subType);
@@ -732,30 +607,9 @@ class DragonMinting extends DragonAuction {
 
 class DragonMatch extends DragonMinting {
 
-    private _isNotCooldownIng(_dra: Dragon): boolean {
+    protected _isNotCooldownIng(_dra: Dragon): boolean {
         return (_dra.cooldownEndBlock <= <u64>trx.tapos_block_num())
             && (_dra.fightCooldownEndBlock <= <u64>trx.tapos_block_num());
-    }
-
-    public joinMatch(dragonId: DragonId, value: Asset): void {
-        this.whenNotPaused();
-        if (this.containsDragon(dragonId)) {
-            let sender = Action.current_sender();
-            ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
-
-            let dra = this.dragons[<i32>dragonId];
-            let count = (dra.titles & 0xFF);
-
-            ultrain_assert(count < 10, "the dragon joins too many matches.");
-            ultrain_assert(!this.isPregnant(dragonId), "the dragon is pregnant.");
-            ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
-            ultrain_assert(this.matchInterface.isCanJoin(sender), "the sender can not join the match.");
-
-            // FIXME(liangqin) ultrain does not support approve.
-            this._approve(dragonId, N("Match"));
-
-            this.matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
-        }
     }
 
     public fightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldowntime: u64): void {
@@ -852,9 +706,13 @@ export class DragonCore extends DragonExtend {
 
     public withdrawAuctionBalances(): void {
         this.onlyCEO();
-        this.saleAuction.withdrawBalance();
-        this.siringAuction.withdrawBalance();
-        this.matchInterface.withdrawBalance();
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut)
+        saleAuction.withdrawBalance();
+        let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        siringAuction.withdrawBalance();
+
+        let matchInterface = new MatchCore(this);
+        matchInterface.withdrawBalance();
     }
 
     public withdrawBalance(): void {
@@ -872,5 +730,295 @@ export class DragonCore extends DragonExtend {
             // TODO(liangqin): 将价值转移到cfo
             // cfoAddress.send(balance - subtractFees);
         }
+    }
+
+
+    public createSaleAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
+        this.whenNotPaused();
+        let seller = Action.current_sender();
+        // Auction contract checks input sizes
+        // If dragon is already on any auction, this will throw
+        // because it will be owned by the auction contract.
+        ultrain_assert(this._owns(seller, dragonId), "the dragon id does not belong to trx sender.");
+        // Ensure the dragon is not pregnant to prevent the auction
+        // contract accidentally receiving ownership of the child.
+        // NOTE: the dragon IS allowed to be in a cooldown.
+        ultrain_assert(!this.isPregnant(dragonId), "this dragon is pregnent.");
+        // FIXME approve to who??
+        this._approve(dragonId, this.cfoAddress);
+        // Sale auction throws if inputs are invalid and clears
+        // transfer and sire approval after escrowing the dragon.
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
+    }
+
+    public createSiringAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
+        this.whenNotPaused();
+
+        let seller = Action.current_sender();
+        ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
+        ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
+        // FIXME approve to who??
+        this._approve(dragonId, this.cfoAddress);
+        let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        siringAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
+    }
+
+    protected _computeNextGen0Price(saleAuction: SaleClockAuction): Asset {
+        let avePrice = saleAuction.averageGen0SalePrice();
+
+        let amount = avePrice.getAmount();
+
+        let nextAmount = amount + amount / 2;
+        if (nextAmount < GEN0_STARTING_PRICE.getAmount()) {
+            nextAmount = GEN0_STARTING_PRICE.getAmount();
+        }
+
+        let nextPrice = avePrice.clone();
+        nextPrice.setAmount(nextAmount);
+
+        return nextPrice;
+    }
+
+    /// @dev Completes a siring auction by bidding.
+    ///  Immediately breeds the winning matron with the sire on auction.
+    /// @param _sireId - ID of the sire on auction.
+    /// @param _matronId - ID of the matron owned by the bidder.
+    public bidOnSiringAuction(sireId: DragonId, matronId: DragonId, value: Asset): void {
+        this.whenNotPaused();
+        let sender = Action.current_sender();
+        ultrain_assert(this._owns(sender, matronId), "the matron dragon does not belong to trx sender.");
+        ultrain_assert(this.isReadyToBreed(matronId), "the matron dragon is not ready to breed.");
+        ultrain_assert(this._canBreedWithViaAuction(matronId, sireId), "the matron can not breed with the sire dragons via auction.");
+
+        let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        let currentPrice = siringAuction.getcurrentPrice(sireId);
+        let lowestPrice = currentPrice.add(this.autoBirthFee);
+        ultrain_assert(value >= lowestPrice, "bid value is too low.");
+
+        // FIXME(liangqin): the sireId is same with tokenId????
+        let bidPrice = value.sub(this.autoBirthFee);
+        siringAuction.bid(sireId, bidPrice);
+        this._breedWith(matronId, sireId);
+    }
+
+     /// @notice Have a pregnant Dragon give birth!
+    /// @param _matronId A Dragon ready to give birth.
+    /// @return The Dragon ID of the new dragon.
+    /// @dev Looks at a given Dragon and, if pregnant and if the gestation period has passed,
+    ///  combines the genes of the two parents to create a new dragon. The new Dragon is assigned
+    ///  to the current owner of the matron. Upon successful completion, both the matron and the
+    ///  new dragon will be ready to breed again. Note that anyone can call this function (if they
+    ///  are willing to pay the gas!), but the new dragon always goes to the mother's owner.
+    public giveBirth(matronId: DragonId, tid: u64): DragonId {
+        this.onlyAPI();
+        let matron = this.dragons[<i32>matronId];
+
+        ultrain_assert(matron.birthTime != 0, "matron is not valid, its birth time is 0.");
+
+        let sireId = matron.siringWithId;
+        let sire = this.dragons[<i32>sireId];
+        let parentGen = matron.generation;
+        if (sire.generation > matron.generation) {
+            parentGen = sire.generation;
+        }
+
+        let genScience = new GeneScience(this);
+        let childGenes: GenType = genScience.mixGenes(matron.genes, matron.generation,
+                sire.genes, sire.generation, tid);
+        let childExtend: u64 = genScience.mixExtend(matron.extend, matron.generation, sire.extend, sire.generation);
+
+        let owner: account_name = this.dragonIndexToOwner.get(matronId);
+        let dragonId: DragonId = this._createDragon(matronId, matron.siringWithId, parentGen + 1, childGenes, 0, owner, childExtend);
+        // Clear the reference to sire from the matron (REQUIRED! Having siringWithId
+        // set is what marks a matron as being pregnant.)
+        matron.siringWithId = 0;
+
+        this.pregnantDragons -= 1;
+        // TODO(liangqin): transfer autoBirthFee to msg.sender
+        // msg.sender.send(this.autoBirthFee);
+
+        return dragonId;
+    }
+
+
+    public createGen0Auction(_genes: GenType, _extend: u64): void {
+        ultrain_assert(this.gen0CreatedCount < GEN0_CREATION_LIMIT, "too many gen0 auctions created.");
+        let genScience = new GeneScience(this);
+        let genes = genScience.gen0Genes(_genes);
+        // FIXME(liangqin): this.cfoAddress is not accurate,
+        // the original is 'address(this)',
+        // and  'this._approve()' is inaccurate.
+        let owner = this.cfoAddress;
+        let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
+
+        this._approve(dragonId, owner);
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut)
+        saleAuction.createAuction(
+                dragonId,
+                this._computeNextGen0Price(saleAuction),
+                new Asset(),
+                GEN0_AUCTION_DURATION,
+                owner
+        );
+
+        this.gen0CreatedCount ++;
+    }
+
+    public confirmGene(gen: GenType): GenType {
+        let genScience = new GeneScience(this);
+        return genScience.confirmGene(gen);
+    }
+
+    public createPromoDragon(_genes: GenType, _owner: account_name, _title: u64, _extend: u64): void {
+        // this.onlyAPI();
+        let dragonOwner = _owner;
+        if (dragonOwner == 0) {
+            dragonOwner = this.cfoAddress;
+        }
+
+        ultrain_assert(this.promoCreatedCount < PROMO_CREATION_LIMIT, "too many dragons created.");
+        this.promoCreatedCount++;
+
+        this._createDragon(0, 0, 0, _genes, _title, dragonOwner, _extend);
+    }
+
+
+    protected _createDragon(mathronId: DragonId, sireId: DragonId, generation: u16,
+        genes: GenType, titles: u64, owner: account_name, extend: u64): u64 {
+        let cooldownIndex = generation / 2;
+
+        if (mathronId != 0) {
+            if (cooldownIndex > 7) cooldownIndex = 7;
+        } else {
+            if (cooldownIndex > 13) cooldownIndex = 13;
+        }
+
+        if (Action.is_account(owner)) {
+            genes = this.confirmGene(genes);
+        }
+
+        let dragon = new Dragon();
+        dragon.genes = genes;
+        dragon.birthTime = system.now();
+        dragon.cooldownEndBlock = 0;
+        dragon.fightCooldownEndBlock = 0;
+        dragon.matronId = mathronId;
+        dragon.sireId = sireId;
+        dragon.siringWithId = 0;
+        dragon.cooldownIndex = cooldownIndex;
+        dragon.fightcooldownIndex = 0;
+        dragon.generation = generation;
+        dragon.titles = titles;
+        dragon.extend = extend;
+
+        let newDragonId = this.dragons.push(dragon) - 1;
+        /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
+        ///  includes any time a dragon is created through the giveBirth method, but it is also called
+        ///  when a new gen0 dragon is created.
+        // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
+        emit("Birth", EventObject.set<u64>("owner", owner).set<u64>("dragonId", newDragonId).set<u64>("matronId", mathronId)
+            .set<u64>("sireId", sireId).set<string>("gen", genes.toString()));
+
+        this._transfer(0, owner, newDragonId);
+
+        return newDragonId;
+    }
+
+    public joinMatch(dragonId: DragonId, value: Asset): void {
+        this.whenNotPaused();
+        if (this.containsDragon(dragonId)) {
+            let sender = Action.current_sender();
+            ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
+
+            let dra = this.dragons[<i32>dragonId];
+            let count = (dra.titles & 0xFF);
+
+            let matchInterface = new MatchCore(this);
+            ultrain_assert(count < 10, "the dragon joins too many matches.");
+            ultrain_assert(!this.isPregnant(dragonId), "the dragon is pregnant.");
+            ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
+            ultrain_assert(matchInterface.isCanJoin(sender), "the sender can not join the match.");
+
+            // FIXME(liangqin) ultrain does not support approve.
+            this._approve(dragonId, N("Match"));
+
+            matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
+        }
+    }
+
+    public startMatch(id: MatchId, matchType: u64, level: u64): void {
+        this.whenNotPaused();
+        let matchInterface = new MatchCore(this);
+        matchInterface.startMatch(id, matchType, level);
+    }
+
+    public guess(betid: u64, id: DragonId, fee: Asset): void {
+        this.whenNotPaused();
+        let matchInterface = new MatchCore(this);
+        matchInterface.guess(betid, id, fee);
+    }
+
+    public isCanJoin(joinUser: account_name): boolean {
+        let matchInterface = new MatchCore(this);
+        return matchInterface.isCanJoin(joinUser);
+    }
+
+    public nextStep(nonce: u64): void {
+        this.whenNotPaused();
+        let matchInterface = new MatchCore(this);
+        matchInterface.nextStep(nonce);
+    }
+
+    public getEntryFee(): Asset {
+        let matchInterface = new MatchCore(this);
+        return matchInterface.getEntryFee();
+    }
+
+    public setFightLimit(limit: u64): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setFightLimit(limit);
+    }
+
+    public setAwardLimit(limit: u64): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setAwardLimit(limit);
+    }
+
+    public setGroupLimit(limit: u64): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setGroupLimit(limit);
+    }
+
+    public setJoinLimit(joinLimit: u64[]): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setJoinLimit(joinLimit);
+    }
+
+    public setRegfees(regfees: Asset[]): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setRegfees(regfees);
+    }
+
+    public setRewardMultiple(rewards: u64[]): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setRewardMultiple(rewards);
+    }
+
+    public setGenLimit(level: u64, limits: u64[]): void {
+        this.onlyOwner();
+        let matchInterface = new MatchCore(this);
+        matchInterface.setGenLimit(level, limits);
+    }
+
+    public dissolve(matchId: MatchId): void {
+        let matchInterface = new MatchCore(this);
+        matchInterface.dissolve(matchId);
     }
 }

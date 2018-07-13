@@ -19,3 +19,9 @@ export function Return<T> (val: T): void {
         ultrain_assert(0, "Return only support string and int.");
     }
 }
+
+export function ReturnArray<T>(val: T[]): void {
+    for (let i: i32 = 0; i < val.length; i++) {
+        Return<T>(val[i]);
+    }
+}

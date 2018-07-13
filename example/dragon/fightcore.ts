@@ -68,14 +68,14 @@ class FightContractData {
 
 }
 
-export class FightCore extends Pausable {
+export class FightCore/*  extends Pausable */ {
     private dataes: FightContractData;
-    private match: MatchCore;
+    // private match: MatchCore;
 
-    constructor(owner: account_name, match: MatchCore) {
+    constructor(/* owner: account_name, match: MatchCore */) {
         // super();
-        this.owner = owner;
-        this.match = match;
+        // this.owner = owner;
+        // this.match = match;
     }
 
     private getBlood(gen: GenType): u64 {
@@ -106,10 +106,11 @@ export class FightCore extends Pausable {
             cid = (_gen >> (15 - i * 5)) & 0x1F;
 
             if (cid > 0) {
+                let idx: i32 = <i32>(cid - 1);
                 if (i < 2) {
-                    addition = this.dataes.cAddition[0][cid - 1];
+                    addition = this.dataes.cAddition[0][idx];
                 } else {
-                    addition = this.dataes.cAddition[1][cid - 1];
+                    addition = this.dataes.cAddition[1][idx];
                 }
 
                 blood  = (addition >> 24) & 0xff;
@@ -130,10 +131,10 @@ export class FightCore extends Pausable {
 
     private attack(d1: DragonInfo, d2: DragonInfo): void {
         let type: u64 = 1;
-        let skill: u64 = ((d1.skills >> (32 - d1.attackIndex * 8)) & 0xFF);
+        let skill: i32 = <i32>((d1.skills >> (32 - d1.attackIndex * 8)) & 0xFF);
         let skillLevel: u64 = ((d1.skillLevels >> (16 - d1.attackIndex * 4)) & 0xF);
-        let damage = this.dataes.skillDamageMin[skill];
-        let damageMax = this.dataes.skillDamageMax[skill];
+        let damage:u64 = this.dataes.skillDamageMin[skill];
+        let damageMax: u64 = this.dataes.skillDamageMax[skill];
 
         if (skillLevel > 1) {
             damage += (skillLevel - 1) * 10 * damage / 100;
@@ -185,7 +186,6 @@ export class FightCore extends Pausable {
         d1.blood = this.getBlood(gen1);
         d1.skills = this.getSkills(gen1);
         d1.skillLevels = this.getSkillsLevel(gen1);
-        // TODO(liangqin): set seed for random uint64 generator.
         d1.seed = Action.random_uint64(nonce);
 
         let d2 = new DragonInfo();
@@ -193,7 +193,7 @@ export class FightCore extends Pausable {
         d2.blood = this.getBlood(gen2);
         d2.skills = this.getSkills(gen2);
         d2.skillLevels = this.getSkillsLevel(gen2);
-        d2.seed = Action.random_uint64(nonce); // TODO here as upper line
+        d2.seed = Action.random_uint64(nonce);
 
         this.getAddition(gen1, d1);
         this.getAddition(gen2, d2);
@@ -214,11 +214,11 @@ export class FightCore extends Pausable {
 
         while (d1.blood > 0 && d2.blood > 0 && limit < 80) {
             if (d1.seed < 100000) {
-                d1.seed = Action.random_uint64(0) / 3;
+                d1.seed = Action.random_uint64(nonce) / 3;
             }
 
             if (d2.seed < 100000) {
-                d2.seed = Action.random_uint64(0) / 3;
+                d2.seed = Action.random_uint64(nonce) / 3;
             }
 
             if (attacker % 2 == 0) {

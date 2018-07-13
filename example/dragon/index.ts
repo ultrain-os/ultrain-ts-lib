@@ -1,6 +1,6 @@
 import { Contract, DataStreamFromCurrentAction } from "../../lib/contract";
 import { DragonCore, InterestDragon } from "./dragoncore";
-import { Return } from "../../src/return";
+import { Return, ReturnArray } from "../../src/return";
 import { GenType } from "./genetype";
 import { Asset } from "../../src/asset";
 import { N } from "../../src/utils";
@@ -87,6 +87,16 @@ export class HyperDragonContract extends Contract {
     }
 
     @action
+    public setSaleAuctionAddress(originator: account_name, cut: u64): void {
+        this._dragonCore.setSaleAuctionAddress(originator, cut);
+    }
+
+    @action
+    public setSiringAuctionAddress(originator: account_name, cut: u64): void {
+        this._dragonCore.setSiringAuctionAddress(originator, cut);
+    }
+
+    @action
     public createSiringAuction(id: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
         this._dragonCore.createSiringAuction(id, startingPrice, endingPrice, duration);
     }
@@ -115,19 +125,19 @@ export class HyperDragonContract extends Contract {
     @action
     public canBreedWith(matronId: DragonId, sireId: DragonId): void {
         let can = this._dragonCore.canBreedWith(matronId, sireId);
-        Return( can ? "true" : "false");
+        Return<string>( can ? "true" : "false");
     }
 
     @action
     public isPregnant(id: DragonId): void {
         let pregnant = this._dragonCore.isPregnant(id);
-        Return( pregnant ? "true" : "false");
+        Return<string>( pregnant ? "true" : "false");
     }
 
     @action
     public isReadyToBreed(id: DragonId): void {
         let ready = this._dragonCore.isReadyToBreed(id);
-        Return(ready ? "true" : "false");
+        Return<string>(ready ? "true" : "false");
     }
 
     @action
@@ -142,106 +152,109 @@ export class HyperDragonContract extends Contract {
     // UIP09 interface
     @action
     public balanceOf(owner: account_name): void {
-
+        let balance = this._dragonCore.balanceOf(owner);
+        Return<u64>(balance);
     }
 
     @action
     public transfer(to: account_name, tokenId: TokenId): void {
-
+        this._dragonCore.transfer(to, tokenId);
     }
 
     @action
     public approve(to: account_name, tokenId: TokenId): void {
-
+        this._dragonCore.approve(to, tokenId);
     }
 
     @action
     public transferFrom(from: account_name, to: account_name, tokenId: TokenId): void {
-
+        this._dragonCore.transferFrom(from, to, tokenId);
     }
 
     @action
     public totalSupply(): void {
-
+        let total = this._dragonCore.totalSupply();
+        Return<u64>(total);
     }
 
     @action
     public ownerOf(id: TokenId): void {
-
+        let owner = this._dragonCore.ownerOf(id);
+        Return<u64>(owner);
     }
 
     @action
     public tokensOfOwner(owner: account_name): void {
-
+        let tokens: u64[] = this._dragonCore.tokensOfOwner(owner);
+        ReturnArray<u64>(tokens);
     }
 
     // match
     @action
     public startMatch(id: MatchId, matchType: u64, level: u64): void {
-        this._dragonCore.matchInterface.startMatch(id, matchType, level);
+        this._dragonCore.startMatch(id, matchType, level);
     }
 
     @action
     public isCanJoin(joinUser: account_name): void {
-        let can = this._dragonCore.matchInterface.isCanJoin(joinUser);
+        let can = this._dragonCore.isCanJoin(joinUser);
         Return(can ? "true" : "false");
     }
 
     @action
     public guess(betid: u64, id: DragonId, fee: Asset): void {
-        this._dragonCore.matchInterface.guess(betid, id, fee);
+        this._dragonCore.guess(betid, id, fee);
     }
 
     @action
     public nextStep(nonce: u64): void {
-        this._dragonCore.matchInterface.nextStep(nonce);
+        this._dragonCore.nextStep(nonce);
     }
 
     @action
     public getEntryFee(): void {
-        let fee = this._dragonCore.matchInterface.getEntryFee();
-        // TODO show fee.
+        let fee = this._dragonCore.getEntryFee();
         Return(fee.amount);
     }
 
     @action
     public setFightLimit(limit: u64): void {
-        this._dragonCore.matchInterface.setFightLimit(limit);
+        this._dragonCore.setFightLimit(limit);
     }
 
     @action
     public setAwardLimit(limit: u64): void {
-        this._dragonCore.matchInterface.setAwardLimit(limit);
+        this._dragonCore.setAwardLimit(limit);
     }
 
     @action
     public setGroupLimit(limit: u64): void {
-        this._dragonCore.matchInterface.setGroupLimit(limit);
+        this._dragonCore.setGroupLimit(limit);
     }
 
     @action
     public setJoinLimit(joinLimit: u64[]): void {
-        this._dragonCore.matchInterface.setJoinLimit(joinLimit);
+        this._dragonCore.setJoinLimit(joinLimit);
     }
 
     @action
     public setRegfees(regfees: Asset[]): void {
-        this._dragonCore.matchInterface.setRegfees(regfees);
+        this._dragonCore.setRegfees(regfees);
     }
 
     @action
     public setRewardMultiple(rewards: u64[]): void {
-        this._dragonCore.matchInterface.setRewardMultiple(rewards);
+        this._dragonCore.setRewardMultiple(rewards);
     }
 
     @action
     public setGenLimit(level: u64, limits: u64[]): void {
-        this._dragonCore.matchInterface.setGenLimit(level, limits);
+        this._dragonCore.setGenLimit(level, limits);
     }
 
     @action
     public dissolve(matchId: MatchId): void {
-        this._dragonCore.matchInterface.dissolve(matchId);
+        this._dragonCore.dissolve(matchId);
     }
 
 }

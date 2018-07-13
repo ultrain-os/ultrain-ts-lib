@@ -6,11 +6,13 @@
 
 import { env as Action } from "../../internal/action.d";
 import { Asset } from "../../src/asset";
-import { DragonCore } from "./dragoncore";
-import { ultrain_assert } from "../../src/utils";
+import { DragonCore, DragonAuction } from "./dragoncore";
+import { ultrain_assert, N } from "../../src/utils";
 import { env as system } from "../../internal/system.d";
 import { Map } from "../../src/map";
 import { emit, EventObject } from "../../lib/events";
+import { send, queryBalance } from "../../src/balance";
+import { HyperDragonContract } from "./consts";
 
 class Auction {
     // current owner of NFT
@@ -26,8 +28,10 @@ class Auction {
     startedAt: u64;
  }
 
-
 class ClockAuctionBase {
+    // the originator who originate this auction.
+    originator: account_name;
+
     // the delegate of URC721
     master: DragonCore;
     // cut owner takes on each auction, measured in basis points (1/100 of a percent);
@@ -46,9 +50,8 @@ class ClockAuctionBase {
     }
 
     protected escrow(owner: account_name, tokenId: u64): void {
-        // TODO(liangqin): how to get 'to' address
-        let to: account_name = 0;
-        this.master.transferFrom(owner, to, tokenId);
+        // escrow this token to the contract originator
+        this.master.transferFrom(owner, this.originator, tokenId);
     }
 
     protected transfer(receiver: account_name, tokenId: u64): void {
@@ -168,8 +171,8 @@ class ClockAuctionBase {
             let sellerProceeds = price.clone();
             sellerProceeds.sub(auctioneerCut);
 
-            // TODO(liangqin): address.transfer
-            // seller.transfer(sellerProceeds);
+            // 从发起人帐户上转入到卖家帐户
+            send(this.originator, seller, sellerProceeds, "seller proceeds");
         }
 
         let bidExcess = bidAmount.clone();
@@ -178,9 +181,7 @@ class ClockAuctionBase {
         // Return the funds. Similar to the previous transfer, this is
         // not susceptible to a re-entry attack because the auction is
         // removed before any transfers occur.
-        // TODO(liangqin)
-        // msg.sender.transfer(bidExcess);
-
+        send(this.originator, Action.current_sender(), bidExcess, "bid excess");
         // Tell the world!
         // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
         emit("AuctionSuccessful", EventObject.set<u64>("tokenId", tokenId).set<u64>("totalPrice", price.amount)
@@ -191,17 +192,20 @@ class ClockAuctionBase {
 }
 
 export class ClockAuction extends ClockAuctionBase {
-    master: DragonCore;
+    // master: UIP09;
 
-    constructor(master: DragonCore, cut: u64) {
-        // super();
-        this.master = master;
-        ultrain_assert(cut <= 10000, "ownercut must less than 10000.");
-        this.ownerCut = cut;
-    }
+    // constructor(master: DragonCore, cut: u64) {
+    //     // super();
+    //     this.master = master;
+    //     ultrain_assert(cut <= 10000, "ownercut must less than 10000.");
+    //     this.ownerCut = cut;
+    // }
 
     public withdrawBalance(): void {
-        // TODO(liangqin): 怎么从UGS帐户中提取余额？
+        let msgSender = Action.current_sender();
+        ultrain_assert(msgSender == this.originator || msgSender == HyperDragonContract, "can not withdraw balance");
+        let balance = queryBalance(this.originator);
+        send(this.originator, HyperDragonContract, balance, "auction withdraw balance");
     }
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
@@ -253,16 +257,16 @@ export class ClockAuction extends ClockAuctionBase {
 }
 
 export class SaleClockAuction extends ClockAuction {
-    master: DragonCore;
 
     isSaleClockAuction: boolean = true;
     gen0SaleCount: u64;
     lastGen0SalePrices: Asset[] = [];
 
-    constructor(master: DragonCore, cut: u64) {
+    constructor(master: DragonCore, originator: account_name, cut: u64) {
         // super();
         this.master = master;
         ultrain_assert(cut < 10000, "the cut is larger than 10000, and it is forbidden.");
+        this.originator = originator;
         this.ownerCut = cut;
     }
 
@@ -283,12 +287,12 @@ export class SaleClockAuction extends ClockAuction {
         let price = this._bid(tokenId, val);
         this.transfer(Action.current_sender(), tokenId);
 
-        // TODO(liangqin): how to do this?
-        // if (seller == address(nonFungibleContract)) {
-        //     // Track gen0 sale prices
-        //     lastGen0SalePrices[gen0SaleCount % 5] = price;
-        //     gen0SaleCount++;
-        // }
+        if (seller == HyperDragonContract) {
+            // Track gen0 sale prices
+            let idx: i32 = <i32>(this.gen0SaleCount % 5);
+            this.lastGen0SalePrices[idx] = price;
+            this.gen0SaleCount++;
+        }
     }
 
     public averageGen0SalePrice(): Asset {
@@ -303,13 +307,12 @@ export class SaleClockAuction extends ClockAuction {
 }
 
 export class SireClockAuction extends ClockAuction {
-    master: DragonCore;
 
     isSireClockAuction: boolean = true;
-
-    constructor(master: DragonCore, cut: u64) {
+    constructor(master: DragonCore, originator: account_name, cut: u64) {
         // super();
         this.master = master;
+        this.originator = originator;
         ultrain_assert(cut < 10000, "the cut is larger than 10000, and it is forbidden.");
         this.ownerCut = cut;
     }

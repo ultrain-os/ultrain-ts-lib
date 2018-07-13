@@ -9,6 +9,8 @@ import { Asset, StringToSymbol } from "./asset";
 import { DataStream } from "./datastream";
 import { DBManager } from "./dbmanager";
 import { N } from "./utils";
+import { PermissionLevel } from "./permission-level";
+import { TransferParams, dispatchInline } from "./action";
 
 export class Account implements ISerializable {
     balance: Asset;
@@ -74,4 +76,17 @@ export function queryBalance(owner: account_name): Asset {
     let existing = accounts.get(SYS_NAME, act);
 
     return existing ? act.balance : new Asset(0, SYS);
+}
+
+export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
+    let pl: PermissionLevel = new PermissionLevel();
+    pl.actor = from;
+    pl.permission = N("active");
+    let params = new TransferParams();
+    params.from = from;
+    params.to = to;
+    params.quantity = quantity;
+    params.memo = memo;
+    // params.quantity.prints("before dispatchInline");
+    dispatchInline(pl, N("utrio.token"), N("transfer"), params);
 }
