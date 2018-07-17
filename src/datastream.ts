@@ -14,7 +14,7 @@ export class DSHelper {
     static serializeComplexVector<T>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
         let data = new Uint8Array(len);
-        let ds = new DataStream(<usize>data.buffer, len);
+        let ds = new DataStream( changetype<usize>(data.buffer), len);
         ds.writeComplexVector<T>(arr);
         return ds;
     }
@@ -22,14 +22,14 @@ export class DSHelper {
     static serializeComplex<T>(t: T): DataStream {
         let len = DataStream.measure<T>(t);
         let data = new Uint8Array(len);
-        let ds = new DataStream(<usize>data.buffer, len);
+        let ds = new DataStream(changetype<usize>(data.buffer), len);
         t.serialize(ds);
         return ds;
     }
 
     static getDataStreamWithLength(len: u32): DataStream {
         let arr = new Uint8Array(len);
-        let ds = new DataStream(<usize>arr.buffer, len);
+        let ds = new DataStream(changetype<usize>(arr.buffer), len);
         return ds;
     }
 }
@@ -206,7 +206,7 @@ export class DataStream {
 
         let cstr = toUTF8Array(str);
         if (!this.isMesureMode()) {
-            var ptr: u32 = load<u32>(<usize>cstr) + sizeof<u64>();
+            var ptr: u32 = load<u32>(changetype<usize>(cstr)) + sizeof<u64>();
             move_memory(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
         }
         this.pos += cstr.length - 1;

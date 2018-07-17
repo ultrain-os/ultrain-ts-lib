@@ -4,8 +4,8 @@ import { env as action } from "../internal/action.d";
 export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
     let arr = new Uint8Array(len);
-    action.read_action_data(<usize>arr.buffer, len);
-    let ds = new DataStream(<usize>arr.buffer, len);
+    action.read_action_data(changetype<usize>(arr.buffer), len);
+    let ds = new DataStream(changetype<usize>(arr.buffer), len);
     return ds;
 }
 
