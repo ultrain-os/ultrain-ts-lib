@@ -10,7 +10,7 @@ export interface UIP09{
 	 * @param issuer the tokne issurer
 	 * @param maximum_supply the total token supply amouont
 	 */
-	create(issuer: account_name, maximum_supply: Asset): void {};
+	create(issuer: account_name, maximum_supply: Asset): void;
 
 	/**
 	 * Issue token to 'to' account
@@ -21,7 +21,7 @@ export interface UIP09{
 	 * @param name the token name
 	 * @param memo the memo for issue action
 	 */
-	issue(to: account_name, quantity: Asset, uris: Array<string>, name: string, memo: string): void {};
+	issue(to: account_name, quantity: Asset, uris: Array<string>, name: string, memo: string): void;
 
 
 	/**
@@ -32,7 +32,7 @@ export interface UIP09{
 	 * @param token_id the identity of the token
 	 * @param memeo the memeo for transfer action
 	 */
-	transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {};
+	transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void;
 
 	/**
 	 * Get the owner account by the token_id
@@ -41,7 +41,7 @@ export interface UIP09{
 	 * 
 	 * @returns return the token owner account name
 	 */
-	ownerof(token_id: id_type): account_name {};
+	ownerof(token_id: id_type): account_name;
 
 	/**
 	 * Get the owner token id by the index 
@@ -52,7 +52,7 @@ export interface UIP09{
 	 * 
 	 * @returns the token id of the token
 	 */
-	tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type {};
+	tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type;
 
 	/**
 	 * Get the token attribute uri by the token_id
@@ -61,7 +61,7 @@ export interface UIP09{
 	 * 
 	 * @returns the uri of the token
 	 */
-	uriof(token_id: id_type): string {};
+	uriof(token_id: id_type): string;
 
 	/**
 	 * Get the total supply of the symbal token
@@ -70,7 +70,7 @@ export interface UIP09{
 	 * 
 	 * @return  reutrn the supply asset
 	 */
-	getsupply(sym_name: string): Asset {};
+	getsupply(sym_name: string): Asset;
 
 	/**
 	 * Get the balance of the owner's symbal name token
@@ -80,5 +80,5 @@ export interface UIP09{
 	 * 
 	 * @return return the balance
 	 */
-	getbalance(owner: account_name, sym_name: string): Asset {};
+	getbalance(owner: account_name, sym_name: string): Asset;
 }

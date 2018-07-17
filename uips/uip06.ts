@@ -4,7 +4,7 @@ import { Asset } from "../src/asset";
 /**
  * A standard interface for tokens
  */
-export interface UIP09{
+export interface UIP06{
 
 	/**
 	 * Create a non-fungbile token
@@ -12,7 +12,7 @@ export interface UIP09{
 	 * @param issuer the tokne issurer
 	 * @param maximum_supply the total token supply amouont
 	 */
-	create(issuer: account_name, maximum_supply: Asset): void {};
+	create(issuer: account_name, maximum_supply: Asset): void;
 
 	/**
 	 * Issue token to 'to' account
@@ -21,7 +21,7 @@ export interface UIP09{
 	 * @param quantity the quantity of the token
 	 * @param memo the memo for issue action
 	 */
-	issue(to: account_name, quantity: Asset, memo: string): void {};
+	issue(to: account_name, quantity: Asset, memo: string): void;
 
 
 	/**
@@ -32,7 +32,7 @@ export interface UIP09{
 	 * @param quantity the quantity of the token asset
 	 * @param memeo the memeo for transfer action
 	 */
-	transfer(from: account_name, to: account_name, quantity: Asset, memo: string): void {};
+	transfer(from: account_name, to: account_name, quantity: Asset, memo: string): void;
 
 	
 	/**
@@ -42,7 +42,7 @@ export interface UIP09{
 	 * 
 	 * @return  reutrn the supply asset
 	 */
-	getsupply(sym_name: string): Asset {};
+	getsupply(sym_name: string): Asset;
 
 	/**
 	 * Get the balance of the owner's symbal name token
@@ -52,5 +52,5 @@ export interface UIP09{
 	 * 
 	 * @return return the balance
 	 */
-	getbalance(owner: account_name, sym_name: string): Asset {};
+	getbalance(owner: account_name, sym_name: string): Asset;
 }
