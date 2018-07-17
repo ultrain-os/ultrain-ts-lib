@@ -1,27 +1,28 @@
-// import "allocator/arena";
+import "allocator/arena";
 
-// let num = NaN;
+interface Car{
+    car():void;
+}
 
-// let age:number = 32;
-// let res = isFinite(age);
 
-let left:u64 = 32;
-let right:u64 = 32;
+class Audi implements Car{
+    
+    car():void{
+
+    }
+}
 
 export function redirect_sum():void{
-    let left:u64 = 32;
-    let right:u64 = 32;
-    let sender = msg.sender;
 
-    // let blk = block.coinbase();
+    // JSMath.
 
-    let sig = Msg.sig;
+    // String.fromCharCode()
 
-    let smap:Map<string, String> = map;
+    // let res = INativeMath.mod(12.0, 12.0);
 
-    let aString =  isString(msg);
+    // let res = sum(12, 12);
 
-    let ja = ASC_TARGET;
+    // let audi = new Audi();
 
-    smap.clear();
+    let sender =  Msg.sender;
 }

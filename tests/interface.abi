@@ -1,0 +1,29 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "owner",
+          "type": "account_name"
+        }
+      ],
+      "name": "say",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "say",
+      "type": "say"
+    }
+  ],
+  "tables": []
+}

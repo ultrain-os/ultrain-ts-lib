@@ -1,6 +1,6 @@
 
 export interface ISerializable {
-    public deserialize(ds: DataStream): void { };
-    public serialize(ds : DataStream) : void {};
-    public primaryKey(): u64 { return 0; }
+    deserialize(ds: DataStream): void ;
+    serialize(ds : DataStream) : void ;
+    primaryKey(): u64 ;
 }
