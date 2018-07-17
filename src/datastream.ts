@@ -1,17 +1,21 @@
-import {
-    HEADER_SIZE,
-    MAX_LENGTH,
-    EMPTY,
-    allocate,
-    isWhiteSpaceOrLineTerminator,
-    CharCode,
-    parse
-} from "~lib/internal/string";
+import {toUTF8Array } from "./utils";
 
-import { string2cstr, toUTF8Array } from "./utils";
+
+const HEADER_SIZE = (offsetof<String>() + 1) & ~1; // 2 byte aligned
+
+/** Maximum 32-bit allocation size. */
+const MAX_LENGTH: usize = 1 << 30; // 1GB
+
+function allocate(length: i32): String {
+    assert(length > 0 && length <= MAX_LENGTH);
+    var buffer = allocate_memory(HEADER_SIZE + (<usize>length << 1));
+    store<i32>(buffer, length);
+    return changetype<String>(buffer);
+  }
+
 
 export class DSHelper {
-    static serializeComplexVector<T>(arr: T[]): DataStream {
+    static serializeComplexVector<T extends ISerializable>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
         let data = new Uint8Array(len);
         let ds = new DataStream( changetype<usize>(data.buffer), len);
