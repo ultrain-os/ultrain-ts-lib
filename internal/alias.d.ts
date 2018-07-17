@@ -19,5 +19,5 @@ declare type scope_name = u64;
 declare type action_name = u64;
 declare type weight_type = u16;
 
-declare type transaction_id_type = Checksum256;
-declare type block_id_type = Checksum256;
+// declare type transaction_id_type = Checksum256;
+// declare type block_id_type = Checksum256;
