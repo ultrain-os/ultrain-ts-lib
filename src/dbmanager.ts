@@ -105,9 +105,6 @@ export class DBManager<T> {
         newobj.serialize(ds);
 
         db.db_update_i64(item._primary_itr, payer, ds.buffer, ds.pos);
-
-        // TODO(fanliangqin): update secondary items here
-        // codes wait here
     }
 
     private loadObjectByPrimaryIterator(itr: i32, out: T): void {

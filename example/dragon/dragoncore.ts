@@ -19,7 +19,8 @@ import "./consts";
 import { Titles } from "./titles";
 import { emit, EventObject } from "../../lib/events";
 import { UGS } from "../../internal/types";
-import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress } from "./consts";
+import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress, MatchAddress } from "./consts";
+import { queryBalance, send } from "../../src/balance";
 
 class DragonAccessControl {
     ceoAddress: account_name = CEO;
@@ -718,17 +719,16 @@ export class DragonCore extends DragonExtend {
     public withdrawBalance(): void {
         this.onlyCFO();
 
-        // FIXME(liangqin): 获取到本contract的balance
-        // let balance = address(this).balance;
-        let balance = new Asset();
+        let balance = queryBalance(HyperDragonContract);
 
         let subtractFees = new Asset();
         subtractFees.setAmount((this.pregnantDragons + 1) * this.autoBirthFee.getAmount());
         subtractFees.setSymbol(this.autoBirthFee.getSymbol());
 
         if (balance > subtractFees) {
-            // TODO(liangqin): 将价值转移到cfo
-            // cfoAddress.send(balance - subtractFees);
+            let fee: u64 = balance.amount - subtractFees.amount;
+            subtractFees.setAmount(fee);
+            send(HyperDragonContract, CFO, subtractFees, "dragoncore withdraw balance.");
         }
     }
 
@@ -744,8 +744,7 @@ export class DragonCore extends DragonExtend {
         // contract accidentally receiving ownership of the child.
         // NOTE: the dragon IS allowed to be in a cooldown.
         ultrain_assert(!this.isPregnant(dragonId), "this dragon is pregnent.");
-        // FIXME approve to who??
-        this._approve(dragonId, this.cfoAddress);
+        this._approve(dragonId, SaleAuctionAddress);
         // Sale auction throws if inputs are invalid and clears
         // transfer and sire approval after escrowing the dragon.
         let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
@@ -758,8 +757,7 @@ export class DragonCore extends DragonExtend {
         let seller = Action.current_sender();
         ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
         ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
-        // FIXME approve to who??
-        this._approve(dragonId, this.cfoAddress);
+        this._approve(dragonId, SireAuctionAddress);
         let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
         siringAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
     }
@@ -835,8 +833,9 @@ export class DragonCore extends DragonExtend {
         matron.siringWithId = 0;
 
         this.pregnantDragons -= 1;
-        // TODO(liangqin): transfer autoBirthFee to msg.sender
-        // msg.sender.send(this.autoBirthFee);
+
+        let sender = Action.current_sender();
+        send(HyperDragonContract, sender, this.autoBirthFee, "give birth fee.");
 
         return dragonId;
     }
@@ -846,10 +845,7 @@ export class DragonCore extends DragonExtend {
         ultrain_assert(this.gen0CreatedCount < GEN0_CREATION_LIMIT, "too many gen0 auctions created.");
         let genScience = new GeneScience(this);
         let genes = genScience.gen0Genes(_genes);
-        // FIXME(liangqin): this.cfoAddress is not accurate,
-        // the original is 'address(this)',
-        // and  'this._approve()' is inaccurate.
-        let owner = this.cfoAddress;
+        let owner = HyperDragonContract;
         let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
 
         this._approve(dragonId, owner);
@@ -940,8 +936,7 @@ export class DragonCore extends DragonExtend {
             ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
             ultrain_assert(matchInterface.isCanJoin(sender), "the sender can not join the match.");
 
-            // FIXME(liangqin) ultrain does not support approve.
-            this._approve(dragonId, N("Match"));
+            this._approve(dragonId, MatchAddress);
 
             matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
         }

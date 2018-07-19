@@ -1,6 +1,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
+import { NameEx } from "../src/name_ex";
 
 declare type token_name = u64;
 declare type region_id = u16;
@@ -16,7 +17,7 @@ declare type permission_name = u64;
 declare type table_name = u64;
 declare type time = u32;
 declare type scope_name = u64;
-declare type action_name = u64;
+export  type action_name = NameEx;
 declare type weight_type = u16;
 
 declare type transaction_id_type = Checksum256;

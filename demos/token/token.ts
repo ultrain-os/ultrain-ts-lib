@@ -10,6 +10,7 @@ import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
 import { CurrencyStats, Account } from "../../src/balance";
+import { NEX } from "../../src/name_ex";
 
 const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
@@ -64,7 +65,7 @@ export class Token extends Contract {
             params.quantity = quantity;
             params.memo = memo;
             // params.quantity.prints("before dispatchInline");
-            dispatchInline(pl, this.receiver, N("transfer"), params);
+            dispatchInline(pl, this.receiver, NEX("transfer"), params);
         }
     }
 
