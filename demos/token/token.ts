@@ -24,7 +24,7 @@ export class Token extends Contract {
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats(null, null, 0);
+        let cs: CurrencyStats = new CurrencyStats();
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -40,7 +40,7 @@ export class Token extends Contract {
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
@@ -78,7 +78,7 @@ export class Token extends Contract {
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
@@ -96,7 +96,7 @@ export class Token extends Contract {
 
     private subBalance(owner: u64, value: Asset): void {
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let from: Account = new Account(null);
+        let from: Account = new Account();
         let existing = ats.get(value.symbolName(), from);
 
         ultrain_assert(existing, "token.subBalance: from account is not exist.");
@@ -113,7 +113,7 @@ export class Token extends Contract {
 
     private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account(null);
+        let to: Account = new Account();
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
