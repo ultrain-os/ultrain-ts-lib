@@ -483,7 +483,7 @@ export class GeneScience {
             }
 
             while (skill_cnt < 5) {
-                // FIXME "**" operator is not implements.
+                //  "**" operator is not implements.
                 // let factor: u64 = <u64>(10 ** (skill_cnt + 2));
                 let factor: u64 = 1;
                 for (let i: u64 = 0; i < (skill_cnt + 2); i++) {

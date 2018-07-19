@@ -86,6 +86,7 @@ export let EventObject: _EventObject = new _EventObject();
 
 export function emit(evtname: string, obj: _EventObject): void {
     ultrain_assert(evtname != null && evtname.length > 0, "event name must be specified.");
+
     let len = DataStream.measure<_EventObject>(obj);
     let ds = DSHelper.getDataStreamWithLength(len);
     obj.serialize(ds);

@@ -74,8 +74,8 @@ export class Asset implements ISerializable {
         return true;
     }
 
-    private static checkOperaotrCondition(rhs: Asset, lhs: Asset): void {
-        ultrain_assert(rhs._symbol == lhs._symbol, "can not compare Asset with different _symbol.");
+    private static checkOperaotrCondition(rhs: Asset, lhs: Asset, op: string): void {
+        ultrain_assert(rhs._symbol == lhs._symbol, op + " : can not compare Asset with different _symbol.");
     }
 
     public get amount(): u64 {
@@ -88,37 +88,37 @@ export class Asset implements ISerializable {
 
     @operator(">")
     private static _gt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, ">");
         return rhs._amount > lhs._amount;
     }
 
     @operator(">=")
     private static _gte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, ">=");
         return rhs._amount >= lhs._amount;
     }
 
     @operator("<")
     private static _lt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, "<");
         return rhs._amount < lhs._amount;
     }
 
     @operator("<=")
     private static _lte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, "<=");
         return rhs._amount <= lhs._amount;
     }
 
     @operator("==")
     private static _eq(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, "==");
         return rhs._amount == lhs._amount;
     }
 
     @operator("+")
     private _add(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, "+");
         let result = new Asset();
         result.setSymbol(rhs.getSymbol())
         result.setAmount(rhs.getAmount() + lhs.getAmount());
@@ -127,7 +127,7 @@ export class Asset implements ISerializable {
 
     @operator("-")
     private _sub(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperaotrCondition(rhs, lhs);
+        Asset.checkOperaotrCondition(rhs, lhs, "-");
         let result = new Asset();
         result.setSymbol(rhs.getSymbol())
         result.setAmount(rhs.getAmount() - lhs.getAmount());
@@ -143,13 +143,13 @@ export class Asset implements ISerializable {
     }
 
     add(rhs: Asset): Asset {
-        ultrain_assert(rhs._symbol == this._symbol, "can not compare Asset with different _symbol.");
+        ultrain_assert(rhs._symbol == this._symbol, "add: can not compare Asset with different _symbol.");
         this._amount += rhs._amount;
         return this;
     }
 
     sub(rhs: Asset): Asset {
-        ultrain_assert(rhs._symbol == this._symbol, "can not compare Asset with different _symbol.");
+        ultrain_assert(rhs._symbol == this._symbol, "sub: can not compare Asset with different _symbol.");
         this._amount += rhs._amount;
         return this;
     }

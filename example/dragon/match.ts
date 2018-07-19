@@ -530,13 +530,23 @@ export class MatchCore extends MatchBase {
 
         // 分完组 从分组中退还
         if (matchInfo.step == 2 || matchInfo.step == 3) {
-            // TODO(liangqin):
+            for (let i:i32 = 0; i < matchInfo.fightGroup.length; i++) {
+                ad1 = matchInfo.fightGroup[i][0];
+                ad2 = matchInfo.fightGroup[i][1];
+                did1 = matchInfo.joinList.get(ad1).dragon_id;
+                did2 = matchInfo.joinList.get(ad2).dragon_id;
+                if (this.master.ownerOf(did1) == MatchAddress) {
+                    this.transfer(ad1, did1);
+                } else if (this.master.ownerOf(did2) == MatchAddress) {
+                    this.transfer(ad2, did2);
+                }
+            }
         } else { // 从winner中退还
             for (let i: i32 = 0; i < matchInfo.winner.length; i++) {
                 ad1 = matchInfo.winner[i];
                 did1 = matchInfo.joinList.get(ad1).dragon_id;
 
-                if (true/*dragon belongs to owner*/) { // TODO
+                if (this.master.ownerOf(did1) == MatchAddress) {
                     this.transfer(ad1, did1);
                 }
             }

@@ -124,8 +124,12 @@ export function RN(name: u64): string {
     }
 
     let str: string = "";
+    let skipDot: boolean = true;
     for (let i: i32 = 12; i >= 0; --i) {
-        if (strcodes[i] != DOT) {
+        if (strcodes[i] == DOT && skipDot) {
+            // skip right pending dots
+        } else {
+            skipDot = false;
             let charIdx = strcodes[i] - 0x20;
             str = ASCIICHAR[charIdx] + str;
         }

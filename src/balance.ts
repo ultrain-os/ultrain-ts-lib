@@ -11,13 +11,13 @@ import { DBManager } from "./dbmanager";
 import { N } from "./utils";
 import { PermissionLevel } from "./permission-level";
 import { TransferParams, dispatchInline } from "./action";
+import { NEX } from "./name_ex";
+import { Log } from "./log";
 
 export class Account implements ISerializable {
     balance: Asset;
 
-    constructor(blc: Asset = null) {
-        if (blc == null) blc = new Asset();
-
+    constructor(blc: Asset = new Asset()) {
         this.balance = blc;
     }
 
@@ -37,9 +37,8 @@ export class CurrencyStats implements ISerializable {
     max_supply: Asset;
     issuer: account_name;
 
-    constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0) {
-        if (supply == null) supply = new Asset();
-        if (max_supply == null) max_supply = new Asset();
+    constructor(supply: Asset = new Asset(), max_supply: Asset = new Asset(), issuer: u64 = 0) {
+        Log.s("currency constructor. 1").flush();
         this.supply = supply;
         this.max_supply = max_supply;
         this.issuer = issuer;
@@ -88,5 +87,5 @@ export function send(from: account_name, to: account_name, quantity: Asset, memo
     params.quantity = quantity;
     params.memo = memo;
     // params.quantity.prints("before dispatchInline");
-    dispatchInline(pl, N("utrio.token"), N("transfer"), params);
+    dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
 }
