@@ -6,21 +6,38 @@ import { printstr, N, ultrain_assert, RN } from "../../src/utils";
 import { Log } from "../../src/log";
 import { Contract } from "../../lib/contract";
 import { env as Action } from "../../internal/action.d";
+import { Return } from "../../src/return";
+import { queryBalance } from "../../src/balance";
+import { NameEx, RNEX } from "../../src/name_ex";
 
-export function apply(receiver: u64, code: u64, action: u64): void {
+ export function apply(receiver: u64, code: u64, action1: u64, action2: u64): void {
     Log.s("receiver: ").s(RN(receiver)).s(" code: ").s(RN(code)).flush();
     let sender: u64 = Action.current_sender();
     Log.s("current sender = ").s(RN(sender)).flush();
-    var gol: HelloContract = new HelloContract(receiver);
-    gol.apply(code, action);
+    let action: NameEx = new NameEx(action1, action2);
+
+    Log.s("get action name: ").s(RNEX(action1, action2)).flush();
+
+    // var gol: HelloContract = new HelloContract(receiver);
+    // gol.apply(code, action);
 }
 
-export class HelloContract extends Contract {
+
+class HelloContract extends Contract {
 
     dummy: u64;
 
     on_hi(name: u64, age: u32, msg: string): void {
         Log.s("on_hi: name = ").s(RN(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
+
+         let num = age + "";
+        Log.s("The age is:  ").s(num).flush();
+        // Return(10086);
+        let ass = queryBalance(N("tester"));
+
+        ass.prints("AAA: ");
+
+        Return("call hi() succeed.");
     }
 
     apply(code: u64, action: u64): void {

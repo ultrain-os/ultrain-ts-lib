@@ -9,6 +9,7 @@ import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
 import "allocator/arena";
+import { NEX } from "../../src/name_ex";
 
 class Account implements ISerializable {
     balance: Asset;
@@ -137,7 +138,7 @@ export class Nft extends Contract{
 
    issue(to: account_name, quantity: Asset, uris: Array<string>, memo: string):void {
 
-      ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
+        ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
@@ -158,7 +159,7 @@ export class Nft extends Contract{
         for(let index = 0 ; index < uris.length; index ++ ) {
            let uri = uris[index];
            let id = st.increaseId();
-           this.mint(id, to, st.issuer, oneAsset, uri, name);
+           this.mint(id, to, st.issuer, oneAsset, uri, memo);
         }
         this.subSupply(quantity);
 
@@ -173,7 +174,7 @@ export class Nft extends Contract{
             params.quantity = quantity;
             params.memo = memo;
             // params.quantity.prints("before dispatchInline");
-            dispatchInline(pl, this.receiver, N("transfer"), params);
+            dispatchInline(pl, this.receiver, NEX("transfer"), params);
         }
    }
 
@@ -206,7 +207,7 @@ export class Nft extends Contract{
 
         // modify the owner and balance, transfer token
           token.owner = to;
-          tokens.modify(token, 0);
+          tokens.modify(0, token);
 
           let oneToken = new Asset(1, symname);
         this.subBalance(from, oneToken);
@@ -220,7 +221,7 @@ export class Nft extends Contract{
       let token: Token = new Token(null, null, null, null, null);
       let existing = tokens.get(id, token);
 
-      ultrain_assert(existing, "getBalance failed, account is not existed.")      
+      ultrain_assert(existing, "getBalance failed, account is not existed.")
       return token.owner;
    }
 
@@ -244,7 +245,7 @@ export class Nft extends Contract{
       } else{
          let amount = to.balance.getAmount() + value.getAmount();
          to.balance.setAmount(amount);
-         toaccount.modify(to, 0); // ram_payer or 0 
+         toaccount.modify(0, to); // ram_payer or 0
       }
    }
 
@@ -262,7 +263,7 @@ export class Nft extends Contract{
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
-            ats.modify(from, owner);
+            ats.modify(owner, from);
         }
 
    }
@@ -277,7 +278,7 @@ export class Nft extends Contract{
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(st, 0);
+        statstable.modify(0, st);
    }
 
 

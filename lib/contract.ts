@@ -11,10 +11,14 @@ export function DataStreamFromCurrentAction(): DataStream {
 
 export class Contract {
 
-    receiver: u64;
+    protected _receiver: account_name;
 
-    constructor(receiver: u64) {
-        this.receiver = receiver;
+    constructor(receiver: account_name) {
+        this._receiver = receiver;
+    }
+
+    public get receiver(): account_name {
+        return this._receiver;
     }
 
     getDataStream(): DataStream {

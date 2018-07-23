@@ -3,69 +3,14 @@
  */
 import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
-import { ISerializable } from "../../lib/ISerializable";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";
-import { DataStream } from "../../src/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
-
-class Account implements ISerializable {
-    balance: Asset;
-
-    constructor(blc: Asset = null) {
-        if (blc == null) blc = new Asset();
-
-        this.balance = blc;
-    }
-
-    primaryKey(): u64 { return this.balance.symbolName(); }
-
-    deserialize(ds: DataStream): void {
-        this.balance.deserialize(ds);
-    }
-
-    serialize(ds: DataStream): void {
-        this.balance.serialize(ds);
-    }
-}
-
-class CurrencyStats implements ISerializable {
-    supply: Asset;
-    max_supply: Asset;
-    issuer: u64;
-
-    constructor(supply: Asset = null, max_supply: Asset = null, issuer: u64 = 0) {
-        if (supply == null) supply = new Asset();
-        if (max_supply == null) max_supply = new Asset();
-        this.supply = supply;
-        this.max_supply = max_supply;
-        this.issuer = issuer;
-    }
-
-    primaryKey(): u64 { return this.supply.symbolName(); }
-
-    deserialize(ds: DataStream): void {
-        this.supply.deserialize(ds);
-        this.max_supply.deserialize(ds);
-        this.issuer = ds.read<u64>();
-    }
-
-    serialize(ds: DataStream): void {
-        this.supply.serialize(ds);
-        this.max_supply.serialize(ds);
-        ds.write<u64>(this.issuer);
-    }
-}
-
-class TransferArgs {
-    from: account_name;
-    to: account_name;
-    quantity: Asset;
-    memo: string;
-}
+import { CurrencyStats, Account } from "../../src/balance";
+import { NEX } from "../../src/name_ex";
 
 const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
@@ -79,7 +24,7 @@ export class Token extends Contract {
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats(null, null, 0);
+        let cs: CurrencyStats = new CurrencyStats();
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -95,7 +40,7 @@ export class Token extends Contract {
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
@@ -108,7 +53,7 @@ export class Token extends Contract {
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(st, 0);
+        statstable.modify(0, st);
         this.addBalance(st.issuer, quantity, st.issuer);
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
@@ -120,7 +65,7 @@ export class Token extends Contract {
             params.quantity = quantity;
             params.memo = memo;
             // params.quantity.prints("before dispatchInline");
-            dispatchInline(pl, this.receiver, N("transfer"), params);
+            dispatchInline(pl, this.receiver, NEX("transfer"), params);
         }
     }
 
@@ -133,7 +78,7 @@ export class Token extends Contract {
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(null, null, 0);
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
@@ -151,7 +96,7 @@ export class Token extends Contract {
 
     private subBalance(owner: u64, value: Asset): void {
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let from: Account = new Account(null);
+        let from: Account = new Account();
         let existing = ats.get(value.symbolName(), from);
 
         ultrain_assert(existing, "token.subBalance: from account is not exist.");
@@ -162,13 +107,13 @@ export class Token extends Contract {
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
-            ats.modify(from, owner);
+            ats.modify(owner, from);
         }
     }
 
     private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account(null);
+        let to: Account = new Account();
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
@@ -177,7 +122,7 @@ export class Token extends Contract {
         } else {
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
-            toaccount.modify(to, 0);
+            toaccount.modify(0, to);
         }
     }
 

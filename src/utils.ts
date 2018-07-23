@@ -15,6 +15,21 @@ export const ASCIICHAR: string[/*95*/] = [
     "p", "q", "r", "s", "t", "u", "v", "w",
     "x", "y", "z", "{", "|", "}", "~"];
 
+export function intToString(_int: u64): string {
+    let remainder: i32 = <i32>(_int % 10);
+    let rest: u64 = _int / 10;
+    let val: string = ASCIICHAR[16 + remainder];
+
+    while (rest != 0) {
+        remainder = <i32>(rest % 10);
+        rest = rest / 10;
+
+        val += ASCIICHAR[16 + remainder];
+    }
+
+    return val;
+}
+
 export function toUTF8Array(str: string): u8[] {
     var utf8: u8[] = [];
     for (var i = 0; i < str.length; i++) {
@@ -109,8 +124,12 @@ export function RN(name: u64): string {
     }
 
     let str: string = "";
+    let skipDot: boolean = true;
     for (let i: i32 = 12; i >= 0; --i) {
-        if (strcodes[i] != DOT) {
+        if (strcodes[i] == DOT && skipDot) {
+            // skip right pending dots
+        } else {
+            skipDot = false;
             let charIdx = strcodes[i] - 0x20;
             str = ASCIICHAR[charIdx] + str;
         }

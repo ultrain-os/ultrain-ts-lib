@@ -8,8 +8,6 @@ export declare namespace env{
     function ts_log_done(): void;    
 }
 
-
-
 class Logger {
     /**
      * print a string message to console.

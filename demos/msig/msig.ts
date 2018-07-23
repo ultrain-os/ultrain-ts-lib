@@ -137,7 +137,7 @@ export class MultiSig extends Contract {
         approval.provided_approvals.push(level);
         approval.requested_approvals.splice(idx, 1);
 
-        approvals.modify(approval, proposer);
+        approvals.modify(proposer, approval);
     }
 
     unapprove(proposer: u64, proposal_name: u64, level: PermissionLevel): void {
@@ -161,7 +161,7 @@ export class MultiSig extends Contract {
         approval.requested_approvals.push(level);
         approval.provided_approvals.splice(idx, 1);
 
-        approvals.modify(approval, proposer);
+        approvals.modify(proposer, approval);
     }
 
     cancel(proposer: u64, proposal_name: u64, canceler: u64): void {
