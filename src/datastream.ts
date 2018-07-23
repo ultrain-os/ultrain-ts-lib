@@ -3,17 +3,6 @@ import {ISerializable} from "../lib/ISerializable";
 
 const HEADER_SIZE = (offsetof<String>() + 1) & ~1; // 2 byte aligned
 
-/** Maximum 32-bit allocation size. */
-const MAX_LENGTH: usize = 1 << 30; // 1GB
-
-function allocate(length: i32): String {
-    assert(length > 0 && length <= MAX_LENGTH);
-    var buffer = allocate_memory(HEADER_SIZE + (<usize>length << 1));
-    store<i32>(buffer, length);
-    return changetype<String>(buffer);
-  }
-
-
 export class DSHelper {
     static serializeComplexVector<T extends ISerializable>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
@@ -191,7 +180,10 @@ export class DataStream {
     readString(): string {
         var len = this.readVarint32();
         if (len == 0) return "";
-        let s = allocate(len);
+
+        var buffer = memory.allocate(HEADER_SIZE + (<usize>len << 1));
+        store<i32>(buffer, len);
+        let s = changetype<string>(buffer);
 
         var i: u32 = 0;
         while (i < len) {
@@ -200,7 +192,7 @@ export class DataStream {
             i++;
         }
 
-        return changetype<string>(s);
+        return s;
     }
 
     writeString(str: string): void {
@@ -211,7 +203,7 @@ export class DataStream {
         let cstr = toUTF8Array(str);
         if (!this.isMesureMode()) {
             var ptr: u32 = load<u32>(changetype<usize>(cstr)) + sizeof<u64>();
-            move_memory(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
+            memory.copy(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
         }
         this.pos += cstr.length - 1;
     }
