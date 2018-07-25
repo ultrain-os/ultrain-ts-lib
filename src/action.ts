@@ -7,6 +7,8 @@ import { ISerializable } from "../lib/ISerializable";
 import { PermissionLevel } from "./permission-level";
 import { env as action } from "../internal/action.d";
 import { NameEx } from "./name_ex";
+import { account_name } from "../internal/alias";
+import { env as ActionAPI } from "../internal/action.d";
 
 export function requirePermissionLevel(pl: PermissionLevel): void {
     action.require_auth2(pl.actor, pl.permission);
@@ -89,8 +91,45 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name,
 }
 
 
-export class Action implements ISerializable {
-
-    serialize(ds: DataStream): void {}
-    deserialize(ds: DataStream): void {}
+export class Action {
+    /**
+     * to get the sender of current action, specially, 'sender' means whose permission key is used by '-p',
+     * such as command 'clultrain push action kobe '["params"]' -p james's-key',
+     * 'james' is the sender's account name.
+     * @returns return the sender's account name.
+     */
+    public static get sender(): account_name {
+        return ActionAPI.current_sender();
+    }
+    /**
+     * to get the receiver's account name of current action.
+     * such as command 'clultrain push action kobe '["params"]' -p james's-key',
+     * 'kobe' is the receiver's account name.
+     */
+    public static get receiver(): account_name {
+        return ActionAPI.current_receiver();
+    }
+    /**
+     * to check if an account name has been authored.
+     * @param account the account name which will be checked.
+     * @returns boolean value, return true means the account is authored, otherwised false.
+     */
+    public static hasAuth(account:account_name): boolean {
+        return ActionAPI.has_auth(account);
+    }
+    /**
+     * check the authority of a speicfic account name.
+     * @param account account_name whose authority is required.
+     */
+    public static requireAuth(account: account_name): void {
+        ActionAPI.require_auth(account);
+    }
+    /**
+     * to check if an account name is valid or not.
+     * @param account account name to be checked.
+     * @returns boolean
+     */
+    public static isAccount(account: account_name): boolean {
+        return ActionAPI.is_account(account);
+    }
 }

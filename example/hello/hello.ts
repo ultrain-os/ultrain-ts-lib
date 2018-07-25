@@ -17,7 +17,14 @@ import { NameEx, RNEX } from "../../src/name_ex";
     let action: NameEx = new NameEx(action1, action2);
 
     Log.s("get action name: ").s(RNEX(action1, action2)).flush();
+    for (let i: i32 = 0; i < 30; i++) {
+        if (i % 2 == 0) {
+            Log.i(i, 16);
+            break;
+        }
 
+    }
+    Log.flush();
     // var gol: HelloContract = new HelloContract(receiver);
     // gol.apply(code, action);
 }

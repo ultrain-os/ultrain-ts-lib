@@ -3328,6 +3328,8 @@
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
   (set_local $3
    (i32.const 1712)
   )
@@ -3384,6 +3386,9 @@
   (set_local $1
    (i32.const 8)
   )
+  (set_local $4
+   (i32.const 1)
+  )
   (block $break|1
    (set_local $2
     (i32.const 12)
@@ -3396,32 +3401,45 @@
      )
     )
     (if
-     (i32.ne
-      (i32.and
-       (call $~lib/array/Array<u8>#__get
-        (get_local $3)
-        (get_local $2)
-       )
-       (i32.const 255)
-      )
-      (i32.const 46)
-     )
-     (set_local $1
-      (call $~lib/string/String.__concat
-       (call $~lib/array/Array<String>#__get
-        (i32.const 768)
-        (i32.and
-         (i32.sub
+     (i32.eqz
+      (if (result i32)
+       (tee_local $5
+        (i32.eq
+         (i32.and
           (call $~lib/array/Array<u8>#__get
            (get_local $3)
            (get_local $2)
           )
-          (i32.const 32)
+          (i32.const 255)
          )
-         (i32.const 255)
+         (i32.const 46)
         )
        )
-       (get_local $1)
+       (get_local $4)
+       (get_local $5)
+      )
+     )
+     (block
+      (set_local $4
+       (i32.const 0)
+      )
+      (set_local $1
+       (call $~lib/string/String.__concat
+        (call $~lib/array/Array<String>#__get
+         (i32.const 768)
+         (i32.and
+          (i32.sub
+           (call $~lib/array/Array<u8>#__get
+            (get_local $3)
+            (get_local $2)
+           )
+           (i32.const 32)
+          )
+          (i32.const 255)
+         )
+        )
+        (get_local $1)
+       )
       )
      )
     )
@@ -3674,7 +3692,7 @@
   (get_local $2)
  )
  (func $hello/apply (; 32 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
-  (local $4 i64)
+  (local $4 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (call $../../src/log/Logger#s
@@ -3694,7 +3712,7 @@
     )
    )
   )
-  (set_local $4
+  (set_local $0
    (call $../../internal/action.d/env.current_sender)
   )
   (call $../../src/log/Logger#flush
@@ -3704,7 +3722,7 @@
      (i32.const 1868)
     )
     (call $../../src/utils/RN
-     (get_local $4)
+     (get_local $0)
     )
    )
   )
@@ -3726,6 +3744,43 @@
      (get_local $3)
     )
    )
+  )
+  (block $break|0
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.ge_s
+      (get_local $4)
+      (i32.const 30)
+     )
+    )
+    (if
+     (i32.rem_s
+      (get_local $4)
+      (i32.const 2)
+     )
+     (block
+      (set_local $4
+       (i32.add
+        (get_local $4)
+        (i32.const 1)
+       )
+      )
+      (br $repeat|0)
+     )
+     (drop
+      (call $../../src/log/Logger#i
+       (get_global $../../src/log/Log)
+       (i64.extend_s/i32
+        (get_local $4)
+       )
+       (i32.const 16)
+      )
+     )
+    )
+   )
+  )
+  (call $../../src/log/Logger#flush
+   (get_global $../../src/log/Log)
   )
  )
  (func $start (; 33 ;) (type $v)
