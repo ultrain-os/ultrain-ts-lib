@@ -89,7 +89,7 @@ export class DBManager<T extends ISerializable> {
         for (; idx < len; ++idx) {
             if (newobj.primaryKey() == this._items_vector[idx]._value.primaryKey()) {
                 item = this._items_vector[idx];
-                break;
+                // break;
             }
         }
 
