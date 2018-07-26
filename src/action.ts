@@ -10,10 +10,20 @@ import { NameEx } from "./name_ex";
 import { account_name } from "../internal/alias";
 import { env as ActionAPI } from "../internal/action.d";
 
+/**
+ * to check if permission is authored or not.
+ * @param pl PermissionLevel to check
+ *
+ * @function requirePermissionLevel
+ */
 export function requirePermissionLevel(pl: PermissionLevel): void {
     action.require_auth2(pl.actor, pl.permission);
 }
-
+/**
+ * class TransferParams is applied to transfer Tokens from an account to another.
+ *
+ * @class TransferParams
+ */
 export class TransferParams implements ISerializable {
     public from: u64;
     public to: u64;
@@ -41,8 +51,14 @@ export class TransferParams implements ISerializable {
         this.quantity.deserialize(ds);
         this.memo = ds.readString();
     }
-}
 
+    public primaryKey(): u64 { return <u64>0; }
+}
+/**
+ * class ActionImpl is an internal class, for method {@link <i><em>dispatchInline</em></i>}.
+ *
+ * @class ActionImpl
+ */
 class ActionImpl implements ISerializable {
     public account: account_name;
     public name: action_name;
@@ -69,8 +85,18 @@ class ActionImpl implements ISerializable {
         this.authorization = ds.readComplexVector<PermissionLevel>();
         this.data = ds.readVector<u8>();
     }
-}
 
+    public primaryKey(): u64 { return <u64>0; }
+}
+/**
+ *
+ * @param pl the permission level instance. @see {@link PermissionLevel}
+ * @param code the account name of contract which you will send request to.
+ * @param act the action/method name which you will invoke of contract.
+ * @param params the TransferParams instance. @see {@link TransferParams}
+ *
+ * @function dispatchInline
+ */
 export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name, params: TransferParams): void {
     let actimpl: ActionImpl = new ActionImpl();
     actimpl.authorization.push(pl);
@@ -90,7 +116,12 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name,
     action.send_inline(<usize>ds.buffer, ds.pos);
 }
 
-
+/**
+ * class Action is applied to access an action's context information.
+ * This class is static.
+ *
+ * @class Action
+ */
 export class Action {
     /**
      * to get the sender of current action, specially, 'sender' means whose permission key is used by '-p',

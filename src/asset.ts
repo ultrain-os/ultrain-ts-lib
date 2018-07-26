@@ -5,7 +5,13 @@ import { ultrain_assert } from "./utils";
 import { account_name } from "../internal/alias";
 import { queryBalance, send } from "./balance";
 
+/**
+ * ASCII code of character A.
+ */
 const CHAR_A: u8 = 0x41;
+/**
+ * ASCII code of character Z.
+ */
 const CHAR_Z: u8 = 0x5A;
 /**
  * Encode a string to uint64 value,
@@ -17,6 +23,8 @@ const CHAR_Z: u8 = 0x5A;
  * @param precision symbol precision
  * @param str symbol as string
  * @returns uint64 value.
+ *
+ * @function StringToSymbol
  */
 export function StringToSymbol(precision: u8, str: string): u64 {
     // CAUTION(fanliangqin): str.length must be less than 7
@@ -35,18 +43,27 @@ export function StringToSymbol(precision: u8, str: string): u64 {
     result |= <u64>precision;
     return result;
 }
-
-function SymbolNameLength(tmp: u64): u32 {
-    tmp >>= 8; // skip precision
+/**
+ * retrieve symbol name length.
+ * @param symbolName encoded symbol name.
+ *
+ * @returns uint32
+ *
+ * @function SymbolNameLength
+ */
+function SymbolNameLength(symbolName: u64): u32 {
+    symbolName >>= 8; // skip precision
     let length: u32 = 0;
-    while ((tmp & 0xff) != 0 && length <= 7) {
+    while ((symbolName & 0xff) != 0 && length <= 7) {
         ++length;
-        tmp >>= 8;
+        symbolName >>= 8;
     }
 
     return length;
 }
-
+/**
+ * max amount of Asset, which is 2^62 - 1.
+ */
 const MAX_AMOUNT: u64 = ((1 << 62) - 1);
 /**
  * The class Asset manages the digital assets which stored on the chain.
@@ -54,8 +71,11 @@ const MAX_AMOUNT: u64 = ((1 << 62) - 1);
  * different symbols. for example, "1000 UGS" and "1000 SYS" are both valid
  * assets, but they are different.
  * You can do +,-,*, / and logic compare such as ==,!=, <=, >= on assets with same symbol.
+ *
+ * @class Asset
  */
 export class Asset implements ISerializable {
+
     private _amount: u64;
     private _symbol: u64;
 
@@ -72,6 +92,10 @@ export class Asset implements ISerializable {
     serialize(ds: DataStream): void {
         ds.write<u64>(this._amount);
         ds.write<u64>(this._symbol);
+    }
+
+    primaryKey(): u64 {
+        return <u64>0;
     }
     /**
      * To check if a symbol is valid or not.

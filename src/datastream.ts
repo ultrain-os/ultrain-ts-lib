@@ -1,6 +1,8 @@
 import {toUTF8Array } from "./utils";
 import {ISerializable} from "../lib/ISerializable";
-
+/**
+ * internal memory HEADER SIZE. NEVER used by users.
+ */
 const HEADER_SIZE = (offsetof<String>() + 1) & ~1; // 2 byte aligned
 
 /** Maximum 32-bit allocation size. */
@@ -13,7 +15,9 @@ function allocate(length: i32): String {
     return changetype<String>(buffer);
   }
 
-
+/**
+ * internal class, not for external users.
+ */
 export class DSHelper {
     static serializeComplexVector<T extends ISerializable>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
@@ -37,7 +41,11 @@ export class DSHelper {
         return ds;
     }
 }
-
+/**
+ * internal class, not for external users.
+ *
+ * @class DataStream
+ */
 export class DataStream {
     buffer: u32;
     len: u32;

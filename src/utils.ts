@@ -1,6 +1,8 @@
 import { env as console } from "../internal/print.d";
 import { env as system } from "../internal/system.d";
-
+/**
+ * printable characters.
+ */
 export const ASCIICHAR: string[/*95*/] = [
     " ", "!", "\"", "#", "$", "%", "&", "'",
     "(", ")", "*", "+", ",", "-", ".", "/",
@@ -14,7 +16,11 @@ export const ASCIICHAR: string[/*95*/] = [
     "h", "i", "j", "k", "l", "m", "n", "o",
     "p", "q", "r", "s", "t", "u", "v", "w",
     "x", "y", "z", "{", "|", "}", "~"];
-
+/**
+ * convert an uint64 to string.
+ * @param _int uint64 to convert
+ * @returns string
+ */
 export function intToString(_int: u64): string {
     let remainder: i32 = <i32>(_int % 10);
     let rest: u64 = _int / 10;
@@ -29,7 +35,12 @@ export function intToString(_int: u64): string {
 
     return val;
 }
-
+/**
+ * convert an utf-16 to utf-8 string array.
+ * @param str a typescript string
+ *
+ * @returns an array of uint8
+ */
 export function toUTF8Array(str: string): u8[] {
     var utf8: u8[] = [];
     for (var i = 0; i < str.length; i++) {
@@ -61,18 +72,32 @@ export function toUTF8Array(str: string): u8[] {
     utf8.push(<u8>0x00);
     return utf8;
 }
-
+/**
+ * convert string to usize.
+ * here, <i>usize</i> likes <i>"const char*"</i> in c/c++.
+ * @param str a utf-16 string of typescript.
+ *
+ * @returns usize
+ */
 export function string2cstr(str: string): u32 {
     let cstr = toUTF8Array(str);
     var ptr: u32 = load<u32>(changetype<usize>(cstr));
     return <usize>ptr + sizeof<u64>();
 }
-
+/**
+ * print a string to console after wasm vm quit.
+ * @param str string to print.
+ */
 export function printstr(str: string): void {
     console.prints(string2cstr(str));
 }
-
-export function ultrain_assert(condition: bool, msg: string): void {
+/**
+ * assert an condition.
+ * if condition is false, vm throws an exception and quit executing.
+ * @param condition condition to check.
+ * @param msg help message
+ */
+export function ultrain_assert(condition: boolean, msg: string): void {
     if (condition == false) {
         system.ultrainio_assert(0, string2cstr(msg));
     }
@@ -85,7 +110,15 @@ function char_to_symbol(c: u8): u64 {
         return (c - 49) + 1;
     return 0;
 }
-
+/**
+ * convert a string to uint64 encoded by Base32.
+ * so the string must follow below principles:
+ * 1. no more than 13 characters.
+ * 2. only contains ".12345abcdefghijklmnopqrstuvwxyz"
+ * 3. not end with "."
+ *
+ * @param str string to convert
+ */
 export function N(str: string): u64 {
     let len: u32 = str.length;
     let value: u64 = 0;
@@ -109,7 +142,11 @@ export function N(str: string): u64 {
 
     return value;
 }
-
+/**
+ * a revert operation of method <i>N</i>
+ *
+ * @param name uint64 value
+ */
 export function RN(name: u64): string {
     const charmap: string = ".12345abcdefghijklmnopqrstuvwxyz";
     const DOT: u8 = <u8>(0x2e);

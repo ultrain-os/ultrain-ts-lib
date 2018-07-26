@@ -13,7 +13,11 @@ import { PermissionLevel } from "./permission-level";
 import { TransferParams, dispatchInline } from "./action";
 import { NEX } from "./name_ex";
 import { Log } from "./log";
-
+/**
+ * class Account for Token system.
+ *
+ * @class Account
+ */
 export class Account implements ISerializable {
     balance: Asset;
 
@@ -31,7 +35,11 @@ export class Account implements ISerializable {
         this.balance.serialize(ds);
     }
 }
-
+/**
+ * class CurrencyStats for Token system.
+ *
+ * @class CurrencyStats
+ */
 export class CurrencyStats implements ISerializable {
     supply: Asset;
     max_supply: Asset;
@@ -59,16 +67,22 @@ export class CurrencyStats implements ISerializable {
     }
 }
 
-class TransferArgs {
-    from: account_name;
-    to: account_name;
-    quantity: Asset;
-    memo: string;
-}
-
+/**
+ * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
+ */
 let SYS: u64 = StringToSymbol(4, "UGS");
+/**
+ * Ultrain block system Token name "UGS".
+ */
 let SYS_NAME: u64 = <u64>(SYS >> 8);
-
+/**
+ * to query the balance of an account from Ultrain Token system.
+ * @param owner account name to be queried.
+ *
+ * @returns Asset
+ *
+ * @function queryBalance
+ */
 export function queryBalance(owner: account_name): Asset {
     let accounts: DBManager<Account> = new DBManager<Account>(N("accounts"), N("utrio.token"), owner);
     let act: Account = new Account();
@@ -76,7 +90,15 @@ export function queryBalance(owner: account_name): Asset {
 
     return existing ? act.balance : new Asset(0, SYS);
 }
-
+/**
+ * to send Token of UGS from an account to another.
+ * @param from from account
+ * @param to to account
+ * @param quantity Asset to send.
+ * @param memo a string message
+ *
+ * @function send
+ */
 export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
     let pl: PermissionLevel = new PermissionLevel();
     pl.actor = from;

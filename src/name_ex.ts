@@ -26,7 +26,17 @@ function char_to_symbol_ex(c: u8): u64 {
 
     return 0xFF; // ERROR
 }
-
+/**
+ * convert a string to NameEx.
+ * There are some limits for param str:
+ * 1. length of str must be less than 21.
+ * 2. only contains "._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".
+ * 3. can not end with "."
+ * @param str a string to convert to NameEx
+ * @returns an instance of NameEx
+ *
+ * @function NEX
+ */
 export function NEX(str: string): NameEx {
     let result = new NameEx(0, 0);
     let name: u64 = 0;
@@ -55,7 +65,13 @@ export function NEX(str: string): NameEx {
     }
     return result;
 }
-
+/**
+ * convert NameEx.valueH, NameEx.valueL to a string.
+ * @param h high 64 bits of NameEx.
+ * @param l low 64 bits of NameEx.
+ *
+ * @function RNEX
+ */
 export function RNEX(h: u64, l: u64): string {
     const charmap: string = "._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const DOT: u8 = <u8>(0x2e);
@@ -97,7 +113,13 @@ export function RNEX(h: u64, l: u64): string {
     }
     return result;
 }
-
+/**
+ * class NameEx uses to store 21 characters name, method {@link NEX} converts a string which
+ * contains "._0123456789abcdefghijklmnopqrstuvwxyzABCEDEFGHIJKLMNOPQRSTUVWXYZ" to NameEx.
+ * for example, action_name is an intance of NameEx.
+ *
+ * @class NameEx
+ */
 export class NameEx implements ISerializable {
     valueH: u64;
     valueL: u64;
@@ -129,5 +151,11 @@ export class NameEx implements ISerializable {
 
     primaryKey(): u64 {
         return <u64>0;
+    }
+    /**
+     * convert NameEx to string.
+     */
+    toString(): string {
+        return RNEX(this.valueH, this.valueL);
     }
 }

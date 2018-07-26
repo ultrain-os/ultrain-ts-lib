@@ -2,6 +2,13 @@ import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
 
+/**
+ * Permission Level stands for '-p' paramters.
+ * for example,
+ * PermissionLevel(N("tom"), N("active")) equals '-p tom@active'
+ *
+ * @class PermissionLevel
+ */
 export class PermissionLevel implements ISerializable {
     public actor: u64;
     public permission: u64;
@@ -27,4 +34,6 @@ export class PermissionLevel implements ISerializable {
         this.actor = ds.read<u64>();
         this.permission = ds.read<u64>();
     }
+
+    public primaryKey(): u64 { return <u64>0; }
 }

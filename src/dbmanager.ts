@@ -7,7 +7,13 @@ import { DataStream } from "./datastream";
 import { ultrain_assert } from "./utils";
 import { env as action } from "../internal/action.d";
 import { env as db } from "../internal/db.d";
+import { ISerializable } from "../lib/ISerializable";
 
+/**
+ * describe a row of table.
+ *
+ * @class DataItem
+ */
 export class DataItem<T> {
     public _dbmgr: DBManager<T>;
     public _primary_itr: i32;
@@ -21,14 +27,12 @@ export class DataItem<T> {
 /**
  * class DBManager is used to manager reading or writing to system db.
  * the type T must be implements interface ISerializable,
- * reference @{Token.Account} or @{Token.CurrencyStats}
+ * reference {@link Account} or {@link CurrencyStats}
+ *
+ * @class DBManager
  */
 
-// FIXME: till now, the sementic like "class DBManager<T implements ISerializable>" is not
-// supported by AssemblyScript.
-// Should fix this issue when AssemblyScript can do this.
-
-export class DBManager<T> {
+export class DBManager<T extends ISerializable> {
     public _tblname: u64;
     public _owner: u64;
     public _scope: u64;
@@ -37,6 +41,7 @@ export class DBManager<T> {
      * create a table to persistent data.
      * @param tblname the table name
      * @param owner the owner of the table, who can read and write the table, anyone else is read-only.
+     * meanwhile, the owner should pay for storing data if need.
      * @param scope the scope of rows,
      *        if you write a row with scope A, then you must read the row with scope A too,
      *        otherwise you get nothing.
