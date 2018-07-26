@@ -2,8 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 
-import "../../internal/alias.d";
-
 import { ISerializable } from "../../lib/ISerializable";
 import { Contract } from "../../lib/contract";
 import { PermissionLevel } from "../../src/permission-level";

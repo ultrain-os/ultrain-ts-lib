@@ -2,8 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 
-import "../../internal/alias.d";
-import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
 import { ISerializable } from "../../lib/ISerializable";
 import { DataStream, DSHelper } from "../../src/datastream";

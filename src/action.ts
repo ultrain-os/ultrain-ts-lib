@@ -7,7 +7,6 @@ import { ISerializable } from "../lib/ISerializable";
 import { PermissionLevel } from "./permission-level";
 import { env as action } from "../internal/action.d";
 import { NameEx } from "./name_ex";
-import { account_name } from "../internal/alias";
 import { env as ActionAPI } from "../internal/action.d";
 
 /**

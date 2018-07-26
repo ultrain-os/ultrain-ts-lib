@@ -1,4 +1,3 @@
-import "../internal/alias.d";
 import { Asset } from "../src/asset";
 
 

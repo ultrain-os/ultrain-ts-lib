@@ -1,4 +1,3 @@
-import "../internal/alias";
 import { ISerializable } from "./ISerializable";
 import { DataStream, DSHelper } from "../src/datastream";
 import { PublicKey } from "../internal/types";

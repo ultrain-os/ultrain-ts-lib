@@ -1,4 +1,3 @@
-import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
 import { ISerializable } from "../../lib/ISerializable";
 import { Asset } from "../../src/asset";

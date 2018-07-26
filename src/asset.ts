@@ -2,7 +2,6 @@ import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
 import { ultrain_assert } from "./utils";
-import { account_name } from "../internal/alias";
 import { queryBalance, send } from "./balance";
 
 /**

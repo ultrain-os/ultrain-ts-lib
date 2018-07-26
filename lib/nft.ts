@@ -1,4 +1,3 @@
-import "../internal/alias.d";
 import { ISerializable } from "./ISerializable";
 import { UIP09 } from "../uips/uip09";
 import { Asset } from "../src/asset";

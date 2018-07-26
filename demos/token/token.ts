@@ -1,7 +1,6 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
 import { Asset } from "../../src/asset";
 import { ultrain_assert, N } from "../../src/utils";

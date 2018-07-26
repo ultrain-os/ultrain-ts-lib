@@ -2,7 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 import "allocator/arena";
-import "../../internal/alias.d";
 import { MultiSig } from "./msig";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as system } from "../../internal/system.d";

@@ -1,7 +1,6 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../internal/alias.d";
 import { Contract } from "../../lib/contract";
 import { env as action } from "../../internal/action.d";
 import { env as privileged } from "../../internal/privileged.d";

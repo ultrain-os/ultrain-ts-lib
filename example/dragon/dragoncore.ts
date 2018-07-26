@@ -14,7 +14,6 @@ import { ISerializable } from "../../lib/ISerializable";
 import { env as trx } from "../../internal/transaction.d";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { MatchCore } from "./match";
-import "../../internal/alias.d";
 import "./consts";
 import { Titles } from "./titles";
 import { emit, EventObject } from "../../lib/events";

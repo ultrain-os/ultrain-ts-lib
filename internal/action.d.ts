@@ -3,8 +3,6 @@
  *
  * meta functions for action.
  */
-import "./alias.d";
-
 export declare namespace env {
      function read_action_data(buffer: usize, len: u32): u32;
      function action_data_size(): u32;
