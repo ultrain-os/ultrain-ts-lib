@@ -2,10 +2,10 @@
 import "allocator/arena";
 
 import { DataStream } from "../../src/datastream";
-import { N, ultrain_assert } from "../../src/utils";
+import { N, ultrain_assert, RN } from "../../src/utils";
 import { env as Action } from "../../internal/action.d";
 import { GenType } from "./genetype";
-import { minutes, hours, days, seconds } from "../../lib/time";
+import { minutes, hours, days, seconds, now } from "../../lib/time";
 import { SaleClockAuction, SireClockAuction } from "./saleclockauction";
 import { Map } from "../../src/map";
 import { GeneScience } from "./genescience";
@@ -20,6 +20,9 @@ import { emit, EventObject } from "../../lib/events";
 import { UGS } from "../../internal/types";
 import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress, MatchAddress } from "./consts";
 import { queryBalance, send } from "../../src/balance";
+import { Return } from "../../src/return";
+import { Log } from "../../src/log";
+import { DBManager } from "../../src/dbmanager";
 
 class DragonAccessControl {
     ceoAddress: account_name = CEO;
@@ -168,11 +171,11 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     pregnantDragons: u64;
 
     // sale auction originator and cut
-    saleAuctionOriginator: account_name;
+    saleAuctionOriginator: account_name = SaleAuctionAddress;
     saleAuctionCut: u64;
 
     // sire auction originator and cut
-    sireAuctionOriginator: account_name;
+    sireAuctionOriginator: account_name = SireAuctionAddress;
     sireAuctionCut: u64;
 
 
@@ -298,6 +301,15 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         emit("Transfer", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
     }
 
+    public saveToDBManager(): void {
+        let db = new DBManager<DragonBase>(N("mima.dragon"), this.ceoAddress, 0);
+
+    }
+
+    public loadFromDBManager(): void {
+
+    }
+
 }
 
 class DragonAssetControl extends DragonBase {
@@ -328,12 +340,18 @@ class DragonAssetControl extends DragonBase {
     }
 
     public transferFrom(from: account_name, to: account_name, tokenId: TokenId): void {
-        ultrain_assert(Action.is_account(to), "'to' account is invalid.");
+        ultrain_assert(Action.is_account(to), RN(to) + " : 'to' account is invalid.");
         ultrain_assert(to != HyperDragonContract, "can not transfer dragon to mima.dragon");
-        ultrain_assert(this._approvedFor(Action.current_sender(), tokenId), "this asset does not belongs to message sender.");
-        ultrain_assert(this._owns(from, tokenId), "'from' does not own this asset.");
+        Log.s("transferFrom 1").flush();
+        let approved = this._approvedFor(from, tokenId);
+        Log.s("transferFrom 2").flush();
+        ultrain_assert(approved, "this asset does not belongs to message sender.");
+        let own = this._owns(from, tokenId);
+        Log.s("transferFrom 3").flush();
+        ultrain_assert(own, RN(from) + " : 'from' does not own this asset.");
 
         this._transfer(from, to, tokenId);
+        Log.s("transferFrom 4").flush();
     }
 
     public transfer(to: account_name, tokenId: TokenId): void {
@@ -846,18 +864,19 @@ export class DragonCore extends DragonExtend {
         let genes = genScience.gen0Genes(_genes);
         let owner = HyperDragonContract;
         let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
-
         this._approve(dragonId, owner);
         let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut)
+        let startPrice = this._computeNextGen0Price(saleAuction);
         saleAuction.createAuction(
                 dragonId,
-                this._computeNextGen0Price(saleAuction),
+                startPrice,
                 new Asset(),
                 GEN0_AUCTION_DURATION,
                 owner
         );
 
         this.gen0CreatedCount ++;
+        Return<u64>(dragonId);
     }
 
     public confirmGene(gen: GenType): GenType {
@@ -895,7 +914,7 @@ export class DragonCore extends DragonExtend {
 
         let dragon = new Dragon();
         dragon.genes = genes;
-        dragon.birthTime = system.now();
+        dragon.birthTime = now();
         dragon.cooldownEndBlock = 0;
         dragon.fightCooldownEndBlock = 0;
         dragon.matronId = mathronId;

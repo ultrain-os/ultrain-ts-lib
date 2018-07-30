@@ -70,11 +70,11 @@ export class CurrencyStats implements ISerializable {
 /**
  * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
  */
-let SYS: u64 = StringToSymbol(4, "UGS");
+export let SYS: u64 = StringToSymbol(4, "UGS");
 /**
  * Ultrain block system Token name "UGS".
  */
-let SYS_NAME: u64 = <u64>(SYS >> 8);
+export let SYS_NAME: u64 = <u64>(SYS >> 8);
 /**
  * to query the balance of an account from Ultrain Token system.
  * @param owner account name to be queried.

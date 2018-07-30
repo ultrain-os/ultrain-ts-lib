@@ -159,3 +159,5 @@ export class NameEx implements ISerializable {
         return RNEX(this.valueH, this.valueL);
     }
 }
+
+export declare type action_name = NameEx;

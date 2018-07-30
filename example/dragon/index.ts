@@ -4,6 +4,7 @@ import { Return, ReturnArray } from "../../src/return";
 import { GenType } from "./genetype";
 import { Asset } from "../../src/asset";
 import { N } from "../../src/utils";
+import { NEX, NameEx } from "../../src/name_ex";
 /**
  * @author fanliangqin@ultrain.io
  * @datetime 09:50:33, 06/29/2018
@@ -14,6 +15,7 @@ export class HyperDragonContract extends Contract {
     private _dragonCore: DragonCore;
 
     constructor(receiver: u64) {
+        // super(receiver);
         this._receiver = receiver;
         this._dragonCore = new DragonCore();
     }
@@ -29,7 +31,7 @@ export class HyperDragonContract extends Contract {
     }
 
     @action
-    public withdrawAuctionBalances(): void {
+    public withdrawAucBalances(): void {
         this._dragonCore.withdrawAuctionBalances();
     }
 
@@ -92,7 +94,7 @@ export class HyperDragonContract extends Contract {
     }
 
     @action
-    public setSiringAuctionAddress(originator: account_name, cut: u64): void {
+    public setSiringAucAddress(originator: account_name, cut: u64): void {
         this._dragonCore.setSiringAuctionAddress(originator, cut);
     }
 

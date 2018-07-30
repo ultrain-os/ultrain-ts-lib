@@ -8,7 +8,7 @@ import { Contract } from "../../lib/contract";
 import { env as Action } from "../../internal/action.d";
 import { Return } from "../../src/return";
 import { queryBalance } from "../../src/balance";
-import { NameEx, RNEX } from "../../src/name_ex";
+import { NameEx, RNEX, NEX } from "../../src/name_ex";
 
  export function apply(receiver: u64, code: u64, action1: u64, action2: u64): void {
     Log.s("receiver: ").s(RN(receiver)).s(" code: ").s(RN(code)).flush();
@@ -16,17 +16,8 @@ import { NameEx, RNEX } from "../../src/name_ex";
     Log.s("current sender = ").s(RN(sender)).flush();
     let action: NameEx = new NameEx(action1, action2);
 
-    Log.s("get action name: ").s(RNEX(action1, action2)).flush();
-    for (let i: i32 = 0; i < 30; i++) {
-        if (i % 2 == 0) {
-            Log.i(i, 16);
-            break;
-        }
-
-    }
-    Log.flush();
-    // var gol: HelloContract = new HelloContract(receiver);
-    // gol.apply(code, action);
+    var gol: HelloContract = new HelloContract(receiver);
+    gol.apply(code, action);
 }
 
 
@@ -36,9 +27,6 @@ class HelloContract extends Contract {
 
     on_hi(name: u64, age: u32, msg: string): void {
         Log.s("on_hi: name = ").s(RN(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
-
-         let num = age + "";
-        Log.s("The age is:  ").s(num).flush();
         // Return(10086);
         let ass = queryBalance(N("tester"));
 
@@ -47,9 +35,13 @@ class HelloContract extends Contract {
         Return("call hi() succeed.");
     }
 
-    apply(code: u64, action: u64): void {
+    on_empty_hi(): void {
+        Log.s("this is a empyt hi function.").flush();
+    }
+
+    apply(code: u64, action: NameEx): void {
         Log.s("entry").flush();
-        if (action == N("hi")) {
+        if (action == NEX("hi_it_is_a_long_func")) {
             let ds = this.getDataStream();
             let name = ds.read<u64>();
 
@@ -62,6 +54,8 @@ class HelloContract extends Contract {
 
             Log.s("amount = ").i(amount, 10).s(" symbol = ").i(symbol, 16).flush();
             this.on_hi(name, age, msg);
+        } else if (action ==  NEX("hi_empty")) {
+            this.on_empty_hi();
         } else {
             ultrain_assert(false, "unknown action");
         }

@@ -8,6 +8,8 @@ import { ultrain_assert, string2cstr, intToString } from "../src/utils";
 import { Map } from "../src/map";
 import { ISerializable } from "./ISerializable";
 import { DataStream, DSHelper } from "../src/datastream";
+import { env as system } from "../internal/system.d";
+
 const TYPE_STRING: u8 = 1;
 const TYPE_U64: u8 = 4;
 
@@ -78,9 +80,9 @@ class _EventObject implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-namespace env {
-    export declare function emit_evnet(name: usize, name_size: u64, param: usize, param_size: u64): void;
-}
+// declare namespace env {
+//    declare function emit_event(name: usize, name_size: u64, param: usize, param_size: u64): void;
+// }
 
 export let EventObject: _EventObject = new _EventObject();
 
@@ -91,5 +93,5 @@ export function emit(evtname: string, obj: _EventObject): void {
     let ds = DSHelper.getDataStreamWithLength(len);
     obj.serialize(ds);
 
-    env.emit_evnet(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
+    system.emit_event(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
 }

@@ -63,7 +63,9 @@ export class GeneScience {
                     skillKey = j;
                     t -= this.skillRate[j] * (100 + additional[i]) / 100;
                     scores[j] = 0;
-                    break;
+                    // break;
+                    // FIXME 不能break，先退出循环
+                    j = <u32>scores.length;
                 }
             }
             // reset scores
@@ -215,7 +217,9 @@ export class GeneScience {
                             t -= this.outsideRate[j];
                         }
                         characterScores[j] = 0;
-                        break;
+                        // break;
+                        // FIXME for break
+                        j = characterScores.length;
                     }
                 }
                 if (i < c) {
@@ -249,7 +253,9 @@ export class GeneScience {
                 for (let j = 0; j < 8; j++) {
                     if (c == ((un >> (35 - j * 5)) & 0x1f)) {
                         r = true;
-                        break;
+                        // break;
+                        // FIXME for break
+                        j = 9;
                     }
                 }
                 if (r == false) {
@@ -325,7 +331,9 @@ export class GeneScience {
         for (let i = 0; i < scores.length; i++) {
             if ((seed % t) < scores[i]) {
                 skillCount = <u64>i;
-                break;
+                // break;
+                // FIXME for break
+                i = scores.length;
             }
         }
 
@@ -482,7 +490,8 @@ export class GeneScience {
                 }
             }
 
-            while (skill_cnt < 5) {
+            let keepLoop: boolean = true;
+            while (skill_cnt < 5 && keepLoop) {
                 //  "**" operator is not implements.
                 // let factor: u64 = <u64>(10 ** (skill_cnt + 2));
                 let factor: u64 = 1;
@@ -496,7 +505,9 @@ export class GeneScience {
                 if (mod < target) {
                     skill_cnt += 1;
                 } else {
-                    break;
+                    // break;
+                    // FIXME for break
+                    keepLoop = false;
                 }
             }
         }

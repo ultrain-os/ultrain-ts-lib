@@ -18,4 +18,5 @@ export declare namespace env {
      function publication_time(): i32;
      function current_receiver(): u64;
      function current_sender(): u64;
+     function random_uint64(seed: u64): u64;
 }

@@ -13,6 +13,9 @@ import { Map } from "../../src/map";
 import { emit, EventObject } from "../../lib/events";
 import { send, queryBalance } from "../../src/balance";
 import { HyperDragonContract } from "./consts";
+import { now } from "../../lib/time";
+import { Log } from "../../src/log";
+import { SYS } from "../../src/balance";
 
 class Auction {
     // current owner of NFT
@@ -38,7 +41,7 @@ class ClockAuctionBase {
     // Values 0-10,000 map to 0% - 100%
     ownerCut: u64;
     // Map from token ID to thieir corresponding auction.
-    tokenIdToAuction: Map<u64, Auction>;
+    tokenIdToAuction: Map<u64, Auction> = new Map<u64, Auction>();
 
     /**
      * @dev Returns true if the claimant owns the token.
@@ -63,10 +66,12 @@ class ClockAuctionBase {
     protected addAuction(tokenId: u64, auction: Auction): void {
         // Require that all auctions have a duration of
         // at least one nimute. (keeps our math from getting hairy!)
+        Log.s("addAuction start").flush();
         ultrain_assert(auction.duration > 60, "the auction's duration is less than 1 minute.");
         this.tokenIdToAuction.set(tokenId, auction);
 
         // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
+        Log.s("start emitting event for add Auction");
         emit("AuctionCreated", EventObject.set<u64>("tokenId", tokenId).set<u64>("startingPrice", auction.startingPrice.amount)
             .set<u64>("endingPrice", auction.endingPrice.amount).set<u64>("duration", auction.duration));
     }
@@ -95,8 +100,8 @@ class ClockAuctionBase {
         // A bit of insurance against negative values (or wraparound).
         // Probably not necessary (since Ethereum guarnatees that the
         // now variable doesn't ever go backwards).
-        if (system.now() > auction.startedAt) {
-            secondsPassed = system.now() - auction.startedAt;
+        if (now() > auction.startedAt) {
+            secondsPassed = now() - auction.startedAt;
         }
 
         return this.computeCurrentPrice(
@@ -216,7 +221,7 @@ export class ClockAuction extends ClockAuctionBase {
         auction.startingPrice = startingPrice;
         auction.endingPrice = endingPrice;
         auction.duration = duration;
-        auction.startedAt = system.now();
+        auction.startedAt = now();
 
         this.addAuction(tokenId, auction);
     }
@@ -268,6 +273,10 @@ export class SaleClockAuction extends ClockAuction {
         ultrain_assert(cut < 10000, "the cut is larger than 10000, and it is forbidden.");
         this.originator = originator;
         this.ownerCut = cut;
+
+        for (let i: i32 = 0; i < 5; i++) {
+            this.lastGen0SalePrices[i] = new Asset(0, SYS);
+        }
     }
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
@@ -277,7 +286,7 @@ export class SaleClockAuction extends ClockAuction {
         auction.startingPrice = startingPrice;
         auction.endingPrice = endingPrice;
         auction.duration = duration;
-        auction.startedAt = system.now();
+        auction.startedAt = now();
 
         this.addAuction(tokenId, auction);
     }
@@ -300,6 +309,7 @@ export class SaleClockAuction extends ClockAuction {
         for (let i = 0; i < 5; i++) {
             sum += this.lastGen0SalePrices[i].getAmount();
         }
+
         let ret = new Asset(sum / 5);
         ret.setSymbol(this.lastGen0SalePrices[0].getSymbol());
         return ret;
@@ -324,7 +334,7 @@ export class SireClockAuction extends ClockAuction {
         auction.startingPrice = startingPrice;
         auction.endingPrice = endingPrice;
         auction.duration = duration;
-        auction.startedAt = system.now();
+        auction.startedAt = now();
 
         this.addAuction(tokenId, auction);
     }

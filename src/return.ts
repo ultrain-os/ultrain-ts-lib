@@ -22,7 +22,7 @@ export function Return<T> (val: T): void {
     } else if (isInteger(val)) {
         env.set_result_int(<u64>val);
     } else {
-        ultrain_assert(0, "Return only support string and int.");
+        ultrain_assert(false, "Return only support string and int.");
     }
 }
 

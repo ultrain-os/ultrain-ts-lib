@@ -1,6 +1,7 @@
 import { ISerializable } from "./ISerializable";
 import { DataStream } from "../src/datastream";
 import { ultrain_assert } from "../src/utils";
+import { env as system } from "../internal/system.d";
 
 export class Microseconds implements ISerializable {
     _count: u64;
@@ -191,3 +192,5 @@ export class BlockTimestamp implements ISerializable {
         return slot;
     }
 }
+
+export function now(): u32 { return <u32>(system.current_time() / 1000000); }

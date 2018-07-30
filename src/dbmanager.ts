@@ -84,16 +84,18 @@ export class DBManager<T extends ISerializable> {
     public modify(payer: u64, newobj: T): void {
         let item: DataItem<T>;
         let len: i32 = this._items_vector.length;
-        let idx: i32 = 0;
+        let idx: i32 = -1;
 
-        for (; idx < len; ++idx) {
-            if (newobj.primaryKey() == this._items_vector[idx]._value.primaryKey()) {
-                item = this._items_vector[idx];
-                // break;
+        for (let i: i32 = 0; i < len; ++i) {
+            if (newobj.primaryKey() == this._items_vector[i]._value.primaryKey()) {
+                item = this._items_vector[i];
+                idx = i;
+                // FIXME should call 'break' here, but assemblscript doesn't support
             }
         }
 
-        ultrain_assert(idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
+
+        ultrain_assert(idx != -1 && idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
         ultrain_assert(this._owner == action.current_receiver(), "can not modify objects in table of another contract.");
         // TODO(fanliangqin): update secondary iterators
         // waiting code here

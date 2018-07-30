@@ -18,11 +18,22 @@
           "type": "asset"
         }
       ]
+    },
+    {
+      "name": "hi_empty",
+      "base": "",
+      "fields": [
+      ]
     }
   ],
   "actions": [{
       "name": "hi_it_is_a_long_func",
       "type": "hi_it_is_a_long_func",
+      "ricardian_contract": ""
+    },
+    {
+      "name": "hi_empty",
+      "type": "hi_empty",
       "ricardian_contract": ""
     }
   ],
