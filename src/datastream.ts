@@ -1,19 +1,13 @@
 import {toUTF8Array } from "./utils";
 import {ISerializable} from "../lib/ISerializable";
-
+/**
+ * internal memory HEADER SIZE. NEVER used by users.
+ */
 const HEADER_SIZE = (offsetof<String>() + 1) & ~1; // 2 byte aligned
 
-/** Maximum 32-bit allocation size. */
-const MAX_LENGTH: i32 = 1 << 30; // 1GB
-
-function allocate_str(length: i32): String {
-    assert(length > 0 && length <= MAX_LENGTH);
-    var buffer = memory.allocate(HEADER_SIZE + (<usize>length << 1));
-    store<i32>(buffer, length);
-    return changetype<String>(buffer);
-  }
-
-
+/**
+ * internal class, not for external users.
+ */
 export class DSHelper {
     static serializeComplexVector<T extends ISerializable>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
@@ -37,7 +31,11 @@ export class DSHelper {
         return ds;
     }
 }
-
+/**
+ * internal class, not for external users.
+ *
+ * @class DataStream
+ */
 export class DataStream {
     buffer: u32;
     len: u32;
@@ -143,6 +141,25 @@ export class DataStream {
         return arr;
     }
 
+    readStringVector():string[]{
+        let len = this.readVarint32();
+        if (len == 0) return new Array<string>();
+
+        let arr = new Array<string>(len);
+        for(let i:u32 = 0; i < len; i++) {
+            arr[i] = this.readString();
+        }
+        return arr;
+    }
+
+    writeStringVector(arr: string[]):void {
+        let len:u32 = arr.length;
+        this.writeVarint32(len);
+        for (let i:u32 = 0; i < len; i++) {
+            this.writeString(arr[i]);
+        }
+    }
+
     readVector<T>(): T[] {
         let len = this.readVarint32();
         if (len == 0) return new Array<T>();
@@ -191,8 +208,10 @@ export class DataStream {
     readString(): string {
         var len = this.readVarint32();
         if (len == 0) return "";
-        let s = allocate_str(len);
 
+        var buffer = memory.allocate(HEADER_SIZE + (<usize>len << 1));
+        store<i32>(buffer, len);
+        let s = changetype<string>(buffer);
         var i: u32 = 0;
         while (i < len) {
             var b: u16 = this.read<u8>();
@@ -200,7 +219,7 @@ export class DataStream {
             i++;
         }
 
-        return changetype<string>(s);
+        return s;
     }
 
     writeString(str: string): void {
@@ -211,7 +230,6 @@ export class DataStream {
         let cstr = toUTF8Array(str);
         if (!this.isMesureMode()) {
             var ptr: u32 = load<u32>(changetype<usize>(cstr)) + sizeof<u64>();
-            // move_memory(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
             memory.copy(this.buffer + this.pos, <usize>ptr, cstr.length - 1);
         }
         this.pos += cstr.length - 1;

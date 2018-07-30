@@ -1,7 +1,6 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import "../../internal/alias.d";
 import { Asset } from "../../src/asset";
 import { ISerializable } from "../../lib/ISerializable";
 import { DataStream } from "../../src/datastream";

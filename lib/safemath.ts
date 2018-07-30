@@ -1,25 +1,31 @@
 /**
  *  Math operations with safety checks that throw on error
  */
-export class SafeMath {
+import { ultrain_assert } from "../src/utils";
+/**
+ *  Math operations with safety checks that throw on error
+ */
+export namespace SafeMath {
 
 	/**
 	 * Multiplies two numbers, throws on overflow.
 	 */
-	mul(a: u64, b: u64): u64 {
+
+	function mul(a: u64, b: u64): u64 {
 		if (a == 0) {
 			return 0;
 		}
 		let c = a * b;
-		assert(c / a == b, `${a} mulitiply ${b} overflow`);
+		ultrain_assert(c / a == b, `${a} mulitiply ${b} overflow`);
 		return c;
 	}
 
 	/**
 	 * Integer division of two numbers, truncating the quotient
 	 */
-	div(a: u64, b: u64): u64 {
-		assert(b != 0, `Can't dividing by 0`);
+
+	function div(a: u64, b: u64): u64 {
+		ultrain_assert(b != 0, `Can't dividing by 0`);
 		return a / b;
 	}
 
@@ -29,17 +35,18 @@ export class SafeMath {
 	 * @param a the mimuend number
 	 * @param b the subtrahead number
 	 */
-	sub(a: u64, b: u64): u64 {
-		assert(b <= a, `Minuend is greater than subtrahend`);
+	function sub(a: u64, b: u64): u64 {
+		ultrain_assert(b <= a, `Minuend is greater than subtrahend`);
 		return a - b;
 	}
 
 	/**
 	 * Add two nubmers, throws on overflow.
 	 */
-	add(a: u64, b: u64): u64 {
+
+	function add(a: u64, b: u64): u64 {
 		let c = a + b;
-		assert(c >= a, `SafeMath add failed`);
+		ultrain_assert(c >= a, `SafeMath add failed`);
 		return c;
 	}
 
@@ -47,12 +54,12 @@ export class SafeMath {
 	 * gives square root of given x.
 	 * @param x 
 	 */
-	sqrt(x: u64): u64 {
-		let z = ((this.add(x, 1)) / 2);
+	function sqrt(x: u64): u64 {
+		let z = (add(x, 1) / 2);
 		let y = x;
 		while (z < y) {
 			y = z;
-			z = ((this.add((x / z), z)) / 2);
+			z = (add((x / z), z) / 2);
 		}
 		return y;
 	}
@@ -60,14 +67,14 @@ export class SafeMath {
 	/**
      * gives square. multiplies x by x
      */
-	square(x: u64): u64 {
-		return (this.mul(x, x));
+	function square(x: u64): u64 {
+		return mul(x, x);
 	}
 
 	/**
 	 *  x to the power of y
 	 */
-	pwr(a: u64, b: u64): u64 {
+	 function pwr(a: u32, b: u32): u32 {
 		if (a == 0) {
 			return 0;
 		} else if (b == 0) {
@@ -80,4 +87,5 @@ export class SafeMath {
 			return c;
 		}
 	}
+
 }
