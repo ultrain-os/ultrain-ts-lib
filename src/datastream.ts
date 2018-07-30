@@ -142,6 +142,25 @@ export class DataStream {
         return arr;
     }
 
+    readStringVector():string[]{
+        let len = this.readVarint32();
+        if (len == 0) return new Array<string>();
+
+        let arr = new Array<string>(len);
+        for(let i:u32 = 0; i < len; i++) {
+            arr[i] = this.readString();
+        }
+        return arr;
+    }
+
+    writeStringVector(arr: string[]):void {
+        let len:u32 = arr.length;
+        this.writeVarint32(len);
+        for (let i:u32 = 0; i < len; i++) {
+            this.writeString(arr[i]);
+        }
+    }
+
     readVector<T>(): T[] {
         let len = this.readVarint32();
         if (len == 0) return new Array<T>();
@@ -190,7 +209,6 @@ export class DataStream {
     readString(): string {
         var len = this.readVarint32();
         if (len == 0) return "";
-        // let s = allocate(len);
 
         var buffer = memory.allocate(HEADER_SIZE + (<usize>len << 1));
         store<i32>(buffer, len);
