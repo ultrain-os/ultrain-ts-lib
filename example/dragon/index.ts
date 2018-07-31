@@ -5,19 +5,29 @@ import { GenType } from "./genetype";
 import { Asset } from "../../src/asset";
 import { N } from "../../src/utils";
 import { NEX, NameEx } from "../../src/name_ex";
+import { DBManager } from "../../src/dbmanager";
 /**
  * @author fanliangqin@ultrain.io
  * @datetime 09:50:33, 06/29/2018
  * All rights reserved by ultrain.io @2018
  */
-// TODO action的命名应该扩充
 export class HyperDragonContract extends Contract {
     private _dragonCore: DragonCore;
 
     constructor(receiver: u64) {
-        // super(receiver);
+        super(receiver);
+        // FIXME(liangqin): assemblyscript 'super' does not implements correctly
         this._receiver = receiver;
+
         this._dragonCore = new DragonCore();
+    }
+
+    public onInit(): void {
+        this._dragonCore.loadFromDBManager();
+    }
+
+    public onStop(): void {
+        this._dragonCore.saveToDBManager();
     }
 
     @action
