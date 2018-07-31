@@ -21,7 +21,11 @@ export class Contract {
         return this._receiver;
     }
 
-    getDataStream(): DataStream {
+    public getDataStream(): DataStream {
         return DataStreamFromCurrentAction();
     }
+
+    public onInit(): void {}
+
+    public onStop(): void {}
 }

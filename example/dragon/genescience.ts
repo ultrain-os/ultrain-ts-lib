@@ -4,6 +4,8 @@
 import { GenType } from "./genetype";
 import { env as Action } from "../../internal/action.d";
 import { DragonCore } from "./dragoncore";
+import { Log } from "../../src/log";
+import { minutes } from "../../lib/time";
 
 class SkillAndLevel {
     skills: u32 = 0;
@@ -41,6 +43,11 @@ export class GeneScience {
         let m: u64;
         let skillKey: u64;
         let additional: u64[] = [];
+        // init additional default value to 0
+        for (let i: i32 = 0; i < this.skillRate.length; i++) {
+            scores.push(0);
+            additional.push(0);
+        }
 
         for (let i: i32 = 0; i < this.skillRate.length; i++) {
             if (have_skill > 0) {
@@ -53,7 +60,7 @@ export class GeneScience {
             t += this.skillRate[i] * (100 + additional[i]) / 100;
             scores[i] = t;
         }
-
+        skillCount = <i32>min(skillCount, this.skillRate.length);
         for (let i: i32 = 0; i < <i32>skillCount; i++) {
             m = seed % t;
             for (let j: u32 = 0; j < (<u32>scores.length); j++) {
@@ -77,7 +84,6 @@ export class GeneScience {
 
             seed /= 10;
         }
-
         return sal;
     }
 
@@ -357,7 +363,6 @@ export class GeneScience {
         let r = Action.random_uint64(0) / 100;
         let new_gene_1 = new GenType();
         let new_gene_2 = new GenType();
-
         let b: u64 = generation1 > generation2 ? (generation1 + 1) : (generation2 + 1);
         b = b > 400 ? 400 : b;
         b = this.baseBlood + b * 5 + r % 21;
@@ -446,7 +451,6 @@ export class GeneScience {
         let chchar = this.mixCharacter(gene1, gene2, tp);
         new_gene_1.schar = chchar.schar;
         new_gene_1.hchar = chchar.hchar;
-
         return new_gene_1;
     }
 

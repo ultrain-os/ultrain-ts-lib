@@ -114,7 +114,7 @@ class MatchInfo implements ISerializable {
         let joinAccounts = this.joinList.keys();
         let joinUsers = this.joinList.values();
         ds.writeVarint32(joinAccounts.length);
-        for (let i: u32 = 0; i < joinAccounts.length; i++) {
+        for (let i: i32 = 0; i < joinAccounts.length; i++) {
             ds.write<account_name>(joinAccounts[i]);
             joinUsers[i].serialize(ds);
         }
@@ -122,13 +122,13 @@ class MatchInfo implements ISerializable {
         let betids = this.guessList.keys();
         let dragonidsMap = this.guessList.values();
         ds.writeVarint32(betids.length);
-        for (let i: u32 = 0; i < betids.length; i++) {
+        for (let i: i32 = 0; i < betids.length; i++) {
             ds.write<u64>(betids[i]);
 
             let dragonids = dragonidsMap[i].keys();
             let dguessInfo = dragonidsMap[i].values();
             ds.write<u64>(dragonids.length);
-            for (let j: u32 = 0; j < dragonids.length; j++) {
+            for (let j: i32 = 0; j < dragonids.length; j++) {
                 ds.write<u64>(dragonids[j]);
                 dguessInfo[j].serialize(ds);
             }
@@ -254,7 +254,7 @@ class MatchBase implements ISerializable {
         let matchids = this.matchList.keys();
         let matchinfos = this.matchList.values();
         ds.writeVarint32(matchids.length);
-        for (let i: u32 = 0; i < matchids.length; i++) {
+        for (let i: i32 = 0; i < matchids.length; i++) {
             ds.write<u64>(matchids[i]);
             matchinfos[i].serialize(ds);
         }
@@ -264,7 +264,7 @@ class MatchBase implements ISerializable {
         let matchLevels = this.genLimit.keys();
         let matchLimits = this.genLimit.values();
         ds.writeVarint32(matchLevels.length);
-        for (let i: u32 = 0; i < matchLevels.length; i++) {
+        for (let i: i32 = 0; i < matchLevels.length; i++) {
             ds.write<u64>(matchLevels[i]);
             ds.writeVector<u64>(matchLimits[i]);
         }
@@ -311,19 +311,19 @@ class MatchBase implements ISerializable {
         return <u64>0;
     }
 
-    public storeParameters(): void {
-        let matchdb: DBManager<MatchBase> = new DBManager<MatchBase>(MatchInfoTable, this.owner, MatchInfoTableScope);
-        let existing = matchdb.get(this.primaryKey(), this);
+    public saveToDBManager(): void {
+        let matchdb: DBManager<MatchBase> = new DBManager<MatchBase>(MatchInfoTable, HyperDragonContract, MatchInfoTableScope);
+        let existing = matchdb.exists(this.primaryKey());
 
         if (existing) {
-            matchdb.modify(this.owner, this);
+            matchdb.modify(HyperDragonContract, this);
         } else {
-            matchdb.emplace(this.owner, this);
+            matchdb.emplace(HyperDragonContract, this);
         }
     }
 
-    public loadParameters(): void {
-        let matchdb: DBManager<MatchBase> = new DBManager<MatchBase>(MatchInfoTable, this.owner, MatchInfoTableScope);
+    public loadFromDBManager(): void {
+        let matchdb: DBManager<MatchBase> = new DBManager<MatchBase>(MatchInfoTable, HyperDragonContract, MatchInfoTableScope);
         let existing = matchdb.get(this.primaryKey(), this);
 
         if (!existing) {

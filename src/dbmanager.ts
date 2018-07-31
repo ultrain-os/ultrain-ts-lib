@@ -74,7 +74,6 @@ export class DBManager<T extends ISerializable> {
         // Log.s("dbmanager.emplace scope = ").i(this._scope, 16).s(" table = ").i(this._tblname, 16).s(" payer = ").i(payer, 16).s(" id = ").i(primary, 16).s(" buffer_size = ").i(ds.pos, 16).flush();
         item._primary_itr = db.db_store_i64(this._scope, this._tblname, payer, primary, ds.buffer, ds.pos);
         this._items_vector.push(item);
-        // TODO(fanliangqin): update secondary iterators and update next_primaryKey.
     }
     /**
      * update a row.
@@ -94,23 +93,27 @@ export class DBManager<T extends ISerializable> {
             }
         }
 
+        if (idx == -1) {
+            let itr = this.find(newobj.primaryKey());
+            ultrain_assert(itr >= 0, "object passed to modify is not found in this DBManager.");
+            item = new DataItem<T>(this);
+            item._value = newobj;
+            item._primary_itr = itr;
+            this._items_vector.push(item);
+            idx = 0;
+        }
 
-        ultrain_assert(idx != -1 && idx < len && item._dbmgr == this, "object passed to modify is not in this DBManager.");
+        ultrain_assert(idx != -1 && item._dbmgr == this, "object passed to modify is not in this DBManager.");
         ultrain_assert(this._owner == action.current_receiver(), "can not modify objects in table of another contract.");
-        // TODO(fanliangqin): update secondary iterators
-        // waiting code here
 
         let pk: u64 = item._value.primaryKey();
         item._value = newobj;
         ultrain_assert(pk == item._value.primaryKey(), "updater cannot change primary key when modifying an object.");
 
-
         len = DataStream.measure<T>(newobj);
-
         let arr = new Uint8Array(len);
         let ds = new DataStream(<usize>arr.buffer, len);
         newobj.serialize(ds);
-
         db.db_update_i64(item._primary_itr, payer, ds.buffer, ds.pos);
     }
 
@@ -123,10 +126,16 @@ export class DBManager<T extends ISerializable> {
         db.db_get_i64(itr, <usize>arr.buffer, len);
 
         out.deserialize(ds);
+    }
 
-        // TODO(fanliangqin): update secondary items here
-        // codes wait here.
-        // return val;
+    private find(primary: u64): i32 {
+        let itr: i32 = db.db_find_i64(this._owner, this._scope, this._tblname, primary);
+        return itr;
+    }
+
+    public exists(primary: u64): boolean {
+        let itr = this.find(primary);
+        return itr < 0 ? false : true;
     }
     /**
      * read a record form database.
@@ -177,7 +186,5 @@ export class DBManager<T extends ISerializable> {
         this._items_vector.splice(i, 1);
         db.db_remove_i64(item._primary_itr);
 
-        // TODO(fanliangqin): remove secondary iterators
-        // codes wait here
     }
 }

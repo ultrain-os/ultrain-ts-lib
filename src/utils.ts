@@ -30,7 +30,7 @@ export function intToString(_int: u64): string {
         remainder = <i32>(rest % 10);
         rest = rest / 10;
 
-        val += ASCIICHAR[16 + remainder];
+        val = ASCIICHAR[16 + remainder] + val;
     }
 
     return val;

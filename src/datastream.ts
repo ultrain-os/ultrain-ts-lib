@@ -182,7 +182,7 @@ export class DataStream {
     writeComplexVector<T extends ISerializable>(arr: T[]): void {
         let len: u32 = <u32>arr.length;
         this.writeVarint32(len);
-        for (let i: u32 = 0; i < len; ++i) {
+        for (let i: u32 = 0; i < len; i++) {
             arr[i].serialize(this);
         }
     }
