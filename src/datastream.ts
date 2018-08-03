@@ -189,6 +189,7 @@ export class DataStream {
 
         let arr = new Array<T>(len);
         for (let i: u32 = 0; i < len; i++) {
+            arr[i] = {} as T; 
             arr[i].deserialize(this);
         }
         return arr;
