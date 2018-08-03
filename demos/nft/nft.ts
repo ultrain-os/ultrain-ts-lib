@@ -113,7 +113,7 @@ const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
 const TOKENTABLE: string = "token";
 
-@database(Token,STATSTABLE )
+@database(Token, STATSTABLE)
 export class Nft extends Contract {
 
     private static token_scope: u64 = N("token");
@@ -123,8 +123,7 @@ export class Nft extends Contract {
     @action
     create(issuer: account_name, maximum_supply: Asset): void {
 
-        Log.s("receiver").s(RN(this.receiver)).flush();
-        // action.require_auth(this.receiver);
+        action.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.symbolPrecision() == 0, "token.create: symbol precision must be a whole number");
@@ -147,7 +146,6 @@ export class Nft extends Contract {
     @action
     issue(to: account_name, quantity: Asset, uris: string[], name: string, memo: string): void {
 
-        Log.s("issue").s(name).s("memo").s(memo).flush();
         ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(quantity.symbolPrecision() == 0, "token.issue: symbol precision must be a whole number");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
@@ -162,18 +160,13 @@ export class Nft extends Contract {
         ultrain_assert(quantity.isValid(), "token.issue: invalid quantity.");
         ultrain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
         ultrain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
-        Log.s("issue amount").i(quantity.getAmount()).flush();
         ultrain_assert(quantity.getAmount() == uris.length, "token.issue: mismatch between number of tokens and uris provided");
         ultrain_assert(uris.length != 0, "token.issue: issue quantity can't be zero.");
-
-        Log.s("issue amount end").i(quantity.getAmount()).flush();
 
         let token_ids: Array<id_type> = new Array<id_type>();
         // issue token
         let token_id_start = this.availablePrimaryKey();
         let oneAsset: Asset = new Asset(1, quantity.getSymbol());
-
-        Log.s("issue token_id_start").i(token_id_start).flush();
 
         for (let index = 0; index < uris.length; index++) {
             let uri = uris[index];
@@ -181,14 +174,10 @@ export class Nft extends Contract {
             this.mint(token_id_start, to, st.issuer, oneAsset, uri, name);
             token_id_start++;
         }
-        Log.s("token ids length").i(token_ids.length).flush();
-        Log.s("token id:").i(token_id_start).flush();
 
         this.subSupply(quantity);
-        Log.s("sub supply:").i(token_id_start).flush();
 
         this.addBalance(to, token_ids, quantity, st.issuer);
-        Log.s("add balance:").i(token_id_start).flush();
         this.updateMaxPrimaryKey(st.issuer, --token_id_start);
     }
 
@@ -199,12 +188,9 @@ export class Nft extends Contract {
         let token: Token = new Token();
         let tokenExisting = tokens.get(token_id, token);
 
-        Log.s("existing").i(token_id).s("to").i(tokenExisting).flush();
-
         ultrain_assert(tokenExisting, "token.transfer: token with specified ID does not exist");
 
         let symname = token.symbolName();
-        Log.s("symname").s(RN(symname)).flush();
 
         ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
         action.require_auth(from);
@@ -227,12 +213,11 @@ export class Nft extends Contract {
         token.owner = to;
         tokens.modify(0, token);
 
-	let oneToken = token.value;
+        let oneToken = token.value;
         this.subBalance(from, token_id, oneToken);
         let token_ids = new Array<id_type>();
         token_ids.push(token_id);
-	Log.s("transfer finished").flush();
-	this.addBalance(to, token_ids, oneToken, from);
+        this.addBalance(to, token_ids, oneToken, from);
     }
 
 
@@ -290,20 +275,14 @@ export class Nft extends Contract {
 
     private availablePrimaryKey(): id_type {
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
-        let token: Token = new Token(null, null, null, null, null);
+        let token: Token = new Token();
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
 
-        Log.s("availablePrimaryKey").i(existing).flush();
-
         let res = Nft.TOKEN_START;
-        Log.s("availablePrimaryKey").i(res).flush();
-        res = 1;
         if (existing) {
             res = token.increaseId();
         }
-
         // let res =  existing ? token.increaseId() : this.TOKEN_START;
-        Log.s("availablePrimaryKey").i(res).flush();
         return res;
     }
 
@@ -314,13 +293,9 @@ export class Nft extends Contract {
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
 
         if (!existing) {
-            Log.s("not exist token").flush();
             let to = new Token(Nft.TOKEN_PRIMARY_ID);
             to.current_id = max_token_id;
-            Log.s("not exist token kk").flush();
-
             tokens.emplace(ram_payer, to);
-            Log.s("not exist token finish").flush();
         } else {
             ultrain_assert(max_token_id > token.current_id, "updateMaxPrimaryKey failed: the updated primary is less than the existing primay key.");
             token.current_id = max_token_id;
@@ -334,15 +309,6 @@ export class Nft extends Contract {
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
-
-        Log.s("symname mint").s(RN(token.symbolName())).flush();
-
-        if(existing){
-            Log.s("mint existng").i(id).flush();
-        }else {
-            Log.s("mint").i(id).flush();
-        }
-
         tokens.emplace(ram_payer, token)
     }
 
@@ -354,28 +320,21 @@ export class Nft extends Contract {
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
-            Log.s("add balance not exist").flush();
             let account: Account = new Account(value);
-            Log.s("length").i(token_ids.length).flush();
             account.token_ids = token_ids;
             toaccount.emplace(ram_payer, account);
         } else {
-            Log.s("add balance exist").flush();
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
-            for(let i=0; i < token_ids.length; i++){
+            for (let i = 0; i < token_ids.length; i++) {
                 to.token_ids.push(token_ids[i]);
             }
-            Log.s("add balance find").flush();
-
-            // to.token_ids = this.addTokenIds(to.token_ids, token_ids);
             toaccount.modify(ram_payer, to); // ram_payer or 0
         }
     }
 
     private subBalance(owner: account_name, token_id: id_type, value: Asset): void {
 
-    	Log.s("subBalance sym").s(RN(value.symbolName())).flush();
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
         let from: Account = new Account(null);
         let existing = ats.get(value.symbolName(), from);
@@ -388,18 +347,14 @@ export class Nft extends Contract {
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
-	    Log.s("sub Balance begin").flush();
-	    let result = new Array<id_type>(from.token_ids.length -1);
-	    for(let index = 0; index < from.token_ids.length; index ++){
-	    	if(from.token_ids[index] != token_id){
-		    result.push(from.token_ids[index]);
-		}
-	    }
-
-	    Log.s("sub balance end").flush();
-	    from.token_ids = result;
-	    ats.modify(owner, from);
-	    Log.s("modify end").flush();
+            let result = new Array<id_type>(from.token_ids.length - 1);
+            for (let index = 0; index < from.token_ids.length; index++) {
+                if (from.token_ids[index] != token_id) {
+                    result.push(from.token_ids[index]);
+                }
+            }
+            from.token_ids = result;
+            ats.modify(owner, from);
         }
     }
 
