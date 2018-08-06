@@ -1,8 +1,8 @@
 import { env as Action } from "../../internal/action.d";
-import { ultrain_assert, N } from "../../src/utils";
+import { ultrain_assert, N, intToString, RN } from "../../src/utils";
 import { Asset } from "../../src/asset";
 import { Map } from "../../src/map";
-import { hours, days } from "../../lib/time";
+import { hours, days, seconds } from "../../lib/time";
 import { Pausable } from "./pausable";
 import { DragonCore } from "./dragoncore";
 import { FightCore } from "./fightcore";
@@ -14,8 +14,9 @@ import { GenType } from "./genetype";
 import { DBManager } from "../../src/dbmanager";
 import { emit, EventObject } from "../../lib/events";
 import { UGS } from "../../internal/types";
-import { MatchAddress, HyperDragonContract } from "./consts";
+import { MatchAddress, HyperDragonContract, DEBUG } from "./consts";
 import { queryBalance, send } from "../../src/balance";
+import { Log } from "../../src/log";
 
 class JoinUser implements ISerializable {
     dragon_id: u64;
@@ -84,6 +85,7 @@ class GuessInfo implements ISerializable {
 
 type GuessListValue = Map<u64, GuessInfo>;
 class MatchInfo implements ISerializable {
+    id: u8;
     // 0: 开启比赛 1：报名结束 2：竞猜阶段 3：战斗 4：发奖 5：比赛结束
     step: u8;
     matchType: u64;
@@ -101,7 +103,38 @@ class MatchInfo implements ISerializable {
     awardKey: u64;
     round: u64;
 
+    constructor() {
+        this.id = 0;
+        this.step = 0;
+        this.matchType = 0;
+        this.level = 0;
+        this.status = true;
+        this.joinNum = 0;
+        this.fightGroup = [];
+        this.fightGroup.push(new Array<account_name>());
+        this.fightGroup.push(new Array<account_name>());
+        this.joinList = new Map<account_name, JoinUser>();
+
+        this.guessList = new Map<u64, GuessListValue>();
+        this.winner = [];
+        this.fightIndex = 0;
+        this.groupIndex = 0;
+        this.awardIndex = 0;
+        this.awardKey = 0;
+        this.round = 0;
+    }
+
+    public prints(tag: string): void {
+        Log.s(tag).s("  MatchInfo id = ").i(this.id).flush();
+        Log.s("    step = ").i(this.step).flush();
+        Log.s("    status = ").s( this.status ? "true" : "false").flush();
+        Log.s("    joinNum = ").i(this.joinNum).flush();
+        Log.s("    level = ").i(this.level).flush();
+        Log.s("    fightIndex = ").i(this.fightIndex).flush();
+    }
+
     public serialize(ds: DataStream): void {
+        ds.write<u8>(this.id);
         ds.write<u8>(this.step);
         ds.write<u64>(this.matchType);
         ds.write<u64>(this.level);
@@ -143,6 +176,7 @@ class MatchInfo implements ISerializable {
     }
 
     public deserialize(ds: DataStream): void {
+        this.id = ds.read<u8>();
         this.step = ds.read<u8>();
         this.matchType = ds.read<u64>();
         this.level = ds.read<u64>();
@@ -210,34 +244,50 @@ class MatchBase implements ISerializable {
     // 奖励系数
     rewardMultiple: u64[] = [100, 100, 100, 100, 100];
 
-    fightLimit: u64 = 16;
-    awardLimit: u64 = 16;
-    groupLimit: u64 = 16;
+    // match limit num
+    // fightLimit: u64 = 16;
+    // awardLimit: u64 = 16;
+    // groupLimit: u64 = 16;
+    // joinLimit: u64[] = [32, 32, 32, 32, 32];
 
+    // TEST CASE
+    joinLimit: u64[] = [4, 4, 4, 4, 4];
+    fightLimit: u64 = 2;
+    awardLimit: u64 = 2;
+    groupLimit: u64 = 2;
     // 竞猜上下限
     // TODO(liangqin): fee的大小需要确定
     guessFeeMin: Asset = new Asset(100000, UGS); // 10.0000 UGS
     guessFeeMax: Asset = new Asset(100000000, UGS); // 10000.0000 UGS
 
     matchList: Map<u64, MatchInfo> = new Map<u64, MatchInfo>();
-    // match limit num
-    joinLimit: u64[] = [32, 32, 32, 32, 32];
 
     // 报名等级限制, match_level => gene_limit
     genLimit: Map<u64, u64[/*2*/]> = new Map<u64, u64[]>();
 
     // 称号个数冷却时间
     fightCooldowns: u64[] = [
-        hours(4).toSeconds(),
-        hours(8).toSeconds(),
-        hours(12).toSeconds(),
-        hours(16).toSeconds(),
-        days(1).toSeconds(),
-        days(2).toSeconds(),
-        days(3).toSeconds(),
-        days(3).toSeconds(), // FIXME(liangqin): 3 days for twice?????
-        days(7).toSeconds()
+        seconds(1).toSeconds(),
+        seconds(2).toSeconds(),
+        seconds(3).toSeconds(),
+        seconds(4).toSeconds(),
+        seconds(5).toSeconds(),
+        seconds(6).toSeconds(),
+        seconds(7).toSeconds(),
+        seconds(8).toSeconds(),
+        seconds(9).toSeconds(),
     ];
+    // fightCooldowns: u64[] = [
+    //     hours(4).toSeconds(),
+    //     hours(8).toSeconds(),
+    //     hours(12).toSeconds(),
+    //     hours(16).toSeconds(),
+    //     days(1).toSeconds(),
+    //     days(2).toSeconds(),
+    //     days(3).toSeconds(),
+    //     days(3).toSeconds(),
+    //     days(7).toSeconds()
+    // ];
     // DragonCore contract
     master: DragonCore;
 
@@ -247,9 +297,14 @@ class MatchBase implements ISerializable {
         ds.writeVector<u64>(this.rewardMultiple);
         ds.write<u64>(this.fightLimit);
         ds.write<u64>(this.awardLimit);
+
+        ds.writeVector<u64>(this.joinLimit);
         ds.write<u64>(this.groupLimit);
         this.guessFeeMin.serialize(ds);
         this.guessFeeMax.serialize(ds);
+        ds.writeVector<u64>(this.fightCooldowns);
+
+
         // for mathList
         let matchids = this.matchList.keys();
         let matchinfos = this.matchList.values();
@@ -259,7 +314,6 @@ class MatchBase implements ISerializable {
             matchinfos[i].serialize(ds);
         }
 
-        ds.writeVector<u64>(this.joinLimit);
         // for genLimits
         let matchLevels = this.genLimit.keys();
         let matchLimits = this.genLimit.values();
@@ -268,8 +322,6 @@ class MatchBase implements ISerializable {
             ds.write<u64>(matchLevels[i]);
             ds.writeVector<u64>(matchLimits[i]);
         }
-
-        ds.writeVector<u64>(this.fightCooldowns);
     }
 
     public deserialize(ds: DataStream): void {
@@ -278,10 +330,12 @@ class MatchBase implements ISerializable {
         this.rewardMultiple = ds.readVector<u64>();
         this.fightLimit     = ds.read<u64>();
         this.awardLimit     = ds.read<u64>();
-        this.groupLimit     = ds.read<u64>();
 
+        this.joinLimit = ds.readVector<u64>();
+        this.groupLimit     = ds.read<u64>();
         this.guessFeeMin.deserialize(ds);
         this.guessFeeMax.deserialize(ds);
+        this.fightCooldowns = ds.readVector<u64>();
 
         // for matchList
         let len = <u32>ds.readVarint32();
@@ -293,8 +347,6 @@ class MatchBase implements ISerializable {
             this.matchList.set(mid, minfo);
         }
 
-        this.joinLimit = ds.readVector<u64>();
-
         // for genLimit
         len = <u32>ds.readVarint32();
         for (let i: u32 = 0; i < len; i++) {
@@ -303,8 +355,6 @@ class MatchBase implements ISerializable {
 
             this.genLimit.set(ml, mlimit);
         }
-
-        this.fightCooldowns = ds.readVector<u64>();
     }
 
     public primaryKey(): u64 {
@@ -345,12 +395,13 @@ export class MatchCore extends MatchBase {
     }
 
     /*@action*/public startMatch(_id: u64, _matchType: u64, _level: u64): void {
-        ultrain_assert(_id > this.match_id, "startMatch failed, _id is less than match_id");
+        ultrain_assert(_id > this.match_id, "startMatch failed, id = " + intToString(_id) + " must be larger than this.match_id = " + intToString(this.match_id));
 
         this.match_id = _id;
         let matchInfo = new MatchInfo();
         matchInfo.step = 0;
         matchInfo.matchType = _matchType;
+        matchInfo.level = _level;
         matchInfo.status = true;
         matchInfo.joinNum = 0;
         matchInfo.fightIndex = 0;
@@ -380,21 +431,29 @@ export class MatchCore extends MatchBase {
                                       .set<u64>("awardfee_2st", re2nd.amount)
                                       .set<u64>("awardfee_3st", re3rd.amount)
                                     );
+        if (DEBUG) {
+            matchInfo.prints("StartMatch");
+        }
     }
 
-    /*@action*/public joinMatch(joinUser: account_name, dragonId: u64, gen: GenType, titles: u64, fee: Asset): void {
+    public joinMatch(joinUser: account_name, dragonId: u64, gen: GenType, titles: u64, fee: Asset): void {
         this._escrow(joinUser, dragonId);
 
         let matchInfo = this.matchList[this.match_id];
-        ultrain_assert(fee >= this.regfees[<i32>(matchInfo.level - 1)], "supplied fee is small than the lower limit.");
-        ultrain_assert(this.isCanJoin(joinUser), "can not join this match.");
-
-        let gene = this.getDragonGene(dragonId);
-        let gemLimit: u64[/* 2 */] = this.genLimit.get(matchInfo.level);
-        if (gemLimit[1] > 0) {
-            ultrain_assert(gene >= gemLimit[0] && gene <=gemLimit[1], "the dragon gene is not between the gene limit.");
+        if (DEBUG) {
+            matchInfo.prints("JoinMatch before " + RN(joinUser));
         }
+        ultrain_assert(fee >= this.regfees[<i32>(matchInfo.level - 1)], "supplied fee is small than the lower limit.");
+        // ultrain_assert(this.isCanJoin(joinUser), "can not join this match.");
 
+        let generation = this.getDragonGeneration(dragonId);
+        let level = matchInfo.level - 1;
+        if (this.genLimit.contains(level)) {
+            let gemLimit: u64[/* 2 */] = this.genLimit.get(level);
+            if (gemLimit[1] > 0) {
+                ultrain_assert(generation >= gemLimit[0] && generation <=gemLimit[1], "the dragon gene is not between the gene limit.");
+            }
+        }
         let juser = new JoinUser(dragonId, gen, titles);
         matchInfo.joinList.set(joinUser, juser);
 
@@ -410,6 +469,10 @@ export class MatchCore extends MatchBase {
             // event CompleteJoin(matchId: u64);
             eobj = EventObject.set<u64>("matchId", this.match_id);
             emit("CompleteJoin", eobj);
+        }
+
+        if (DEBUG) {
+            matchInfo.prints("JoinMatch after " + RN(joinUser));
         }
     }
 
@@ -454,6 +517,10 @@ export class MatchCore extends MatchBase {
     /*@action*/public nextStep(nonce: u64): void {
         let matchInfo = this.matchList.get(this.match_id);
 
+        if (DEBUG) {
+            matchInfo.prints("nextStep start");
+        }
+
         ultrain_assert(matchInfo.status, "match status is false.");
         ultrain_assert(matchInfo.step > 0, "match step is 0");
 
@@ -463,6 +530,10 @@ export class MatchCore extends MatchBase {
             this.fighting(nonce);
         } else if (matchInfo.step == 4) {
             this.sendReward();
+        }
+
+        if (DEBUG) {
+            matchInfo.prints("nextStep end");
         }
     }
 
@@ -564,14 +635,20 @@ export class MatchCore extends MatchBase {
     }
 
     /*@action*/public isCanJoin(joinUser: account_name): boolean {
+        let has = this.matchList.contains(this.match_id);
+        if (!has)  return false;
+
         let matchInfo = this.matchList.get(this.match_id);
         if (matchInfo.status == false) return false;
-        if (matchInfo.joinList[joinUser] != null && matchInfo.joinList[joinUser].dragon_id != 0) return false;
-        if (matchInfo.joinNum >= this.joinLimit[<i32>(matchInfo.level - 1)]) return false;
+
+        has = matchInfo.joinList.contains(joinUser);
+        if (has && (matchInfo.joinList.get(joinUser).dragon_id != 0)) return false; // can not join again.
+        let level = <i32>(matchInfo.level - 1);
+        if (matchInfo.joinNum >= this.joinLimit[level]) return false;
         return true;
     }
 
-    private getDragonGene(dragonId: u64): u64{
+    private getDragonGeneration(dragonId: u64): u64{
         let dragon = this.master.getDragon(dragonId);
         return dragon.generation;
     }
@@ -584,10 +661,11 @@ export class MatchCore extends MatchBase {
         let a1: account_name;
         let a2: account_name;
 
-        let seed = Action.random_uint64(nonce);
+        // let seed = Action.random_uint64(nonce);
+        let seed = nonce;
         let r: i32;
         let idx: i32 = 0;
-        for (let i: u64 = 0; i < groupEnd; i++) {
+        for (let i: u64 = matchInfo.groupIndex; i < groupEnd; i++) {
             r = <i32>(seed % (num - 2*i));
             a1 = matchInfo.winner[r];
             idx = <i32>(num - 2*i - 1);
@@ -599,8 +677,9 @@ export class MatchCore extends MatchBase {
             a2 = matchInfo.winner[r];
             matchInfo.winner[r] = matchInfo.winner[r];
             matchInfo.winner[r] = 0;
-
-            matchInfo.fightGroup.push([a1, a2]);
+            Log.s("BB giveGroup").flush();
+            matchInfo.fightGroup[<i32>i].push(a2);
+            matchInfo.fightGroup[<i32>i].push(a1);
             // event CreateGroup(matchId: U64, dragonId1: u64, dragonId2: u64, round: u64, betid: u64, left_cn: u64);
             emit("CreateGroup", EventObject
                 .set<u64>("matchId", this.match_id)
@@ -608,7 +687,7 @@ export class MatchCore extends MatchBase {
                 .set<u64>("dragonId2", matchInfo.joinList.get(a2).dragon_id)
                 .set<u64>("round", matchInfo.round)
                 .set<u64>("betId", betId + (i << 4))
-                .set<u64>("left_cn", num));
+                .set<u64>("left_cnt", num));
             seed /= 10;
         }
 
@@ -629,17 +708,20 @@ export class MatchCore extends MatchBase {
 
         let matchInfo = this.matchList[this.match_id];
         matchInfo.step = 3;
-
+        Log.s("A  1").flush();
         let betId = <u64>(this.match_id << 12) + <u64>matchInfo.round;
         let thirdWin: u64[] = [];
         let fightEnd: u64 = <u64>matchInfo.fightGroup.length > (matchInfo.fightIndex + this.fightLimit) ?
                             matchInfo.fightIndex + this.fightLimit : <u64>matchInfo.fightGroup.length;
-
+         Log.s("A  2, fightEnd = ").i(fightEnd).s(",fightGroup.length = ").i(matchInfo.fightGroup.length).flush();
         for (let i: i32 = <i32>matchInfo.fightIndex; i < <i32>fightEnd; i++) {
             let id = <u64>(betId + (i << 4));
+            Log.s("A  3, i = ").i(i).flush();
+            Log.s("A 31 fightGroup[i].length = ").i(matchInfo.fightGroup[i].length).flush();
             let one = matchInfo.fightGroup[i][0];
             let two = matchInfo.fightGroup[i][1];
             let result = this.fightWithOther(id, one, two, nonce);
+            Log.s("A 41").flush();
             // event DragonLose(uint256 matchId, uint256 round,uint256 dragonId);
             // event DragonVictory(uint256 matchId, uint256 round,uint256 betid, uint256 dragonId);
             // event BetOver(uint256 match_id, uint256 round, uint256 betid);
