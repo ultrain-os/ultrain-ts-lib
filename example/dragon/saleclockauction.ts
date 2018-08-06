@@ -12,7 +12,7 @@ import { env as system } from "../../internal/system.d";
 import { Map } from "../../src/map";
 import { emit, EventObject } from "../../lib/events";
 import { send, queryBalance } from "../../src/balance";
-import { HyperDragonContract } from "./consts";
+import { HyperDragonContract, SireAuctionAddress } from "./consts";
 import { now } from "../../lib/time";
 import { Log } from "../../src/log";
 import { SYS } from "../../src/balance";
@@ -154,7 +154,8 @@ class ClockAuctionBase {
     // Cancels an auction unconditionally.
     protected _cancelAuction(tokenId: u64, seller: account_name): void {
         this.removeAuction(tokenId);
-        this.transfer(seller, tokenId);
+        this.master.transferByBid(this.originator, seller, tokenId);
+        // this.transfer(seller, tokenId);
         // event AuctionCancelled(tokenId: u64);
         emit("AuctionCancelled", EventObject.set<u64>("tokenId", tokenId));
     }
@@ -222,10 +223,19 @@ class ClockAuctionBase {
         cut.setAmount(amount);
         return cut;
     }
+    /*
+     * to check if the tokenId is on auction, otherwise throw an exception.
+     */
+    protected isTokenIdOnAuction(tokenId: u64): void {
+        let isAuction = this.tokenIdToAuction.contains(tokenId);
+        ultrain_assert(isAuction, intToString(tokenId) +" is not on auction list.");
+    }
 
     // Computes the price and transfers winnings
     // Does NOT transfer ownership of token.
     protected _bid(tokenId: u64, bidAmount: Asset): Asset {
+        this.isTokenIdOnAuction(tokenId);
+
         let auction: Auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token id is not on auction.");
 
@@ -301,6 +311,7 @@ export class ClockAuction extends ClockAuctionBase {
     // }
 
     public cancelAuction(tokenId: u64): void {
+        this.isTokenIdOnAuction(tokenId);
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token is not on auction.");
         let seller: account_name = auction.seller;
@@ -318,12 +329,15 @@ export class ClockAuction extends ClockAuctionBase {
     }
 
     public getAuction(tokenId: u64): Auction {
+        this.isTokenIdOnAuction(tokenId);
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "the token is not on auction.");
         return auction;
     }
 
     public getcurrentPrice(tokenId: u64): Asset {
+        this.isTokenIdOnAuction(tokenId);
+
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "the token is not on auction.");
         return this.currentPrice(auction);
@@ -377,10 +391,13 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 
     public bid(tokenId: u64, val: Asset): void {
-        let seller = this.tokenIdToAuction[tokenId].seller;
+        let bidder = Action.current_sender();
         let price = this._bid(tokenId, val);
-        this.transfer(Action.current_sender(), tokenId);
+        // createAuction时，tokenId已经转移到this.originator了。
+        // 所以现在直接从this.originator转移到bidder
+        this.master.transferByBid(this.originator, bidder, tokenId);
 
+        let seller = this.tokenIdToAuction[tokenId].seller;
         if (seller == HyperDragonContract) {
             // Track gen0 sale prices
             let idx: i32 = <i32>(this.gen0SaleCount % 5);
@@ -446,7 +463,11 @@ export class SireClockAuction extends ClockAuction implements ISerializable {
     public bid(tokenId: u64, val: Asset): void {
         let seller = this.tokenIdToAuction[tokenId].seller;
         this._bid(tokenId, val);
-        this.master.transferByBid(seller, Action.current_sender(), tokenId);
+        Log.s("ClockAuction.bid seller = ").s(RN(seller)).s(" current_sender = ").s(RN(Action.current_sender())).flush();
+        /*
+         * CAUTION: from地址使用SireAuctionAddress的原因在于， createSiringAuction时，这个token已经被SireAcutionAddress托管了。
+         */
+        this.master.transferByBid(SireAuctionAddress, Action.current_sender(), tokenId);
     }
 
     public serialize(ds: DataStream): void {

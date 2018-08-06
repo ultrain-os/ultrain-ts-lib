@@ -626,6 +626,40 @@
       ],
       "name": "dissolve",
       "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "tokenId",
+          "type": "u64"
+        }
+      ],
+      "name": "cancelSireAuction",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "tokenId",
+          "type": "u64"
+        }
+      ],
+      "name": "cancelSaleAuction",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "tokenId",
+          "type": "u64"
+        },
+        {
+          "name": "value",
+          "type": "Asset"
+        }
+      ],
+      "name": "bid",
+      "base": ""
     }
   ],
   "actions": [
@@ -848,6 +882,21 @@
       "ricardian_contract": "",
       "name": "dissolve",
       "type": "dissolve"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "cancelSireAuction",
+      "type": "cancelSireAuction"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "cancelSaleAuction",
+      "type": "cancelSaleAuction"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "bid",
+      "type": "bid"
     }
   ],
   "tables": []

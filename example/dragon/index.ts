@@ -6,6 +6,7 @@ import { Asset } from "../../src/asset";
 import { N } from "../../src/utils";
 import { NEX, NameEx } from "../../src/name_ex";
 import { DBManager } from "../../src/dbmanager";
+import { Action } from "../../src/action";
 /**
  * @author fanliangqin@ultrain.io
  * @datetime 09:50:33, 06/29/2018
@@ -269,4 +270,18 @@ export class HyperDragonContract extends Contract {
         this._dragonCore.dissolve(matchId);
     }
 
+    @action
+    public cancelSireAuction(tokenId: u64): void {
+        this._dragonCore.cancelSireAuction(tokenId);
+    }
+
+    @action
+    public cancelSaleAuction(tokenId: u64): void {
+        this._dragonCore.cancelSaleAuction(tokenId);
+    }
+
+    @action
+    public bid(tokenId: u64, value: Asset): void {
+        this._dragonCore.bid(tokenId, value);
+    }
 }

@@ -150,19 +150,14 @@ export class GenType implements ISerializable {
     }
 
     public serialize(ds: DataStream): void {
-        Log.s("EE 1  ").i(ds.pos, 10).flush();
         ds.write<u64>(this.hsb2);
-        Log.s("EE 2  ").i(ds.pos, 10).flush();
         ds.write<u64>(this.hsb1);
-        Log.s("EE 3  ").i(ds.pos, 10).flush();
         ds.write<u64>(this.lsb2);
-        Log.s("EE 4  ").i(ds.pos, 10).flush();
         ds.write<u64>(this.lsb1);
-        Log.s("EE 5  ").i(ds.pos, 10).flush();
     }
 
     public deserialize(ds: DataStream): void {
-        // this.hsb2 = ds.read<u64>();
+        this.hsb2 = ds.read<u64>();
         this.hsb1 = ds.read<u64>();
         this.lsb2 = ds.read<u64>();
         this.lsb1 = ds.read<u64>();
