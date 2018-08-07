@@ -21,4 +21,4 @@ export let SireAuctionAddress = N("mm.sireauc");
 
 export let MatchAddress = N("mm.match");
 
-export const DEBUG: boolean = true;
+export const DEBUG: boolean = false;

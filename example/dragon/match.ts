@@ -84,6 +84,28 @@ class GuessInfo implements ISerializable {
 }
 
 type GuessListValue = Map<u64, GuessInfo>;
+class GroupParam implements ISerializable {
+    p1: account_name;
+    p2: account_name;
+
+    constructor(p1: account_name = 0, p2: account_name = 0) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
+    public serialize(ds: DataStream): void {
+        ds.write<account_name>(this.p1);
+        ds.write<account_name>(this.p2);
+    }
+
+    public deserialize(ds: DataStream): void {
+        this.p1 = ds.read<account_name>();
+        this.p2 = ds.read<account_name>();
+    }
+
+    public primaryKey(): u64 { return <u64> 0;}
+}
+
 class MatchInfo implements ISerializable {
     id: u8;
     // 0: 开启比赛 1：报名结束 2：竞猜阶段 3：战斗 4：发奖 5：比赛结束
@@ -92,7 +114,7 @@ class MatchInfo implements ISerializable {
     level: u64;
     status: boolean;
     joinNum: u64;
-    fightGroup: account_name[/* 2 */][];
+    fightGroup: GroupParam[];
     joinList: Map<account_name, JoinUser>;
     // map struct: betid => { dragonId => GuessInfo }
     guessList: Map<u64, GuessListValue>;
@@ -111,8 +133,6 @@ class MatchInfo implements ISerializable {
         this.status = true;
         this.joinNum = 0;
         this.fightGroup = [];
-        this.fightGroup.push(new Array<account_name>());
-        this.fightGroup.push(new Array<account_name>());
         this.joinList = new Map<account_name, JoinUser>();
 
         this.guessList = new Map<u64, GuessListValue>();
@@ -141,8 +161,7 @@ class MatchInfo implements ISerializable {
         ds.write<boolean>(this.status);
         ds.write<u64>(this.joinNum);
 
-        ds.writeVector<account_name>(this.fightGroup[0]);
-        ds.writeVector<account_name>(this.fightGroup[1]);
+        ds.writeComplexVector<GroupParam>(this.fightGroup);
         // for joinList
         let joinAccounts = this.joinList.keys();
         let joinUsers = this.joinList.values();
@@ -184,8 +203,7 @@ class MatchInfo implements ISerializable {
         this.joinNum = ds.read<u64>();
 
         // this.fightGroup = new Array(2);
-        this.fightGroup[0] = ds.readVector<account_name>();
-        this.fightGroup[1] = ds.readVector<account_name>();
+        this.fightGroup = ds.readComplexVector<GroupParam>();
 
         // for joinList
         // this.joinList = new Map<account_name, JoinUser>();
@@ -408,9 +426,8 @@ export class MatchCore extends MatchBase {
         matchInfo.groupIndex = 0;
         matchInfo.awardIndex = 0;
         matchInfo.awardKey = 0;
-        matchInfo.fightGroup[0][0] = 0;
-        matchInfo.fightGroup[1][0] = 0;
-        matchInfo.winner[0] = 0;
+        matchInfo.fightGroup = [];
+        matchInfo.winner = [];
         matchInfo.round = 1;
 
         this.matchList.set(this.match_id, matchInfo);
@@ -486,8 +503,8 @@ export class MatchCore extends MatchBase {
 
         ultrain_assert(matchInfo.round == round, "round dismatched for the match and betid.");
         let guessUser = new GuessUser(Action.current_sender(), val);
-        let d1id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex][0]).dragon_id;
-        let d2id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex][1]).dragon_id;
+        let d1id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p1).dragon_id;
+        let d2id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p2).dragon_id;
         ultrain_assert(d1id == dragonId || d2id == dragonId, "you did not join the match.");
         matchInfo.guessList.get(betid).get(dragonId).totalMoney.amount += val.amount;
         matchInfo.guessList.get(betid).get(dragonId).guessUserList.push(guessUser);
@@ -602,8 +619,8 @@ export class MatchCore extends MatchBase {
         // 分完组 从分组中退还
         if (matchInfo.step == 2 || matchInfo.step == 3) {
             for (let i:i32 = 0; i < matchInfo.fightGroup.length; i++) {
-                ad1 = matchInfo.fightGroup[i][0];
-                ad2 = matchInfo.fightGroup[i][1];
+                ad1 = matchInfo.fightGroup[i].p1;
+                ad2 = matchInfo.fightGroup[i].p2;
                 did1 = matchInfo.joinList.get(ad1).dragon_id;
                 did2 = matchInfo.joinList.get(ad2).dragon_id;
                 if (this.master.ownerOf(did1) == MatchAddress) {
@@ -627,7 +644,7 @@ export class MatchCore extends MatchBase {
     }
 
     private transfer(receiver: account_name, tokenId: u64): void {
-        this.master.transfer(receiver, tokenId);
+        this.master.transferByBid(MatchAddress, receiver, tokenId);
     }
 
     private _escrow(joinUser: account_name, dragonId: u64): void {
@@ -665,6 +682,7 @@ export class MatchCore extends MatchBase {
         let seed = nonce;
         let r: i32;
         let idx: i32 = 0;
+
         for (let i: u64 = matchInfo.groupIndex; i < groupEnd; i++) {
             r = <i32>(seed % (num - 2*i));
             a1 = matchInfo.winner[r];
@@ -672,14 +690,14 @@ export class MatchCore extends MatchBase {
             matchInfo.winner[r] = matchInfo.winner[idx];
             matchInfo.winner[idx] = 0;
             seed /= 10;
+
             r = <i32>(seed % (num - 2*i - 1));
-            idx = <i32>(num - 2*i - 2);
             a2 = matchInfo.winner[r];
-            matchInfo.winner[r] = matchInfo.winner[r];
-            matchInfo.winner[r] = 0;
-            Log.s("BB giveGroup").flush();
-            matchInfo.fightGroup[<i32>i].push(a2);
-            matchInfo.fightGroup[<i32>i].push(a1);
+            idx = <i32>(num - 2*i - 2);
+            matchInfo.winner[r] = matchInfo.winner[idx];
+            matchInfo.winner[idx] = 0;
+
+            matchInfo.fightGroup.push(new GroupParam(a1, a2));
             // event CreateGroup(matchId: U64, dragonId1: u64, dragonId2: u64, round: u64, betid: u64, left_cn: u64);
             emit("CreateGroup", EventObject
                 .set<u64>("matchId", this.match_id)
@@ -696,7 +714,7 @@ export class MatchCore extends MatchBase {
             // event MatchPause(matchId: u64);
             emit("MatchPause", EventObject.set<u64>("matchId", this.match_id));
         } else {
-            matchInfo.groupIndex += this.groupLimit;
+            matchInfo.groupIndex = num/2;
             matchInfo.step = 2;
             matchInfo.winner = [];
             // event CompleteGroup(matchId: u64, round: u64);
@@ -714,12 +732,12 @@ export class MatchCore extends MatchBase {
         let fightEnd: u64 = <u64>matchInfo.fightGroup.length > (matchInfo.fightIndex + this.fightLimit) ?
                             matchInfo.fightIndex + this.fightLimit : <u64>matchInfo.fightGroup.length;
          Log.s("A  2, fightEnd = ").i(fightEnd).s(",fightGroup.length = ").i(matchInfo.fightGroup.length).flush();
-        for (let i: i32 = <i32>matchInfo.fightIndex; i < <i32>fightEnd; i++) {
+        for (let i: i32 = <i32>matchInfo.fightIndex; i < (<i32>fightEnd); i++) {
             let id = <u64>(betId + (i << 4));
             Log.s("A  3, i = ").i(i).flush();
-            Log.s("A 31 fightGroup[i].length = ").i(matchInfo.fightGroup[i].length).flush();
-            let one = matchInfo.fightGroup[i][0];
-            let two = matchInfo.fightGroup[i][1];
+            let one = matchInfo.fightGroup[i].p1;
+            let two = matchInfo.fightGroup[i].p2;
+            Log.s("A31 fightwith : " + RN(one) + ", " + RN(two)).flush();
             let result = this.fightWithOther(id, one, two, nonce);
             Log.s("A 41").flush();
             // event DragonLose(uint256 matchId, uint256 round,uint256 dragonId);
@@ -728,11 +746,13 @@ export class MatchCore extends MatchBase {
 
             emit("DragonLose", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("dragonId", matchInfo.joinList.get(result.loser).dragon_id));
+            Log.s("A 42").flush();
             emit("DragonVictory", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("dragonId", matchInfo.joinList.get(result.loser).dragon_id));
+                Log.s("A 43").flush();
             emit("BetOver", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("betid", id));
-
+                Log.s("A 44").flush();
             if (matchInfo.fightGroup.length == 2) {
                 thirdWin.push(matchInfo.joinList.get(result.loser).dragon_id);
             }
@@ -761,6 +781,7 @@ export class MatchCore extends MatchBase {
         let dra1 = matchInfo.joinList.get(a1);
         let dra2 = matchInfo.joinList.get(a2);
         let fightCore = new FightCore();
+
         let win = fightCore.startFight(betid, dra1.dragon_id, dra1.gen,
                     dra2.dragon_id, dra2.gen, nonce);
 
@@ -781,6 +802,7 @@ export class MatchCore extends MatchBase {
         matchInfo.winner.push(result.winner);
         cooldownIndex = <i32>(t.count > 0 ? t.count - 1 : 0);
         cooldownTime = this.fightCooldowns[cooldownIndex];
+
         this.master.fightCooldown(dra1.dragon_id, cooldownIndex, cooldownTime);
         this.transfer(result.loser, dra1.dragon_id);
 
@@ -821,13 +843,13 @@ export class MatchCore extends MatchBase {
 
         for (let i: i32 = <i32>matchInfo.awardKey; i < matchInfo.fightGroup.length; i++) {
             betid = baseBetid + <u64>(i << 4);
-            let fg: account_name[] = matchInfo.fightGroup[i];
-            if (matchInfo.winner[i] == fg[0]) {
-                winDragon = matchInfo.joinList.get(fg[0]).dragon_id;
-                loseDragon = matchInfo.joinList.get(fg[1]).dragon_id;
+            let fg: GroupParam = matchInfo.fightGroup[i];
+            if (matchInfo.winner[i] == fg.p1) {
+                winDragon = matchInfo.joinList.get(fg.p1).dragon_id;
+                loseDragon = matchInfo.joinList.get(fg.p2).dragon_id;
             } else {
-                loseDragon = matchInfo.joinList.get(fg[0]).dragon_id;
-                winDragon = matchInfo.joinList.get(fg[1]).dragon_id;
+                loseDragon = matchInfo.joinList.get(fg.p1).dragon_id;
+                winDragon = matchInfo.joinList.get(fg.p2).dragon_id;
             }
             this.sendOne(betid, winDragon, loseDragon);
         }

@@ -1173,8 +1173,9 @@ export class DragonCore extends DragonExtend {
     public getEntryFee(): Asset {
         let matchInterface = new MatchCore(this);
         matchInterface.loadFromDBManager();
-        return matchInterface.getEntryFee();
+        let fee = matchInterface.getEntryFee();
         matchInterface.saveToDBManager();
+        return fee;
     }
 
     public setFightLimit(limit: u64): void {
