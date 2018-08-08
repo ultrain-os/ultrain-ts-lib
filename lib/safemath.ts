@@ -15,7 +15,7 @@ export namespace SafeMath {
 		if (a == 0) {
 			return 0;
 		}
-		let c = a * b;
+		var c = a * b;
 		ultrain_assert(c / a == b, `${a} mulitiply ${b} overflow`);
 		return c;
 	}
@@ -45,7 +45,7 @@ export namespace SafeMath {
 	 */
 
 	function add(a: u64, b: u64): u64 {
-		let c = a + b;
+		var c = a + b;
 		ultrain_assert(c >= a, `SafeMath add failed`);
 		return c;
 	}
@@ -55,8 +55,8 @@ export namespace SafeMath {
 	 * @param x 
 	 */
 	function sqrt(x: u64): u64 {
-		let z = (add(x, 1) / 2);
-		let y = x;
+		var z = (add(x, 1) / 2);
+		var y = x;
 		while (z < y) {
 			y = z;
 			z = (add((x / z), z) / 2);
@@ -74,15 +74,15 @@ export namespace SafeMath {
 	/**
 	 *  x to the power of y
 	 */
-	 function pwr(a: u32, b: u32): u32 {
+	 function pwr(a: u64, b: u64): u64 {
 		if (a == 0) {
 			return 0;
 		} else if (b == 0) {
 			return 1;
 		} else {
 			let c = a;
-			for (let i = 1; i < b; i++) {
-				c = this.mul(c, a);
+			for (let i: u64 = 1; i < b; i++) {
+				c = mul(c, a);
 			}
 			return c;
 		}
