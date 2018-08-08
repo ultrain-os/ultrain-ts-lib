@@ -17,6 +17,7 @@ import { UGS } from "../../internal/types";
 import { MatchAddress, HyperDragonContract, DEBUG } from "./consts";
 import { queryBalance, send } from "../../src/balance";
 import { Log } from "../../src/log";
+import { Return } from "../../src/return";
 
 class JoinUser implements ISerializable {
     dragon_id: u64;
@@ -70,20 +71,170 @@ class GuessInfo implements ISerializable {
     totalMoney: Asset;
     guessUserList: GuessUser[];
 
+    constructor() {
+        this.totalMoney    = new Asset();
+        this.guessUserList = [];
+    }
+
     public serialize(ds: DataStream): void {
         this.totalMoney.serialize(ds);
-        ds.writeComplexVector<GuessUser>(this.guessUserList);
+        // ds.writeComplexVector<GuessUser>(this.guessUserList);
+        let len = this.guessUserList.length;
+        Log.s("GuessInfo.serialize len = ").i(len).flush();
+        ds.writeVarint32(len);
+        for (let i: i32 = 0; i < len; i++) {
+            this.guessUserList[i].serialize(ds);
+        }
     }
 
     public deserialize(ds: DataStream): void {
         this.totalMoney.deserialize(ds);
-        this.guessUserList = ds.readComplexVector<GuessUser>();
+        // this.guessUserList = ds.readComplexVector<GuessUser>();
+        let len = ds.readVarint32();
+        Log.s("GuessInfo.deserialize len = ").i(len).flush();
+        for (let i: u32 = 0; i< len; i++) {
+            let user = new GuessUser();
+            user.deserialize(ds);
+
+            this.guessUserList.push(user);
+        }
     }
 
     public primaryKey(): u64 { return <u64>0; }
 }
 
-type GuessListValue = Map<u64, GuessInfo>;
+class GuessDragonMap implements ISerializable {
+    dragonId: DragonId;
+    guesser: GuessInfo;
+
+    constructor(id: DragonId = 0) {
+        this.dragonId = id;
+        this.guesser = new GuessInfo();
+    }
+
+    public serialize(ds: DataStream): void {
+        Log.s("GuessDragonMap.serialize dragonId = ").i(this.dragonId).flush();
+        ds.write<u64>(this.dragonId);
+        this.guesser.serialize(ds);
+    }
+
+    public deserialize(ds: DataStream): void {
+        this.dragonId = ds.read<u64>();
+        Log.s("GuessDragonMap.deserialize dragonId = ").i(this.dragonId).flush();
+        this.guesser.deserialize(ds);
+    }
+
+    public primaryKey(): u64 { return <u64>0; }
+}
+
+class GuessNode implements ISerializable {
+    betId: u64;
+    participants: GuessDragonMap[];
+
+    constructor(id: u64 = 0) {
+        this.betId = id;
+        this.participants = [];
+    }
+
+    public get(dragonId: DragonId): GuessDragonMap {
+        for (let i: i32 = 0; i < this.participants.length; i++) {
+            if (this.participants[i].dragonId == dragonId) {
+                return this.participants[i];
+            }
+        }
+
+        let guessDragon = new GuessDragonMap(dragonId);
+        this.participants.push(guessDragon);
+        return guessDragon;
+    }
+
+    public remove(dragonid: DragonId): void {
+        let idx = -1;
+        for (let i: i32 = 0; i < this.participants.length; i++) {
+            if (this.participants[i].dragonId == dragonid) {
+                idx = i;
+                // FIXME liangqin 能够支持break之后，这里直接break
+            }
+        }
+
+        if (idx != -1) {
+            this.participants.splice(idx, 1);
+        }
+    }
+
+    public serialize(ds: DataStream): void {
+        ds.write<u64>(this.betId);
+        // ds.writeComplexVector<GuessDragonMap>(this.participants);
+        let len = this.participants.length;
+        Log.s("GuessNode.serialize betId = ").i(this.betId).s(", len = ").i(len).flush();
+        ds.writeVarint32(len);
+        for (let i: i32 = 0; i < len; i++) {
+            this.participants[i].serialize(ds);
+        }
+    }
+
+    public deserialize(ds: DataStream): void {
+        this.betId = ds.read<u64>();
+        // this.participants = ds.readComplexVector<GuessDragonMap>();
+        let len = ds.readVarint32();
+        Log.s("GuessNode.deserialize betId = ").i(this.betId).s(", len = ").i(len).flush();
+        for (let i: u32 = 0; i < len; i++) {
+            let parti = new GuessDragonMap();
+            parti.deserialize(ds);
+
+            this.participants.push(parti);
+        }
+    }
+
+    public primaryKey(): u64 { return <u64>0; }
+}
+
+// map struct: betid => { dragonId => GuessInfo }
+class GuessArray implements ISerializable {
+    nodes: GuessNode[];
+
+    constructor() {
+        this.nodes = [];
+    }
+
+    public get(betId: u64): GuessNode {
+        for (let i: i32 = 0; i < this.nodes.length; i++) {
+            if(this.nodes[i].betId == betId) {
+                return this.nodes[i];
+            }
+        }
+
+        let node = new GuessNode(betId);
+        this.nodes.push(node);
+        return node;
+    }
+
+    public serialize(ds: DataStream): void {
+        // ds.writeComplexVector<GuessNode>(this.nodes);
+
+        let len = this.nodes.length;
+        Log.s("GuessArray.serialize len = ").i(len).flush();
+        ds.writeVarint32(len);
+        for (let i: i32 = 0; i< len; i++) {
+            this.nodes[i].serialize(ds);
+        }
+    }
+
+    public deserialize(ds: DataStream): void {
+        // this.nodes = ds.readComplexVector<GuessNode>();
+        let len = ds.readVarint32();
+        Log.s("GuessArray.deserialize len = ").i(len).flush();
+        for (let i: u32 = 0; i < len; i++) {
+            let node = new GuessNode();
+            node.deserialize(ds);
+
+            this.nodes.push(node);
+        }
+    }
+
+    public primaryKey(): u64 { return <u64>0; }
+}
+
 class GroupParam implements ISerializable {
     p1: account_name;
     p2: account_name;
@@ -117,7 +268,7 @@ class MatchInfo implements ISerializable {
     fightGroup: GroupParam[];
     joinList: Map<account_name, JoinUser>;
     // map struct: betid => { dragonId => GuessInfo }
-    guessList: Map<u64, GuessListValue>;
+    guessList: GuessArray;
     winner: account_name[];
     fightIndex: u64;
     groupIndex: u64;
@@ -135,7 +286,7 @@ class MatchInfo implements ISerializable {
         this.fightGroup = [];
         this.joinList = new Map<account_name, JoinUser>();
 
-        this.guessList = new Map<u64, GuessListValue>();
+        this.guessList = new GuessArray();
         this.winner = [];
         this.fightIndex = 0;
         this.groupIndex = 0;
@@ -151,6 +302,7 @@ class MatchInfo implements ISerializable {
         Log.s("    joinNum = ").i(this.joinNum).flush();
         Log.s("    level = ").i(this.level).flush();
         Log.s("    fightIndex = ").i(this.fightIndex).flush();
+        Log.s("    round = ").i(this.round).flush();
     }
 
     public serialize(ds: DataStream): void {
@@ -171,20 +323,8 @@ class MatchInfo implements ISerializable {
             joinUsers[i].serialize(ds);
         }
         // for guessList
-        let betids = this.guessList.keys();
-        let dragonidsMap = this.guessList.values();
-        ds.writeVarint32(betids.length);
-        for (let i: i32 = 0; i < betids.length; i++) {
-            ds.write<u64>(betids[i]);
+        this.guessList.serialize(ds);
 
-            let dragonids = dragonidsMap[i].keys();
-            let dguessInfo = dragonidsMap[i].values();
-            ds.write<u64>(dragonids.length);
-            for (let j: i32 = 0; j < dragonids.length; j++) {
-                ds.write<u64>(dragonids[j]);
-                dguessInfo[j].serialize(ds);
-            }
-        }
         // commones
         ds.writeVector<account_name>(this.winner);
         ds.write<u64>(this.fightIndex);
@@ -215,22 +355,7 @@ class MatchInfo implements ISerializable {
             this.joinList.set(acnt, joinUser);
         }
         // for guessList
-        len = <u32>ds.readVarint32();
-        for (let i: u32 = 0; i < len; i++) {
-            let betid = ds.read<u64>();
-
-            let slen: u32 = <u32>ds.read<u64>();
-            let abet = new Map<u64, GuessInfo>();
-            for (let j: u32 = 0; j < slen; j++) {
-                let did = ds.read<u64>();
-                let guessInfo = new GuessInfo();
-                guessInfo.deserialize(ds);
-
-                abet.set(did, guessInfo);
-            }
-
-            this.guessList.set(betid, abet);
-        }
+        this.guessList.deserialize(ds);
         // commones
         this.winner = ds.readVector<account_name>();
         this.fightIndex = ds.read<u64>();
@@ -494,35 +619,46 @@ export class MatchCore extends MatchBase {
     }
 
     /*@action*/public guess(betid: u64, dragonId: u64, val: Asset): void {
-        ultrain_assert(val >= this.guessFeeMin && val <= this.guessFeeMax, "bet value is invalid.");
+        ultrain_assert(val.amount >= this.guessFeeMin.amount && val.amount <= this.guessFeeMax.amount, "bet value is invalid.");
+        // ultrain_assert(val >= this.guessFeeMin && val <= this.guessFeeMax, "bet value is invalid.");
+
         let matchInfo = this.matchList.get(this.match_id);
+
         ultrain_assert(matchInfo.step == 2, "can not bet this match now.");
+
         let bet = new BetId(betid);
-        let fIndex = bet.index;
+        let fIndex = bet.groupIndex;
         let round = bet.round;
 
         ultrain_assert(matchInfo.round == round, "round dismatched for the match and betid.");
+        ultrain_assert(fIndex >= 0 && fIndex < matchInfo.fightGroup.length, "selected group index is overflow.");
+
         let guessUser = new GuessUser(Action.current_sender(), val);
         let d1id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p1).dragon_id;
         let d2id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p2).dragon_id;
-        ultrain_assert(d1id == dragonId || d2id == dragonId, "you did not join the match.");
-        matchInfo.guessList.get(betid).get(dragonId).totalMoney.amount += val.amount;
-        matchInfo.guessList.get(betid).get(dragonId).guessUserList.push(guessUser);
 
-        let dra1 = matchInfo.guessList.get(betid).get(d1id);
-        let dra2 = matchInfo.guessList.get(betid).get(d2id);
-        let rate1 = dra1.totalMoney.amount > 0
-                    ? 9500 * (dra1.totalMoney.amount + dra2.totalMoney.amount)/dra1.totalMoney.amount
+        ultrain_assert(d1id == dragonId || d2id == dragonId, "the dragon did not join this group.");
+
+        let guessInfo = matchInfo.guessList.get(betid).get(dragonId).guesser;
+        guessInfo.totalMoney.amount += val.amount;
+        guessInfo.guessUserList.push(guessUser);
+
+        let guessNode = matchInfo.guessList.get(betid);
+        let dra1Amount = guessNode.get(d1id).guesser.totalMoney.amount;
+        let dra2Amount = guessNode.get(d2id).guesser.totalMoney.amount;
+        let rate1 = dra1Amount > 0
+                    ? 9500 * (dra1Amount + dra2Amount)/dra1Amount
                     : 19500;
-        let rate2 = dra2.totalMoney.amount > 0
-                    ? 9500 * (dra1.totalMoney.amount + dra2.totalMoney.amount)/dra2.totalMoney.amount
+        let rate2 = dra2Amount > 0
+                    ? 9500 * (dra1Amount + dra2Amount)/dra2Amount
                     : 19500;
+
         rate1 = rate1 < 10000 ? 10000 : rate1;
         rate2 = rate2 < 10000 ? 10000 : rate2;
 
         // event GuessDragon(matchId: u64, round: u64, betId: u64, betuser: account_name, dragonId: u64, betfee: u64, rate1: u6, rate2: u64);
         emit("GuessDragon", EventObject.set<u64>("matchId", this.match_id)
-                                       .set<u64>("round", round)
+                                       .set<u64>("round", <u64>round)
                                        .set<u64>("betId", betid)
                                        .set<u64>("betuser", guessUser.beter)
                                        .set<u64>("dragonId", dragonId)
@@ -534,7 +670,7 @@ export class MatchCore extends MatchBase {
     /*@action*/public nextStep(nonce: u64): void {
         let matchInfo = this.matchList.get(this.match_id);
 
-        if (DEBUG) {
+        if (true) {
             matchInfo.prints("nextStep start");
         }
 
@@ -549,7 +685,7 @@ export class MatchCore extends MatchBase {
             this.sendReward();
         }
 
-        if (DEBUG) {
+        if (true) {
             matchInfo.prints("nextStep end");
         }
     }
@@ -720,39 +856,38 @@ export class MatchCore extends MatchBase {
             // event CompleteGroup(matchId: u64, round: u64);
             emit("CompleteGroup", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round));
         }
+
+        Return<u64>(betId);
     }
 
     private fighting(nonce: u64): void {
 
         let matchInfo = this.matchList[this.match_id];
         matchInfo.step = 3;
-        Log.s("A  1").flush();
+        // Log.s("A  1").flush();
         let betId = <u64>(this.match_id << 12) + <u64>matchInfo.round;
         let thirdWin: u64[] = [];
         let fightEnd: u64 = <u64>matchInfo.fightGroup.length > (matchInfo.fightIndex + this.fightLimit) ?
                             matchInfo.fightIndex + this.fightLimit : <u64>matchInfo.fightGroup.length;
-         Log.s("A  2, fightEnd = ").i(fightEnd).s(",fightGroup.length = ").i(matchInfo.fightGroup.length).flush();
+        //  Log.s("A  2, fightEnd = ").i(fightEnd).s(",fightGroup.length = ").i(matchInfo.fightGroup.length).flush();
         for (let i: i32 = <i32>matchInfo.fightIndex; i < (<i32>fightEnd); i++) {
             let id = <u64>(betId + (i << 4));
-            Log.s("A  3, i = ").i(i).flush();
+            // Log.s("A  3, i = ").i(i).flush();
             let one = matchInfo.fightGroup[i].p1;
             let two = matchInfo.fightGroup[i].p2;
-            Log.s("A31 fightwith : " + RN(one) + ", " + RN(two)).flush();
+            // Log.s("A31 fightwith : " + RN(one) + ", " + RN(two)).flush();
             let result = this.fightWithOther(id, one, two, nonce);
-            Log.s("A 41").flush();
+            // Log.s("A 41").flush();
             // event DragonLose(uint256 matchId, uint256 round,uint256 dragonId);
             // event DragonVictory(uint256 matchId, uint256 round,uint256 betid, uint256 dragonId);
             // event BetOver(uint256 match_id, uint256 round, uint256 betid);
 
             emit("DragonLose", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("dragonId", matchInfo.joinList.get(result.loser).dragon_id));
-            Log.s("A 42").flush();
             emit("DragonVictory", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("dragonId", matchInfo.joinList.get(result.loser).dragon_id));
-                Log.s("A 43").flush();
             emit("BetOver", EventObject.set<u64>("matchId", this.match_id).set<u64>("round", matchInfo.round)
                 .set<u64>("betid", id));
-                Log.s("A 44").flush();
             if (matchInfo.fightGroup.length == 2) {
                 thirdWin.push(matchInfo.joinList.get(result.loser).dragon_id);
             }
@@ -880,15 +1015,13 @@ export class MatchCore extends MatchBase {
         let matchInfo = this.matchList.get(this.match_id);
         let limit: u64;
 
-        let list = matchInfo.guessList.get(betid).get(dragonId).guessUserList;
+        let list = matchInfo.guessList.get(betid).get(dragonId).guesser.guessUserList;
         limit = list.length > 200 ? 200 : list.length;
 
-        if (limit > 0) {
-            for (let i: u64 = 0; i < limit; i++) {
-                // event GuessLose(user: account_name, price: u64, dragonId: u64, betId: u64, matchId: u64);
-                emit("GuessLoss", EventObject.set<u64>("user", list[i].beter).set<u64>("price", list[i].money.amount)
-                    .set<u64>("dragonId", dragonId).set<u64>("betId", betid).set<u64>("matchId", this.match_id));
-            }
+        for (let i: u64 = 0; i < limit; i++) {
+            // event GuessLose(user: account_name, price: u64, dragonId: u64, betId: u64, matchId: u64);
+            emit("GuessLoss", EventObject.set<u64>("user", list[i].beter).set<u64>("price", list[i].money.amount)
+                .set<u64>("dragonId", dragonId).set<u64>("betId", betid).set<u64>("matchId", this.match_id));
         }
     }
 
@@ -902,16 +1035,16 @@ export class MatchCore extends MatchBase {
         let winGuessInfo = matchInfo.guessList.get(betid).get(winDragon);
         let loseGuessInfo = matchInfo.guessList.get(betid).get(loseDragon);
 
-        if (winGuessInfo.guessUserList.length > 0) {
-            rate = winGuessInfo.totalMoney.amount > 0 ?
-                <u64>(9500 * (winGuessInfo.totalMoney.amount + loseGuessInfo.totalMoney.amount) / winGuessInfo.totalMoney.amount) :
+        if (winGuessInfo.guesser.guessUserList.length > 0) {
+            rate = winGuessInfo.guesser.totalMoney.amount > 0 ?
+                <u64>(9500 * (winGuessInfo.guesser.totalMoney.amount + loseGuessInfo.guesser.totalMoney.amount) / winGuessInfo.guesser.totalMoney.amount) :
                 9500;
 
             rate = rate < 10000 ? 10000 : rate;
             dragonId = winDragon;
         } else {
             // 获胜方没有竞猜 返回
-            if (loseGuessInfo.guessUserList.length > 0) {
+            if (loseGuessInfo.guesser.guessUserList.length > 0) {
                 rate = 10000;
                 dragonId = loseDragon;
             } else {
@@ -920,7 +1053,7 @@ export class MatchCore extends MatchBase {
         }
 
         if (dragonId > 0) {
-            let betUsers = matchInfo.guessList.get(betid).get(dragonId).guessUserList;
+            let betUsers = matchInfo.guessList.get(betid).get(dragonId).guesser.guessUserList;
             awardEnd = <u64>betUsers.length > matchInfo.awardIndex + this.awardLimit ?
                     matchInfo.awardIndex + this.awardLimit :
                     <u64>betUsers.length;

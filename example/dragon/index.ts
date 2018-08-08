@@ -7,6 +7,7 @@ import { N } from "../../src/utils";
 import { NEX, NameEx } from "../../src/name_ex";
 import { DBManager } from "../../src/dbmanager";
 import { Action } from "../../src/action";
+import { Log } from "../../src/log";
 /**
  * @author fanliangqin@ultrain.io
  * @datetime 09:50:33, 06/29/2018
@@ -216,6 +217,7 @@ export class HyperDragonContract extends Contract {
 
     @action
     public guess(betid: u64, id: DragonId, fee: Asset): void {
+        Log.s("CALL guess???").flush();
         this._dragonCore.guess(betid, id, fee);
     }
 

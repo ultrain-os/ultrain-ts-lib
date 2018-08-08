@@ -43,13 +43,13 @@ class SeedInfo {
     seed2: u64;
 }
 
-class Addition {
-    addi: u64[];
+// class Addition {
+//     addi: u64[];
 
-    constructor(info: u64[]) {
-        this.addi = info;
-    }
-}
+//     constructor(info: u64[]) {
+//         this.addi = info;
+//     }
+// }
 
 class FightContractData {
     // map betId => SeedInfo
@@ -60,7 +60,10 @@ class FightContractData {
     skillDamageMin: u32[/*16*/];
     skillDamageMax: u32[/*16*/];
     offset: u64;
-    cAddition: Addition[];
+    // cAddition: Addition[];
+    cAddition1: u64[];
+    cAddition2: u64[];
+
 
     constructor() {
         this.seeds          = new Map<u64, SeedInfo>();
@@ -70,9 +73,11 @@ class FightContractData {
         this.skillDamageMin = [15, 13, 18, 16, 21, 20, 23, 25, 30, 31, 33, 36, 41, 44, 47, 56];
         this.skillDamageMax = [15, 21, 19, 24, 22, 28, 29, 31, 32, 36, 41, 46, 47, 52, 59, 60];
         this.offset         = 100;
-        this.cAddition      = [];
-        this.cAddition.push(new Addition([2523156596, 2523155320, 2690931308, 2355385712, 2858704744, 2355384440, 2523155324, 2523159156, 2355385716, 2858704752, 2690928752, 2523155312, 2271502184, 2355385708, 2523159144, 1350067340, 1266508940, 1517184144, 1433625732, 1600742536, 1350395012, 1266836620, 1517511820, 1433953412, 1517839508, 1349411988, 1265853580, 1432970388, 1433298052, 1516856460]));
-        this.cAddition.push(new Addition([1687582804, 1687584080, 1687907932, 1686926168, 1688234336, 1686602324, 1687585360, 1687582812, 1687255128, 1688564572, 1688236884, 1687581520, 1687906648, 1687252568, 1687582800, 2018547300, 2102104420, 1851431780, 1934986340, 1767875940, 2102430820, 2186319460, 1935317860, 2018873700, 1935321700, 1851105380, 2018219620, 1767218020, 1850775140, 2017890660]));
+        this.cAddition1 = [2523156596, 2523155320, 2690931308, 2355385712, 2858704744, 2355384440, 2523155324, 2523159156, 2355385716, 2858704752, 2690928752, 2523155312, 2271502184, 2355385708, 2523159144, 1350067340, 1266508940, 1517184144, 1433625732, 1600742536, 1350395012, 1266836620, 1517511820, 1433953412, 1517839508, 1349411988, 1265853580, 1432970388, 1433298052, 1516856460];
+        this.cAddition2 = [1687582804, 1687584080, 1687907932, 1686926168, 1688234336, 1686602324, 1687585360, 1687582812, 1687255128, 1688564572, 1688236884, 1687581520, 1687906648, 1687252568, 1687582800, 2018547300, 2102104420, 1851431780, 1934986340, 1767875940, 2102430820, 2186319460, 1935317860, 2018873700, 1935321700, 1851105380, 2018219620, 1767218020, 1850775140, 2017890660];
+        // this.cAddition      = [];
+        // this.cAddition.push(new Addition([2523156596, 2523155320, 2690931308, 2355385712, 2858704744, 2355384440, 2523155324, 2523159156, 2355385716, 2858704752, 2690928752, 2523155312, 2271502184, 2355385708, 2523159144, 1350067340, 1266508940, 1517184144, 1433625732, 1600742536, 1350395012, 1266836620, 1517511820, 1433953412, 1517839508, 1349411988, 1265853580, 1432970388, 1433298052, 1516856460]));
+        // this.cAddition.push(new Addition([1687582804, 1687584080, 1687907932, 1686926168, 1688234336, 1686602324, 1687585360, 1687582812, 1687255128, 1688564572, 1688236884, 1687581520, 1687906648, 1687252568, 1687582800, 2018547300, 2102104420, 1851431780, 1934986340, 1767875940, 2102430820, 2186319460, 1935317860, 2018873700, 1935321700, 1851105380, 2018219620, 1767218020, 1850775140, 2017890660]));
     }
 
 }
@@ -102,28 +107,31 @@ export class FightCore/*  extends Pausable */ {
         let crit: u64     = 0;
         let dodge: u64    = 0;
         let double: u64   = 0;
-        let cid: u64      = 0;
+        let cid: i32      = 0;
         let addition: u64 = 0;
         let character: u32 = gen.schar;               // schar一共有16bit
         let append: u32    = <u32>(gen.color >> 60);
         let _gen = (character << 4 | append); // _gen现在有20bit
         for (let i = 0; i < 4; i++) {
-            cid = (_gen >> (15 - i * 5)) & 0x1F;
+            cid = ((_gen >> (15 - i * 5)) & 0x1F);
+            let idx: i32 = (cid - 1);
             if (cid > 0) {
-                let idx: i32 = <i32>(cid - 1);
                 if (i < 2) {
-                    // Log.s("GG 1").flush();
-                    addition = this.dataes.cAddition[0].addi[idx];
-                    // Log.s("GG 2").flush();
+                    addition = this.dataes.cAddition1[idx];
+                    // addition = (<Addition>(this.dataes.cAddition[0])).addi[idx];
+                    // FIXME 编译器问题，必须加一个无效的log在这里……
+                    Log.s("").flush();
                 } else {
-                    addition = this.dataes.cAddition[1].addi[idx];
+                    // addition = (this.dataes.cAddition[1]).addi[idx];
+                    addition = this.dataes.cAddition2[idx];
                 }
 
+                // addition = i < 2 ? this.dataes.cAddition1[idx] : this.dataes.cAddition2[idx];
                 blood  = ((addition >> 24) & 0xff);
                 crit   = ((addition >> 16) & 0xff);
                 dodge  = ((addition >> 8) & 0xff);
                 double = (addition & 0xff);
-                // Log.s("GG 3").flush();
+
                 dinfo.additionNum += 1;
                 dinfo.bloodAdd    += blood;
                 dinfo.crit        += crit;
@@ -192,16 +200,15 @@ export class FightCore/*  extends Pausable */ {
         d1.skills = this.getSkills(gen1);
         d1.skillLevels = this.getSkillsLevel(gen1);
         d1.seed = Action.random_uint64(nonce);
-Log.s("SS 1").flush();
+
         let d2 = new DragonInfo();
         d2.id = did2;
         d2.blood = this.getBlood(gen2);
         d2.skills = this.getSkills(gen2);
         d2.skillLevels = this.getSkillsLevel(gen2);
         d2.seed = Action.random_uint64(nonce);
-        Log.s("SS 2").flush();
+
         this.getAddition(gen1, d1);
-        Log.s("SS 3").flush();
         this.getAddition(gen2, d2);
 
         let si = new SeedInfo();

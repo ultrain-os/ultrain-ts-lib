@@ -4,7 +4,7 @@
  */
 import { StringToSymbol } from "../src/asset";
 
-export let UGS = StringToSymbol(4, "UGS");
+export let UGS: u64 = StringToSymbol(4, "UGS");
 
 export class PublicKey {
     data: u8[] = new Array<u8>(34);

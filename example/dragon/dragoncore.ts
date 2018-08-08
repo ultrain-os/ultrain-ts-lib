@@ -441,7 +441,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     public saveToDBManager(): void {
         let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
         let existing = db.exists(this.primaryKey());
-        this.prints("=====> DragonCore.saveToDB existing = " + (existing? "true":"false"));
+        // this.prints("=====> DragonCore.saveToDB existing = " + (existing? "true":"false"));
         if (existing) {
             db.modify(HyperDragonContract, this);
         } else {
@@ -452,7 +452,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     public loadFromDBManager(): void {
         let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
         let existing = db.get(this.primaryKey(), this);
-        this.prints("<====== DragonCore.loadFromDB existing =" + (existing ? "true": "false"));
+        // this.prints("<====== DragonCore.loadFromDB existing =" + (existing ? "true": "false"));
     }
 
 }
@@ -1151,7 +1151,9 @@ export class DragonCore extends DragonExtend {
     public guess(betid: u64, id: DragonId, fee: Asset): void {
         this.whenNotPaused();
         let matchInterface = new MatchCore(this);
+        Log.s("AA 1").flush();
         matchInterface.loadFromDBManager();
+        Log.s("AA 2").flush();
         matchInterface.guess(betid, id, fee);
         matchInterface.saveToDBManager();
     }
