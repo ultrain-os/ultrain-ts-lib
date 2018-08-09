@@ -7,6 +7,7 @@
  import { ISerializable } from "../../lib/ISerializable";
 import { DataStream } from "../../src/datastream";
 import { intToString } from "../../src/utils";
+import { Log } from "../../src/log";
 /**
  * 斗龙的基因组成
  * solidity编写的时候，采用了256bit的int来表示，原始格式如下：
@@ -23,10 +24,10 @@ import { intToString } from "../../src/utils";
  */
 export class GenType implements ISerializable {
 
-    hsb2: u64; /*193 ~ 256 bit*/
-    hsb1: u64; /*129 ~ 192 bit*/
-    lsb2: u64; /*65 ~ 128 bit*/
-    lsb1: u64; /*1 ~ 64 bit*/
+    hsb2: u64 = 0; /*193 ~ 256 bit*/
+    hsb1: u64 = 0; /*129 ~ 192 bit*/
+    lsb1: u64 = 0; /*1 ~ 64 bit*/
+    lsb2: u64 = 0; /*65 ~ 128 bit*/
 
     constructor(hsb2: u64 = 0, hsb1: u64 = 0, lsb2: u64 = 0, lsb1: u64 = 0) {
         this.hsb2 = hsb2;
@@ -149,10 +150,10 @@ export class GenType implements ISerializable {
     }
 
     public serialize(ds: DataStream): void {
-        ds.write(this.hsb2);
-        ds.write(this.hsb1);
-        ds.write(this.lsb2);
-        ds.write(this.lsb1);
+        ds.write<u64>(this.hsb2);
+        ds.write<u64>(this.hsb1);
+        ds.write<u64>(this.lsb2);
+        ds.write<u64>(this.lsb1);
     }
 
     public deserialize(ds: DataStream): void {

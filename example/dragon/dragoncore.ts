@@ -2,7 +2,7 @@
 import "allocator/arena";
 
 import { DataStream } from "../../src/datastream";
-import { N, ultrain_assert, RN } from "../../src/utils";
+import { N, ultrain_assert, RN, intToString } from "../../src/utils";
 import { env as Action } from "../../internal/action.d";
 import { GenType } from "./genetype";
 import { minutes, hours, days, seconds, now } from "../../lib/time";
@@ -18,8 +18,8 @@ import "./consts";
 import { Titles } from "./titles";
 import { emit, EventObject } from "../../lib/events";
 import { UGS } from "../../internal/types";
-import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress, MatchAddress } from "./consts";
-import { queryBalance, send } from "../../src/balance";
+import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress, MatchAddress, DEBUG } from "./consts";
+import { queryBalance, send, SYS } from "../../src/balance";
 import { Return } from "../../src/return";
 import { Log } from "../../src/log";
 import { DBManager } from "../../src/dbmanager";
@@ -44,7 +44,7 @@ class DragonAccessControl {
     }
 
     onlyAPI(): void {
-        ultrain_assert(Action.current_sender() == this.apiAddress, "only API can execute this command.");
+        // ultrain_assert(Action.current_sender() == this.apiAddress, "only API can execute this command.");
     }
 
     whenNotPaused(): void {
@@ -87,50 +87,85 @@ class DragonAccessControl {
 }
 
 class Dragon implements ISerializable {
-    id                   : u64 = 0;
-    genes                : GenType = new GenType(0, 0, 0, 0);
-    birthTime            : time = 0;
-    cooldownEndBlock     : u64 = 0;
-    fightCooldownEndBlock: u64 = 0;
-    matronId             : u64 = 0;
-    sireId               : u64 = 0;
-    siringWithId         : u64 = 0;
-    cooldownIndex        : u16 = 0;
-    fightcooldownIndex   : u64 = 0;
-    generation           : u16 = 0;
-    titles               : u64 = 0;
-    extend               : u64 = 0;
+    id                    : u64  = 0;
+    gene_s1               : u64  = 0;
+    gene_s2               : u64  = 0;
+    gene_s3               : u64  = 0;
+    gene_s4               : u64  = 0;
+
+    birthTime             : time = 0;
+    cooldownEndBlock      : u64  = 0;
+    fightCooldownEndBlock : u64  = 0;
+    matronId              : u64  = 0;
+    sireId                : u64  = 0;
+
+    siringWithId          : u64  = 0;
+    cooldownIndex         : u16  = 0;
+    fightcooldownIndex    : u64  = 0;
+    generation            : u16  = 0;
+    titles                : u64  = 0;
+
+    extend                : u64  = 0;
+
+    constructor() {
+    }
+
+    public get genes(): GenType {
+        return new GenType(this.gene_s4, this.gene_s3, this.gene_s2, this.gene_s1);
+    }
+
+    public set genes(g: GenType) {
+        this.gene_s4 = g.hsb2;
+        this.gene_s3 = g.hsb1;
+        this.gene_s2 = g.lsb2;
+        this.gene_s1 = g.lsb1;
+    }
 
     serialize(ds: DataStream): void {
         ds.write<u64>(this.id);
-        this.genes.serialize(ds);
+        ds.write<u64>(this.gene_s1);
+        ds.write<u64>(this.gene_s2);
+        ds.write<u64>(this.gene_s3);
+        ds.write<u64>(this.gene_s4);
+
         ds.write<time>(this.birthTime);
         ds.write<u64>(this.cooldownEndBlock);
         ds.write<u64>(this.fightCooldownEndBlock);
         ds.write<u64>(this.matronId);
         ds.write<u64>(this.sireId);
+
         ds.write<u64>(this.siringWithId);
         ds.write<u16>(this.cooldownIndex);
         ds.write<u64>(this.fightcooldownIndex);
         ds.write<u16>(this.generation);
         ds.write<u64>(this.titles);
+
         ds.write<u64>(this.extend);
+
+        // Log.s("Dragon.serialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
     }
 
     deserialize(ds: DataStream): void {
         this.id                    = ds.read<u64>();
-        this.genes.deserialize(ds);
+        this.gene_s1               = ds.read<u64>();
+        this.gene_s2               = ds.read<u64>();
+        this.gene_s3               = ds.read<u64>();
+        this.gene_s4               = ds.read<u64>();
+
         this.birthTime             = ds.read<time>();
         this.cooldownEndBlock      = ds.read<u64>();
         this.fightCooldownEndBlock = ds.read<u64>();
-        this.matronId              = ds.read<u32>();
-        this.sireId                = ds.read<u32>();
-        this.siringWithId          = ds.read<u32>();
+        this.matronId              = ds.read<u64>();
+        this.sireId                = ds.read<u64>();
+
+        this.siringWithId          = ds.read<u64>();
         this.cooldownIndex         = ds.read<u16>();
         this.fightcooldownIndex    = ds.read<u64>();
         this.generation            = ds.read<u16>();
         this.titles                = ds.read<u64>();
+
         this.extend                = ds.read<u64>();
+        // Log.s("Dragon.deserialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
     }
 
     primaryKey(): u64 { return this.id; }
@@ -146,7 +181,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     // a map from dragon's id to approved address which can call transferFrom().
     // Each dragon can only have one aporoved address for transfer at any time.
     // A zero value means no approval is outstanding.
-    dragonIndextoApproved: Map<DragonId, account_name> = new Map<DragonId, account_name>();
+    dragonIndexToApproved: Map<DragonId, account_name> = new Map<DragonId, account_name>();
     // a map from dragon's id to an address that has been approved to use this Dragon
     // for siring via breedWith().
     // Each dragon can only have one approved address for siring at any time. A zero
@@ -159,42 +194,100 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     specialDragonLimit: Map<u64, u64> = new Map<u64, u64>();
 
     // Limits the number of dragons the contract owner can ever create.
-    promoCreatedCount: u64;
-    gen0CreatedCount: u64;
+    promoCreatedCount: u64 = 0;
+    gen0CreatedCount: u64 = 0;
 
     /// @notice The minimum payment required to use breedWithAuto(). This fee goes towards
     ///  the gas cost paid by whatever calls giveBirth(), and can be dynamically updated by
     ///  the COO role as the gas price changes.
-    autoBirthFee: Asset = new Asset(8, UGS);
+    autoBirthFee: Asset = new Asset(80000, SYS); // default precision is 4
 
     // Keeps track of number of pregnant dragons
-    pregnantDragons: u64;
+    pregnantDragons: u64 = 0;
 
     // sale auction originator and cut
     saleAuctionOriginator: account_name = SaleAuctionAddress;
-    saleAuctionCut: u64;
+    saleAuctionCut: u64 = 1000;
 
     // sire auction originator and cut
     sireAuctionOriginator: account_name = SireAuctionAddress;
-    sireAuctionCut: u64;
+    sireAuctionCut: u64 = 1000;
 
+    protected prints_dragonIndexToOwner(): void {
+        if(DEBUG) {
+            let size = this.dragonIndexToOwner.size();
+            let tokenIds = this.dragonIndexToOwner.keys();
+            let accounts = this.dragonIndexToOwner.values();
+            Log.s("[DEBUG] dragonIndexToOwner size = ").i(size).s(", contents: ").flush();
+            for (let i: i32 = 0; i < size; i++) {
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+            }
+        }
+    }
+
+    protected prints_dragonIndexToApproved(): void {
+        if(DEBUG) {
+            let size = this.dragonIndexToApproved.size();
+            let tokenIds = this.dragonIndexToApproved.keys();
+            let accounts = this.dragonIndexToApproved.values();
+            Log.s("[DEBUG] dragonIndexToApproved size = ").i(size).s(", contents: ").flush();
+            for (let i: i32 = 0; i < size; i++) {
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+            }
+        }
+    }
+
+    protected prints_dragons(): void {
+        if (DEBUG) {
+            let size = this.dragons.length;
+            Log.s("[DEBUG] dragons size =  ").i(size).s(", contents:").flush();
+            for (let i: i32 = 0; i < size; i++) {
+                Log.s("    dragon[").i(i, 10).s("] id =").i(this.dragons[i].id, 10).s(" matronId = ").i(this.dragons[i].matronId).s(" sireId = ").i(this.dragons[i].sireId, 10).flush();
+            }
+        }
+    }
+
+    protected prints_ownershipTokenCount(): void {
+        if (DEBUG) {
+            let size = this.ownershipTokenCount.size();
+            let accounts = this.ownershipTokenCount.keys();
+            let counts = this.ownershipTokenCount.values();
+
+            Log.s("[DEBUG] ownershipTokenCount size =  ").i(size).s(", contents:").flush();
+            for (let i: i32 = 0; i < size; i++) {
+                Log.s("    account: ").s(RN(accounts[i])).s(", count: ").i(counts[i]).flush();
+            }
+        }
+    }
+
+    protected prints_sireAllowedToAddress(): void {
+        if(DEBUG) {
+            let size = this.sireAllowedToAddress.size();
+            let tokenIds = this.sireAllowedToAddress.keys();
+            let accounts = this.sireAllowedToAddress.values();
+            Log.s("[DEBUG] sireAllowedToAddress size = ").i(size).s(", contents: ").flush();
+            for (let i: i32 = 0; i < size; i++) {
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+            }
+        }
+    }
 
     private serializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
-        let cnt: u64 = <u64>mp.size();
+        let cnt: i32 = <i32>mp.size();
         let keys = mp.keys();
         let vals = mp.values();
 
-        ds.write<u64>(cnt);
-        for (let i: u64 = 0; i < cnt; i++) {
+        ds.write<i32>(cnt);
+        for (let i: i32 = 0; i < cnt; i++) {
             ds.write<K>(keys[i]);
             ds.write<V>(vals[i]);
         }
     }
 
     private deserializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
-        let cnt: u64 = ds.read<u64>();
+        let cnt: i32 = ds.read<i32>();
 
-        for (let i: u64 = 0; i < cnt; i++) {
+        for (let i: i32 = 0; i < cnt; i++) {
             let key = ds.read<K>();
             let val = ds.read<V>();
 
@@ -202,22 +295,56 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         }
     }
 
+    public prints(tag: string): void {
+        Log.s(tag).flush();
+
+        Log.s("ceoAddress: ").s(RN(this.ceoAddress)).flush();
+        Log.s("cfoAddress: ").s(RN(this.cfoAddress)).flush();
+        Log.s("apiAddress: ").s(RN(this.apiAddress)).flush();
+        Log.s("paused: ").s(this.paused ? "true" : "false").flush();
+        this.prints_dragons();
+        this.prints_dragonIndexToOwner();
+
+        this.prints_dragonIndexToApproved();
+        this.prints_ownershipTokenCount();
+        this.prints_sireAllowedToAddress();
+        Log.s("specialDragon.size: ").i(this.specialDragon.size(), 10).flush();
+
+        Log.s("specialDragonLimit.size: ").i(this.specialDragonLimit.size(), 10).flush();
+        Log.s("promoCreatedCount: ").i(this.promoCreatedCount, 10).flush();
+        Log.s("gen0CreatedCount: ").i(this.gen0CreatedCount, 10).flush();
+        Log.s("pregnantDragons: ").i(this.pregnantDragons, 10).flush();
+        Log.s("autoBirthFee: ").flush();
+
+        Log.s("saleAuctionOriginator: ").s(RN(this.saleAuctionOriginator)).flush();
+        Log.s("saleAuctionCut: ").i(this.saleAuctionCut, 10).flush();
+        Log.s("sireAuctionOriginator: ").s(RN(this.sireAuctionOriginator)).flush();
+        Log.s("sireAuctionCut: ").i(this.sireAuctionCut, 10).flush();
+    }
+
     public serialize(ds: DataStream): void {
         ds.write<account_name>(this.ceoAddress);
         ds.write<account_name>(this.cfoAddress);
         ds.write<account_name>(this.apiAddress);
         ds.write<boolean>(this.paused);
-        ds.writeComplexVector<Dragon>(this.dragons);
+        // ds.writeComplexVector<Dragon>(this.dragons);
+        ds.writeVarint32(this.dragons.length);
+        for (let i: i32= 0; i < this.dragons.length; i++) {
+            this.dragons[i].serialize(ds);
+        }
+
         this.serializeMap<DragonId, account_name>(this.dragonIndexToOwner, ds);
         this.serializeMap<DragonId, account_name>(this.ownershipTokenCount, ds);
-        this.serializeMap<DragonId, u64>(this.dragonIndextoApproved, ds);
+        this.serializeMap<DragonId, u64>(this.dragonIndexToApproved, ds);
         this.serializeMap<DragonId, account_name>(this.sireAllowedToAddress, ds);
-        this.serializeMap<u32, u32>(this.specialDragon, ds);
-        this.serializeMap<u32, u32>(this.specialDragonLimit, ds);
+        this.serializeMap<u64, u64>(this.specialDragon, ds);
+
+        this.serializeMap<u64, u64>(this.specialDragonLimit, ds);
         ds.write<u64>(this.promoCreatedCount);
         ds.write<u64>(this.gen0CreatedCount);
         ds.write<u64>(this.pregnantDragons);
         this.autoBirthFee.serialize(ds);
+
         ds.write<u64>(this.saleAuctionOriginator);
         ds.write<u64>(this.saleAuctionCut);
         ds.write<u64>(this.sireAuctionOriginator);
@@ -229,24 +356,34 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         this.cfoAddress = ds.read<account_name>();
         this.apiAddress= ds.read<account_name>();
         this.paused = ds.read<boolean>();
-        this.dragons = ds.readComplexVector<Dragon>();
+        // this.dragons = ds.readComplexVector<Dragon>();
+        let cnt: i32 = ds.readVarint32();
+        for (let i: i32 = 0; i < cnt; i ++) {
+            let dra = new Dragon();
+            dra.deserialize(ds);
+
+            this.dragons.push(dra);
+        }
+
         this.deserializeMap<DragonId, account_name>(this.dragonIndexToOwner, ds);
         this.deserializeMap<DragonId, account_name>(this.ownershipTokenCount, ds);
-        this.deserializeMap<DragonId, u64>(this.dragonIndextoApproved, ds);
+        this.deserializeMap<DragonId, u64>(this.dragonIndexToApproved, ds);
         this.deserializeMap<DragonId, account_name>(this.sireAllowedToAddress, ds);
-        this.deserializeMap<u32, u32>(this.specialDragon, ds);
-        this.deserializeMap<u32, u32>(this.specialDragonLimit, ds);
+        this.deserializeMap<u64, u64>(this.specialDragon, ds);
+
+        this.deserializeMap<u64, u64>(this.specialDragonLimit, ds);
         this.promoCreatedCount = ds.read<u64>();
         this.gen0CreatedCount = ds.read<u64>();
         this.pregnantDragons = ds.read<u64>();
         this.autoBirthFee.deserialize(ds);
+
         this.saleAuctionOriginator = ds.read<u64>();
         this.saleAuctionCut = ds.read<u64>();
         this.sireAuctionOriginator = ds.read<u64>();
         this.sireAuctionCut = ds.read<u64>();
     }
 
-    public primaryKey(): u64 { return <u64>0; }
+    public primaryKey(): u64 { return N("hd.dragon"); }
 
     // NEXT CONSTS does not need to store
     cooldowns: u64[] = [
@@ -269,7 +406,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     secondsPerBlock: u64 = seconds(10).toSeconds();
 
     protected containsDragon(id: u64): boolean {
-        return (this.dragons.length == 0 || id >= <u64>this.dragons.length);
+        return (this.dragons.length > 0 && id < <u64>this.dragons.length);
     }
 
     protected _transfer(from: account_name, to: account_name, tokenId: TokenId): void {
@@ -293,7 +430,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
 
 
             this.sireAllowedToAddress.remove(tokenId);
-            this.dragonIndextoApproved.remove(tokenId);
+            this.dragonIndexToApproved.remove(tokenId);
         }
         /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a dragon
         ///  ownership is assigned, including births.
@@ -302,12 +439,20 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     }
 
     public saveToDBManager(): void {
-        let db = new DBManager<DragonBase>(N("mima.dragon"), this.ceoAddress, 0);
-
+        let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
+        let existing = db.exists(this.primaryKey());
+        // this.prints("=====> DragonCore.saveToDB existing = " + (existing? "true":"false"));
+        if (existing) {
+            db.modify(HyperDragonContract, this);
+        } else {
+            db.emplace(HyperDragonContract, this);
+        }
     }
 
     public loadFromDBManager(): void {
-
+        let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
+        let existing = db.get(this.primaryKey(), this);
+        // this.prints("<====== DragonCore.loadFromDB existing =" + (existing ? "true": "false"));
     }
 
 }
@@ -318,6 +463,8 @@ class DragonAssetControl extends DragonBase {
     /// @param _claimant the address we are validating against.
     /// @param _tokenId dragon id, only valid when > 0
     protected _owns(claimant: account_name, tokenId: TokenId): boolean {
+        this.prints_dragonIndexToOwner();
+
         return (this.dragonIndexToOwner.contains(tokenId))
            && (this.dragonIndexToOwner.get(tokenId) == claimant);
     }
@@ -326,8 +473,10 @@ class DragonAssetControl extends DragonBase {
     /// @param _claimant the address we are confirming dragon is approved for.
     /// @param _tokenId dragon id, only valid when > 0
     protected _approvedFor(claimant: account_name, tokenId: TokenId): boolean {
-        return this.dragonIndextoApproved.contains(tokenId)
-            && this.dragonIndextoApproved.get(tokenId) == claimant;
+        this.prints_dragonIndexToApproved();
+
+        return this.dragonIndexToApproved.contains(tokenId)
+            && this.dragonIndexToApproved.get(tokenId) == claimant;
     }
 
     /// @dev Marks an address as being approved for transferFrom(), overwriting any previous
@@ -336,35 +485,45 @@ class DragonAssetControl extends DragonBase {
     ///  _approve() and transferFrom() are used together for putting Dragons on auction, and
     ///  there is no value in spamming the log with Approval events in that case.
     protected _approve(tokenId: TokenId, approved: account_name): void {
-        this.dragonIndextoApproved.set(tokenId, approved);
+        this.dragonIndexToApproved.set(tokenId, approved);
     }
 
     public transferFrom(from: account_name, to: account_name, tokenId: TokenId): void {
         ultrain_assert(Action.is_account(to), RN(to) + " : 'to' account is invalid.");
         ultrain_assert(to != HyperDragonContract, "can not transfer dragon to mima.dragon");
-        Log.s("transferFrom 1").flush();
         let approved = this._approvedFor(from, tokenId);
-        Log.s("transferFrom 2").flush();
-        ultrain_assert(approved, "this asset does not belongs to message sender.");
+        ultrain_assert(approved, "this asset is not approved to " + RN(from));
         let own = this._owns(from, tokenId);
-        Log.s("transferFrom 3").flush();
         ultrain_assert(own, RN(from) + " : 'from' does not own this asset.");
 
         this._transfer(from, to, tokenId);
-        Log.s("transferFrom 4").flush();
     }
 
     public transfer(to: account_name, tokenId: TokenId): void {
+        this.whenNotPaused();
+        let from = Action.current_sender();
+        ultrain_assert(Action.is_account(to), "'to' is invalid account name.");
+        ultrain_assert(to != HyperDragonContract, "can not transfer to 'to' account");
+        ultrain_assert(to != SaleAuctionAddress, "can't transfer to sale auction address.");
+        ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
+        ultrain_assert(this._owns(from, tokenId), "you don't own this asset for transfer.");
+        // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
+        emit("GiveDragon", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
+
+        this._transfer(from, to, tokenId);
+    }
+    // SireClockAuction bid
+    public transferByBid(from: account_name, to: account_name, tokenId: TokenId): void {
         this.whenNotPaused();
         ultrain_assert(Action.is_account(to), "'to' is invalid account name.");
         ultrain_assert(to != HyperDragonContract, "can not transfer to 'to' account");
         ultrain_assert(to != SaleAuctionAddress, "can't transfer to sale auction address.");
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
-        ultrain_assert(this._owns(Action.current_sender(), tokenId), "you don't own this asset.");
+        ultrain_assert(this._owns(from, tokenId), RN(from) + " don't own this asset for bid.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.set<u64>("from", Action.current_sender()).set<u64>("to", to).set<u64>("tokenId", tokenId));
+        emit("GiveDragon", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
 
-        this._transfer(Action.current_sender(), to, tokenId);
+        this._transfer(from, to, tokenId);
     }
 
     public ownerOf(tokenId: TokenId): account_name {
@@ -426,6 +585,7 @@ class DragonBreeding extends DragonAssetControl {
         let matronOwner = this.dragonIndexToOwner.get(matronId);
         let sireOwner = this.dragonIndexToOwner.get(sireId);
 
+        Log.s("mathronOwner = ").s(RN(matronOwner)).s(" sireOwner = ").s(RN(sireOwner)).flush();
         // Siring is okay if they have same owner, or if the matron's owner was given
         // permission to breed with this sire.
         return matronOwner == sireOwner
@@ -492,6 +652,10 @@ class DragonBreeding extends DragonAssetControl {
     /// @param _sire A reference to the Dragon struct of the potential sire.
     /// @param _sireId The sire's ID
     protected _isValidMatingPair(matron: Dragon, matronId: DragonId, sire: Dragon, sireId: DragonId): boolean {
+        Log.s("== DragonCore._isValidMatingPair ==").flush();
+        Log.s("matronId = ").i(matronId, 10).s(" matron.matronId = ").i(matron.matronId, 10).s(" matron.sireId = ").i(matron.sireId, 10).flush();
+        Log.s("sireId   = ").i(sireId, 10).s(" sire.matronId   = ").i(sire.matronId, 10).s(" sire.sireId   = ").i(sire.sireId, 10).flush();
+
         if (matronId == sireId) return false;
 
         if (matron.matronId == sireId || matron.sireId == sireId) return false;
@@ -603,7 +767,7 @@ export class DragonAuction extends DragonBreeding {
 let PROMO_CREATION_LIMIT: u64 = 15000;
 let GEN0_CREATION_LIMIT: u64  = 45000;
 
-let GEN0_STARTING_PRICE: Asset = new Asset(80, UGS);
+let GEN0_STARTING_PRICE: Asset = new Asset(80, SYS);
 let GEN0_AUCTION_DURATION: u64 = days(1).toSeconds();
 
 class DragonMinting extends DragonAuction {
@@ -724,13 +888,20 @@ export class DragonCore extends DragonExtend {
 
     public withdrawAuctionBalances(): void {
         this.onlyCEO();
-        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut)
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.loadFromDBManager();
         saleAuction.withdrawBalance();
+        saleAuction.saveToDBManager();
+
         let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        siringAuction.loadFromDBManager();
         siringAuction.withdrawBalance();
+        siringAuction.saveToDBManager();
 
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.withdrawBalance();
+        matchInterface.saveToDBManager();
     }
 
     public withdrawBalance(): void {
@@ -761,11 +932,13 @@ export class DragonCore extends DragonExtend {
         // contract accidentally receiving ownership of the child.
         // NOTE: the dragon IS allowed to be in a cooldown.
         ultrain_assert(!this.isPregnant(dragonId), "this dragon is pregnent.");
-        this._approve(dragonId, SaleAuctionAddress);
+        this._approve(dragonId, seller);
         // Sale auction throws if inputs are invalid and clears
         // transfer and sire approval after escrowing the dragon.
         let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.loadFromDBManager();
         saleAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
+        saleAuction.saveToDBManager();
     }
 
     public createSiringAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
@@ -774,9 +947,11 @@ export class DragonCore extends DragonExtend {
         let seller = Action.current_sender();
         ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
         ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
-        this._approve(dragonId, SireAuctionAddress);
-        let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        this._approve(dragonId, seller);
+        let siringAuction = new SireClockAuction(this, SireAuctionAddress, this.sireAuctionCut);
+        siringAuction.loadFromDBManager();
         siringAuction.createAuction(dragonId, startingPrice, endingPrice, duration, seller);
+        siringAuction.saveToDBManager();
     }
 
     protected _computeNextGen0Price(saleAuction: SaleClockAuction): Asset {
@@ -807,14 +982,19 @@ export class DragonCore extends DragonExtend {
         ultrain_assert(this._canBreedWithViaAuction(matronId, sireId), "the matron can not breed with the sire dragons via auction.");
 
         let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        siringAuction.loadFromDBManager();
         let currentPrice = siringAuction.getcurrentPrice(sireId);
-        let lowestPrice = currentPrice.add(this.autoBirthFee);
+        let lowestPrice = currentPrice.clone().add(this.autoBirthFee);
+        if (DEBUG) {
+            Log.s("bidOnSiringAuction: currentPrice = ").i(currentPrice.amount).s(", lowestPrice = ").i(lowestPrice.amount).s(", bidValue = ").i(value.amount).flush();
+        }
         ultrain_assert(value >= lowestPrice, "bid value is too low.");
 
         // FIXME(liangqin): the sireId is same with tokenId????
         let bidPrice = value.sub(this.autoBirthFee);
         siringAuction.bid(sireId, bidPrice);
         this._breedWith(matronId, sireId);
+        siringAuction.saveToDBManager();
     }
 
      /// @notice Have a pregnant Dragon give birth!
@@ -837,12 +1017,10 @@ export class DragonCore extends DragonExtend {
         if (sire.generation > matron.generation) {
             parentGen = sire.generation;
         }
-
         let genScience = new GeneScience(this);
         let childGenes: GenType = genScience.mixGenes(matron.genes, matron.generation,
                 sire.genes, sire.generation, tid);
         let childExtend: u64 = genScience.mixExtend(matron.extend, matron.generation, sire.extend, sire.generation);
-
         let owner: account_name = this.dragonIndexToOwner.get(matronId);
         let dragonId: DragonId = this._createDragon(matronId, matron.siringWithId, parentGen + 1, childGenes, 0, owner, childExtend);
         // Clear the reference to sire from the matron (REQUIRED! Having siringWithId
@@ -850,10 +1028,8 @@ export class DragonCore extends DragonExtend {
         matron.siringWithId = 0;
 
         this.pregnantDragons -= 1;
-
         let sender = Action.current_sender();
         send(HyperDragonContract, sender, this.autoBirthFee, "give birth fee.");
-
         return dragonId;
     }
 
@@ -865,7 +1041,8 @@ export class DragonCore extends DragonExtend {
         let owner = HyperDragonContract;
         let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
         this._approve(dragonId, owner);
-        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut)
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.loadFromDBManager();
         let startPrice = this._computeNextGen0Price(saleAuction);
         saleAuction.createAuction(
                 dragonId,
@@ -874,7 +1051,7 @@ export class DragonCore extends DragonExtend {
                 GEN0_AUCTION_DURATION,
                 owner
         );
-
+        saleAuction.saveToDBManager();
         this.gen0CreatedCount ++;
         Return<u64>(dragonId);
     }
@@ -894,7 +1071,8 @@ export class DragonCore extends DragonExtend {
         ultrain_assert(this.promoCreatedCount < PROMO_CREATION_LIMIT, "too many dragons created.");
         this.promoCreatedCount++;
 
-        this._createDragon(0, 0, 0, _genes, _title, dragonOwner, _extend);
+        let dragonId = this._createDragon(0, 0, 0, _genes, _title, dragonOwner, _extend);
+        Return<u64>(dragonId);
     }
 
 
@@ -925,6 +1103,7 @@ export class DragonCore extends DragonExtend {
         dragon.generation = generation;
         dragon.titles = titles;
         dragon.extend = extend;
+        dragon.id = this.dragons.length;
 
         let newDragonId = this.dragons.push(dragon) - 1;
         /// @dev The Birth event is fired whenever a new dragon comes into existence. This obviously
@@ -941,97 +1120,147 @@ export class DragonCore extends DragonExtend {
 
     public joinMatch(dragonId: DragonId, value: Asset): void {
         this.whenNotPaused();
-        if (this.containsDragon(dragonId)) {
+        let exists = this.containsDragon(dragonId);
+        if (exists) {
             let sender = Action.current_sender();
             ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
-
             let dra = this.dragons[<i32>dragonId];
             let count = (dra.titles & 0xFF);
-
-            let matchInterface = new MatchCore(this);
             ultrain_assert(count < 10, "the dragon joins too many matches.");
             ultrain_assert(!this.isPregnant(dragonId), "the dragon is pregnant.");
             ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
-            ultrain_assert(matchInterface.isCanJoin(sender), "the sender can not join the match.");
-
-            this._approve(dragonId, MatchAddress);
-
+            let matchInterface = new MatchCore(this);
+            matchInterface.loadFromDBManager();
+            ultrain_assert(matchInterface.isCanJoin(sender), RN(sender) + " can not join the match.");
+            this._approve(dragonId, sender);
             matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
+            matchInterface.saveToDBManager();
+        } else {
+            Log.s("JoinMatch failed, " + intToString(dragonId) + " is not exists.");
         }
     }
 
     public startMatch(id: MatchId, matchType: u64, level: u64): void {
         this.whenNotPaused();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.startMatch(id, matchType, level);
+        matchInterface.saveToDBManager();
     }
 
     public guess(betid: u64, id: DragonId, fee: Asset): void {
         this.whenNotPaused();
         let matchInterface = new MatchCore(this);
+        Log.s("AA 1").flush();
+        matchInterface.loadFromDBManager();
+        Log.s("AA 2").flush();
         matchInterface.guess(betid, id, fee);
+        matchInterface.saveToDBManager();
     }
 
     public isCanJoin(joinUser: account_name): boolean {
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         return matchInterface.isCanJoin(joinUser);
     }
 
     public nextStep(nonce: u64): void {
         this.whenNotPaused();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.nextStep(nonce);
+        matchInterface.saveToDBManager();
     }
 
     public getEntryFee(): Asset {
         let matchInterface = new MatchCore(this);
-        return matchInterface.getEntryFee();
+        matchInterface.loadFromDBManager();
+        let fee = matchInterface.getEntryFee();
+        matchInterface.saveToDBManager();
+        return fee;
     }
 
     public setFightLimit(limit: u64): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setFightLimit(limit);
+        matchInterface.saveToDBManager();
     }
 
     public setAwardLimit(limit: u64): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setAwardLimit(limit);
+        matchInterface.saveToDBManager();
     }
 
     public setGroupLimit(limit: u64): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setGroupLimit(limit);
+        matchInterface.saveToDBManager();
     }
 
     public setJoinLimit(joinLimit: u64[]): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setJoinLimit(joinLimit);
+        matchInterface.saveToDBManager();
     }
 
     public setRegfees(regfees: Asset[]): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setRegfees(regfees);
+        matchInterface.saveToDBManager();
     }
 
     public setRewardMultiple(rewards: u64[]): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setRewardMultiple(rewards);
+        matchInterface.saveToDBManager();
     }
 
     public setGenLimit(level: u64, limits: u64[]): void {
         this.onlyOwner();
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.setGenLimit(level, limits);
+        matchInterface.saveToDBManager();
     }
 
     public dissolve(matchId: MatchId): void {
         let matchInterface = new MatchCore(this);
+        matchInterface.loadFromDBManager();
         matchInterface.dissolve(matchId);
+        matchInterface.saveToDBManager();
+    }
+
+    public cancelSaleAuction(tokenId: u64): void {
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.loadFromDBManager();
+        saleAuction.cancelAuction(tokenId);
+        saleAuction.saveToDBManager();
+    }
+
+    public cancelSireAuction(tokenId: u64): void {
+        let siringAuction = new SireClockAuction(this, this.sireAuctionOriginator, this.sireAuctionCut);
+        siringAuction.loadFromDBManager();
+        siringAuction.cancelAuction(tokenId);
+        siringAuction.saveToDBManager();
+    }
+
+    public bid(tokenId: u64, val: Asset): void {
+        let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
+        saleAuction.loadFromDBManager();
+        saleAuction.bid(tokenId, val);
+        saleAuction.saveToDBManager();
     }
 }

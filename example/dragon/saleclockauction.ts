@@ -7,17 +7,20 @@
 import { env as Action } from "../../internal/action.d";
 import { Asset } from "../../src/asset";
 import { DragonCore, DragonAuction } from "./dragoncore";
-import { ultrain_assert, N } from "../../src/utils";
+import { ultrain_assert, N, RN, intToString } from "../../src/utils";
 import { env as system } from "../../internal/system.d";
 import { Map } from "../../src/map";
 import { emit, EventObject } from "../../lib/events";
 import { send, queryBalance } from "../../src/balance";
-import { HyperDragonContract } from "./consts";
+import { HyperDragonContract, SireAuctionAddress } from "./consts";
 import { now } from "../../lib/time";
 import { Log } from "../../src/log";
 import { SYS } from "../../src/balance";
+import { ISerializable } from "../../lib/ISerializable";
+import { DataStream } from "../../src/datastream";
+import { DBManager } from "../../src/dbmanager";
 
-class Auction {
+class Auction implements ISerializable {
     // current owner of NFT
     seller: account_name;
     // price in UGS at beginning of auction
@@ -29,6 +32,29 @@ class Auction {
     // Time when auction started
     // NOTE: 0 if this auction has been concluded.
     startedAt: u64;
+
+    public serialize(ds: DataStream): void {
+        ds.write<account_name>(this.seller);
+        this.startingPrice.serialize(ds);
+        this.endingPrice.serialize(ds);
+        ds.write<u64>(this.duration);
+        ds.write<u64>(this.startedAt);
+    }
+
+    public deserialize(ds: DataStream): void {
+        this.seller = ds.read<account_name>();
+        this.startingPrice.deserialize(ds);
+        this.endingPrice.deserialize(ds);
+        this.duration = ds.read<u64>();
+        this.startedAt = ds.read<u64>();
+    }
+
+    public primaryKey(): u64 { return <u64>0; }
+
+    public toString(): string {
+        let str: string = "Auction: [ seller: " + RN(this.seller) + ", startingPrice: " + intToString(this.startingPrice.amount) +", endingPrice: " + intToString(this.endingPrice.amount) + "]";
+        return str;
+    }
  }
 
 class ClockAuctionBase {
@@ -43,6 +69,48 @@ class ClockAuctionBase {
     // Map from token ID to thieir corresponding auction.
     tokenIdToAuction: Map<u64, Auction> = new Map<u64, Auction>();
 
+    protected prints(tag: string): void {
+        Log.s(tag).flush();
+        Log.s("ownerCut: ").i(this.ownerCut, 10).flush();
+        Log.s("tokenIdToAuction.size: ").i(this.tokenIdToAuction.size(), 10).flush();
+        let keys = this.tokenIdToAuction.keys();
+        let values = this.tokenIdToAuction.values();
+        for (let i: i32 = 0; i < this.tokenIdToAuction.size(); i++) {
+            Log.s("key: ").i(keys[i], 10).s(", value: ").s(values[i].toString()).flush();
+        }
+    }
+
+    protected _serialize(ds: DataStream): void {
+        ds.write<u64>(this.ownerCut);
+
+        let size = this.tokenIdToAuction.size();
+        ds.write<i32>(size);
+
+        if (size > 0) {
+            let keys = this.tokenIdToAuction.keys();
+            let values = this.tokenIdToAuction.values();
+
+            for (let i: i32 = 0; i < size; i++) {
+                ds.write<u64>(keys[i]);
+                values[i].serialize(ds);
+            }
+        }
+    }
+
+    protected _deserialize(ds: DataStream): void {
+        this.ownerCut = ds.read<u64>();
+
+        let size = ds.read<i32>();
+        if (size > 0) {
+            for (let i: i32 = 0; i < size; i++) {
+                let key = ds.read<u64>();
+                let value = new Auction();
+                value.deserialize(ds);
+
+                this.tokenIdToAuction.set(key, value);
+            }
+        }
+    }
     /**
      * @dev Returns true if the claimant owns the token.
      * @param claimant address claiming to own the token.
@@ -54,6 +122,7 @@ class ClockAuctionBase {
 
     protected escrow(owner: account_name, tokenId: u64): void {
         // escrow this token to the contract originator
+        Log.s("SaleClockAuction.escorw owner = ").s(RN(owner)).s(" to = ").s(RN(this.originator)).s(" tokenId = ").i(tokenId, 10).flush();
         this.master.transferFrom(owner, this.originator, tokenId);
     }
 
@@ -71,7 +140,7 @@ class ClockAuctionBase {
         this.tokenIdToAuction.set(tokenId, auction);
 
         // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
-        Log.s("start emitting event for add Auction");
+        Log.s("start emitting event for add Auction").flush();
         emit("AuctionCreated", EventObject.set<u64>("tokenId", tokenId).set<u64>("startingPrice", auction.startingPrice.amount)
             .set<u64>("endingPrice", auction.endingPrice.amount).set<u64>("duration", auction.duration));
     }
@@ -85,7 +154,8 @@ class ClockAuctionBase {
     // Cancels an auction unconditionally.
     protected _cancelAuction(tokenId: u64, seller: account_name): void {
         this.removeAuction(tokenId);
-        this.transfer(seller, tokenId);
+        this.master.transferByBid(this.originator, seller, tokenId);
+        // this.transfer(seller, tokenId);
         // event AuctionCancelled(tokenId: u64);
         emit("AuctionCancelled", EventObject.set<u64>("tokenId", tokenId));
     }
@@ -153,10 +223,19 @@ class ClockAuctionBase {
         cut.setAmount(amount);
         return cut;
     }
+    /*
+     * to check if the tokenId is on auction, otherwise throw an exception.
+     */
+    protected isTokenIdOnAuction(tokenId: u64): void {
+        let isAuction = this.tokenIdToAuction.contains(tokenId);
+        ultrain_assert(isAuction, intToString(tokenId) +" is not on auction list.");
+    }
 
     // Computes the price and transfers winnings
     // Does NOT transfer ownership of token.
     protected _bid(tokenId: u64, bidAmount: Asset): Asset {
+        this.isTokenIdOnAuction(tokenId);
+
         let auction: Auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token id is not on auction.");
 
@@ -226,12 +305,13 @@ export class ClockAuction extends ClockAuctionBase {
         this.addAuction(tokenId, auction);
     }
 
-    public bid(tokenId: u64, val: Asset): void {
-        this._bid(tokenId, val);
-        this.transfer(Action.current_sender(), tokenId);
-    }
+    // public bid(tokenId: u64, val: Asset): void {
+    //     this._bid(tokenId, val);
+    //     this.transfer(Action.current_sender(), tokenId);
+    // }
 
     public cancelAuction(tokenId: u64): void {
+        this.isTokenIdOnAuction(tokenId);
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token is not on auction.");
         let seller: account_name = auction.seller;
@@ -249,34 +329,53 @@ export class ClockAuction extends ClockAuctionBase {
     }
 
     public getAuction(tokenId: u64): Auction {
-        let auction = this.tokenIdToAuction[tokenId];
+        this.isTokenIdOnAuction(tokenId);
+        let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "the token is not on auction.");
         return auction;
     }
 
     public getcurrentPrice(tokenId: u64): Asset {
-        let auction = this.tokenIdToAuction[tokenId];
+        this.isTokenIdOnAuction(tokenId);
+
+        let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "the token is not on auction.");
         return this.currentPrice(auction);
     }
 }
 
-export class SaleClockAuction extends ClockAuction {
-
+export class SaleClockAuction extends ClockAuction implements ISerializable {
     isSaleClockAuction: boolean = true;
     gen0SaleCount: u64;
     lastGen0SalePrices: Asset[] = [];
 
     constructor(master: DragonCore, originator: account_name, cut: u64) {
         // super();
+        Log.s("SaleClockAuction.constructor originator = ").s(RN(originator)).s(" cut = ").i(cut, 10).flush();
         this.master = master;
-        ultrain_assert(cut < 10000, "the cut is larger than 10000, and it is forbidden.");
+        ultrain_assert(cut <= 10000, "the cut is larger than 10000, and it is forbidden.");
         this.originator = originator;
         this.ownerCut = cut;
 
         for (let i: i32 = 0; i < 5; i++) {
             this.lastGen0SalePrices[i] = new Asset(0, SYS);
         }
+    }
+
+    deserialize(ds: DataStream): void {
+        this._deserialize(ds);
+        this.gen0SaleCount = ds.read<u64>();
+        this.lastGen0SalePrices = ds.readComplexVector<Asset>();
+    }
+
+    serialize(ds: DataStream): void {
+        this._serialize(ds);
+        ds.write<u64>(this.gen0SaleCount);
+        ds.writeComplexVector<Asset>(this.lastGen0SalePrices);
+    }
+
+    primaryKey(): u64 {
+        return N("auc.sale");
     }
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
@@ -292,10 +391,13 @@ export class SaleClockAuction extends ClockAuction {
     }
 
     public bid(tokenId: u64, val: Asset): void {
-        let seller = this.tokenIdToAuction[tokenId].seller;
+        let bidder = Action.current_sender();
         let price = this._bid(tokenId, val);
-        this.transfer(Action.current_sender(), tokenId);
+        // createAuction时，tokenId已经转移到this.originator了。
+        // 所以现在直接从this.originator转移到bidder
+        this.master.transferByBid(this.originator, bidder, tokenId);
 
+        let seller = this.tokenIdToAuction[tokenId].seller;
         if (seller == HyperDragonContract) {
             // Track gen0 sale prices
             let idx: i32 = <i32>(this.gen0SaleCount % 5);
@@ -314,16 +416,35 @@ export class SaleClockAuction extends ClockAuction {
         ret.setSymbol(this.lastGen0SalePrices[0].getSymbol());
         return ret;
     }
+
+    public saveToDBManager(): void {
+        let db = new DBManager<SaleClockAuction>(N("mm.saleauc"), HyperDragonContract, N("mm.saleauc"));
+        let existing = db.exists(this.primaryKey());
+        if (existing) {
+            Log.s("SaleClockAuction.saveToDB  existing = true.").flush();
+            db.modify(HyperDragonContract, this);
+        } else {
+            Log.s("SaleClockAuction.saveToDB existing = false.").flush();
+            db.emplace(HyperDragonContract, this);
+        }
+    }
+
+    public loadFromDBManager(): void {
+        let db = new DBManager<SaleClockAuction>(N("mm.saleauc"), HyperDragonContract, N("mm.saleauc"));
+        let existing = db.get(this.primaryKey(), this);
+
+        Log.s("SaleClockAuction.loadFromDB  existing = ").s( existing ? "true": "false").flush();
+    }
 }
 
-export class SireClockAuction extends ClockAuction {
+export class SireClockAuction extends ClockAuction implements ISerializable {
 
     isSireClockAuction: boolean = true;
     constructor(master: DragonCore, originator: account_name, cut: u64) {
         // super();
         this.master = master;
         this.originator = originator;
-        ultrain_assert(cut < 10000, "the cut is larger than 10000, and it is forbidden.");
+        ultrain_assert(cut <= 10000, "the cut is larger than 10000, and it is forbidden.");
         this.ownerCut = cut;
     }
 
@@ -342,6 +463,37 @@ export class SireClockAuction extends ClockAuction {
     public bid(tokenId: u64, val: Asset): void {
         let seller = this.tokenIdToAuction[tokenId].seller;
         this._bid(tokenId, val);
-        this.transfer(seller, tokenId);
+        Log.s("ClockAuction.bid seller = ").s(RN(seller)).s(" current_sender = ").s(RN(Action.current_sender())).flush();
+        /*
+         * CAUTION: from地址使用SireAuctionAddress的原因在于， createSiringAuction时，这个token已经被SireAcutionAddress托管了。
+         */
+        this.master.transferByBid(SireAuctionAddress, Action.current_sender(), tokenId);
+    }
+
+    public serialize(ds: DataStream): void {
+        this._serialize(ds);
+    }
+
+    public deserialize(ds: DataStream): void {
+        this._deserialize(ds);
+    }
+
+    public primaryKey(): u64 { return N("auc.sire"); }
+
+    public loadFromDBManager(): void {
+        let db = new DBManager<SireClockAuction>(N("mm.sireauc"), HyperDragonContract, N("mm.sireauc"));
+        let existing = db.get(this.primaryKey(), this);
+        this.prints("<== SireClockAuction.loadFromDB");
+    }
+
+    public saveToDBManager(): void {
+        let db = new DBManager<SireClockAuction>(N("mm.sireauc"), HyperDragonContract, N("mm.sireauc"));
+        let existing = db.exists(this.primaryKey());
+        this.prints("==> SireClockAuction.saveToDB existing = " + (existing ? "true" : "false"));
+        if (existing) {
+            db.modify(HyperDragonContract, this);
+        } else {
+            db.emplace(HyperDragonContract, this);
+        }
     }
 }

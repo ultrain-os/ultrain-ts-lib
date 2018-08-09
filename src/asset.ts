@@ -3,6 +3,7 @@ import { DataStream } from "./datastream";
 import { Log } from "./log";
 import { ultrain_assert } from "./utils";
 import { queryBalance, send } from "./balance";
+import { UGS } from "../internal/types";
 
 /**
  * ASCII code of character A.
@@ -78,7 +79,7 @@ export class Asset implements ISerializable {
     private _amount: u64;
     private _symbol: u64;
 
-    constructor(amt: u64 = 0, sy: u64 = 0) {
+    constructor(amt: u64 = 0, sy: u64 = 0x53475504) { // 0x53475504 means "StingToSymbol(4, UGS)"
         this._amount = amt;
         this._symbol = sy;
     }

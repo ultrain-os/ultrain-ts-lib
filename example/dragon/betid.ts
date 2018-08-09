@@ -6,8 +6,8 @@
 
  // Composite of bet id
  // H-----------------------------------L
- // ......................FF             F
- //                 |-8bit index -||-4bit round-|
+ // ..................FF            FF               F
+ //          |- match_id -||-8bit group_index -||-4bit round-|
 
  export class BetId {
      private _betId: u64;
@@ -16,8 +16,12 @@
          this._betId = betId;
      }
 
-     public get index(): u32 {
-         return <u32>((this._betId >> 4) & 0xFF);
+     public get matchId(): i32 {
+         return <i32>(this._betId >> 12);
+     }
+
+     public get groupIndex(): i32 {
+         return <i32>((this._betId >> 4) & 0xff);
      }
 
      public get round(): u32 {

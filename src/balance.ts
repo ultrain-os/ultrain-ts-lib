@@ -8,7 +8,7 @@ import { ISerializable } from "../lib/ISerializable";
 import { Asset, StringToSymbol } from "./asset";
 import { DataStream } from "./datastream";
 import { DBManager } from "./dbmanager";
-import { N } from "./utils";
+import { N, RN } from "./utils";
 import { PermissionLevel } from "./permission-level";
 import { TransferParams, dispatchInline } from "./action";
 import { NEX } from "./name_ex";
@@ -100,14 +100,16 @@ export function queryBalance(owner: account_name): Asset {
  * @function send
  */
 export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
-    let pl: PermissionLevel = new PermissionLevel();
-    pl.actor = from;
-    pl.permission = N("active");
-    let params = new TransferParams();
-    params.from = from;
-    params.to = to;
-    params.quantity = quantity;
-    params.memo = memo;
-    // params.quantity.prints("before dispatchInline");
-    dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
+    // FIXME (liangqin): send inline failed~~
+
+    // let pl: PermissionLevel = new PermissionLevel();
+    // pl.actor = from;
+    // pl.permission = N("active");
+    // let params = new TransferParams();
+    // params.from = from;
+    // params.to = to;
+    // params.quantity = quantity;
+    // params.memo = memo;
+    // // params.quantity.prints("before dispatchInline");
+    // dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
 }
