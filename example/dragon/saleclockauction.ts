@@ -141,8 +141,8 @@ class ClockAuctionBase {
 
         // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
         Log.s("start emitting event for add Auction").flush();
-        emit("AuctionCreated", EventObject.set<u64>("tokenId", tokenId).set<u64>("startingPrice", auction.startingPrice.amount)
-            .set<u64>("endingPrice", auction.endingPrice.amount).set<u64>("duration", auction.duration));
+        emit("AuctionCreated", EventObject.setInt("tokenId", tokenId).setInt("startingPrice", auction.startingPrice.amount)
+            .setInt("endingPrice", auction.endingPrice.amount).setInt("duration", auction.duration));
     }
 
     /// @dev Removes an auction from the list of open auctions.
@@ -157,7 +157,7 @@ class ClockAuctionBase {
         this.master.transferByBid(this.originator, seller, tokenId);
         // this.transfer(seller, tokenId);
         // event AuctionCancelled(tokenId: u64);
-        emit("AuctionCancelled", EventObject.set<u64>("tokenId", tokenId));
+        emit("AuctionCancelled", EventObject.setInt("tokenId", tokenId));
     }
 
     protected isOnAuction(auction: Auction): boolean {
@@ -268,8 +268,8 @@ class ClockAuctionBase {
         send(this.originator, Action.current_sender(), bidExcess, "bid excess");
         // Tell the world!
         // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
-        emit("AuctionSuccessful", EventObject.set<u64>("tokenId", tokenId).set<u64>("totalPrice", price.amount)
-            .set<u64>("winner", Action.current_sender()).set<u64>("seller", seller));
+        emit("AuctionSuccessful", EventObject.setInt("tokenId", tokenId).setInt("totalPrice", price.amount)
+            .setInt("winner", Action.current_sender()).setInt("seller", seller));
 
         return price;
     }

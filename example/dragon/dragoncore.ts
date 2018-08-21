@@ -435,7 +435,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a dragon
         ///  ownership is assigned, including births.
         // event Transfer(from: account_name, to: account_name, tokenId: u64);
-        emit("Transfer", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
+        emit("Transfer", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
     }
 
     public saveToDBManager(): void {
@@ -508,7 +508,7 @@ class DragonAssetControl extends DragonBase {
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
         ultrain_assert(this._owns(from, tokenId), "you don't own this asset for transfer.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
+        emit("GiveDragon", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
 
         this._transfer(from, to, tokenId);
     }
@@ -521,7 +521,7 @@ class DragonAssetControl extends DragonBase {
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
         ultrain_assert(this._owns(from, tokenId), RN(from) + " don't own this asset for bid.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.set<u64>("from", from).set<u64>("to", to).set<u64>("tokenId", tokenId));
+        emit("GiveDragon", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
 
         this._transfer(from, to, tokenId);
     }
@@ -549,8 +549,8 @@ class DragonAssetControl extends DragonBase {
         this._approve(tokenId, to);
 
         // event Approval(address owner, address approved, uint256 tokenId);
-        emit("Approval", EventObject.set<u64>("owner", Action.current_sender())
-            .set<u64>("to", to).set<u64>("tokenId", tokenId));
+        emit("Approval", EventObject.setInt("owner", Action.current_sender())
+            .setInt("to", to).setInt("tokenId", tokenId));
     }
 
     public tokensOfOwner(owner: account_name): u64[] {
@@ -619,7 +619,7 @@ class DragonBreeding extends DragonAssetControl {
         this.onlyCEO();
         this.autoBirthFee = val;
         // event setBirthFee(val: Asset);
-        emit("SetBirthFee", EventObject.set<u64>("fee", val.amount));
+        emit("SetBirthFee", EventObject.setInt("fee", val.amount));
     }
 
     /// @dev Checks to see if a given Dragon is pregnant and (if so) if the gestation
@@ -714,8 +714,8 @@ class DragonBreeding extends DragonAssetControl {
         /// @dev The Pregnant event is fired when two dragons successfully breed and the pregnancy
         ///  timer begins for the matron.
         // event Pregnant(owner: account_name, matronId: DragonId, sireId: DragonId, cooldownEndBlock: u64);
-        emit("Pregnant", EventObject.set<u64>("owner", this.dragonIndexToOwner.get(matronId)).set<u64>("matronId", matronId)
-            .set<u64>("sireId", sireId).set<u64>("cooldownEndBlock", matron.cooldownEndBlock));
+        emit("Pregnant", EventObject.setInt("owner", this.dragonIndexToOwner.get(matronId)).setInt("matronId", matronId)
+            .setInt("sireId", sireId).setInt("cooldownEndBlock", matron.cooldownEndBlock));
     }
 
     /// @notice Breed a Dragon you own (as matron) with a sire that you own, or for which you
@@ -744,7 +744,7 @@ class DragonBreeding extends DragonAssetControl {
         let dra = this.dragons[<i32>dragonId];
         dra.genes = genes;
         // event UpdateGenes(dragonId: DragonId, genes: GenType);
-        emit("UpdateGenes", EventObject.set<u64>("dragonId", dragonId).set<string>("genes", genes.toString()));
+        emit("UpdateGenes", EventObject.setInt("dragonId", dragonId).setString("genes", genes.toString()));
     }
 }
 
@@ -801,8 +801,8 @@ class DragonMatch extends DragonMinting {
             dra.fightcooldownIndex =  cooldownIndex;
 
             // event FightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldownTime: u64, fightCooldownEndBlock: u64);
-            emit("FightCooldown", EventObject.set<u64>("dragonId", dragonId).set<u64>("cooldownIndex", cooldownIndex)
-                .set<u64>("cooldownTime", cooldowntime).set<u64>("fightCooldownEndblock", dra.fightCooldownEndBlock));
+            emit("FightCooldown", EventObject.setInt("dragonId", dragonId).setInt("cooldownIndex", cooldownIndex)
+                .setInt("cooldownTime", cooldowntime).setInt("fightCooldownEndblock", dra.fightCooldownEndBlock));
         }
     }
 
@@ -818,7 +818,7 @@ class DragonMatch extends DragonMinting {
             dra.titles = t.title;
 
             // event UpdateTitle(dragonId: DragonId, titles: u64);
-            emit("UpdateTitle", EventObject.set<u64>("dragonId", dragonId).set<u64>("titles", dra.titles));
+            emit("UpdateTitle", EventObject.setInt("dragonId", dragonId).setInt("titles", dra.titles));
         }
     }
 }
@@ -830,7 +830,7 @@ class DragonExtend extends DragonMatch {
         let dra = this.dragons[id];
         dra.extend = extend;
         // event UpdateExtend(dragonId: DragonId, extend: u64);
-        emit("UpdateExtend", EventObject.set<u64>("dragonId", dragonId).set<u64>("extend", extend));
+        emit("UpdateExtend", EventObject.setInt("dragonId", dragonId).setInt("extend", extend));
     }
 }
 
@@ -1110,8 +1110,8 @@ export class DragonCore extends DragonExtend {
         ///  includes any time a dragon is created through the giveBirth method, but it is also called
         ///  when a new gen0 dragon is created.
         // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
-        emit("Birth", EventObject.set<u64>("owner", owner).set<u64>("dragonId", newDragonId).set<u64>("matronId", mathronId)
-            .set<u64>("sireId", sireId).set<string>("gen", genes.toString()));
+        emit("Birth", EventObject.setInt("owner", owner).setInt("dragonId", newDragonId).setInt("matronId", mathronId)
+            .setInt("sireId", sireId).setString("gen", genes.toString()));
 
         this._transfer(0, owner, newDragonId);
 

@@ -10,7 +10,7 @@ import { DataStream } from "./datastream";
 import { DBManager } from "./dbmanager";
 import { N, RN } from "./utils";
 import { PermissionLevel } from "./permission-level";
-import { TransferParams, dispatchInline } from "./action";
+import { TransferParams, dispatchInline, Action } from "./action";
 import { NEX } from "./name_ex";
 import { Log } from "./log";
 /**
@@ -101,15 +101,15 @@ export function queryBalance(owner: account_name): Asset {
  */
 export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
     // FIXME (liangqin): send inline failed~~
-
-    // let pl: PermissionLevel = new PermissionLevel();
-    // pl.actor = from;
-    // pl.permission = N("active");
-    // let params = new TransferParams();
-    // params.from = from;
-    // params.to = to;
-    // params.quantity = quantity;
-    // params.memo = memo;
-    // // params.quantity.prints("before dispatchInline");
-    // dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
+    Action.requireAuth(from);
+    let pl: PermissionLevel = new PermissionLevel();
+    pl.actor = from;
+    pl.permission = N("active");
+    let params = new TransferParams();
+    params.from = from;
+    params.to = to;
+    params.quantity = quantity;
+    params.memo = memo;
+    // params.quantity.prints("before dispatchInline");
+    dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
 }

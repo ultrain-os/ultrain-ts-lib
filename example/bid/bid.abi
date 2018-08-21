@@ -1,0 +1,37 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "Asset",
+      "type": "asset"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "to",
+          "type": "account_name"
+        },
+        {
+          "name": "bet",
+          "type": "Asset"
+        }
+      ],
+      "name": "bid",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "bid",
+      "type": "bid"
+    }
+  ],
+  "tables": []
+}

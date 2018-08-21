@@ -42,7 +42,7 @@ class HelloContract extends Contract {
     apply(code: u64, action: NameEx): void {
         Log.s("entry").flush();
         if (action == NEX("hi_it_is_a_long_func")) {
-            let ds = this.getDataStream();
+            let ds   = this.getDataStream();
             let name = ds.read<u64>();
 
             Log.s("aaaaa  ").s(RN(name)).flush();
