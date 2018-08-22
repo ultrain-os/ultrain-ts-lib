@@ -100,7 +100,7 @@ export function queryBalance(owner: account_name): Asset {
  * @function send
  */
 export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
-    // FIXME (liangqin): send inline failed~~
+
     Action.requireAuth(from);
     let pl: PermissionLevel = new PermissionLevel();
     pl.actor = from;

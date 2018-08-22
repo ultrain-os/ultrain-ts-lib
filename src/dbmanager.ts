@@ -40,8 +40,7 @@ export class DBManager<T extends ISerializable> {
     /**
      * create a table to persistent data.
      * @param tblname the table name
-     * @param owner the owner of the table, who can read and write the table, anyone else is read-only.
-     * meanwhile, the owner should pay for storing data if need.
+     * @param owner the owner of the table, must be same with contract account.
      * @param scope the scope of rows,
      *        if you write a row with scope A, then you must read the row with scope A too,
      *        otherwise you get nothing.
@@ -57,7 +56,7 @@ export class DBManager<T extends ISerializable> {
     public getScope(): u64 { return this._scope; }
     /**
      * insert a new record to database.
-     * @param payer an account_name, who pays for the storing action.
+     * @param payer an account_name, who pays for the storing action. only payer can modify this object.
      * @param obj the data to be sotred.
      */
     public emplace(payer: u64, obj: T): void {
