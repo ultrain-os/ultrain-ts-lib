@@ -14,6 +14,10 @@
     {
       "fields": [
         {
+          "name": "from",
+          "type": "account_name"
+        },
+        {
           "name": "to",
           "type": "account_name"
         },
@@ -22,15 +26,15 @@
           "type": "Asset"
         }
       ],
-      "name": "bid",
+      "name": "transfer",
       "base": ""
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
-      "name": "bid",
-      "type": "bid"
+      "name": "transfer",
+      "type": "transfer"
     }
   ],
   "tables": []

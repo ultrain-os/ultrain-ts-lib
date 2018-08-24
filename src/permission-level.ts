@@ -26,8 +26,8 @@ export class PermissionLevel implements ISerializable {
     public serialize(ds: DataStream): void {
         ds.write<u64>(this.actor);
         ds.write<u64>(this.permission);
-        Log.s(" actor: ").i(this.actor, 16);
-        Log.s(" permission: ").i(this.permission, 16);
+        // Log.s(" actor: ").i(this.actor, 16);
+        // Log.s(" permission: ").i(this.permission, 16);
     }
 
     public deserialize(ds: DataStream): void {

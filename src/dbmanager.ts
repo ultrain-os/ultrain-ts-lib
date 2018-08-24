@@ -166,24 +166,33 @@ export class DBManager<T extends ISerializable> {
     }
     /**
      * remove a record from database.
-     * @param obj data to be removed.
+     * @param primary primary key to be removed.
      */
-    public erase(obj: T): void {
-        let len: i32 = this._items_vector.length;
-        let i: i32 = 0;
-        for (; i < len; ++i) {
-            if (this._items_vector[i]._value.primaryKey() == obj.primaryKey()) {
-                break;
-            }
-        }
-        ultrain_assert(i < len, "attempt to remove object that was not in DBManager.");
-
-        let item: DataItem<T> = this._items_vector[i];
-        ultrain_assert(item._dbmgr == this, "object passed to erase is not in DBManager.");
+    public erase(primary: u64): void {
         ultrain_assert(this._owner == action.current_receiver(), "can not erase objects in table of another contract.");
 
-        this._items_vector.splice(i, 1);
-        db.db_remove_i64(item._primary_itr);
+        let itr: i32 = -1;
+        let len: i32 = this._items_vector.length;
 
+        for (let i: i32 = len - 1; i > 0; i--) {
+            if (this._items_vector[i]._value.primaryKey() == primary) {
+                itr = this._items_vector[i]._primary_itr;
+                this._items_vector.splice(i, 1);
+                // FIXME liangqin: must break here.
+                // break;
+            }
+        }
+
+       if (itr == -1) {
+            itr = this.find(primary);
+        }
+
+        Log.s("db.erase for ").i(itr).flush()
+        // if exists, remove it.
+        if (itr >= 0) {
+            db.db_remove_i64(itr);
+        } else {
+            // what to do? assert or do nothing?
+        }
     }
 }

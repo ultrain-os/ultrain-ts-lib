@@ -1,0 +1,101 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "u32"
+        },
+        {
+          "name": "salary",
+          "type": "u32"
+        }
+      ],
+      "name": "add",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "salary",
+          "type": "u32"
+        }
+      ],
+      "name": "modify",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "name": "remove",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "u32"
+        },
+        {
+          "name": "salary",
+          "type": "u32"
+        }
+      ],
+      "name": "Person",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "add",
+      "type": "add"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "modify",
+      "type": "modify"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "remove",
+      "type": "remove"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "humans",
+      "type": "Person"
+    }
+  ]
+}

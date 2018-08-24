@@ -46,7 +46,6 @@ export class CurrencyStats implements ISerializable {
     issuer: account_name;
 
     constructor(supply: Asset = new Asset(), max_supply: Asset = new Asset(), issuer: u64 = 0) {
-        Log.s("currency constructor. 1").flush();
         this.supply = supply;
         this.max_supply = max_supply;
         this.issuer = issuer;
@@ -70,7 +69,7 @@ export class CurrencyStats implements ISerializable {
 /**
  * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
  */
-export let SYS: u64 = StringToSymbol(4, "UGS");
+export let SYS: u64 = StringToSymbol(4, "SYS");
 /**
  * Ultrain block system Token name "UGS".
  */
@@ -101,7 +100,7 @@ export function queryBalance(owner: account_name): Asset {
  */
 export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
 
-    Action.requireAuth(from);
+    // Action.requireAuth(from);
     let pl: PermissionLevel = new PermissionLevel();
     pl.actor = from;
     pl.permission = N("active");

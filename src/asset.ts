@@ -1,7 +1,7 @@
 import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "./datastream";
 import { Log } from "./log";
-import { ultrain_assert } from "./utils";
+import { ultrain_assert, intToString } from "./utils";
 import { queryBalance, send } from "./balance";
 import { UGS } from "../internal/types";
 
@@ -122,8 +122,9 @@ export class Asset implements ISerializable {
         return true;
     }
 
-    private static checkOperaotrCondition(rhs: Asset, lhs: Asset, op: string): void {
-        ultrain_assert(rhs._symbol == lhs._symbol, op + " : can not compare Asset with different _symbol.");
+    private static checkOperatorCondition(rhs: Asset, lhs: Asset, op: string): void {
+        // Log.s("checkOperator: ").i(rhs._symbol, 16).s("  ").i(lhs._symbol, 16).flush();
+        ultrain_assert(rhs._symbol == lhs._symbol, "can not compare Asset with different symbol.");
     }
 
     public get amount(): u64 {
@@ -136,37 +137,37 @@ export class Asset implements ISerializable {
 
     @operator(">")
     private static _gt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs, ">");
+        Asset.checkOperatorCondition(rhs, lhs, ">");
         return rhs._amount > lhs._amount;
     }
 
     @operator(">=")
     private static _gte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs, ">=");
+        Asset.checkOperatorCondition(rhs, lhs, ">=");
         return rhs._amount >= lhs._amount;
     }
 
     @operator("<")
     private static _lt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs, "<");
+        Asset.checkOperatorCondition(rhs, lhs, "<");
         return rhs._amount < lhs._amount;
     }
 
     @operator("<=")
     private static _lte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs, "<=");
+        Asset.checkOperatorCondition(rhs, lhs, "<=");
         return rhs._amount <= lhs._amount;
     }
 
     @operator("==")
     private static _eq(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperaotrCondition(rhs, lhs, "==");
+        Asset.checkOperatorCondition(rhs, lhs, "==");
         return rhs._amount == lhs._amount;
     }
 
     @operator("+")
     private _add(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperaotrCondition(rhs, lhs, "+");
+        Asset.checkOperatorCondition(rhs, lhs, "+");
         let result = new Asset();
         result.setSymbol(rhs.getSymbol())
         result.setAmount(rhs.getAmount() + lhs.getAmount());
@@ -175,7 +176,7 @@ export class Asset implements ISerializable {
 
     @operator("-")
     private _sub(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperaotrCondition(rhs, lhs, "-");
+        Asset.checkOperatorCondition(rhs, lhs, "-");
         let result = new Asset();
         result.setSymbol(rhs.getSymbol())
         result.setAmount(rhs.getAmount() - lhs.getAmount());
