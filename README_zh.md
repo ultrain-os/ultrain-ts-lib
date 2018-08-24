@@ -6,10 +6,10 @@
 [TOC]
 
 ---
-#　Startup
+# Startup
 Ultrain，超脑链使用类Javascript的语言来编写智能合约，这个类Javascript的语言以Typescript为原型，通过扩展的数据类型标志符，来达到强类型语言的编程语法．
 
-##　编译工具链和开发环境
+## 编译工具链和开发环境
 * 超脑提供了一套开发框架robin，用来支持合约开发/编译/调试/部署一整套流程．(目前这个框架正在开发过程中，尚未发布．　但是可以使用相应的命令行来完成以下工作)．
 　　安装工具
 ```
@@ -19,7 +19,7 @@ git clone https://github.com/ultrain-os/robin
 
 * TypeScript是脚本类型的语言，可以使用任何编辑器编写代码。VS Code, Sublime Text都是很好的选择。
 
-##　编写第一个合约Hello world
+## 编写第一个合约Hello world
 ```
 import { N, RN } from "ContractSDK/src/utils";
 import { Log } from "ContractSDK/src/log";
@@ -39,7 +39,7 @@ class HelloWorld extends Contract{
 3. @action: 申明一个合约方法。只有@action标志的方法，才能被调用。
 4. Log: 打印Log。
 
-##　编译和部署合约
+## 编译和部署合约
 * 使用以下命令来编译合约：
 ``` usc hello.ts -l -O -t hello.wast -g hello.abi ```
 如果代码没有bug的话，将会在当前目录下产生两个文件：hello.wast, hello.abi
@@ -83,7 +83,7 @@ class HelloContract extends Contract {
 
 执行正常的情况下，Return的结果是`call hi() succeed.123`
 
-##资产查询和转移
+## 资产查询和转移
 在合约中，可以查询一个帐号在ultrainio.token合约中的资产，即ultrain平台资产。查询资产使用`queryBalance(who: account_name): Asset`方法。
 转移ultrain平台资产，可以使用`send(from: account_name, to: account_name, val: Asset, memo: string): void`方法。
 > NOTICE
@@ -92,7 +92,7 @@ class HelloContract extends Contract {
 "accounts": [{"permission": {"actor": "$from", "permission": "utrio.code"}, "weight": 1]}' owner -p $from`  
 `$from`是需要授权的帐号。
 
-##事件订阅
+## 事件订阅
 * 在合约中emit事件
 ```
 class HelloWorld extends Contract{
@@ -131,7 +131,7 @@ event_name: 发生的事件名称
 message: 发生的事件参数, JSON格式
 ```
 
-##持久化存储
+## 持久化存储
    Ultrain的智能合约提供了DBManager来存储合约数据到数据库中。不同于以太坊会自动保存数据，Ultrain需要明确的调用API来保存、读取数据。
 ###  ISerializable接口
 ISerializable是一个Interface， 定义以下三个方法：
@@ -175,7 +175,7 @@ class Person implements ISerializable {
 }
 ```
 
-###  可序列化存储的数据
+### 可序列化存储的数据
 存储到数据库中的数据，必须是能够序列化和反序列化。可以序列化存储的数据有以下几类：
 1. 内置基本数据类型： u8/i8, u16/i16, u32/i32, u64/i64, boolean, string。
 有一些类型其实也是基本数据类型的别名，如account_name。
