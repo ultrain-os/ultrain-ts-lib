@@ -1,10 +1,5 @@
 # Coding Ultrain Smart Contract with TypeScript
 
-标签（空格分隔）： 合约开发
-
----
-[TOC]
-
 ---
 # Startup
 Ultrain，超脑链使用类Javascript的语言来编写智能合约，这个类Javascript的语言以Typescript为原型，通过扩展的数据类型标志符，来达到强类型语言的编程语法．
@@ -86,11 +81,14 @@ class HelloContract extends Contract {
 ## 资产查询和转移
 在合约中，可以查询一个帐号在ultrainio.token合约中的资产，即ultrain平台资产。查询资产使用`queryBalance(who: account_name): Asset`方法。
 转移ultrain平台资产，可以使用`send(from: account_name, to: account_name, val: Asset, memo: string): void`方法。
+
+使用详情请参考[示例balance](https://github.com/ultrain-os/TsSDK/blob/master/example/balance/balance.ts)。
 > NOTICE
 使用send命令转移资产时，需要保证`from`的权限已经授权给了`utrio.code`，在使用命令行的情况下，可以通过以下命令来授权:
 `clutrain set account permission $from active '{"threshold": 1, "keys":[{"key":"$PubKey_of_from", "wieght": 1}],  
 "accounts": [{"permission": {"actor": "$from", "permission": "utrio.code"}, "weight": 1]}' owner -p $from`  
 `$from`是需要授权的帐号。
+
 
 ## 事件订阅
 * 在合约中emit事件
@@ -133,7 +131,7 @@ message: 发生的事件参数, JSON格式
 
 ## 持久化存储
    Ultrain的智能合约提供了DBManager来存储合约数据到数据库中。不同于以太坊会自动保存数据，Ultrain需要明确的调用API来保存、读取数据。
-###  ISerializable接口
+### ISerializable接口
 ISerializable是一个Interface， 定义以下三个方法：
 
 ```typescript
@@ -153,6 +151,7 @@ export interface ISerializable {
 1. 一个实现了ISerialzable接口的class，编译器将自动实现以上三个方法，并将class中的成员变量都序列化/反序列化。如果需要单独override某一个/全部方法，则可以手动实现对应的方法。
 2. 如果要排除某个成员变量，以避免序列化和反序列化，可以使用`@ignore`注解； 
 3. 如果要指定某个成员变量为primaryKey，可以使用`@primaryid`注解。需要注意的是，被注解为@primaryid的变量必须是u64类型，如果没有变量被注解为@primaryid，则primaryKey()方法默认使用`0`作为返回值。
+4. 如果使用了@ignore、@primaryid注解，同时又override了serialize()、deserialize()、primaryKey()方法中的某一个（或全部），编译器将优先使用override的方法，忽略@注解。
 
 对于ISerializable接口的使用，举例如下
 ```typescript
@@ -183,7 +182,33 @@ class Person implements ISerializable {
 3. 实现了ISerializable接口的类， 如上的Person。
 4. 实现了ISerializable接口的类的一维数组，如Person[]。
 
-###  数据库读写
+### 声明合约中DB的table信息
+如果合约中需要使用到DB进行数据存取，则需要在具体的Contract类中注解说明table的信息。这个注解信息将会包含在abi文件中， 以支持命令：clultrain get table <i>contract</i> <i>scope</i> <i>table</i>。
+如下简单的一份伪代码：
+```typescript
+class Person implements ISerializable {
+   name: string;
+   sex: string;
+}
+
+class Car implements ISerializable {
+   model: string;
+   power: u32;
+   color: string;
+}
+
+@database(Person, "persons")
+@database(Car, "cars")
+// @database() if any more
+clas MyContract extends Contract {
+    //...
+    // your logic here
+}    
+```
+上述代码将会生成两张表格： "persons"和"cars"。
+需要注意的是，@database注解中的Person和Car两个类，**必须实现ISerializable接口**。
+
+### 数据库读写
   Contract中数据存取要通过DBManager来管理。  
 #### DBManager的定义：
 ```
@@ -226,52 +251,4 @@ table中的数据，可以按scope来分类，也可以通过primary key来分�
 在不同的scope下面，primary key可以取相同的值。
 
 #### 使用示例
-```typescript
-class Person implements ISerializable {
-    @primaryid
-    id: u64
-    name: string;
-    salary: u32;
-}
-
-const tblname = N("humanresource");
-const scope = N("dept.sales");
-
-class HumanResource extends Contract {
-
-    @action
-    add(id: u64, name: string, salary: u32): void {
-        let db = new DBManager<Person>(tblname, this.receiver, scope);
-        let existing = db.exists(id);
-        ultrain_assert(!existing, "this id already exists in db");
-        let p = new Person();
-        p.id = id;
-        p.name = name;
-        p.salary = salary;
-        
-        db.emplace(this.receiver, p);
-    }
-    
-    @action
-    modify(id: u64, salary: u32): void {
-        let db = new DBManager<Person>(tblname, this.receiver, scope);
-        let p =new Person();
-        let existing = db.get(id, p);
-        ultrain_assert(existing, "the id does not exist in db");
-        
-        p.salary = salary;
-        
-        db.modify(this.receiver, p);
-    }
-    
-    @action
-    erase(id: u64): void {
-        let db = new DBManager<Person>(tblname, this.receiver, scope);
-        let p = new Person();
-        let existing = db.get(id, p);
-        ultrain_assert(existing, "the id does not exist in db");
-        
-        db.erase(p);
-    }
-}
-```
+DB的读写操作，请参考[示例Person](https://github.com/ultrain-os/TsSDK/blob/master/example/person/person.ts)。
