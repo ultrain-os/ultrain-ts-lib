@@ -1,5 +1,10 @@
 # Coding Ultrain Smart Contract with TypeScript
 
+标签（空格分隔）： 合约开发
+
+---
+[TOC]
+
 ---
 # Startup
 Ultrain，超脑链使用类Javascript的语言来编写智能合约，这个类Javascript的语言以Typescript为原型，通过扩展的数据类型标志符，来达到强类型语言的编程语法．
@@ -13,6 +18,25 @@ git clone https://github.com/ultrain-os/robin
 代码下载完成之后，请参考ReadMe了解如何安装和使用。
 
 * TypeScript是脚本类型的语言，可以使用任何编辑器编写代码。VS Code, Sublime Text都是很好的选择。
+
+## 系统内置的方法
+function N(str: string): u64
+: 方法**N()**用来将一个string转成一个account_name类型. `str`的字符长度不超过12个字符, 内容只能包括以下字符(不能以`.`结尾): `.012345abcdefghijklmnopqrstuvwxyz`
+
+function RN(account: account_name): string
+:  方法**RN()**用来将一个account_name类型转为string类型, 它是**N()**方法的反向方法.
+
+function NEX(str: string): NameEx
+:  方法**NEX()**将一个string类型转为NameEx类型. `str`的长度不超过21个字符, 内容只能包括以下字符(不能包含`.`): `._0-9a-zA-Z`. NameEx用来表示action name.
+
+function RNEX(act: NameEx): string
+:  方法**RNEX()**将一个NameEx转为string, 它是**NEX()**的反向方法.
+
+Action.sender
+:  当前transaction的发起者, account_name类型.
+
+Action.receiver
+:  当前transaction的接收者, 即合约帐户, account_name类型.
 
 ## 编写第一个合约Hello world
 ```
@@ -33,6 +57,7 @@ class HelloWorld extends Contract{
 2. extends Contract: 合约都需要派生自Contract，而且一个项目中**只能有一个Contract**。
 3. @action: 申明一个合约方法。只有@action标志的方法，才能被调用。
 4. Log: 打印Log。
+5. `import { NameEx, RNEX, NEX } from "ContractSDK/src/name_ex"`, 需要手动引入这些变量, 否则编译的时候会报故障.
 
 ## 编译和部署合约
 * 使用以下命令来编译合约：
@@ -57,7 +82,11 @@ clultrain命令的使用参考help说明。
 7. 有多个参数时，参数之间用","隔开： `'["hello", 10086, "larry", "100.0000 UGS", 1]'`，参数的顺序必须和方法声明中的顺序一致。
 
 ## 在Action中Return信息
-为了便于在调用方与节点中传递部分执行状态信息，引入Return模块。 Return模块返回的数据会附加在http的response中， 调用方可以通过分析response得到Return的信息。需要强调的是， **Return的信息仅仅是在一个节点上执行的结果，并非所有节点共识的结果。亦即，<u>Return信息只供参考，不能作为最终共识结果</u>。**  
+为了便于在调用方与节点中传递部分执行状态信息，引入Return模块.  
+Return模块返回的数据会附加在http的response中， 调用方可以通过分析response得到Return的信息。  
+需要强调的是， **Return的信息仅仅是在一个节点(host_url )上预执行的结果，并非区块链网络共识的结果。也就是说, Return返回的结果, 并不是最终交易执行的结果.**  
+**<u>Return的信息只供参考，它可能与区块链网络共识结果不一致</u>。**
+
 要Return信息，可以在action调用中，通过`Return`,`ReturnArray`方法来完成。Return信息有以下需要注意的点：
 > NOTICE
 1. Return的message是有长度限制的，默认的message长度为128个character。（int型数据会转成对应的string）。如果是在侧链中使用，可以在config.ini文件中配置`contract-return-string-length`来扩展长度限制。
@@ -71,7 +100,7 @@ class HelloContract extends Contract {
     @action
     on_hi(name: u64, age: u32, msg: string): void {
         Return<string>("call hi() succeed.");
-        ReturArray<u8>([1,2,3]);
+        ReturnArray<u8>([1,2,3]);
     }
 }
 ```
@@ -83,6 +112,39 @@ class HelloContract extends Contract {
 转移ultrain平台资产，可以使用`send(from: account_name, to: account_name, val: Asset, memo: string): void`方法。
 
 使用详情请参考[示例balance](https://github.com/ultrain-os/TsSDK/blob/master/example/balance/balance.ts)。
+```typescript
+import "allocator/arena";
+import { Contract } from "../../lib/contract";
+import { Asset } from "../../src/asset";
+import { send, queryBalance } from "../../src/balance";
+import { Action } from "../../src/action";
+import { Log } from "../../src/log";
+import { NEX, NameEx } from "../../src/name_ex";
+import { ultrain_assert } from "../../src/utils";
+
+class BalanceContract extends Contract {
+
+    /*
+     * MUST set active permission of 'from' to utrio.token, otherwise the send operation will fail.
+     * here is an example to set permission, the $PubKeyOfFrom is the public key of account $from:
+     *
+     * clultrain set account permission $from active
+     * '{"threshold": 1,
+     * "keys":[{"key": "$PubKeyOfFrom", "weight": 1}],
+     * "accounts":[{"permission: {"actor": "$from", "permission": "utrio.code"}, "weight": 1}]}' owner -p $from
+     */
+    @action
+    transfer(from: account_name, to: account_name, bet: Asset): void {
+
+        let balance = queryBalance(from);
+        ultrain_assert(balance >= bet, "your balance is not enough.");
+
+        balance.prints("banalce from: ");
+
+        send(from, to, bet, "this is a xxxx test");
+    }
+}
+```
 > NOTICE
 使用send命令转移资产时，需要保证`from`的权限已经授权给了`utrio.code`，在使用命令行的情况下，可以通过以下命令来授权:
 `clutrain set account permission $from active '{"threshold": 1, "keys":[{"key":"$PubKey_of_from", "wieght": 1}],  
@@ -128,6 +190,20 @@ post_url：　接受事件发生时推送的url
 event_name: 发生的事件名称
 message: 发生的事件参数, JSON格式
 ```
+### 订阅示例(python实现)
+```python
+#!/usr/bin/env python
+import json
+import requests
+
+url = "http://127.0.0.1:8888/v1/chian/register_event"
+content = [{"account":"hello","post_url":"http://127.0.0.1:8888/v1/listen_event"}]
+
+json_content = json.dumps(content)
+print json_content
+r=requests.post(url,data=json_content)
+print r.text
+```
 
 ## 持久化存储
    Ultrain的智能合约提供了DBManager来存储合约数据到数据库中。不同于以太坊会自动保存数据，Ultrain需要明确的调用API来保存、读取数据。
@@ -151,7 +227,7 @@ export interface ISerializable {
 1. 一个实现了ISerialzable接口的class，编译器将自动实现以上三个方法，并将class中的成员变量都序列化/反序列化。如果需要单独override某一个/全部方法，则可以手动实现对应的方法。
 2. 如果要排除某个成员变量，以避免序列化和反序列化，可以使用`@ignore`注解； 
 3. 如果要指定某个成员变量为primaryKey，可以使用`@primaryid`注解。需要注意的是，被注解为@primaryid的变量必须是u64类型，如果没有变量被注解为@primaryid，则primaryKey()方法默认使用`0`作为返回值。
-4. 如果使用了@ignore、@primaryid注解，同时又override了serialize()、deserialize()、primaryKey()方法中的某一个（或全部），编译器将优先使用override的方法，忽略@注解。
+4. 如果使用了@注解，同时又override了serialize()、deserialize()、primaryKey()方法中的某一个（或全部），编译器将优先使用override的方法。
 
 对于ISerializable接口的使用，举例如下
 ```typescript
@@ -252,3 +328,83 @@ table中的数据，可以按scope来分类，也可以通过primary key来分�
 
 #### 使用示例
 DB的读写操作，请参考[示例Person](https://github.com/ultrain-os/TsSDK/blob/master/example/person/person.ts)。
+```typescript
+import "allocator/arena";
+import { Contract } from "../../lib/contract";
+import { Action } from "../../src/action";
+import { Log } from "../../src/log";
+import { NEX, NameEx } from "../../src/name_ex";
+import { ultrain_assert, N } from "../../src/utils";
+import { ISerializable } from "../../lib/ISerializable";
+import { DBManager } from "../../src/dbmanager";
+import { DataStream } from "../../src/datastream";
+
+class Person implements ISerializable {
+    // name: string;
+    name: string
+    age: u32;
+    salary: u32;
+
+    primaryKey(): u64 { return N(this.name); }
+
+    prints(): void {
+        Log.s("name = ").s(this.name).s(", age = ").i(this.age).s(", salary = ").i(this.salary).flush();
+    }
+}
+
+const tblname = "humans";
+const scope = "dept.sales";
+
+@database(Person, "humans")
+// @database(SomeMoreRecordStruct, "other_table")
+class PersonContract extends Contract {
+
+    db: DBManager<Person>;
+
+    public onInit(): void {
+        this.db = new DBManager<Person>(N(tblname), this.receiver, N(scope));
+    }
+
+
+    public onStop(): void {
+
+    }
+
+    constructor(code: u64) {
+        super(code);
+        this._receiver = code;
+
+        this.onInit();
+    }
+
+    @action
+    add(name: string, age: u32, salary: u32): void {
+        let p = new Person();
+        p.name = name;
+        p.age = age;
+        p.salary = salary;
+
+        let existing = this.db.exists(N(name));
+        ultrain_assert(!existing, "this person has existed in db yet.");
+        p.prints();
+        this.db.emplace(this.receiver, p);
+    }
+
+    @action
+    modify(name: string, salary: u32): void {
+        let p = new Person();
+        let existing = this.db.get(N(name), p);
+        ultrain_assert(existing, "the person does not exist.");
+
+        p.salary = salary;
+
+        this.db.modify(this.receiver, p);
+    }
+
+    @action
+    remove(name: string): void {
+        Log.s("start to remove: ").s(name).flush();
+        this.db.erase(N(name));
+    }
+}
+```
