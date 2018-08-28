@@ -343,7 +343,7 @@ export class Nft extends Contract {
         ultrain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
 
         if (from.balance.getAmount() == value.getAmount()) {
-            ats.erase(from);
+            ats.erase(from.primaryKey());
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
