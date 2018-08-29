@@ -725,7 +725,7 @@ class DragonBreeding extends DragonAssetControl {
     /// @param _sireId The ID of the Dragon acting as sire (will begin its siring cooldown if successful)
     public breedWithAuto(matronId: DragonId, sireId: DragonId, fee: Asset): void {
         this.whenNotPaused();
-        ultrain_assert(fee >=this.autoBirthFee, "payer is lower than autoBirthFee.");
+        ultrain_assert(fee.gte(this.autoBirthFee), "payer is lower than autoBirthFee.");
         ultrain_assert(this._owns(Action.current_sender(), matronId), "thx sender does not own the matron.");
         ultrain_assert(this._isSiringPermitted(sireId, matronId), "matronId and sireId is not premitted to breed.");
 
@@ -913,7 +913,7 @@ export class DragonCore extends DragonExtend {
         subtractFees.setAmount((this.pregnantDragons + 1) * this.autoBirthFee.getAmount());
         subtractFees.setSymbol(this.autoBirthFee.getSymbol());
 
-        if (balance > subtractFees) {
+        if (balance.gt(subtractFees)) {
             let fee: u64 = balance.amount - subtractFees.amount;
             subtractFees.setAmount(fee);
             send(HyperDragonContract, CFO, subtractFees, "dragoncore withdraw balance.");
@@ -988,7 +988,7 @@ export class DragonCore extends DragonExtend {
         if (DEBUG) {
             Log.s("bidOnSiringAuction: currentPrice = ").i(currentPrice.amount).s(", lowestPrice = ").i(lowestPrice.amount).s(", bidValue = ").i(value.amount).flush();
         }
-        ultrain_assert(value >= lowestPrice, "bid value is too low.");
+        ultrain_assert(value.gte(lowestPrice), "bid value is too low.");
 
         // FIXME(liangqin): the sireId is same with tokenId????
         let bidPrice = value.sub(this.autoBirthFee);

@@ -58,7 +58,7 @@ export class TransferParams implements ISerializable {
  *
  * @class ActionImpl
  */
-class ActionImpl implements ISerializable {
+export class ActionImpl implements ISerializable {
     public account: account_name;
     public name: action_name;
     public authorization: PermissionLevel[];

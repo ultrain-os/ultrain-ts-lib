@@ -21,7 +21,7 @@ import { Log } from "./log";
 export class Account implements ISerializable {
     balance: Asset;
 
-    constructor(blc: Asset = new Asset()) {
+    constructor(blc: Asset) {
         this.balance = blc;
     }
 
@@ -84,7 +84,7 @@ export let SYS_NAME: u64 = <u64>(SYS >> 8);
  */
 export function queryBalance(owner: account_name): Asset {
     let accounts: DBManager<Account> = new DBManager<Account>(N("accounts"), N("utrio.token"), owner);
-    let act: Account = new Account();
+    let act: Account = new Account(new Asset());
     let existing = accounts.get(SYS_NAME, act);
 
     return existing ? act.balance : new Asset(0, SYS);

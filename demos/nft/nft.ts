@@ -15,7 +15,7 @@ class Account implements ISerializable {
     token_ids: Array<id_type>; // Current account token ids
 
     constructor(blc: Asset) {
-        if (blc == null) blc = new Asset();
+        // if (blc == null) blc = new Asset();
 
         this.token_ids = new Array<id_type>();
         this.balance = blc;
@@ -129,6 +129,7 @@ export class Nft extends Contract {
     @action
     create(issuer: account_name, maximum_supply: Asset): void {
 
+        maximum_supply.prints("create: ");
         action.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
@@ -324,9 +325,9 @@ export class Nft extends Contract {
 
 
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
-
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account(new Asset());
+        let ast = new Asset();
+        let to: Account = new Account(ast);
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
@@ -374,16 +375,12 @@ export class Nft extends Contract {
         let symname = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
-        Log.s("subSupply 01").flush();
 
         let existing = statstable.get(symname, st);
-        Log.s("subSupply 02").flush();
         ultrain_assert(existing, "subSupply failed, states is not existed.");
 
         let amount = st.supply.getAmount() + quantity.getAmount();
-        Log.s("subSupply 03").flush();
         st.supply.setAmount(amount);
-        Log.s("subSupply 04").i(st.supply.amount).flush();
         statstable.modify(ram_payer, st);
     }
 

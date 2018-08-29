@@ -18,7 +18,6 @@ export class PermissionLevel implements ISerializable {
         this.permission = permission;
     }
 
-    @operator("==")
     public equal(rhs: PermissionLevel): boolean {
         return this.actor == rhs.actor && this.permission == rhs.permission;
     }

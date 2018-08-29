@@ -1,10 +1,11 @@
 import { DataStreamFromCurrentAction } from "../lib/contract";
 import { ISerializable } from "../lib/ISerializable";
 import { DataStream } from "../src/datastream";
-import { Action } from "../src/action";
+import { Action, ActionImpl } from "../src/action";
 import { ultrain_assert } from "../src/utils";
 import { env as system } from "../internal/system.d";
 import { env as transaction } from "../internal/transaction.d";
+import { now } from "./time";
 
 export class TransactionHeader implements ISerializable {
 
@@ -17,7 +18,7 @@ export class TransactionHeader implements ISerializable {
     kcpu_usage: u32;
     delay_sec: u32;
 
-    constructor(exp: u32 = system.now() + 60, r: u16 = 0) {
+    constructor(exp: u32, r: u16 = 0) {
         this.expiration = exp;
         this.region = r;
         this.ref_block_num = 0;
@@ -46,14 +47,16 @@ export class TransactionHeader implements ISerializable {
         this.kcpu_usage = ds.read<u32>();
         this.delay_sec = ds.read<u32>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
 export class Transaction implements ISerializable {
     header: TransactionHeader;
-    context_free_actions: Action[];
-    actions: Action[];
+    context_free_actions: ActionImpl[];
+    actions: ActionImpl[];
 
-    constructor(exp: u32 = system.now() + 60, regId: u16 = 0) {
+    constructor(exp: u32, regId: u16 = 0) {
         this.header = new TransactionHeader(exp, regId);
         this.context_free_actions = [];
         this.actions = [];
@@ -70,15 +73,17 @@ export class Transaction implements ISerializable {
 
     serialize(ds: DataStream): void {
         this.header.serialize(ds);
-        ds.writeComplexVector<Action>(this.context_free_actions);
-        ds.writeComplexVector<Action>(this.actions);
+        ds.writeComplexVector<ActionImpl>(this.context_free_actions);
+        ds.writeComplexVector<ActionImpl>(this.actions);
     }
 
     deserialize(ds: DataStream): void {
         this.header.deserialize(ds);
-        this.context_free_actions = ds.readComplexVector<Action>();
-        this.actions = ds.readComplexVector<Action>();
+        this.context_free_actions = ds.readComplexVector<ActionImpl>();
+        this.actions = ds.readComplexVector<ActionImpl>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 // TODO(liangqin): transaction should support datatype u128.
 type u128 = u64;
@@ -97,7 +102,7 @@ export class DeferredTransaction implements ISerializable {
     }
 
     constructor(trs: Transaction = null, sid: u128 = 0, sender: u64 = 0, payer: u64 = 0, eafter: u32 = 0) {
-        if (trs == null) trs = new Transaction();
+        if (trs == null) trs = new Transaction(now() + 0);
 
         this.transaction = trs;
         this.sender_id = sid;
@@ -121,6 +126,8 @@ export class DeferredTransaction implements ISerializable {
         this.payer = ds.read<u64>();
         this.execute_after = ds.read<u32>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
 
@@ -142,7 +149,7 @@ export function getAction(type: u32, index: u32): Action {
     let size2 = transaction.get_action(type, index, <usize>arr.buffer, size1);
     ultrain_assert(size1 == size2, "get_action failed, size1 != size2");
     let ds = new DataStream(<usize>arr.buffer, size1);
-    let action = new Action();
+    let action = new ActionImpl();
     action.deserialize(ds);
     return action;
 }

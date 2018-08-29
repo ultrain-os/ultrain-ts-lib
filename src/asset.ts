@@ -122,9 +122,10 @@ export class Asset implements ISerializable {
         return true;
     }
 
-    private static checkOperatorCondition(rhs: Asset, lhs: Asset, op: string): void {
+    private static checkOperatorCondition(rhs: Asset, lhs: Asset, op: string): boolean {
         // Log.s("checkOperator: ").i(rhs._symbol, 16).s("  ").i(lhs._symbol, 16).flush();
-        ultrain_assert(rhs._symbol == lhs._symbol, "can not compare Asset with different symbol.");
+        // ultrain_assert(rhs._symbol == lhs._symbol, "can not compare Asset with different symbol.");
+        return rhs != null && lhs != null && rhs._symbol == lhs._symbol;
     }
 
     public get amount(): u64 {
@@ -134,54 +135,27 @@ export class Asset implements ISerializable {
     public set amount(a: u64) {
         this._amount = a;
     }
-
-    @operator(">")
-    private static _gt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperatorCondition(rhs, lhs, ">");
-        return rhs._amount > lhs._amount;
+    // >
+    gt(lhs: Asset): boolean {
+        return this._symbol == lhs._symbol && this._amount > lhs._amount;
+    }
+    // >=
+    gte(lhs: Asset): boolean {
+        return this._symbol == lhs._symbol && this._amount >= lhs._amount;
+    }
+    // <
+    lt(lhs: Asset): boolean {
+        return this._symbol == lhs._symbol && this._amount < lhs._amount;
+    }
+    // <=
+    lte(lhs: Asset): boolean {
+        return this._symbol == lhs._symbol && this._amount <= lhs._amount;
+    }
+    // ==
+    eq(lhs: Asset): boolean {
+        return this._symbol == lhs._symbol && this._amount == lhs._amount;
     }
 
-    @operator(">=")
-    private static _gte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperatorCondition(rhs, lhs, ">=");
-        return rhs._amount >= lhs._amount;
-    }
-
-    @operator("<")
-    private static _lt(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperatorCondition(rhs, lhs, "<");
-        return rhs._amount < lhs._amount;
-    }
-
-    @operator("<=")
-    private static _lte(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperatorCondition(rhs, lhs, "<=");
-        return rhs._amount <= lhs._amount;
-    }
-
-    @operator("==")
-    private static _eq(rhs: Asset, lhs: Asset): boolean {
-        Asset.checkOperatorCondition(rhs, lhs, "==");
-        return rhs._amount == lhs._amount;
-    }
-
-    @operator("+")
-    private _add(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperatorCondition(rhs, lhs, "+");
-        let result = new Asset();
-        result.setSymbol(rhs.getSymbol())
-        result.setAmount(rhs.getAmount() + lhs.getAmount());
-        return result;
-    }
-
-    @operator("-")
-    private _sub(rhs: Asset, lhs: Asset): Asset {
-        Asset.checkOperatorCondition(rhs, lhs, "-");
-        let result = new Asset();
-        result.setSymbol(rhs.getSymbol())
-        result.setAmount(rhs.getAmount() - lhs.getAmount());
-        return result;
-    }
     /**
      * Clone an Asset object.
      */
