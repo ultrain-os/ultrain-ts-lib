@@ -67,8 +67,12 @@
  (global $token/STATSTABLE i32 (i32.const 1640))
  (global $token/ACCOUNTTABLE i32 (i32.const 1656))
  (global $~argc (mut i32) (i32.const 0))
+<<<<<<< Updated upstream
  (global $~lib/internal/string/MAX_LENGTH i32 (i32.const 536870910))
  (global $HEAP_BASE i32 (i32.const 4360))
+=======
+ (global $HEAP_BASE i32 (i32.const 4112))
+>>>>>>> Stashed changes
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 \00")
  (data (i32.const 16) "\01\00\00\00!\00")
@@ -180,6 +184,7 @@
  (data (i32.const 1744) "\06\00\00\00c\00r\00e\00a\00t\00e\00")
  (data (i32.const 1760) "\"\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00.\00")
  (data (i32.const 1832) "\1d\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00u\00p\00p\00l\00y\00.\00")
+<<<<<<< Updated upstream
  (data (i32.const 1896) "\1b\00\00\00d\00b\00m\00a\00n\00a\00g\00e\00r\00.\00g\00e\00t\00 \00 \00f\00o\00r\00 \00p\00r\00i\00m\00a\00r\00y\00 \00")
  (data (i32.const 1960) "\15\00\00\00d\00b\00m\00a\00n\00a\00g\00e\00r\00.\00g\00e\00t\00 \00c\00o\00d\00e\00 \00=\00 \00")
  (data (i32.const 2008) " \00\00\00.\001\002\003\004\005\00a\00b\00c\00d\00e\00f\00g\00h\00i\00j\00k\00l\00m\00n\00o\00p\00q\00r\00s\00t\00u\00v\00w\00x\00y\00z\00")
@@ -224,6 +229,44 @@
  (data (i32.const 4136) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.\00")
  (data (i32.const 4216) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
  (data (i32.const 4328) "\0d\00\00\00d\00b\00.\00e\00r\00a\00s\00e\00 \00f\00o\00r\00 \00")
+=======
+ (data (i32.const 1896) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1904) "h\07\00\00\00\00\00\00")
+ (data (i32.const 1912) "!\00\00\00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00y\00m\00b\00o\00l\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00s\00.\00")
+ (data (i32.const 1984) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00")
+ (data (i32.const 2096) "\05\00\00\00i\00s\00s\00u\00e\00")
+ (data (i32.const 2112) "\00\00\00\00")
+ (data (i32.const 2120) " \00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00")
+ (data (i32.const 2192) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
+ (data (i32.const 2280) "&\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 2360) "\1e\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.\00")
+ (data (i32.const 2424) "\'\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.\00")
+ (data (i32.const 2512) "/\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00e\00x\00c\00e\00e\00d\00s\00 \00a\00v\00a\00i\00l\00a\00b\00l\00e\00 \00s\00u\00p\00p\00l\00y\00.\00")
+ (data (i32.const 2616) "7\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
+ (data (i32.const 2736) "1\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
+ (data (i32.const 2840) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 2952) ";\00\00\00u\00p\00d\00a\00t\00e\00r\00 \00c\00a\00n\00n\00o\00t\00 \00c\00h\00a\00n\00g\00e\00 \00p\00r\00i\00m\00a\00r\00y\00 \00k\00e\00y\00 \00w\00h\00e\00n\00 \00m\00o\00d\00i\00f\00y\00i\00n\00g\00 \00a\00n\00 \00o\00b\00j\00e\00c\00t\00.\00")
+ (data (i32.const 3080) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 3088) "\08\0c\00\00\00\00\00\00")
+ (data (i32.const 3096) "\06\00\00\00a\00c\00t\00i\00v\00e\00")
+ (data (i32.const 3112) "\02\00\00\00=\00=\00")
+ (data (i32.const 3120) ",\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00o\00m\00p\00a\00r\00e\00 \00A\00s\00s\00e\00t\00 \00w\00i\00t\00h\00 \00d\00i\00f\00f\00e\00r\00e\00n\00t\00 \00s\00y\00m\00b\00o\00l\00.\00")
+ (data (i32.const 3216) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r\00")
+ (data (i32.const 3240) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 3248) "\a8\0c\00\00\00\00\00\00")
+ (data (i32.const 3256) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 3264) "\b8\0c\00\00\00\00\00\00")
+ (data (i32.const 3272) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00c\00a\00n\00n\00o\00t\00 \00t\00r\00a\00n\00s\00f\00e\00r\00 \00t\00o\00 \00s\00e\00l\00f\00.\00")
+ (data (i32.const 3360) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00 \00a\00c\00c\00o\00u\00n\00t\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 3448) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 3536) "!\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.\00")
+ (data (i32.const 3608) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.\00")
+ (data (i32.const 3696) "-\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
+ (data (i32.const 3792) ",\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00f\00r\00o\00m\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 3888) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.\00")
+ (data (i32.const 3968) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 4080) "\0d\00\00\00d\00b\00.\00e\00r\00a\00s\00e\00 \00f\00o\00r\00 \00")
+>>>>>>> Stashed changes
  (export "memory" (memory $0))
  (export "apply" (func $main/apply))
  (start $start)
@@ -1118,6 +1161,20 @@
           )
           (get_local $5)
          )
+<<<<<<< Updated upstream
+        )
+       )
+       (i32.store8
+        (block (result i32)
+         (set_local $5
+          (get_local $0)
+         )
+         (set_local $0
+          (i32.add
+           (get_local $5)
+           (i32.const 1)
+          )
+=======
         )
        )
        (i32.store8
@@ -1158,6 +1215,7 @@
            (get_local $5)
            (i32.const 1)
           )
+>>>>>>> Stashed changes
          )
          (get_local $5)
         )
@@ -1176,6 +1234,37 @@
          )
         )
        )
+<<<<<<< Updated upstream
+       (i32.store8
+        (block (result i32)
+         (set_local $5
+          (get_local $0)
+         )
+         (set_local $0
+          (i32.add
+           (get_local $5)
+           (i32.const 1)
+          )
+         )
+         (get_local $5)
+        )
+        (i32.load8_u
+         (block (result i32)
+          (set_local $5
+           (get_local $1)
+          )
+          (set_local $1
+           (i32.add
+            (get_local $5)
+            (i32.const 1)
+           )
+          )
+          (get_local $5)
+         )
+        )
+       )
+=======
+>>>>>>> Stashed changes
        (set_local $2
         (i32.sub
          (get_local $2)
@@ -1833,8 +1922,27 @@
        (i32.add
         (get_local $5)
         (i32.const 1)
+<<<<<<< Updated upstream
+=======
        )
       )
+      (get_local $5)
+     )
+     (i32.load8_u
+      (block (result i32)
+       (set_local $5
+        (get_local $1)
+       )
+       (set_local $1
+        (i32.add
+         (get_local $5)
+         (i32.const 1)
+        )
+>>>>>>> Stashed changes
+       )
+       (get_local $5)
+      )
+<<<<<<< Updated upstream
       (get_local $5)
      )
      (i32.load8_u
@@ -1850,6 +1958,8 @@
        )
        (get_local $5)
       )
+=======
+>>>>>>> Stashed changes
      )
     )
     (i32.store8
@@ -2647,6 +2757,16 @@
          (i32.and
           (get_local $0)
           (i32.const 7)
+<<<<<<< Updated upstream
+         )
+         (block
+          (block
+           (if
+            (i32.eqz
+             (get_local $2)
+            )
+            (return)
+=======
          )
          (block
           (block
@@ -2710,6 +2830,83 @@
             (i64.load
              (get_local $1)
             )
+>>>>>>> Stashed changes
+           )
+           (set_local $2
+            (i32.sub
+             (get_local $2)
+<<<<<<< Updated upstream
+             (i32.const 1)
+            )
+           )
+           (i32.store8
+            (block (result i32)
+             (set_local $3
+              (get_local $0)
+             )
+             (set_local $0
+              (i32.add
+               (get_local $3)
+               (i32.const 1)
+              )
+             )
+             (get_local $3)
+            )
+            (i32.load8_u
+             (block (result i32)
+              (set_local $3
+               (get_local $1)
+              )
+              (set_local $1
+               (i32.add
+                (get_local $3)
+                (i32.const 1)
+               )
+              )
+              (get_local $3)
+             )
+            )
+           )
+          )
+          (br $continue|0)
+=======
+             (i32.const 8)
+            )
+           )
+           (set_local $0
+            (i32.add
+             (get_local $0)
+             (i32.const 8)
+            )
+           )
+           (set_local $1
+            (i32.add
+             (get_local $1)
+             (i32.const 8)
+            )
+           )
+          )
+          (br $continue|1)
+>>>>>>> Stashed changes
+         )
+        )
+       )
+      )
+<<<<<<< Updated upstream
+      (block $break|1
+       (loop $continue|1
+        (if
+         (i32.ge_u
+          (get_local $2)
+          (i32.const 8)
+         )
+         (block
+          (block
+           (i64.store
+            (get_local $0)
+            (i64.load
+             (get_local $1)
+            )
            )
            (set_local $2
             (i32.sub
@@ -2735,6 +2932,8 @@
         )
        )
       )
+=======
+>>>>>>> Stashed changes
      )
     )
     (block $break|2
@@ -2769,6 +2968,7 @@
             )
             (get_local $3)
            )
+<<<<<<< Updated upstream
           )
          )
          (set_local $2
@@ -2777,6 +2977,16 @@
            (i32.const 1)
           )
          )
+=======
+          )
+         )
+         (set_local $2
+          (i32.sub
+           (get_local $2)
+           (i32.const 1)
+          )
+         )
+>>>>>>> Stashed changes
         )
         (br $continue|2)
        )
@@ -2949,6 +3159,7 @@
       )
       (block $~lib/memory/memory.fill|inlined.0
        (set_local $3
+<<<<<<< Updated upstream
         (i32.add
          (i32.add
           (get_local $0)
@@ -3017,6 +3228,76 @@
          (get_local $2)
         )
        )
+=======
+        (i32.add
+         (i32.add
+          (get_local $0)
+          (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+         )
+         (get_local $2)
+        )
+       )
+       (set_local $4
+        (i32.const 0)
+       )
+       (set_local $5
+        (i32.sub
+         (get_local $1)
+         (get_local $2)
+        )
+       )
+       (call $~lib/internal/memory/memset
+        (get_local $3)
+        (get_local $4)
+        (get_local $5)
+       )
+      )
+     )
+     (block
+      (set_local $5
+       (call $~lib/internal/arraybuffer/allocateUnsafe
+        (get_local $1)
+       )
+      )
+      (block $~lib/memory/memory.copy|inlined.0
+       (set_local $4
+        (i32.add
+         (get_local $5)
+         (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+        )
+       )
+       (set_local $3
+        (i32.add
+         (get_local $0)
+         (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+        )
+       )
+       (call $~lib/internal/memory/memmove
+        (get_local $4)
+        (get_local $3)
+        (get_local $2)
+       )
+      )
+      (block $~lib/memory/memory.fill|inlined.1
+       (set_local $3
+        (i32.add
+         (i32.add
+          (get_local $5)
+          (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+         )
+         (get_local $2)
+        )
+       )
+       (set_local $4
+        (i32.const 0)
+       )
+       (set_local $6
+        (i32.sub
+         (get_local $1)
+         (get_local $2)
+        )
+       )
+>>>>>>> Stashed changes
        (call $~lib/internal/memory/memset
         (get_local $3)
         (get_local $4)
@@ -3173,6 +3454,7 @@
        (call $~lib/array/Array<u8>#push
         (get_local $1)
         (get_local $3)
+<<<<<<< Updated upstream
        )
       )
       (if
@@ -3180,6 +3462,15 @@
         (get_local $3)
         (i32.const 2048)
        )
+=======
+       )
+      )
+      (if
+       (i32.lt_s
+        (get_local $3)
+        (i32.const 2048)
+       )
+>>>>>>> Stashed changes
        (block
         (drop
          (call $~lib/array/Array<u8>#push
@@ -3190,6 +3481,30 @@
             (get_local $3)
             (i32.const 6)
            )
+<<<<<<< Updated upstream
+          )
+         )
+        )
+        (drop
+         (call $~lib/array/Array<u8>#push
+          (get_local $1)
+          (i32.or
+           (i32.const 128)
+           (i32.and
+            (get_local $3)
+            (i32.const 63)
+           )
+          )
+         )
+        )
+       )
+       (if
+        (if (result i32)
+         (tee_local $4
+          (i32.lt_s
+           (get_local $3)
+           (i32.const 55296)
+=======
           )
          )
         )
@@ -3246,11 +3561,26 @@
              (i32.const 63)
             )
            )
+>>>>>>> Stashed changes
           )
          )
+         (get_local $4)
+         (i32.ge_s
+          (get_local $3)
+          (i32.const 57344)
+         )
+        )
+        (block
          (drop
           (call $~lib/array/Array<u8>#push
            (get_local $1)
+<<<<<<< Updated upstream
+           (i32.or
+            (i32.const 224)
+            (i32.shr_s
+             (get_local $3)
+             (i32.const 12)
+=======
            (i32.or
             (i32.const 128)
             (i32.and
@@ -3297,10 +3627,99 @@
             (i32.shr_s
              (get_local $3)
              (i32.const 18)
+>>>>>>> Stashed changes
             )
            )
           )
          )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (i32.shr_s
+              (get_local $3)
+<<<<<<< Updated upstream
+              (i32.const 6)
+=======
+              (i32.const 12)
+>>>>>>> Stashed changes
+             )
+             (i32.const 63)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+<<<<<<< Updated upstream
+             (get_local $3)
+             (i32.const 63)
+            )
+           )
+          )
+         )
+        )
+        (block
+         (set_local $2
+          (i32.add
+           (get_local $2)
+           (i32.const 1)
+          )
+         )
+         (set_local $3
+          (i32.add
+           (i32.const 65536)
+           (i32.or
+            (i32.shl
+             (i32.and
+              (get_local $3)
+              (i32.const 1023)
+             )
+             (i32.const 10)
+            )
+            (i32.and
+             (call $~lib/string/String#charCodeAt
+              (get_local $0)
+              (get_local $2)
+             )
+             (i32.const 1023)
+=======
+             (i32.shr_s
+              (get_local $3)
+              (i32.const 6)
+             )
+             (i32.const 63)
+>>>>>>> Stashed changes
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+<<<<<<< Updated upstream
+            (i32.const 240)
+            (i32.shr_s
+             (get_local $3)
+             (i32.const 18)
+=======
+            (i32.const 128)
+            (i32.and
+             (get_local $3)
+             (i32.const 63)
+>>>>>>> Stashed changes
+            )
+           )
+          )
+         )
+<<<<<<< Updated upstream
          (drop
           (call $~lib/array/Array<u8>#push
            (get_local $1)
@@ -3343,6 +3762,8 @@
            )
           )
          )
+=======
+>>>>>>> Stashed changes
         )
        )
       )
@@ -3582,11 +4003,19 @@
         (call $~lib/memory/memory.allocate
          (i32.const 8)
         )
+<<<<<<< Updated upstream
        )
        (i64.store
         (get_local $2)
         (i64.const 0)
        )
+=======
+       )
+       (i64.store
+        (get_local $2)
+        (i64.const 0)
+       )
+>>>>>>> Stashed changes
        (get_local $2)
       )
      )
@@ -3657,11 +4086,19 @@
        (i32.store offset=4
         (get_local $5)
         (i32.const 0)
+<<<<<<< Updated upstream
        )
        (i32.store offset=8
         (get_local $5)
         (i32.const 0)
        )
+=======
+       )
+       (i32.store offset=8
+        (get_local $5)
+        (i32.const 0)
+       )
+>>>>>>> Stashed changes
        (get_local $5)
       )
      )
@@ -3696,6 +4133,7 @@
        (i32.store
         (get_local $3)
         (i32.const 0)
+<<<<<<< Updated upstream
        )
        (i32.store offset=4
         (get_local $3)
@@ -3705,6 +4143,17 @@
         (get_local $3)
         (i32.const 0)
        )
+=======
+       )
+       (i32.store offset=4
+        (get_local $3)
+        (i32.const 0)
+       )
+       (i32.store offset=8
+        (get_local $3)
+        (i32.const 0)
+       )
+>>>>>>> Stashed changes
        (get_local $3)
       )
      )
@@ -3770,6 +4219,7 @@
         (call $~lib/memory/memory.allocate
          (i32.const 16)
         )
+<<<<<<< Updated upstream
        )
        (i64.store
         (get_local $3)
@@ -3779,6 +4229,17 @@
         (get_local $3)
         (i64.const 0)
        )
+=======
+       )
+       (i64.store
+        (get_local $3)
+        (i64.const 0)
+       )
+       (i64.store offset=8
+        (get_local $3)
+        (i64.const 0)
+       )
+>>>>>>> Stashed changes
        (get_local $3)
       )
      )
@@ -4218,6 +4679,7 @@
        (get_local $2)
        (i32.const 7)
       )
+<<<<<<< Updated upstream
      )
     )
     (block
@@ -4229,6 +4691,19 @@
        )
       )
      )
+=======
+     )
+    )
+    (block
+     (set_local $3
+      (i32.wrap/i64
+       (i64.and
+        (get_local $1)
+        (i64.const 255)
+       )
+      )
+     )
+>>>>>>> Stashed changes
      (if
       (if (result i32)
        (tee_local $4
@@ -4464,6 +4939,8 @@
          (get_local $3)
          (get_local $1)
         )
+<<<<<<< Updated upstream
+=======
        )
        (i32.le_u
         (get_local $3)
@@ -4480,8 +4957,28 @@
          )
          (i32.const 255)
         )
+>>>>>>> Stashed changes
+       )
+       (i32.le_u
+        (get_local $3)
+        (i32.const 12)
+       )
+       (get_local $5)
+      )
+<<<<<<< Updated upstream
+      (set_local $4
+       (call $../../src/utils/char_to_symbol
+        (i32.and
+         (call $~lib/string/String#charCodeAt
+          (get_local $0)
+          (get_local $3)
+         )
+         (i32.const 255)
+        )
        )
       )
+=======
+>>>>>>> Stashed changes
      )
      (if
       (i32.lt_u
@@ -4549,7 +5046,11 @@
       (block (result i32)
        (set_local $4
         (call $~lib/memory/memory.allocate
+<<<<<<< Updated upstream
          (i32.const 24)
+=======
+         (i32.const 28)
+>>>>>>> Stashed changes
         )
        )
        (i64.store
@@ -4563,6 +5064,13 @@
        (i64.store offset=16
         (get_local $4)
         (i64.const 0)
+<<<<<<< Updated upstream
+=======
+       )
+       (i32.store offset=24
+        (get_local $4)
+        (i32.const 0)
+>>>>>>> Stashed changes
        )
        (get_local $4)
       )
@@ -4579,6 +5087,13 @@
    (get_local $0)
    (get_local $3)
   )
+<<<<<<< Updated upstream
+=======
+  (i32.store offset=24
+   (get_local $0)
+   (i32.const 1904)
+  )
+>>>>>>> Stashed changes
   (get_local $0)
  )
  (func $../../src/balance/CurrencyStats#constructor (; 55 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
@@ -4663,14 +5178,21 @@
    (get_local $3)
   )
  )
+<<<<<<< Updated upstream
  (func $~lib/array/Array<u8>#__set (; 57 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
+=======
+ (func $~lib/array/Array<DataItem<CurrencyStats>>#__get (; 57 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (set_local $2
+>>>>>>> Stashed changes
    (i32.load
     (get_local $0)
    )
   )
+<<<<<<< Updated upstream
   (set_local $4
    (i32.shr_u
     (i32.load
@@ -4705,6 +5227,14 @@
        )
        (i32.const 0)
       )
+=======
+  (if (result i32)
+   (i32.lt_u
+    (get_local $1)
+    (i32.shr_u
+     (i32.load
+      (get_local $2)
+>>>>>>> Stashed changes
      )
     )
     (i32.store
@@ -4719,6 +5249,7 @@
      )
     )
    )
+<<<<<<< Updated upstream
   )
   (block $~lib/internal/arraybuffer/storeUnsafe<u8_u8>|inlined.1
    (i32.store8 offset=8
@@ -4782,6 +5313,9 @@
     )
    )
    (block $~lib/internal/arraybuffer/loadUnsafe<String_String>|inlined.0 (result i32)
+=======
+   (block $~lib/internal/arraybuffer/loadUnsafe<DataItem<CurrencyStats>_DataItem<CurrencyStats>>|inlined.0 (result i32)
+>>>>>>> Stashed changes
     (i32.load offset=8
      (i32.add
       (get_local $2)
@@ -4789,6 +5323,7 @@
        (get_local $1)
        (i32.const 2)
       )
+<<<<<<< Updated upstream
      )
     )
    )
@@ -5124,11 +5659,27 @@
      )
     )
     (br $repeat|1)
+=======
+     )
+    )
+   )
+   (unreachable)
+  )
+ )
+ (func $../../src/balance/CurrencyStats#primaryKey (; 58 ;) (type $iI) (param $0 i32) (result i64)
+  (call $../../src/asset/Asset#symbolName
+   (i32.load
+    (get_local $0)
+>>>>>>> Stashed changes
    )
   )
   (get_local $3)
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/CurrencyStats#deserialize (; 65 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/balance/CurrencyStats#deserialize (; 59 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -5148,7 +5699,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 66 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+=======
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 60 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5188,13 +5743,51 @@
    (get_local $5)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/CurrencyStats#primaryKey (; 67 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
+=======
+ (func $../../src/dbmanager/DataItem<CurrencyStats>#constructor (; 61 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $2
+        (call $~lib/memory/memory.allocate
+         (i32.const 16)
+        )
+       )
+       (i32.store
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=8
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=12
+        (get_local $2)
+        (i32.const 0)
+       )
+       (get_local $2)
+      )
+     )
+    )
+>>>>>>> Stashed changes
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 68 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (call $../../src/log/Logger#flush
@@ -5217,10 +5810,104 @@
     )
     (i64.load
      (get_local $0)
+=======
+ (func $~lib/array/Array<DataItem<CurrencyStats>>#push (; 62 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (set_local $2
+   (i32.load offset=4
+    (get_local $0)
+   )
+  )
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (set_local $4
+   (i32.shr_u
+    (i32.load
+     (get_local $3)
+    )
+    (i32.const 2)
+   )
+  )
+  (set_local $5
+   (i32.add
+    (get_local $2)
+    (i32.const 1)
+   )
+  )
+  (if
+   (i32.ge_u
+    (get_local $2)
+    (get_local $4)
+   )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $2)
+      (i32.const 268435454)
+     )
+     (block
+      (call $~lib/env/abort)
+      (unreachable)
+     )
+    )
+    (set_local $3
+     (call $~lib/internal/arraybuffer/reallocateUnsafe
+      (get_local $3)
+      (i32.shl
+       (get_local $5)
+       (i32.const 2)
+      )
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (get_local $3)
+    )
+   )
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $5)
+  )
+  (block $~lib/internal/arraybuffer/storeUnsafe<DataItem<CurrencyStats>_DataItem<CurrencyStats>>|inlined.0
+   (i32.store offset=8
+    (i32.add
+     (get_local $3)
+     (i32.shl
+      (get_local $2)
+      (i32.const 2)
+     )
     )
     (get_local $1)
    )
   )
+  (get_local $5)
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 63 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (set_local $3
+   (block $~lib/array/Array<DataItem<CurrencyStats>>#get:length|inlined.0 (result i32)
+    (set_local $3
+     (i32.load offset=24
+      (get_local $0)
+     )
+    )
+    (i32.load offset=4
+     (get_local $3)
+>>>>>>> Stashed changes
+    )
+    (get_local $1)
+   )
+  )
+<<<<<<< Updated upstream
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -5243,16 +5930,65 @@
         )
         (i64.load offset=16
          (get_local $0)
+=======
+  (block $break|0
+   (set_local $4
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $4)
+       (get_local $3)
+      )
+     )
+    )
+    (if
+     (i64.eq
+      (call $../../src/balance/CurrencyStats#primaryKey
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<CurrencyStats>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+        )
+       )
+      )
+      (get_local $1)
+     )
+     (block
+      (set_local $2
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<CurrencyStats>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+>>>>>>> Stashed changes
         )
         (i32.const 16)
        )
        (i32.const 2224)
       )
+<<<<<<< Updated upstream
       (call $../../src/utils/RN
        (i64.load
         (get_local $0)
        )
       )
+=======
+      (return
+       (i32.const 1)
+      )
+     )
+    )
+    (set_local $4
+     (i32.add
+      (get_local $4)
+      (i32.const 1)
+>>>>>>> Stashed changes
      )
      (i32.const 2248)
     )
@@ -5269,12 +6005,34 @@
     (i64.extend_s/i32
      (get_local $3)
     )
+<<<<<<< Updated upstream
     (i32.const 10)
+=======
+    (br $repeat|0)
+   )
+  )
+  (set_local $4
+   (call $../../internal/db.d/env.db_find_i64
+    (i64.load offset=8
+     (get_local $0)
+    )
+    (i64.load offset=16
+     (get_local $0)
+    )
+    (i64.load
+     (get_local $0)
+    )
+    (get_local $1)
+>>>>>>> Stashed changes
    )
   )
   (if
    (i32.lt_s
+<<<<<<< Updated upstream
     (get_local $3)
+=======
+    (get_local $4)
+>>>>>>> Stashed changes
     (i32.const 0)
    )
    (return
@@ -5283,9 +6041,10 @@
   )
   (call $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator
    (get_local $0)
-   (get_local $3)
+   (get_local $4)
    (get_local $2)
   )
+<<<<<<< Updated upstream
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -5296,22 +6055,56 @@
      (get_local $2)
     )
     (i32.const 16)
+=======
+  (set_local $5
+   (call $../../src/dbmanager/DataItem<CurrencyStats>#constructor
+    (i32.const 0)
+    (get_local $0)
+   )
+  )
+  (i32.store offset=4
+   (get_local $5)
+   (get_local $4)
+  )
+  (i32.store offset=12
+   (get_local $5)
+   (get_local $2)
+  )
+  (drop
+   (call $~lib/array/Array<DataItem<CurrencyStats>>#push
+    (i32.load offset=24
+     (get_local $0)
+    )
+    (get_local $5)
+>>>>>>> Stashed changes
    )
   )
   (i32.const 1)
  )
+<<<<<<< Updated upstream
  (func $../../src/asset/Asset#getSymbol (; 69 ;) (type $iI) (param $0 i32) (result i64)
+=======
+ (func $../../src/asset/Asset#getSymbol (; 64 ;) (type $iI) (param $0 i32) (result i64)
+>>>>>>> Stashed changes
   (i64.load offset=8
    (get_local $0)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/asset/Asset#setSymbol (; 70 ;) (type $iIv) (param $0 i32) (param $1 i64)
+=======
+ (func $../../src/asset/Asset#setSymbol (; 65 ;) (type $iIv) (param $0 i32) (param $1 i64)
+>>>>>>> Stashed changes
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#isMesureMode (; 71 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream#isMesureMode (; 66 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (i32.eq
    (i32.load
     (get_local $0)
@@ -5319,7 +6112,11 @@
    (i32.const 0)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#write<u64> (; 72 ;) (type $iIv) (param $0 i32) (param $1 i64)
+=======
+ (func $../../src/datastream/DataStream#write<u64> (; 67 ;) (type $iIv) (param $0 i32) (param $1 i64)
+>>>>>>> Stashed changes
   (if
    (i32.eqz
     (call $../../src/datastream/DataStream#isMesureMode
@@ -5348,7 +6145,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/asset/Asset#serialize (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/asset/Asset#serialize (; 68 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -5362,7 +6163,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/CurrencyStats#serialize (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/balance/CurrencyStats#serialize (; 69 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -5382,7 +6187,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 75 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 70 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -5399,6 +6208,7 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 76 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5410,6 +6220,14 @@
     (i32.const 2424)
    )
   )
+=======
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 71 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i64)
+>>>>>>> Stashed changes
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -5417,6 +6235,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
+<<<<<<< Updated upstream
    (i32.const 2472)
   )
   (call $../../src/log/Logger#flush
@@ -5443,18 +6262,61 @@
      (get_local $4)
     )
     (get_local $3)
+=======
+   (i32.const 1984)
+  )
+  (set_local $3
+   (call $../../src/dbmanager/DataItem<CurrencyStats>#constructor
+    (i32.const 0)
+    (get_local $0)
+   )
+  )
+  (i32.store offset=12
+   (get_local $3)
+   (get_local $2)
+  )
+  (set_local $4
+   (call $../../src/datastream/DataStream.measure<CurrencyStats>
+    (get_local $2)
+   )
+  )
+  (set_local $5
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $4)
+   )
+  )
+  (set_local $6
+   (call $../../src/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $5)
+    )
+    (get_local $4)
+>>>>>>> Stashed changes
    )
   )
   (call $../../src/balance/CurrencyStats#serialize
    (get_local $2)
+<<<<<<< Updated upstream
    (get_local $5)
   )
   (set_local $6
+=======
+   (get_local $6)
+  )
+  (set_local $7
+>>>>>>> Stashed changes
    (call $../../src/balance/CurrencyStats#primaryKey
     (get_local $2)
    )
   )
+<<<<<<< Updated upstream
   (drop
+=======
+  (i32.store offset=4
+   (get_local $3)
+>>>>>>> Stashed changes
    (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
@@ -5463,6 +6325,7 @@
      (get_local $0)
     )
     (get_local $1)
+<<<<<<< Updated upstream
     (get_local $6)
     (i32.load
      (get_local $5)
@@ -5474,6 +6337,27 @@
   )
  )
  (func $token/Token#create (; 77 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+=======
+    (get_local $7)
+    (i32.load
+     (get_local $6)
+    )
+    (i32.load offset=8
+     (get_local $6)
+    )
+   )
+  )
+  (drop
+   (call $~lib/array/Array<DataItem<CurrencyStats>>#push
+    (i32.load offset=24
+     (get_local $0)
+    )
+    (get_local $3)
+   )
+  )
+ )
+ (func $token/Token#create (; 72 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -5536,7 +6420,11 @@
    (i32.eqz
     (get_local $6)
    )
+<<<<<<< Updated upstream
    (i32.const 2352)
+=======
+   (i32.const 1912)
+>>>>>>> Stashed changes
   )
   (call $../../src/asset/Asset#setSymbol
    (i32.load
@@ -5562,7 +6450,11 @@
    (get_local $5)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#read<u8> (; 78 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream#read<u8> (; 73 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -5587,7 +6479,11 @@
   )
   (get_local $1)
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#readVarint32 (; 79 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream#readVarint32 (; 74 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5643,7 +6539,11 @@
   )
   (get_local $1)
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#readString (; 80 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream#readString (; 75 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5660,11 +6560,19 @@
     (i32.const 0)
    )
    (return
+<<<<<<< Updated upstream
     (i32.const 2120)
    )
   )
   (set_local $3
    (block $~lib/memory/memory.allocate|inlined.2 (result i32)
+=======
+    (i32.const 2112)
+   )
+  )
+  (set_local $3
+   (block $~lib/memory/memory.allocate|inlined.1 (result i32)
+>>>>>>> Stashed changes
     (set_local $2
      (i32.add
       (get_global $../../src/datastream/HEADER_SIZE)
@@ -5674,7 +6582,11 @@
       )
      )
     )
+<<<<<<< Updated upstream
     (br $~lib/memory/memory.allocate|inlined.2
+=======
+    (br $~lib/memory/memory.allocate|inlined.1
+>>>>>>> Stashed changes
      (call $~lib/allocator/arena/__memory_allocate
       (get_local $2)
      )
@@ -5729,16 +6641,25 @@
   )
   (get_local $2)
  )
+<<<<<<< Updated upstream
  (func $../../src/asset/Asset#getAmount (; 81 ;) (type $iI) (param $0 i32) (result i64)
+=======
+ (func $../../src/asset/Asset#getAmount (; 76 ;) (type $iI) (param $0 i32) (result i64)
+>>>>>>> Stashed changes
   (i64.load
    (get_local $0)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/asset/Asset#setAmount (; 82 ;) (type $iIv) (param $0 i32) (param $1 i64)
+=======
+ (func $../../src/asset/Asset#setAmount (; 77 ;) (type $iIv) (param $0 i32) (param $1 i64)
+>>>>>>> Stashed changes
   (i64.store
    (get_local $0)
    (get_local $1)
   )
+<<<<<<< Updated upstream
  )
  (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 83 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
@@ -5759,10 +6680,33 @@
   (get_local $2)
  )
  (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 84 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+=======
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 78 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
+  (set_local $2
+   (call $../../internal/db.d/env.db_find_i64
+    (i64.load offset=8
+     (get_local $0)
+    )
+    (i64.load offset=16
+     (get_local $0)
+    )
+    (i64.load
+     (get_local $0)
+    )
+    (get_local $1)
+   )
+  )
+  (get_local $2)
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 79 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
+<<<<<<< Updated upstream
   (set_local $3
    (call $../../src/dbmanager/DBManager<CurrencyStats>#find
     (get_local $0)
@@ -5779,10 +6723,78 @@
     )
     (i64.extend_s/i32
      (get_local $3)
+=======
+  (local $7 i64)
+  (local $8 i32)
+  (set_local $4
+   (block $~lib/array/Array<DataItem<CurrencyStats>>#get:length|inlined.1 (result i32)
+    (set_local $4
+     (i32.load offset=24
+      (get_local $0)
+     )
+    )
+    (i32.load offset=4
+     (get_local $4)
+    )
+   )
+  )
+  (set_local $5
+   (i32.const -1)
+  )
+  (block $break|0
+   (set_local $6
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $6)
+       (get_local $4)
+      )
+     )
+    )
+    (if
+     (i64.eq
+      (call $../../src/balance/CurrencyStats#primaryKey
+       (get_local $2)
+      )
+      (call $../../src/balance/CurrencyStats#primaryKey
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<CurrencyStats>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $6)
+        )
+       )
+      )
+     )
+     (block
+      (set_local $3
+       (call $~lib/array/Array<DataItem<CurrencyStats>>#__get
+        (i32.load offset=24
+         (get_local $0)
+        )
+        (get_local $6)
+       )
+      )
+      (set_local $5
+       (get_local $6)
+      )
+     )
+    )
+    (set_local $6
+     (i32.add
+      (get_local $6)
+      (i32.const 1)
+     )
+>>>>>>> Stashed changes
     )
     (i32.const 10)
    )
   )
+<<<<<<< Updated upstream
   (call $../../src/utils/ultrain_assert
    (i32.ge_s
     (get_local $3)
@@ -5795,6 +6807,73 @@
     (get_global $../../src/log/Log)
     (i32.const 3296)
    )
+=======
+  (if
+   (i32.eq
+    (get_local $5)
+    (i32.const -1)
+   )
+   (block
+    (set_local $6
+     (call $../../src/dbmanager/DBManager<CurrencyStats>#find
+      (get_local $0)
+      (call $../../src/balance/CurrencyStats#primaryKey
+       (get_local $2)
+      )
+     )
+    )
+    (call $../../src/utils/ultrain_assert
+     (i32.ge_s
+      (get_local $6)
+      (i32.const 0)
+     )
+     (i32.const 2616)
+    )
+    (set_local $3
+     (call $../../src/dbmanager/DataItem<CurrencyStats>#constructor
+      (i32.const 0)
+      (get_local $0)
+     )
+    )
+    (i32.store offset=12
+     (get_local $3)
+     (get_local $2)
+    )
+    (i32.store offset=4
+     (get_local $3)
+     (get_local $6)
+    )
+    (drop
+     (call $~lib/array/Array<DataItem<CurrencyStats>>#push
+      (i32.load offset=24
+       (get_local $0)
+      )
+      (get_local $3)
+     )
+    )
+    (set_local $5
+     (i32.const 0)
+    )
+   )
+  )
+  (call $../../src/utils/ultrain_assert
+   (if (result i32)
+    (tee_local $6
+     (i32.ne
+      (get_local $5)
+      (i32.const -1)
+     )
+    )
+    (i32.eq
+     (i32.load
+      (get_local $3)
+     )
+     (get_local $0)
+    )
+    (get_local $6)
+   )
+   (i32.const 2736)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -5803,6 +6882,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
+<<<<<<< Updated upstream
    (i32.const 3336)
   )
   (set_local $4
@@ -5821,9 +6901,32 @@
     (i32.const 0)
     (i32.load
      (get_local $5)
+=======
+   (i32.const 2840)
+  )
+  (set_local $7
+   (call $../../src/balance/CurrencyStats#primaryKey
+    (i32.load offset=12
+     (get_local $3)
+    )
+   )
+  )
+  (i32.store offset=12
+   (get_local $3)
+   (get_local $2)
+  )
+  (call $../../src/utils/ultrain_assert
+   (i64.eq
+    (get_local $7)
+    (call $../../src/balance/CurrencyStats#primaryKey
+     (i32.load offset=12
+      (get_local $3)
+     )
+>>>>>>> Stashed changes
     )
     (get_local $4)
    )
+<<<<<<< Updated upstream
   )
   (call $../../src/balance/CurrencyStats#serialize
    (get_local $2)
@@ -5869,8 +6972,30 @@
        (get_local $4)
       )
      )
-    )
+=======
+   (i32.const 2952)
+  )
+  (set_local $4
+   (call $../../src/datastream/DataStream.measure<CurrencyStats>
+    (get_local $2)
    )
+  )
+  (set_local $6
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $4)
+   )
+  )
+  (set_local $8
+   (call $../../src/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $6)
+>>>>>>> Stashed changes
+    )
+    (get_local $4)
+   )
+<<<<<<< Updated upstream
    (get_local $1)
   )
   (i64.store offset=8
@@ -5884,6 +7009,78 @@
   (get_local $0)
  )
  (func $../../src/balance/Account#constructor (; 86 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+=======
+  )
+  (call $../../src/balance/CurrencyStats#serialize
+   (get_local $2)
+   (get_local $8)
+  )
+  (call $../../internal/db.d/env.db_update_i64
+   (i32.load offset=4
+    (get_local $3)
+   )
+   (get_local $1)
+   (i32.load
+    (get_local $8)
+   )
+   (i32.load offset=8
+    (get_local $8)
+   )
+  )
+ )
+ (func $../../src/dbmanager/DBManager<Account>#constructor (; 80 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+  (local $4 i32)
+  (i64.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $4
+        (call $~lib/memory/memory.allocate
+         (i32.const 28)
+        )
+       )
+       (i64.store
+        (get_local $4)
+        (i64.const 0)
+       )
+       (i64.store offset=8
+        (get_local $4)
+        (i64.const 0)
+       )
+       (i64.store offset=16
+        (get_local $4)
+        (i64.const 0)
+       )
+       (i32.store offset=24
+        (get_local $4)
+        (i32.const 0)
+       )
+       (get_local $4)
+      )
+     )
+    )
+   )
+   (get_local $1)
+  )
+  (i64.store offset=8
+   (get_local $0)
+   (get_local $2)
+  )
+  (i64.store offset=16
+   (get_local $0)
+   (get_local $3)
+  )
+  (i32.store offset=24
+   (get_local $0)
+   (i32.const 3088)
+  )
+  (get_local $0)
+ )
+ (func $../../src/balance/Account#constructor (; 81 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+>>>>>>> Stashed changes
   (local $2 i32)
   (i32.store
    (tee_local $0
@@ -5910,7 +7107,11 @@
   )
   (get_local $0)
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/Account#constructor|trampoline (; 87 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+=======
+ (func $../../src/balance/Account#constructor|trampoline (; 82 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+>>>>>>> Stashed changes
   (block $1of1
    (block $0of1
     (block $outOfRange
@@ -5933,7 +7134,49 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/Account#deserialize (; 88 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $~lib/array/Array<DataItem<Account>>#__get (; 83 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (set_local $2
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (if (result i32)
+   (i32.lt_u
+    (get_local $1)
+    (i32.shr_u
+     (i32.load
+      (get_local $2)
+     )
+     (i32.const 2)
+    )
+   )
+   (block $~lib/internal/arraybuffer/loadUnsafe<DataItem<Account>_DataItem<Account>>|inlined.0 (result i32)
+    (i32.load offset=8
+     (i32.add
+      (get_local $2)
+      (i32.shl
+       (get_local $1)
+       (i32.const 2)
+      )
+     )
+    )
+   )
+   (unreachable)
+  )
+ )
+ (func $../../src/balance/Account#primaryKey (; 84 ;) (type $iI) (param $0 i32) (result i64)
+  (call $../../src/asset/Asset#symbolName
+   (i32.load
+    (get_local $0)
+   )
+  )
+ )
+ (func $../../src/balance/Account#deserialize (; 85 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -5941,7 +7184,11 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 89 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+=======
+ (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 86 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5981,13 +7228,54 @@
    (get_local $5)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/Account#primaryKey (; 90 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
+=======
+ (func $../../src/dbmanager/DataItem<Account>#constructor (; 87 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $2
+        (call $~lib/memory/memory.allocate
+         (i32.const 16)
+        )
+       )
+       (i32.store
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=8
+        (get_local $2)
+        (i32.const 0)
+       )
+       (i32.store offset=12
+        (get_local $2)
+        (i32.const 0)
+       )
+       (get_local $2)
+      )
+     )
+    )
+   )
+   (get_local $1)
+>>>>>>> Stashed changes
   )
+  (get_local $0)
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<Account>#get (; 91 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (call $../../src/log/Logger#flush
@@ -5995,11 +7283,105 @@
     (call $../../src/log/Logger#s
      (get_global $../../src/log/Log)
      (i32.const 1896)
+=======
+ (func $~lib/array/Array<DataItem<Account>>#push (; 88 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (set_local $2
+   (i32.load offset=4
+    (get_local $0)
+   )
+  )
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (set_local $4
+   (i32.shr_u
+    (i32.load
+     (get_local $3)
+    )
+    (i32.const 2)
+   )
+  )
+  (set_local $5
+   (i32.add
+    (get_local $2)
+    (i32.const 1)
+   )
+  )
+  (if
+   (i32.ge_u
+    (get_local $2)
+    (get_local $4)
+   )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $2)
+      (i32.const 268435454)
+     )
+     (block
+      (call $~lib/env/abort)
+      (unreachable)
+     )
+    )
+    (set_local $3
+     (call $~lib/internal/arraybuffer/reallocateUnsafe
+      (get_local $3)
+      (i32.shl
+       (get_local $5)
+       (i32.const 2)
+      )
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (get_local $3)
+    )
+   )
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $5)
+  )
+  (block $~lib/internal/arraybuffer/storeUnsafe<DataItem<Account>_DataItem<Account>>|inlined.0
+   (i32.store offset=8
+    (i32.add
+     (get_local $3)
+     (i32.shl
+      (get_local $2)
+      (i32.const 2)
+     )
+    )
+    (get_local $1)
+   )
+  )
+  (get_local $5)
+ )
+ (func $../../src/dbmanager/DBManager<Account>#get (; 89 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (set_local $3
+   (block $~lib/array/Array<DataItem<Account>>#get:length|inlined.0 (result i32)
+    (set_local $3
+     (i32.load offset=24
+      (get_local $0)
+     )
+    )
+    (i32.load offset=4
+     (get_local $3)
+>>>>>>> Stashed changes
     )
     (get_local $1)
     (i32.const 16)
    )
   )
+<<<<<<< Updated upstream
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
     (i64.load offset=8
@@ -6036,16 +7418,65 @@
         )
         (i64.load offset=16
          (get_local $0)
+=======
+  (block $break|0
+   (set_local $4
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $4)
+       (get_local $3)
+      )
+     )
+    )
+    (if
+     (i64.eq
+      (call $../../src/balance/Account#primaryKey
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<Account>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+        )
+       )
+      )
+      (get_local $1)
+     )
+     (block
+      (set_local $2
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<Account>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+>>>>>>> Stashed changes
         )
         (i32.const 16)
        )
        (i32.const 2224)
       )
+<<<<<<< Updated upstream
       (call $../../src/utils/RN
        (i64.load
         (get_local $0)
        )
       )
+=======
+      (return
+       (i32.const 1)
+      )
+     )
+    )
+    (set_local $4
+     (i32.add
+      (get_local $4)
+      (i32.const 1)
+>>>>>>> Stashed changes
      )
      (i32.const 2248)
     )
@@ -6059,15 +7490,37 @@
      (get_global $../../src/log/Log)
      (i32.const 2264)
     )
+<<<<<<< Updated upstream
     (i64.extend_s/i32
      (get_local $3)
     )
     (i32.const 10)
+=======
+    (br $repeat|0)
+   )
+  )
+  (set_local $4
+   (call $../../internal/db.d/env.db_find_i64
+    (i64.load offset=8
+     (get_local $0)
+    )
+    (i64.load offset=16
+     (get_local $0)
+    )
+    (i64.load
+     (get_local $0)
+    )
+    (get_local $1)
+>>>>>>> Stashed changes
    )
   )
   (if
    (i32.lt_s
+<<<<<<< Updated upstream
     (get_local $3)
+=======
+    (get_local $4)
+>>>>>>> Stashed changes
     (i32.const 0)
    )
    (return
@@ -6076,9 +7529,10 @@
   )
   (call $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator
    (get_local $0)
-   (get_local $3)
+   (get_local $4)
    (get_local $2)
   )
+<<<<<<< Updated upstream
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -6089,11 +7543,37 @@
      (get_local $2)
     )
     (i32.const 16)
+=======
+  (set_local $5
+   (call $../../src/dbmanager/DataItem<Account>#constructor
+    (i32.const 0)
+    (get_local $0)
+   )
+  )
+  (i32.store offset=4
+   (get_local $5)
+   (get_local $4)
+  )
+  (i32.store offset=12
+   (get_local $5)
+   (get_local $2)
+  )
+  (drop
+   (call $~lib/array/Array<DataItem<Account>>#push
+    (i32.load offset=24
+     (get_local $0)
+    )
+    (get_local $5)
+>>>>>>> Stashed changes
    )
   )
   (i32.const 1)
  )
+<<<<<<< Updated upstream
  (func $../../src/balance/Account#serialize (; 92 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/balance/Account#serialize (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -6101,7 +7581,11 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream.measure<Account> (; 93 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream.measure<Account> (; 91 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -6118,6 +7602,7 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<Account>#emplace (; 94 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6129,6 +7614,14 @@
     (i32.const 2424)
    )
   )
+=======
+ (func $../../src/dbmanager/DBManager<Account>#emplace (; 92 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i64)
+>>>>>>> Stashed changes
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -6136,6 +7629,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
+<<<<<<< Updated upstream
    (i32.const 2472)
   )
   (call $../../src/log/Logger#flush
@@ -6145,10 +7639,26 @@
    )
   )
   (set_local $3
+=======
+   (i32.const 1984)
+  )
+  (set_local $3
+   (call $../../src/dbmanager/DataItem<Account>#constructor
+    (i32.const 0)
+    (get_local $0)
+   )
+  )
+  (i32.store offset=12
+   (get_local $3)
+   (get_local $2)
+  )
+  (set_local $4
+>>>>>>> Stashed changes
    (call $../../src/datastream/DataStream.measure<Account>
     (get_local $2)
    )
   )
+<<<<<<< Updated upstream
   (set_local $4
    (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
     (i32.const 0)
@@ -6162,18 +7672,44 @@
      (get_local $4)
     )
     (get_local $3)
+=======
+  (set_local $5
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $4)
+   )
+  )
+  (set_local $6
+   (call $../../src/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $5)
+    )
+    (get_local $4)
+>>>>>>> Stashed changes
    )
   )
   (call $../../src/balance/Account#serialize
    (get_local $2)
+<<<<<<< Updated upstream
    (get_local $5)
   )
   (set_local $6
+=======
+   (get_local $6)
+  )
+  (set_local $7
+>>>>>>> Stashed changes
    (call $../../src/balance/Account#primaryKey
     (get_local $2)
    )
   )
+<<<<<<< Updated upstream
   (drop
+=======
+  (i32.store offset=4
+   (get_local $3)
+>>>>>>> Stashed changes
    (call $../../internal/db.d/env.db_store_i64
     (i64.load offset=16
      (get_local $0)
@@ -6182,6 +7718,7 @@
      (get_local $0)
     )
     (get_local $1)
+<<<<<<< Updated upstream
     (get_local $6)
     (i32.load
      (get_local $5)
@@ -6199,6 +7736,33 @@
     (i64.load offset=8
      (get_local $0)
     )
+=======
+    (get_local $7)
+    (i32.load
+     (get_local $6)
+    )
+    (i32.load offset=8
+     (get_local $6)
+    )
+   )
+  )
+  (drop
+   (call $~lib/array/Array<DataItem<Account>>#push
+    (i32.load offset=24
+     (get_local $0)
+    )
+    (get_local $3)
+   )
+  )
+ )
+ (func $../../src/dbmanager/DBManager<Account>#find (; 93 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
+  (set_local $2
+   (call $../../internal/db.d/env.db_find_i64
+    (i64.load offset=8
+     (get_local $0)
+    )
+>>>>>>> Stashed changes
     (i64.load offset=16
      (get_local $0)
     )
@@ -6210,11 +7774,16 @@
   )
   (get_local $2)
  )
+<<<<<<< Updated upstream
  (func $../../src/dbmanager/DBManager<Account>#modify (; 96 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+=======
+ (func $../../src/dbmanager/DBManager<Account>#modify (; 94 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
+<<<<<<< Updated upstream
   (set_local $3
    (call $../../src/dbmanager/DBManager<Account>#find
     (get_local $0)
@@ -6231,10 +7800,78 @@
     )
     (i64.extend_s/i32
      (get_local $3)
+=======
+  (local $7 i64)
+  (local $8 i32)
+  (set_local $4
+   (block $~lib/array/Array<DataItem<Account>>#get:length|inlined.1 (result i32)
+    (set_local $4
+     (i32.load offset=24
+      (get_local $0)
+     )
+    )
+    (i32.load offset=4
+     (get_local $4)
+    )
+   )
+  )
+  (set_local $5
+   (i32.const -1)
+  )
+  (block $break|0
+   (set_local $6
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $6)
+       (get_local $4)
+      )
+     )
+    )
+    (if
+     (i64.eq
+      (call $../../src/balance/Account#primaryKey
+       (get_local $2)
+      )
+      (call $../../src/balance/Account#primaryKey
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<Account>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $6)
+        )
+       )
+      )
+     )
+     (block
+      (set_local $3
+       (call $~lib/array/Array<DataItem<Account>>#__get
+        (i32.load offset=24
+         (get_local $0)
+        )
+        (get_local $6)
+       )
+      )
+      (set_local $5
+       (get_local $6)
+      )
+     )
+    )
+    (set_local $6
+     (i32.add
+      (get_local $6)
+      (i32.const 1)
+     )
+>>>>>>> Stashed changes
     )
     (i32.const 10)
    )
   )
+<<<<<<< Updated upstream
   (call $../../src/utils/ultrain_assert
    (i32.ge_s
     (get_local $3)
@@ -6247,6 +7884,73 @@
     (get_global $../../src/log/Log)
     (i32.const 3296)
    )
+=======
+  (if
+   (i32.eq
+    (get_local $5)
+    (i32.const -1)
+   )
+   (block
+    (set_local $6
+     (call $../../src/dbmanager/DBManager<Account>#find
+      (get_local $0)
+      (call $../../src/balance/Account#primaryKey
+       (get_local $2)
+      )
+     )
+    )
+    (call $../../src/utils/ultrain_assert
+     (i32.ge_s
+      (get_local $6)
+      (i32.const 0)
+     )
+     (i32.const 2616)
+    )
+    (set_local $3
+     (call $../../src/dbmanager/DataItem<Account>#constructor
+      (i32.const 0)
+      (get_local $0)
+     )
+    )
+    (i32.store offset=12
+     (get_local $3)
+     (get_local $2)
+    )
+    (i32.store offset=4
+     (get_local $3)
+     (get_local $6)
+    )
+    (drop
+     (call $~lib/array/Array<DataItem<Account>>#push
+      (i32.load offset=24
+       (get_local $0)
+      )
+      (get_local $3)
+     )
+    )
+    (set_local $5
+     (i32.const 0)
+    )
+   )
+  )
+  (call $../../src/utils/ultrain_assert
+   (if (result i32)
+    (tee_local $6
+     (i32.ne
+      (get_local $5)
+      (i32.const -1)
+     )
+    )
+    (i32.eq
+     (i32.load
+      (get_local $3)
+     )
+     (get_local $0)
+    )
+    (get_local $6)
+   )
+   (i32.const 2736)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6255,6 +7959,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
+<<<<<<< Updated upstream
    (i32.const 3336)
   )
   (set_local $4
@@ -6273,12 +7978,55 @@
     (i32.const 0)
     (i32.load
      (get_local $5)
+=======
+   (i32.const 2840)
+  )
+  (set_local $7
+   (call $../../src/balance/Account#primaryKey
+    (i32.load offset=12
+     (get_local $3)
+    )
+   )
+  )
+  (i32.store offset=12
+   (get_local $3)
+   (get_local $2)
+  )
+  (call $../../src/utils/ultrain_assert
+   (i64.eq
+    (get_local $7)
+    (call $../../src/balance/Account#primaryKey
+     (i32.load offset=12
+      (get_local $3)
+     )
+    )
+   )
+   (i32.const 2952)
+  )
+  (set_local $4
+   (call $../../src/datastream/DataStream.measure<Account>
+    (get_local $2)
+   )
+  )
+  (set_local $6
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $4)
+   )
+  )
+  (set_local $8
+   (call $../../src/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $6)
+>>>>>>> Stashed changes
     )
     (get_local $4)
    )
   )
   (call $../../src/balance/Account#serialize
    (get_local $2)
+<<<<<<< Updated upstream
    (get_local $6)
   )
   (call $../../internal/db.d/env.db_update_i64
@@ -6293,6 +8041,24 @@
   )
  )
  (func $token/Token#addBalance (; 97 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+=======
+   (get_local $8)
+  )
+  (call $../../internal/db.d/env.db_update_i64
+   (i32.load offset=4
+    (get_local $3)
+   )
+   (get_local $1)
+   (i32.load
+    (get_local $8)
+   )
+   (i32.load offset=8
+    (get_local $8)
+   )
+  )
+ )
+ (func $token/Token#addBalance (; 95 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+>>>>>>> Stashed changes
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6314,6 +8080,7 @@
    (block (result i32)
     (set_global $~argc
      (i32.const 0)
+<<<<<<< Updated upstream
     )
     (call $../../src/balance/Account#constructor|trampoline
      (i32.const 0)
@@ -6406,6 +8173,129 @@
   (i64.store offset=8
    (get_local $0)
    (get_local $2)
+=======
+    )
+    (call $../../src/balance/Account#constructor|trampoline
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (set_local $6
+   (call $../../src/dbmanager/DBManager<Account>#get
+    (get_local $4)
+    (call $../../src/asset/Asset#symbolName
+     (get_local $2)
+    )
+    (get_local $5)
+   )
+  )
+  (if
+   (i32.eqz
+    (get_local $6)
+   )
+   (block
+    (set_local $7
+     (call $../../src/balance/Account#constructor
+      (i32.const 0)
+      (get_local $2)
+     )
+    )
+    (call $../../src/dbmanager/DBManager<Account>#emplace
+     (get_local $4)
+     (get_local $3)
+     (get_local $7)
+    )
+   )
+   (block
+    (set_local $8
+     (i64.add
+      (call $../../src/asset/Asset#getAmount
+       (i32.load
+        (get_local $5)
+       )
+      )
+      (call $../../src/asset/Asset#getAmount
+       (get_local $2)
+      )
+     )
+    )
+    (call $../../src/asset/Asset#setAmount
+     (i32.load
+      (get_local $5)
+     )
+     (get_local $8)
+    )
+    (call $../../src/dbmanager/DBManager<Account>#modify
+     (get_local $4)
+     (i64.const 0)
+     (get_local $5)
+    )
+   )
+  )
+ )
+ (func $../../src/permission-level/PermissionLevel#constructor (; 96 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+  (local $3 i32)
+  (i64.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $3
+        (call $~lib/memory/memory.allocate
+         (i32.const 16)
+        )
+       )
+       (i64.store
+        (get_local $3)
+        (i64.const 0)
+       )
+       (i64.store offset=8
+        (get_local $3)
+        (i64.const 0)
+       )
+       (get_local $3)
+      )
+     )
+    )
+   )
+   (get_local $1)
+  )
+  (i64.store offset=8
+   (get_local $0)
+   (get_local $2)
+  )
+  (get_local $0)
+ )
+ (func $../../src/asset/Asset.checkOperatorCondition (; 97 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (call $../../src/utils/ultrain_assert
+   (i64.eq
+    (i64.load offset=8
+     (get_local $0)
+    )
+    (i64.load offset=8
+     (get_local $1)
+    )
+   )
+   (i32.const 3120)
+  )
+ )
+ (func $../../src/asset/Asset._eq (; 98 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (call $../../src/asset/Asset.checkOperatorCondition
+   (get_local $0)
+   (get_local $1)
+   (i32.const 3112)
+  )
+  (i64.eq
+   (i64.load
+    (get_local $0)
+   )
+   (i64.load
+    (get_local $1)
+   )
+>>>>>>> Stashed changes
   )
   (get_local $0)
  )
@@ -6517,14 +8407,103 @@
   )
   (i32.store offset=12
    (get_local $0)
-   (i32.const 3496)
+   (i32.const 3248)
   )
   (i32.store offset=16
    (get_local $0)
-   (i32.const 3512)
+   (i32.const 3264)
   )
   (get_local $0)
  )
+ (func $~lib/array/Array<PermissionLevel>#push (; 101 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (set_local $2
+   (i32.load offset=4
+    (get_local $0)
+   )
+  )
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (set_local $4
+   (i32.shr_u
+    (i32.load
+     (get_local $3)
+    )
+    (i32.const 2)
+   )
+  )
+  (set_local $5
+   (i32.add
+    (get_local $2)
+    (i32.const 1)
+   )
+  )
+<<<<<<< Updated upstream
+  (i32.store offset=12
+   (get_local $0)
+   (i32.const 3496)
+=======
+  (if
+   (i32.ge_u
+    (get_local $2)
+    (get_local $4)
+   )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $2)
+      (i32.const 268435454)
+     )
+     (block
+      (call $~lib/env/abort)
+      (unreachable)
+     )
+    )
+    (set_local $3
+     (call $~lib/internal/arraybuffer/reallocateUnsafe
+      (get_local $3)
+      (i32.shl
+       (get_local $5)
+       (i32.const 2)
+      )
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (get_local $3)
+    )
+   )
+>>>>>>> Stashed changes
+  )
+  (i32.store offset=4
+   (get_local $0)
+<<<<<<< Updated upstream
+   (i32.const 3512)
+=======
+   (get_local $5)
+  )
+  (block $~lib/internal/arraybuffer/storeUnsafe<PermissionLevel_PermissionLevel>|inlined.0
+   (i32.store offset=8
+    (i32.add
+     (get_local $3)
+     (i32.shl
+      (get_local $2)
+      (i32.const 2)
+     )
+    )
+    (get_local $1)
+   )
+>>>>>>> Stashed changes
+  )
+  (get_local $5)
+ )
+<<<<<<< Updated upstream
  (func $~lib/array/Array<PermissionLevel>#push (; 101 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
@@ -6603,6 +8582,8 @@
   )
   (get_local $5)
  )
+=======
+>>>>>>> Stashed changes
  (func $../../src/datastream/DataStream#write<u8> (; 102 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
@@ -6718,7 +8699,11 @@
       (i32.const 8)
      )
     )
+<<<<<<< Updated upstream
     (block $~lib/memory/memory.copy|inlined.2
+=======
+    (block $~lib/memory/memory.copy|inlined.1
+>>>>>>> Stashed changes
      (set_local $5
       (i32.add
        (i32.load
@@ -6802,6 +8787,8 @@
   (call $../../src/action/TransferParams#serialize
    (get_local $0)
    (get_local $1)
+<<<<<<< Updated upstream
+=======
   )
   (i32.load offset=8
    (get_local $1)
@@ -6859,11 +8846,20 @@
     )
    )
    (get_local $3)
+>>>>>>> Stashed changes
   )
   (i32.store offset=4
    (get_local $0)
    (get_local $1)
   )
+<<<<<<< Updated upstream
+ )
+ (func $~lib/array/Array<u8>#constructor (; 107 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+=======
   (block $~lib/memory/memory.fill|inlined.3
    (set_local $4
     (i32.add
@@ -6882,7 +8878,149 @@
   )
   (get_local $0)
  )
+ (func $~lib/array/Array<u8>#__set (; 108 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (set_local $4
+   (i32.shr_u
+    (i32.load
+     (get_local $3)
+    )
+    (i32.const 0)
+   )
+  )
+>>>>>>> Stashed changes
+  (if
+   (i32.gt_u
+    (get_local $1)
+<<<<<<< Updated upstream
+    (i32.const 1073741816)
+   )
+   (block
+    (call $~lib/env/abort)
+    (unreachable)
+   )
+  )
+  (set_local $2
+   (i32.shl
+    (get_local $1)
+    (i32.const 0)
+   )
+  )
+  (set_local $3
+   (call $~lib/internal/arraybuffer/allocateUnsafe
+    (get_local $2)
+   )
+  )
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $4
+        (call $~lib/memory/memory.allocate
+         (i32.const 8)
+        )
+       )
+       (i32.store
+        (get_local $4)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $4)
+        (i32.const 0)
+       )
+       (get_local $4)
+      )
+     )
+    )
+=======
+    (get_local $4)
+   )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $1)
+      (i32.const 1073741816)
+     )
+     (block
+      (call $~lib/env/abort)
+      (unreachable)
+     )
+    )
+    (set_local $3
+     (call $~lib/internal/arraybuffer/reallocateUnsafe
+      (get_local $3)
+      (i32.shl
+       (i32.add
+        (get_local $1)
+        (i32.const 1)
+       )
+       (i32.const 0)
+      )
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (get_local $3)
+    )
+    (i32.store offset=4
+     (get_local $0)
+     (i32.add
+      (get_local $1)
+      (i32.const 1)
+     )
+    )
+>>>>>>> Stashed changes
+   )
+   (get_local $3)
+  )
+<<<<<<< Updated upstream
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $1)
+  )
+  (block $~lib/memory/memory.fill|inlined.3
+   (set_local $4
+    (i32.add
+     (get_local $3)
+     (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+    )
+   )
+   (set_local $5
+    (i32.const 0)
+   )
+   (call $~lib/internal/memory/memset
+    (get_local $4)
+    (get_local $5)
+=======
+  (block $~lib/internal/arraybuffer/storeUnsafe<u8_u8>|inlined.1
+   (i32.store8 offset=8
+    (i32.add
+     (get_local $3)
+     (i32.shl
+      (get_local $1)
+      (i32.const 0)
+     )
+    )
+>>>>>>> Stashed changes
+    (get_local $2)
+   )
+  )
+  (get_local $0)
+ )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#toArray<u8> (; 108 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream#toArray<u8> (; 109 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6966,7 +9104,11 @@
   )
   (get_local $2)
  )
+<<<<<<< Updated upstream
  (func $../../src/name_ex/NameEx#serialize (; 109 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/name_ex/NameEx#serialize (; 110 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -6980,7 +9122,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $~lib/array/Array<PermissionLevel>#__get (; 110 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+=======
+ (func $~lib/array/Array<PermissionLevel>#__get (; 111 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+>>>>>>> Stashed changes
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -7011,7 +9157,11 @@
    (unreachable)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/permission-level/PermissionLevel#serialize (; 111 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/permission-level/PermissionLevel#serialize (; 112 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -7025,7 +9175,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#writeComplexVector<PermissionLevel> (; 112 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/datastream/DataStream#writeComplexVector<PermissionLevel> (; 113 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -7069,7 +9223,52 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream#writeVector<u8> (; 113 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (set_local $2
+   (block $~lib/array/Array<u8>#get:length|inlined.2 (result i32)
+    (i32.load offset=4
+     (get_local $1)
+=======
+ (func $~lib/array/Array<u8>#__get (; 114 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (set_local $2
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (if (result i32)
+   (i32.lt_u
+    (get_local $1)
+    (i32.shr_u
+     (i32.load
+      (get_local $2)
+     )
+     (i32.const 0)
+    )
+   )
+   (block $~lib/internal/arraybuffer/loadUnsafe<u8_u8>|inlined.0 (result i32)
+    (i32.load8_u offset=8
+     (i32.add
+      (get_local $2)
+      (i32.shl
+       (get_local $1)
+       (i32.const 0)
+      )
+     )
+>>>>>>> Stashed changes
+    )
+   )
+  )
+<<<<<<< Updated upstream
+  (call $../../src/datastream/DataStream#writeVarint32
+   (get_local $0)
+   (get_local $2)
+=======
+ )
+ (func $../../src/datastream/DataStream#writeVector<u8> (; 115 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -7078,6 +9277,7 @@
      (get_local $1)
     )
    )
+>>>>>>> Stashed changes
   )
   (call $../../src/datastream/DataStream#writeVarint32
    (get_local $0)
@@ -7113,7 +9313,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/action/ActionImpl#serialize (; 114 ;) (type $iiv) (param $0 i32) (param $1 i32)
+=======
+ (func $../../src/action/ActionImpl#serialize (; 116 ;) (type $iiv) (param $0 i32) (param $1 i32)
+>>>>>>> Stashed changes
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -7139,7 +9343,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/datastream/DataStream.measure<ActionImpl> (; 115 ;) (type $ii) (param $0 i32) (result i32)
+=======
+ (func $../../src/datastream/DataStream.measure<ActionImpl> (; 117 ;) (type $ii) (param $0 i32) (result i32)
+>>>>>>> Stashed changes
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -7156,7 +9364,11 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $../../src/action/dispatchInline (; 116 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+=======
+ (func $../../src/action/dispatchInline (; 118 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+>>>>>>> Stashed changes
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7181,6 +9393,26 @@
   (i32.store offset=8
    (get_local $4)
    (get_local $2)
+  )
+  (set_local $5
+   (call $../../src/datastream/DataStream.measure<TransferParams>
+    (get_local $3)
+   )
+  )
+  (set_local $6
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $5)
+   )
+  )
+  (set_local $7
+   (call $../../src/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $6)
+    )
+    (get_local $5)
+   )
   )
   (set_local $5
    (call $../../src/datastream/DataStream.measure<TransferParams>
@@ -7245,7 +9477,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $token/Token#issue (; 117 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+=======
+ (func $token/Token#issue (; 119 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+>>>>>>> Stashed changes
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7256,7 +9492,11 @@
    (call $../../src/asset/Asset#isSymbolValid
     (get_local $2)
    )
+<<<<<<< Updated upstream
    (i32.const 2648)
+=======
+   (i32.const 2120)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -7265,7 +9505,11 @@
     )
     (i32.const 256)
    )
+<<<<<<< Updated upstream
    (i32.const 2720)
+=======
+   (i32.const 2192)
+>>>>>>> Stashed changes
   )
   (set_local $4
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -7305,7 +9549,11 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $6)
+<<<<<<< Updated upstream
    (i32.const 2808)
+=======
+   (i32.const 2280)
+>>>>>>> Stashed changes
   )
   (call $../../internal/action.d/env.require_auth
    (i64.load offset=8
@@ -7316,7 +9564,11 @@
    (call $../../src/asset/Asset#isValid
     (get_local $2)
    )
+<<<<<<< Updated upstream
    (i32.const 2888)
+=======
+   (i32.const 2360)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7329,7 +9581,11 @@
      )
     )
    )
+<<<<<<< Updated upstream
    (i32.const 2952)
+=======
+   (i32.const 2424)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.le_u
@@ -7349,7 +9605,11 @@
      )
     )
    )
+<<<<<<< Updated upstream
    (i32.const 3040)
+=======
+   (i32.const 2512)
+>>>>>>> Stashed changes
   )
   (set_local $7
    (i64.add
@@ -7397,6 +9657,7 @@
       (i32.const 0)
       (i64.const 0)
       (i64.const 0)
+<<<<<<< Updated upstream
      )
     )
     (i64.store
@@ -7457,9 +9718,291 @@
    (i64.eq
     (i64.load offset=8
      (get_local $0)
+=======
+     )
+    )
+    (i64.store
+     (get_local $8)
+     (i64.load offset=8
+      (get_local $5)
+     )
+    )
+    (i64.store offset=8
+     (get_local $8)
+     (call $../../src/utils/N
+      (i32.const 3096)
+     )
+    )
+    (set_local $9
+     (call $../../src/action/TransferParams#constructor
+      (i32.const 0)
+      (i64.const 0)
+      (i64.const 0)
+      (i32.const 0)
+      (i32.const 2112)
+     )
+    )
+    (i64.store
+     (get_local $9)
+     (i64.load offset=8
+      (get_local $5)
+     )
+    )
+    (i64.store offset=8
+     (get_local $9)
+     (get_local $1)
+    )
+    (i32.store offset=16
+     (get_local $9)
+     (get_local $2)
+    )
+    (i32.store offset=20
+     (get_local $9)
+     (get_local $3)
+    )
+    (call $../../src/action/dispatchInline
+     (get_local $8)
+     (call $../../lib/contract/Contract#get:receiver
+      (get_local $0)
+     )
+     (call $../../src/name_ex/NEX
+      (i32.const 3216)
+     )
+     (get_local $9)
+    )
+   )
+  )
+ )
+ (func $~lib/array/Array<DataItem<Account>>#splice (; 120 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (if
+   (i32.lt_s
+    (get_local $2)
+    (i32.const 1)
+   )
+   (return)
+  )
+  (set_local $3
+   (i32.load offset=4
+    (get_local $0)
+   )
+  )
+  (if
+   (i32.lt_s
+    (get_local $1)
+    (i32.const 0)
+   )
+   (set_local $1
+    (select
+     (tee_local $4
+      (i32.add
+       (get_local $3)
+       (get_local $1)
+      )
+     )
+     (tee_local $5
+      (i32.const 0)
+     )
+     (i32.gt_s
+      (get_local $4)
+      (get_local $5)
+     )
+    )
+   )
+  )
+  (if
+   (i32.ge_s
+    (get_local $1)
+    (get_local $3)
+   )
+   (return)
+  )
+  (set_local $2
+   (select
+    (tee_local $4
+     (get_local $2)
+    )
+    (tee_local $5
+     (i32.sub
+      (get_local $3)
+      (get_local $1)
+     )
+    )
+    (i32.lt_s
+     (get_local $4)
+     (get_local $5)
+    )
+   )
+  )
+  (set_local $6
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (block $~lib/memory/memory.copy|inlined.2
+   (set_local $4
+    (i32.add
+     (i32.add
+      (get_local $6)
+      (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+     )
+     (i32.shl
+      (get_local $1)
+      (i32.const 2)
+     )
+    )
+   )
+   (set_local $5
+    (i32.add
+     (i32.add
+      (get_local $6)
+      (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+     )
+     (i32.shl
+      (i32.add
+       (get_local $1)
+       (get_local $2)
+      )
+      (i32.const 2)
+     )
+    )
+   )
+   (set_local $7
+    (i32.shl
+     (get_local $2)
+     (i32.const 2)
+    )
+   )
+   (call $~lib/internal/memory/memmove
+    (get_local $4)
+    (get_local $5)
+    (get_local $7)
+   )
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (i32.sub
+    (get_local $3)
+    (get_local $2)
+   )
+  )
+ )
+ (func $../../src/dbmanager/DBManager<Account>#erase (; 121 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (call $../../src/utils/ultrain_assert
+   (i64.eq
+    (i64.load offset=8
+     (get_local $0)
     )
     (call $../../internal/action.d/env.current_receiver)
    )
+   (i32.const 3968)
+  )
+  (set_local $2
+   (i32.const -1)
+  )
+  (set_local $3
+   (block $~lib/array/Array<DataItem<Account>>#get:length|inlined.2 (result i32)
+    (set_local $3
+     (i32.load offset=24
+      (get_local $0)
+     )
+    )
+    (i32.load offset=4
+     (get_local $3)
+    )
+   )
+  )
+  (block $break|0
+   (set_local $4
+    (i32.sub
+     (get_local $3)
+     (i32.const 1)
+    )
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.gt_s
+       (get_local $4)
+       (i32.const 0)
+      )
+     )
+    )
+    (if
+     (i64.eq
+      (call $../../src/balance/Account#primaryKey
+       (i32.load offset=12
+        (call $~lib/array/Array<DataItem<Account>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+        )
+       )
+      )
+      (get_local $1)
+     )
+     (block
+      (set_local $2
+       (i32.load offset=4
+        (call $~lib/array/Array<DataItem<Account>>#__get
+         (i32.load offset=24
+          (get_local $0)
+         )
+         (get_local $4)
+        )
+       )
+      )
+      (call $~lib/array/Array<DataItem<Account>>#splice
+       (i32.load offset=24
+        (get_local $0)
+       )
+       (get_local $4)
+       (i32.const 1)
+      )
+     )
+    )
+    (set_local $4
+     (i32.sub
+      (get_local $4)
+      (i32.const 1)
+     )
+    )
+    (br $repeat|0)
+   )
+  )
+  (if
+   (i32.eq
+    (get_local $2)
+    (i32.const -1)
+   )
+   (set_local $2
+    (call $../../src/dbmanager/DBManager<Account>#find
+     (get_local $0)
+     (get_local $1)
+    )
+   )
+  )
+  (call $../../src/log/Logger#flush
+   (call $../../src/log/Logger#i
+    (call $../../src/log/Logger#s
+     (get_global $../../src/log/Log)
+     (i32.const 4080)
+>>>>>>> Stashed changes
+    )
+    (i64.extend_s/i32
+     (get_local $2)
+    )
+    (i32.const 10)
+   )
+<<<<<<< Updated upstream
    (i32.const 4216)
   )
   (set_local $2
@@ -7492,6 +10035,21 @@
   )
  )
  (func $token/Token#subBalance (; 119 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+=======
+  )
+  (if
+   (i32.ge_s
+    (get_local $2)
+    (i32.const 0)
+   )
+   (call $../../internal/db.d/env.db_remove_i64
+    (get_local $2)
+   )
+   (nop)
+  )
+ )
+ (func $token/Token#subBalance (; 122 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+>>>>>>> Stashed changes
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7530,7 +10088,11 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $5)
+<<<<<<< Updated upstream
    (i32.const 4040)
+=======
+   (i32.const 3792)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.ge_u
@@ -7543,7 +10105,11 @@
      (get_local $2)
     )
    )
+<<<<<<< Updated upstream
    (i32.const 4136)
+=======
+   (i32.const 3888)
+>>>>>>> Stashed changes
   )
   (if
    (i64.eq
@@ -7589,7 +10155,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $token/Token#transfer (; 120 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
+=======
+ (func $token/Token#transfer (; 123 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
+>>>>>>> Stashed changes
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -7598,7 +10168,11 @@
     (get_local $1)
     (get_local $2)
    )
+<<<<<<< Updated upstream
    (i32.const 3520)
+=======
+   (i32.const 3272)
+>>>>>>> Stashed changes
   )
   (call $../../internal/action.d/env.require_auth
    (get_local $1)
@@ -7607,7 +10181,11 @@
    (call $../../internal/action.d/env.is_account
     (get_local $2)
    )
+<<<<<<< Updated upstream
    (i32.const 3608)
+=======
+   (i32.const 3360)
+>>>>>>> Stashed changes
   )
   (set_local $5
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -7647,7 +10225,11 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $7)
+<<<<<<< Updated upstream
    (i32.const 3696)
+=======
+   (i32.const 3448)
+>>>>>>> Stashed changes
   )
   (call $../../internal/action.d/env.require_recipient
    (get_local $1)
@@ -7659,7 +10241,11 @@
    (call $../../src/asset/Asset#isValid
     (get_local $3)
    )
+<<<<<<< Updated upstream
    (i32.const 3784)
+=======
+   (i32.const 3536)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7672,7 +10258,11 @@
      )
     )
    )
+<<<<<<< Updated upstream
    (i32.const 3856)
+=======
+   (i32.const 3608)
+>>>>>>> Stashed changes
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -7681,7 +10271,11 @@
     )
     (i32.const 256)
    )
+<<<<<<< Updated upstream
    (i32.const 3944)
+=======
+   (i32.const 3696)
+>>>>>>> Stashed changes
   )
   (call $token/Token#subBalance
    (get_local $0)
@@ -7695,7 +10289,11 @@
    (get_local $1)
   )
  )
+<<<<<<< Updated upstream
  (func $main/apply (; 121 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+=======
+ (func $main/apply (; 124 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+>>>>>>> Stashed changes
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7761,7 +10359,11 @@
       (call $../../src/name_ex/NameEx._eq
        (get_local $6)
        (call $../../src/name_ex/NEX
+<<<<<<< Updated upstream
         (i32.const 2632)
+=======
+        (i32.const 2096)
+>>>>>>> Stashed changes
        )
       )
       (block
@@ -7797,7 +10399,11 @@
        (call $../../src/name_ex/NameEx._eq
         (get_local $6)
         (call $../../src/name_ex/NEX
+<<<<<<< Updated upstream
          (i32.const 3464)
+=======
+         (i32.const 3216)
+>>>>>>> Stashed changes
         )
        )
        (block
@@ -7844,7 +10450,11 @@
    )
   )
  )
+<<<<<<< Updated upstream
  (func $start (; 122 ;) (type $v)
+=======
+ (func $start (; 125 ;) (type $v)
+>>>>>>> Stashed changes
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and

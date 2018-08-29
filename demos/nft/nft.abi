@@ -106,6 +106,38 @@
       ],
       "name": "Token",
       "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "supply",
+          "type": "Asset"
+        },
+        {
+          "name": "max_supply",
+          "type": "Asset"
+        },
+        {
+          "name": "issuer",
+          "type": "account_name"
+        }
+      ],
+      "name": "CurrencyStats",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "balance",
+          "type": "Asset"
+        },
+        {
+          "name": "token_ids",
+          "type": "id_type[]"
+        }
+      ],
+      "name": "Account",
+      "base": ""
     }
   ],
   "actions": [
@@ -127,7 +159,18 @@
   ],
   "tables": [
     {
-      "index_type": "int64",
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "token",
+      "type": "Token"
+    },
+    {
+      "index_type": "i64",
       "keys_names": [
         "currency"
       ],
@@ -135,7 +178,18 @@
         "uint64"
       ],
       "name": "stat",
-      "type": "Token"
+      "type": "CurrencyStats"
+    },
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "accounts",
+      "type": "Account"
     }
   ]
 }

@@ -80,13 +80,17 @@ class Token implements ISerializable {
         return this.current_id;
     }
 
+    print():void {
+        Log.s("token id:").i(this.id).s("owner:").s(RN(this.owner)).s("uri:").s(this.uri).s("name:").s(this.name).s("current_id:").i(this.current_id).flush();
+    }
+
     constructor(id: id_type , owner: account_name , value: Asset, uri: string, name: string) {
         this.id = id;
         this.owner = owner;
         this.value = value;
         this.uri = uri;
         this.name = name;
-        this.current_id = 0; //default current id value is zero
+        this.current_id = <id_type> 0; //default current id value is zero
     }
 
     deserialize(ds: DataStream): void {
@@ -109,12 +113,12 @@ class Token implements ISerializable {
 }
 
 const STATSTABLE: string = "stat";
-const ACCOUNTTABLE: string = "accounts";
+const ACCOUNTTABLE: string = "account";
 const TOKENTABLE: string = "token";
 
 @database(Token, TOKENTABLE)
-// @database(CurrencyStats, STATSTABLE)
-// @database(Account, ACCOUNTTABLE)
+@database(CurrencyStats, STATSTABLE)
+@database(Account, ACCOUNTTABLE)
 export class Nft extends Contract {
 
     constructor(receiver: account_name) {
@@ -172,6 +176,9 @@ export class Nft extends Contract {
 
         Log.s("middle").flush();
 
+        Log.s("symname").s(RN(quantity.symbolName())).flush();
+
+
         let token_ids: Array<id_type> = new Array<id_type>();
         let token_id_start = this.availablePrimaryKey();
         let oneAsset: Asset = new Asset(1, quantity.getSymbol());
@@ -184,8 +191,14 @@ export class Nft extends Contract {
             token_id_start++;
         }
         Log.s("middle 2").flush();
+        Log.s("symname").s(RN(quantity.symbolName())).flush();
         this.subSupply(st.issuer, quantity);
         Log.s("middle 3").flush();
+        Log.s("st.issuer").s(RN(st.issuer)).flush();
+        quantity.prints("issue quantity");
+        Log.s("to").s(RN(to)).flush();
+
+        Log.s("token_ids length:").i(token_ids.length).flush();
         this.addBalance(to, token_ids, quantity, st.issuer);
         Log.s("middle 4").flush();
         this.updateMaxPrimaryKey(st.issuer, --token_id_start);
@@ -320,26 +333,36 @@ export class Nft extends Contract {
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
+        Log.s("token uri").s(token.uri).flush();
+        token.print();
         tokens.emplace(ram_payer, token)
     }
 
 
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
+
+        Log.s("addBalance begin").flush();
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let ast = new Asset();
-        let to: Account = new Account(ast);
+        let to: Account = new Account(new Asset());
+        value.prints("addBalance 00");
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
+            Log.s("addBalance not existing 00").flush();
             let account: Account = new Account(value);
             account.token_ids = token_ids;
+            Log.s("addBalance not existing 01").flush();
+
             toaccount.emplace(ram_payer, account);
         } else {
+            Log.s("addBalance existing 00").flush();
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
             for (let i = 0; i < token_ids.length; i++) {
                 to.token_ids.push(token_ids[i]);
             }
+            // Log.s("addBalance existing 01").i(to.primaryKey()).flush();
+            to.balance.prints("addBalance existing 01");
             toaccount.modify(ram_payer, to); // ram_payer or 0
         }
     }
@@ -354,6 +377,7 @@ export class Nft extends Contract {
         ultrain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
 
         if (from.balance.getAmount() == value.getAmount()) {
+            Log.s("sub Balance erase").flush();
             ats.erase(from.primaryKey());
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
@@ -373,9 +397,12 @@ export class Nft extends Contract {
     private subSupply(ram_payer: u64, quantity: Asset): void {
 
         let symname = quantity.symbolName();
+        quantity.prints("quantity subSupply 01");
+
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
 
+        Log.s("symname").s(RN(symname)).flush();
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "subSupply failed, states is not existed.");
 
