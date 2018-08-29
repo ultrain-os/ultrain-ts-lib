@@ -14,6 +14,7 @@ import { env as action } from "../../internal/action.d";
 import { env as transaction } from "../../internal/transaction.d";
 import { env as system } from "../../internal/system.d";
 import { env as permission } from "../../internal/permission.d";
+import { now } from "../../lib/time";
 
 class Proposal implements ISerializable {
     proposal_name: u64;
@@ -74,7 +75,7 @@ export class MultiSig extends Contract {
         let proposer: u64;
         let proposal_name: u64;
         let requested: PermissionLevel[] = [];
-        let trx_header: TransactionHeader = new TransactionHeader();
+        let trx_header: TransactionHeader = new TransactionHeader(now() + 60);
 
         proposer = ds.read<u64>();
         proposal_name = ds.read<u64>();
@@ -89,7 +90,7 @@ export class MultiSig extends Contract {
         trx_header.deserialize(ds);
         action.require_auth(proposer);
         // TODO(liangqin): ultrain.now should change to time_point_sec.
-        ultrain_assert(trx_header.expiration > system.now(), "msig.propose: transaction expired");
+        ultrain_assert(trx_header.expiration > now(), "msig.propose: transaction expired");
 
         let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
         let prop = new Proposal();
@@ -173,18 +174,18 @@ export class MultiSig extends Contract {
 
         if (proposer != canceler) {
             let ds = DataStream.fromArray<u8>(prop.packed_transaction);
-            let trs = new Transaction();
+            let trs = new Transaction(now() + 60);
             trs.deserialize(ds);
             // TODO(liangqin): change now() to time_point_sec().
-            ultrain_assert(trs.header.expiration < system.now(), "msig.cancel: cannot cancel until expiration");
+            ultrain_assert(trs.header.expiration < now(), "msig.cancel: cannot cancel until expiration");
         }
-        proptable.erase(prop);
+        proptable.erase(prop.primaryKey());
 
         let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
         let approval = new ApprovalsInfo();
         existing = approvals.get(proposer, approval);
         ultrain_assert(existing, "msig.cancel: approvals not found.");
-        approvals.erase(approval);
+        approvals.erase(approval.primaryKey());
     }
 
     exec(proposer: account_name, proposal_name: u64, executer: u64): void {
@@ -201,9 +202,9 @@ export class MultiSig extends Contract {
         ultrain_assert(existing, "msig.exec: approval not found.");
 
         let pds = DataStream.fromArray<u8>(prop.packed_transaction);
-        let trx_header = new TransactionHeader();
+        let trx_header = new TransactionHeader(now() + 60);
         trx_header.deserialize(pds);
-        ultrain_assert(trx_header.expiration >= system.now(), "msig.exec: transaction expired.");
+        ultrain_assert(trx_header.expiration >= now(), "msig.exec: transaction expired.");
 
         let ppa = DSHelper.serializeComplexVector<PermissionLevel>(approval.provided_approvals);
         let res = permission.check_transaction_authorization(pds.pointer(), pds.size(), 0, 0, ppa.pointer(), ppa.size());
@@ -211,7 +212,7 @@ export class MultiSig extends Contract {
         // TODO(fanliangqin): send_deferred() method need 'uint128_t', how to deal with it?
         transaction.send_deferred(proposal_name, executer, pds.pointer(), pds.size(), 0);
 
-        proptable.erase(prop);
-        approvals.erase(approval);
+        proptable.erase(prop.primaryKey());
+        approvals.erase(approval.primaryKey());
     }
 }

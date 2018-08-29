@@ -22,7 +22,7 @@ class BalanceContract extends Contract {
     transfer(from: account_name, to: account_name, bet: Asset): void {
 
         let balance = queryBalance(from);
-        ultrain_assert(balance >= bet, "your balance is not enough.");
+        ultrain_assert(balance.gte(bet), "your balance is not enough.");
 
         balance.prints("banalce from: ");
 

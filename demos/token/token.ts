@@ -23,7 +23,7 @@ export class Token extends Contract {
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats();
+        let cs: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -39,7 +39,7 @@ export class Token extends Contract {
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats();
+        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
@@ -58,7 +58,7 @@ export class Token extends Contract {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
             pl.permission = N("active");
-            let params = new TransferParams();
+            let params = new TransferParams(0, 0, new Asset(), "");
             params.from = st.issuer;
             params.to = to;
             params.quantity = quantity;
@@ -77,7 +77,7 @@ export class Token extends Contract {
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats();
+        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0)
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
@@ -95,7 +95,7 @@ export class Token extends Contract {
 
     private subBalance(owner: u64, value: Asset): void {
         let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let from: Account = new Account();
+        let from: Account = new Account(new Asset());
         let existing = ats.get(value.symbolName(), from);
 
         ultrain_assert(existing, "token.subBalance: from account is not exist.");
@@ -112,7 +112,7 @@ export class Token extends Contract {
 
     private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account();
+        let to: Account = new Account(new Asset());
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
@@ -127,7 +127,7 @@ export class Token extends Contract {
 
     public getSupply(symname: symbol_name): Asset {
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
-        let st = new CurrencyStats();
+        let st = new CurrencyStats(new Asset(), new Asset(), 0)
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "getSupply failed, states is not existed.");
         return st.supply;
@@ -135,7 +135,7 @@ export class Token extends Contract {
 
     public getBalance(owner: account_name, symname: symbol_name): Asset {
         let accounts: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
-        let account = new Account();
+        let account = new Account(new Asset());
         let existing = accounts.get(symname, account);
         ultrain_assert(existing, "getBalance failed, account is not existed.")
 

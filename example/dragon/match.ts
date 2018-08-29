@@ -585,7 +585,7 @@ export class MatchCore extends MatchBase {
         if (DEBUG) {
             matchInfo.prints("JoinMatch before " + RN(joinUser));
         }
-        ultrain_assert(fee >= this.regfees[<i32>(matchInfo.level - 1)], "supplied fee is small than the lower limit.");
+        ultrain_assert(fee.gte(this.regfees[<i32>(matchInfo.level - 1)]), "supplied fee is small than the lower limit.");
         // ultrain_assert(this.isCanJoin(joinUser), "can not join this match.");
 
         let generation = this.getDragonGeneration(dragonId);

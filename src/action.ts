@@ -29,10 +29,10 @@ export class TransferParams implements ISerializable {
     public quantity: Asset;
     public memo: string;
 
-    constructor(from: u64 = 0, to: u64 = 0, quantity: Asset = null, memo: string = "") {
+    constructor(from: u64, to: u64, quantity: Asset, memo: string) {
         this.from = from;
         this.to = to;
-        if (quantity == null) this.quantity = new Asset();
+        this.quantity = new Asset();
         this.memo = memo;
     }
 
@@ -58,7 +58,7 @@ export class TransferParams implements ISerializable {
  *
  * @class ActionImpl
  */
-class ActionImpl implements ISerializable {
+export class ActionImpl implements ISerializable {
     public account: account_name;
     public name: action_name;
     public authorization: PermissionLevel[];

@@ -187,7 +187,7 @@ class ClockAuctionBase {
             return endingPrice;
         } else {
             // endingPrice is sometimes lower than startingPrice
-            let priceAdded = endingPrice > startingPrice;
+            let priceAdded = endingPrice.gt(startingPrice);
             let currentPrice = startingPrice.clone();
 
             let totalchanged: u64;
@@ -240,7 +240,7 @@ class ClockAuctionBase {
         ultrain_assert(this.isOnAuction(auction), "this token id is not on auction.");
 
         let price: Asset = this.currentPrice(auction);
-        ultrain_assert(bidAmount >= price, "bid amount is lower than current price.");
+        ultrain_assert(bidAmount.gte(price), "bid amount is lower than current price.");
 
         let seller: account_name = auction.seller;
 

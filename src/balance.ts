@@ -21,7 +21,7 @@ import { Log } from "./log";
 export class Account implements ISerializable {
     balance: Asset;
 
-    constructor(blc: Asset = new Asset()) {
+    constructor(blc: Asset) {
         this.balance = blc;
     }
 
@@ -45,9 +45,9 @@ export class CurrencyStats implements ISerializable {
     max_supply: Asset;
     issuer: account_name;
 
-    constructor(supply: Asset = new Asset(), max_supply: Asset = new Asset(), issuer: u64 = 0) {
-        this.supply = supply;
+    constructor(supply: Asset, max_supply: Asset, issuer: account_name) {
         this.max_supply = max_supply;
+        this.supply = supply;
         this.issuer = issuer;
     }
 
@@ -84,7 +84,7 @@ export let SYS_NAME: u64 = <u64>(SYS >> 8);
  */
 export function queryBalance(owner: account_name): Asset {
     let accounts: DBManager<Account> = new DBManager<Account>(N("accounts"), N("utrio.token"), owner);
-    let act: Account = new Account();
+    let act: Account = new Account(new Asset());
     let existing = accounts.get(SYS_NAME, act);
 
     return existing ? act.balance : new Asset(0, SYS);

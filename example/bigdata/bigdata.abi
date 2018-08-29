@@ -1,0 +1,47 @@
+{
+  "version": "ultraio:1.0",
+  "types": [],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "p",
+          "type": "string"
+        },
+        {
+          "name": "q",
+          "type": "string"
+        }
+      ],
+      "name": "gcd",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "p",
+          "type": "string"
+        },
+        {
+          "name": "q",
+          "type": "string"
+        }
+      ],
+      "name": "cmp",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "gcd",
+      "type": "gcd"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "cmp",
+      "type": "cmp"
+    }
+  ],
+  "tables": []
+}
