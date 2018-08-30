@@ -188,7 +188,7 @@
       "keys_types": [
         "uint64"
       ],
-      "name": "accounts",
+      "name": "account",
       "type": "Account"
     }
   ]

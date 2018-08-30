@@ -1,0 +1,19 @@
+{
+  "version": "ultraio:1.0",
+  "types": [],
+  "structs": [
+    {
+      "fields": [],
+      "name": "test",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "test",
+      "type": "test"
+    }
+  ],
+  "tables": []
+}

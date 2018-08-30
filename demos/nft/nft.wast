@@ -18,8 +18,6 @@
  (type $iIIi (func (param i32 i64 i64) (result i32)))
  (type $iiiIi (func (param i32 i32 i32 i64) (result i32)))
  (type $IIIIi (func (param i64 i64 i64 i64) (result i32)))
- (type $Ii (func (param i64) (result i32)))
- (type $iiiiiv (func (param i32 i32 i32 i32 i32)))
  (type $iIv (func (param i32 i64)))
  (type $I (func (result i64)))
  (type $IIIIiii (func (param i64 i64 i64 i64 i32 i32) (result i32)))
@@ -31,15 +29,16 @@
  (type $iiIv (func (param i32 i32 i64)))
  (type $iIIv (func (param i32 i64 i64)))
  (type $iIIIiv (func (param i32 i64 i64 i64 i32)))
+ (type $Ii (func (param i64) (result i32)))
  (type $iIIiv (func (param i32 i64 i64 i32)))
  (type $iII (func (param i32 i64) (result i64)))
  (type $iIiiI (func (param i32 i64 i32 i32) (result i64)))
  (type $IIIIv (func (param i64 i64 i64 i64)))
  (import "env" "abort" (func $~lib/env/abort))
- (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/env.ts_log_print_s (param i32)))
  (import "env" "ts_log_print_i" (func $../../src/log/env.ts_log_print_i (param i64 i32)))
  (import "env" "ts_log_done" (func $../../src/log/env.ts_log_done))
+ (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "action_data_size" (func $../../internal/action.d/env.action_data_size (result i32)))
  (import "env" "read_action_data" (func $../../internal/action.d/env.read_action_data (param i32 i32) (result i32)))
  (import "env" "require_auth" (func $../../internal/action.d/env.require_auth (param i64)))
@@ -57,26 +56,25 @@
  (global $~lib/internal/allocator/MAX_SIZE_32 i32 (i32.const 1073741824))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
+ (global $../../src/log/Log (mut i32) (i32.const 0))
  (global $../../src/utils/ASCIICHAR i32 (i32.const 1272))
  (global $../../src/datastream/HEADER_SIZE i32 (i32.const 4))
- (global $../../src/log/Log (mut i32) (i32.const 0))
- (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
  (global $~lib/internal/arraybuffer/MAX_BLENGTH i32 (i32.const 1073741816))
+ (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
  (global $../../src/asset/CHAR_A i32 (i32.const 65))
  (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $../../src/balance/SYS (mut i64) (i64.const 0))
  (global $../../src/balance/SYS_NAME (mut i64) (i64.const 0))
  (global $../../internal/types/UGS (mut i64) (i64.const 0))
  (global $../../src/asset/MAX_AMOUNT i64 (i64.const 4611686018427387903))
- (global $nft/STATSTABLE i32 (i32.const 1640))
- (global $nft/ACCOUNTTABLE i32 (i32.const 1656))
- (global $nft/TOKENTABLE i32 (i32.const 1680))
+ (global $nft/STATSTABLE i32 (i32.const 1656))
+ (global $nft/ACCOUNTTABLE i32 (i32.const 1672))
+ (global $nft/TOKENTABLE i32 (i32.const 1696))
  (global $nft/Nft.token_scope (mut i64) (i64.const 0))
  (global $nft/Nft.TOKEN_PRIMARY_ID (mut i64) (i64.const 0))
  (global $nft/Nft.TOKEN_START (mut i64) (i64.const 1))
- (global $~lib/internal/string/MAX_LENGTH i32 (i32.const 536870910))
- (global $HEAP_BASE i32 (i32.const 6036))
+ (global $HEAP_BASE i32 (i32.const 5028))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 \00")
  (data (i32.const 16) "\01\00\00\00!\00")
@@ -176,87 +174,52 @@
  (data (i32.const 1272) "\f8\02\00\00_\00\00\00")
  (data (i32.const 1280) "\03\00\00\00S\00Y\00S\00")
  (data (i32.const 1296) "+\00\00\00l\00e\00n\00g\00t\00h\00 \00o\00f\00 \00_\00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00m\00u\00s\00t\00 \00b\00e\00 \00l\00e\00s\00s\00 \00t\00h\00a\00n\00 \007\00.\00")
- (data (i32.const 1392) "\00\00\00\00\00\00\00\00")
- (data (i32.const 1400) "p\05\00\00\00\00\00\00")
- (data (i32.const 1408) "\0e\00\00\00~\00l\00i\00b\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s\00")
- (data (i32.const 1440) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
- (data (i32.const 1472) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
- (data (i32.const 1536) "0\00\00\00s\00t\00r\00i\00n\00g\00_\00t\00o\00_\00_\00s\00y\00m\00b\00o\00l\00 \00f\00a\00i\00l\00e\00d\00 \00f\00o\00r\00 \00n\00o\00t\00 \00s\00u\00p\00o\00o\00r\00t\00 \00c\00o\00d\00e\00 \00:\00 \00")
- (data (i32.const 1640) "\04\00\00\00s\00t\00a\00t\00")
- (data (i32.const 1656) "\08\00\00\00a\00c\00c\00o\00u\00n\00t\00s\00")
- (data (i32.const 1680) "\05\00\00\00t\00o\00k\00e\00n\00")
- (data (i32.const 1696) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00")
- (data (i32.const 1760) "\08\00\00\00c\00r\00e\00a\00t\00e\00:\00 \00")
- (data (i32.const 1784) "\15\00\00\00 \00[\00 \00A\00s\00s\00e\00t\00:\00 \00 \00_\00a\00m\00o\00u\00n\00t\00 \00=\00 \00")
- (data (i32.const 1832) "\0b\00\00\00 \00_\00s\00y\00m\00b\00o\00l\00 \00=\00 \00")
- (data (i32.const 1864) "\02\00\00\00 \00]\00")
- (data (i32.const 1872) "\"\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00.\00")
- (data (i32.const 1944) "5\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00u\00s\00t\00 \00b\00e\00 \00a\00 \00w\00h\00o\00l\00e\00 \00n\00u\00m\00b\00e\00r\00")
- (data (i32.const 2056) "\1d\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00u\00p\00p\00l\00y\00.\00")
- (data (i32.const 2120) "\07\00\00\00s\00y\00m\00n\00a\00m\00e\00")
- (data (i32.const 2144) " \00\00\00.\001\002\003\004\005\00a\00b\00c\00d\00e\00f\00g\00h\00i\00j\00k\00l\00m\00n\00o\00p\00q\00r\00s\00t\00u\00v\00w\00x\00y\00z\00")
- (data (i32.const 2216) "\0d\00\00\00\00\00\00\00.............\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 2248) "\a8\08\00\00\0d\00\00\00")
- (data (i32.const 2256) "\00\00\00\00")
- (data (i32.const 2264) "\04\00\00\00n\00u\00l\00l\00")
- (data (i32.const 2280) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s\00")
- (data (i32.const 2336) "!\00\00\00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00y\00m\00b\00o\00l\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00s\00.\00")
- (data (i32.const 2408) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00")
- (data (i32.const 2520) " \00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00")
- (data (i32.const 2592) "4\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00u\00s\00t\00 \00b\00e\00 \00a\00 \00w\00h\00o\00l\00e\00 \00n\00u\00m\00b\00e\00r\00")
- (data (i32.const 2704) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
- (data (i32.const 2792) "&\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
- (data (i32.const 2872) "\1e\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.\00")
- (data (i32.const 2936) "\'\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.\00")
- (data (i32.const 3024) "/\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00e\00x\00c\00e\00e\00d\00s\00 \00a\00v\00a\00i\00l\00a\00b\00l\00e\00 \00s\00u\00p\00p\00l\00y\00.\00")
- (data (i32.const 3128) "@\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00i\00s\00m\00a\00t\00c\00h\00 \00b\00e\00t\00w\00e\00e\00n\00 \00n\00u\00m\00b\00e\00r\00 \00o\00f\00 \00t\00o\00k\00e\00n\00s\00 \00a\00n\00d\00 \00u\00r\00i\00s\00 \00p\00r\00o\00v\00i\00d\00e\00d\00")
- (data (i32.const 3264) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00s\00s\00u\00e\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00c\00a\00n\00\'\00t\00 \00b\00e\00 \00z\00e\00r\00o\00.\00")
- (data (i32.const 3352) "\06\00\00\00m\00i\00d\00d\00l\00e\00")
- (data (i32.const 3368) "\05\00\00\00b\00e\00g\00i\00n\00")
- (data (i32.const 3384) "\08\00\00\00m\00i\00d\00d\00l\00e\00 \001\00")
- (data (i32.const 3408) "\t\00\00\00t\00o\00k\00e\00n\00 \00u\00r\00i\00")
- (data (i32.const 3432) "\t\00\00\00t\00o\00k\00e\00n\00 \00i\00d\00:\00")
- (data (i32.const 3456) "\06\00\00\00o\00w\00n\00e\00r\00:\00")
- (data (i32.const 3472) "\04\00\00\00u\00r\00i\00:\00")
- (data (i32.const 3488) "\05\00\00\00n\00a\00m\00e\00:\00")
- (data (i32.const 3504) "\0b\00\00\00c\00u\00r\00r\00e\00n\00t\00_\00i\00d\00:\00")
- (data (i32.const 3536) "\04\00\00\002\000\001\009\00")
- (data (i32.const 3552) "\08\00\00\00m\00i\00d\00d\00l\00e\00 \002\00")
- (data (i32.const 3576) "\15\00\00\00q\00u\00a\00n\00t\00i\00t\00y\00 \00s\00u\00b\00S\00u\00p\00p\00l\00y\00 \000\001\00")
- (data (i32.const 3624) "(\00\00\00s\00u\00b\00S\00u\00p\00p\00l\00y\00 \00f\00a\00i\00l\00e\00d\00,\00 \00s\00t\00a\00t\00e\00s\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
- (data (i32.const 3712) "7\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
- (data (i32.const 3832) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
- (data (i32.const 3944) "\08\00\00\00m\00i\00d\00d\00l\00e\00 \003\00")
- (data (i32.const 3968) "\t\00\00\00s\00t\00.\00i\00s\00s\00u\00e\00r\00")
- (data (i32.const 3992) "\0e\00\00\00i\00s\00s\00u\00e\00 \00q\00u\00a\00n\00t\00i\00t\00y\00")
- (data (i32.const 4024) "\02\00\00\00t\00o\00")
- (data (i32.const 4032) "\11\00\00\00t\00o\00k\00e\00n\00_\00i\00d\00s\00 \00l\00e\00n\00g\00t\00h\00:\00")
- (data (i32.const 4072) "\10\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \00b\00e\00g\00i\00n\00")
- (data (i32.const 4112) "\0d\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \000\000\00")
- (data (i32.const 4144) "\1a\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \000\000\00")
- (data (i32.const 4200) "\1a\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \000\001\00")
- (data (i32.const 4256) "\16\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \000\000\00")
- (data (i32.const 4304) "\16\00\00\00a\00d\00d\00B\00a\00l\00a\00n\00c\00e\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \000\001\00")
- (data (i32.const 4352) "\08\00\00\00m\00i\00d\00d\00l\00e\00 \004\00")
- (data (i32.const 4376) "U\00\00\00u\00p\00d\00a\00t\00e\00M\00a\00x\00P\00r\00i\00m\00a\00r\00y\00K\00e\00y\00 \00f\00a\00i\00l\00e\00d\00:\00 \00t\00h\00e\00 \00u\00p\00d\00a\00t\00e\00d\00 \00p\00r\00i\00m\00a\00r\00y\00 \00i\00s\00 \00l\00e\00s\00s\00 \00t\00h\00a\00n\00 \00t\00h\00e\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \00p\00r\00i\00m\00a\00y\00 \00k\00e\00y\00.\00")
- (data (i32.const 4552) "6\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00p\00e\00c\00i\00f\00i\00e\00d\00 \00I\00D\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00")
- (data (i32.const 4664) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00c\00a\00n\00n\00o\00t\00 \00t\00r\00a\00n\00s\00f\00e\00r\00 \00t\00o\00 \00s\00e\00l\00f\00.\00")
- (data (i32.const 4752) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00 \00a\00c\00c\00o\00u\00n\00t\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
- (data (i32.const 4840) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
- (data (i32.const 4928) "<\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00s\00e\00n\00d\00e\00r\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00o\00w\00n\00 \00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00p\00e\00c\00i\00f\00i\00e\00d\00 \00I\00D\00.\00")
- (data (i32.const 5056) "-\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
- (data (i32.const 5152) ",\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00f\00r\00o\00m\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
- (data (i32.const 5248) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.\00")
- (data (i32.const 5328) "\11\00\00\00s\00u\00b\00 \00B\00a\00l\00a\00n\00c\00e\00 \00e\00r\00a\00s\00e\00")
- (data (i32.const 5368) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
- (data (i32.const 5480) "*\00\00\00g\00e\00t\00B\00a\00l\00a\00n\00c\00e\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
- (data (i32.const 5568) "3\00\00\00t\00o\00k\00e\00n\00O\00f\00O\00w\00n\00e\00r\00B\00y\00I\00n\00d\00e\00x\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
- (data (i32.const 5680) "7\00\00\00t\00o\00k\00e\00n\00O\00f\00O\00w\00n\00e\00r\00B\00y\00I\00n\00d\00e\00x\00 \00f\00a\00i\00l\00e\00d\00,\00 \00t\00h\00e\00 \00i\00n\00d\00e\00x\00 \00b\00e\00y\00o\00n\00d\00 \00t\00h\00e\00 \00r\00a\00n\00g\00e\00.\00")
- (data (i32.const 5800) "(\00\00\00g\00e\00t\00S\00u\00p\00p\00l\00y\00 \00f\00a\00i\00l\00e\00d\00,\00 \00s\00t\00a\00t\00e\00s\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
- (data (i32.const 5888) "+\00\00\00g\00e\00t\00B\00a\00l\00a\00n\00c\00e\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00 \00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
- (data (i32.const 5984) "\06\00\00\00c\00r\00e\00a\00t\00e\00")
- (data (i32.const 6000) "\05\00\00\00i\00s\00s\00u\00e\00")
- (data (i32.const 6016) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r\00")
+ (data (i32.const 1392) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
+ (data (i32.const 1424) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
+ (data (i32.const 1488) "\0e\00\00\00~\00l\00i\00b\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s\00")
+ (data (i32.const 1520) "\0b\00\00\00t\00o\00U\00T\00F\008\00A\00r\00r\00a\00y\00")
+ (data (i32.const 1552) "0\00\00\00s\00t\00r\00i\00n\00g\00_\00t\00o\00_\00_\00s\00y\00m\00b\00o\00l\00 \00f\00a\00i\00l\00e\00d\00 \00f\00o\00r\00 \00n\00o\00t\00 \00s\00u\00p\00o\00o\00r\00t\00 \00c\00o\00d\00e\00 \00:\00 \00")
+ (data (i32.const 1656) "\04\00\00\00s\00t\00a\00t\00")
+ (data (i32.const 1672) "\07\00\00\00a\00c\00c\00o\00u\00n\00t\00")
+ (data (i32.const 1696) "\05\00\00\00t\00o\00k\00e\00n\00")
+ (data (i32.const 1712) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00")
+ (data (i32.const 1776) "\"\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00.\00")
+ (data (i32.const 1848) "5\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00u\00s\00t\00 \00b\00e\00 \00a\00 \00w\00h\00o\00l\00e\00 \00n\00u\00m\00b\00e\00r\00")
+ (data (i32.const 1960) "\1d\00\00\00t\00o\00k\00e\00n\00.\00c\00r\00e\00a\00t\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00u\00p\00p\00l\00y\00.\00")
+ (data (i32.const 2024) "!\00\00\00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00y\00m\00b\00o\00l\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00s\00.\00")
+ (data (i32.const 2096) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00")
+ (data (i32.const 2208) " \00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00")
+ (data (i32.const 2280) "4\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00u\00s\00t\00 \00b\00e\00 \00a\00 \00w\00h\00o\00l\00e\00 \00n\00u\00m\00b\00e\00r\00")
+ (data (i32.const 2392) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
+ (data (i32.const 2480) "&\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 2560) "\1e\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00n\00v\00a\00l\00i\00d\00 \00q\00u\00a\00n\00t\00i\00t\00y\00.\00")
+ (data (i32.const 2624) "\'\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00s\00y\00m\00b\00o\00l\00 \00p\00r\00e\00c\00i\00s\00i\00o\00n\00 \00m\00i\00s\00m\00a\00t\00c\00h\00.\00")
+ (data (i32.const 2712) "/\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00e\00x\00c\00e\00e\00d\00s\00 \00a\00v\00a\00i\00l\00a\00b\00l\00e\00 \00s\00u\00p\00p\00l\00y\00.\00")
+ (data (i32.const 2816) "@\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00m\00i\00s\00m\00a\00t\00c\00h\00 \00b\00e\00t\00w\00e\00e\00n\00 \00n\00u\00m\00b\00e\00r\00 \00o\00f\00 \00t\00o\00k\00e\00n\00s\00 \00a\00n\00d\00 \00u\00r\00i\00s\00 \00p\00r\00o\00v\00i\00d\00e\00d\00")
+ (data (i32.const 2952) "*\00\00\00t\00o\00k\00e\00n\00.\00i\00s\00s\00u\00e\00:\00 \00i\00s\00s\00u\00e\00 \00q\00u\00a\00n\00t\00i\00t\00y\00 \00c\00a\00n\00\'\00t\00 \00b\00e\00 \00z\00e\00r\00o\00.\00")
+ (data (i32.const 3040) "\00\00\00\00")
+ (data (i32.const 3048) "(\00\00\00s\00u\00b\00S\00u\00p\00p\00l\00y\00 \00f\00a\00i\00l\00e\00d\00,\00 \00s\00t\00a\00t\00e\00s\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 3136) "7\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
+ (data (i32.const 3256) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 3368) "U\00\00\00u\00p\00d\00a\00t\00e\00M\00a\00x\00P\00r\00i\00m\00a\00r\00y\00K\00e\00y\00 \00f\00a\00i\00l\00e\00d\00:\00 \00t\00h\00e\00 \00u\00p\00d\00a\00t\00e\00d\00 \00p\00r\00i\00m\00a\00r\00y\00 \00i\00s\00 \00l\00e\00s\00s\00 \00t\00h\00a\00n\00 \00t\00h\00e\00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \00p\00r\00i\00m\00a\00y\00 \00k\00e\00y\00.\00")
+ (data (i32.const 3544) "6\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00p\00e\00c\00i\00f\00i\00e\00d\00 \00I\00D\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00")
+ (data (i32.const 3656) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00c\00a\00n\00n\00o\00t\00 \00t\00r\00a\00n\00s\00f\00e\00r\00 \00t\00o\00 \00s\00e\00l\00f\00.\00")
+ (data (i32.const 3744) "*\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00t\00o\00 \00a\00c\00c\00o\00u\00n\00t\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 3832) "(\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00 \00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 3920) "<\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00s\00e\00n\00d\00e\00r\00 \00d\00o\00e\00s\00 \00n\00o\00t\00 \00o\00w\00n\00 \00t\00o\00k\00e\00n\00 \00w\00i\00t\00h\00 \00s\00p\00e\00c\00i\00f\00i\00e\00d\00 \00I\00D\00.\00")
+ (data (i32.const 4048) "-\00\00\00t\00o\00k\00e\00n\00.\00t\00r\00a\00n\00s\00f\00e\00r\00:\00 \00m\00e\00m\00o\00 \00h\00a\00s\00 \00m\00o\00r\00e\00 \00t\00h\00a\00n\00 \002\005\006\00 \00b\00y\00t\00e\00s\00.\00")
+ (data (i32.const 4144) ",\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00f\00r\00o\00m\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00.\00")
+ (data (i32.const 4240) "&\00\00\00t\00o\00k\00e\00n\00.\00s\00u\00b\00B\00a\00l\00a\00n\00c\00e\00:\00 \00o\00v\00e\00r\00d\00r\00a\00w\00i\00n\00g\00 \00b\00a\00l\00a\00n\00c\00e\00.\00")
+ (data (i32.const 4320) "\11\00\00\00s\00u\00b\00 \00B\00a\00l\00a\00n\00c\00e\00 \00e\00r\00a\00s\00e\00")
+ (data (i32.const 4360) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 4472) "*\00\00\00g\00e\00t\00B\00a\00l\00a\00n\00c\00e\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 4560) "3\00\00\00t\00o\00k\00e\00n\00O\00f\00O\00w\00n\00e\00r\00B\00y\00I\00n\00d\00e\00x\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 4672) "7\00\00\00t\00o\00k\00e\00n\00O\00f\00O\00w\00n\00e\00r\00B\00y\00I\00n\00d\00e\00x\00 \00f\00a\00i\00l\00e\00d\00,\00 \00t\00h\00e\00 \00i\00n\00d\00e\00x\00 \00b\00e\00y\00o\00n\00d\00 \00t\00h\00e\00 \00r\00a\00n\00g\00e\00.\00")
+ (data (i32.const 4792) "(\00\00\00g\00e\00t\00S\00u\00p\00p\00l\00y\00 \00f\00a\00i\00l\00e\00d\00,\00 \00s\00t\00a\00t\00e\00s\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 4880) "+\00\00\00g\00e\00t\00B\00a\00l\00a\00n\00c\00e\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00 \00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 4976) "\06\00\00\00c\00r\00e\00a\00t\00e\00")
+ (data (i32.const 4992) "\05\00\00\00i\00s\00s\00u\00e\00")
+ (data (i32.const 5008) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r\00")
  (export "memory" (memory $0))
  (export "Nft#constructor" (func $nft/Nft#constructor))
  (export "Nft#get:_receiver" (func $Nft#get:_receiver))
@@ -393,41 +356,7 @@
    )
   )
  )
- (func $~lib/string/String#charCodeAt (; 18 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (if
-   (i32.eqz
-    (i32.ne
-     (get_local $0)
-     (i32.const 0)
-    )
-   )
-   (block
-    (call $~lib/env/abort)
-    (unreachable)
-   )
-  )
-  (if
-   (i32.ge_u
-    (get_local $1)
-    (i32.load
-     (get_local $0)
-    )
-   )
-   (return
-    (i32.const -1)
-   )
-  )
-  (i32.load16_u offset=4
-   (i32.add
-    (get_local $0)
-    (i32.shl
-     (get_local $1)
-     (i32.const 1)
-    )
-   )
-  )
- )
- (func $~lib/internal/arraybuffer/computeSize (; 19 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 18 ;) (type $ii) (param $0 i32) (result i32)
   (i32.shl
    (i32.const 1)
    (i32.sub
@@ -443,6 +372,41 @@
     )
    )
   )
+ )
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 19 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (if
+   (i32.eqz
+    (i32.le_u
+     (get_local $0)
+     (get_global $~lib/internal/arraybuffer/MAX_BLENGTH)
+    )
+   )
+   (block
+    (call $~lib/env/abort)
+    (unreachable)
+   )
+  )
+  (set_local $1
+   (block $~lib/memory/memory.allocate|inlined.0 (result i32)
+    (set_local $2
+     (call $~lib/internal/arraybuffer/computeSize
+      (get_local $0)
+     )
+    )
+    (br $~lib/memory/memory.allocate|inlined.0
+     (call $~lib/allocator/arena/__memory_allocate
+      (get_local $2)
+     )
+    )
+   )
+  )
+  (i32.store
+   (get_local $1)
+   (get_local $0)
+  )
+  (get_local $1)
  )
  (func $~lib/internal/memory/memset (; 20 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
@@ -796,14 +760,87 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/allocateUnsafe (; 21 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
+ (func $~lib/array/Array<u8>#constructor (; 21 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (if
+   (i32.gt_u
+    (get_local $1)
+    (i32.const 1073741816)
+   )
+   (block
+    (call $~lib/env/abort)
+    (unreachable)
+   )
+  )
+  (set_local $2
+   (i32.shl
+    (get_local $1)
+    (i32.const 0)
+   )
+  )
+  (set_local $3
+   (call $~lib/internal/arraybuffer/allocateUnsafe
+    (get_local $2)
+   )
+  )
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $4
+        (call $~lib/memory/memory.allocate
+         (i32.const 8)
+        )
+       )
+       (i32.store
+        (get_local $4)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $4)
+        (i32.const 0)
+       )
+       (get_local $4)
+      )
+     )
+    )
+   )
+   (get_local $3)
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $1)
+  )
+  (block $~lib/memory/memory.fill|inlined.0
+   (set_local $4
+    (i32.add
+     (get_local $3)
+     (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+    )
+   )
+   (set_local $5
+    (i32.const 0)
+   )
+   (call $~lib/internal/memory/memset
+    (get_local $4)
+    (get_local $5)
+    (get_local $2)
+   )
+  )
+  (get_local $0)
+ )
+ (func $~lib/string/String#charCodeAt (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
-    (i32.le_u
+    (i32.ne
      (get_local $0)
-     (get_global $~lib/internal/arraybuffer/MAX_BLENGTH)
+     (i32.const 0)
     )
    )
    (block
@@ -811,27 +848,28 @@
     (unreachable)
    )
   )
-  (set_local $1
-   (block $~lib/memory/memory.allocate|inlined.0 (result i32)
-    (set_local $2
-     (call $~lib/internal/arraybuffer/computeSize
-      (get_local $0)
-     )
+  (if
+   (i32.ge_u
+    (get_local $1)
+    (i32.load
+     (get_local $0)
     )
-    (br $~lib/memory/memory.allocate|inlined.0
-     (call $~lib/allocator/arena/__memory_allocate
-      (get_local $2)
-     )
+   )
+   (return
+    (i32.const -1)
+   )
+  )
+  (i32.load16_u offset=4
+   (i32.add
+    (get_local $0)
+    (i32.shl
+     (get_local $1)
+     (i32.const 1)
     )
    )
   )
-  (i32.store
-   (get_local $1)
-   (get_local $0)
-  )
-  (get_local $1)
  )
- (func $~lib/internal/memory/memcpy (; 22 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memcpy (; 23 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2633,7 +2671,7 @@
    )
   )
  )
- (func $~lib/internal/memory/memmove (; 23 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memmove (; 24 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.eq
@@ -2951,7 +2989,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/reallocateUnsafe (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocateUnsafe (; 25 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2995,7 +3033,7 @@
        (get_local $0)
        (get_local $1)
       )
-      (block $~lib/memory/memory.fill|inlined.0
+      (block $~lib/memory/memory.fill|inlined.1
        (set_local $3
         (i32.add
          (i32.add
@@ -3046,7 +3084,7 @@
         (get_local $2)
        )
       )
-      (block $~lib/memory/memory.fill|inlined.1
+      (block $~lib/memory/memory.fill|inlined.2
        (set_local $3
         (i32.add
          (i32.add
@@ -3104,7 +3142,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u8>#push (; 25 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#push (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3182,13 +3220,60 @@
   )
   (get_local $5)
  )
- (func $../../src/utils/toUTF8Array (; 26 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/log/Logger#s (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (block $break|0
+   (set_local $2
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $2)
+       (i32.load
+        (get_local $1)
+       )
+      )
+     )
+    )
+    (call $../../src/log/env.ts_log_print_s
+     (call $~lib/string/String#charCodeAt
+      (get_local $1)
+      (get_local $2)
+     )
+    )
+    (set_local $2
+     (i32.add
+      (get_local $2)
+      (i32.const 1)
+     )
+    )
+    (br $repeat|0)
+   )
+  )
+  (get_local $0)
+ )
+ (func $../../src/log/Logger#i (; 28 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+  (call $../../src/log/env.ts_log_print_i
+   (get_local $1)
+   (get_local $2)
+  )
+  (get_local $0)
+ )
+ (func $../../src/log/Logger#flush (; 29 ;) (type $iv) (param $0 i32)
+  (call $../../src/log/env.ts_log_done)
+ )
+ (func $../../src/utils/toUTF8Array (; 30 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $1
-   (i32.const 1400)
+   (call $~lib/array/Array<u8>#constructor
+    (i32.const 0)
+    (i32.const 0)
+   )
   )
   (block $break|0
    (set_local $2
@@ -3411,9 +3496,25 @@
     (i32.const 0)
    )
   )
+  (call $../../src/log/Logger#flush
+   (call $../../src/log/Logger#i
+    (call $../../src/log/Logger#s
+     (get_global $../../src/log/Log)
+     (i32.const 1520)
+    )
+    (i64.extend_s/i32
+     (block $~lib/array/Array<u8>#get:length|inlined.0 (result i32)
+      (i32.load offset=4
+       (get_local $1)
+      )
+     )
+    )
+    (i32.const 10)
+   )
+  )
   (get_local $1)
  )
- (func $../../src/utils/string2cstr (; 27 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/utils/string2cstr (; 31 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -3431,7 +3532,7 @@
    (i32.const 8)
   )
  )
- (func $../../src/utils/ultrain_assert (; 28 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/utils/ultrain_assert (; 32 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eq
     (i32.and
@@ -3448,51 +3549,7 @@
    )
   )
  )
- (func $../../src/log/Logger#s (; 29 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (block $break|0
-   (set_local $2
-    (i32.const 0)
-   )
-   (loop $repeat|0
-    (br_if $break|0
-     (i32.eqz
-      (i32.lt_s
-       (get_local $2)
-       (i32.load
-        (get_local $1)
-       )
-      )
-     )
-    )
-    (call $../../src/log/env.ts_log_print_s
-     (call $~lib/string/String#charCodeAt
-      (get_local $1)
-      (get_local $2)
-     )
-    )
-    (set_local $2
-     (i32.add
-      (get_local $2)
-      (i32.const 1)
-     )
-    )
-    (br $repeat|0)
-   )
-  )
-  (get_local $0)
- )
- (func $../../src/log/Logger#i (; 30 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
-  (call $../../src/log/env.ts_log_print_i
-   (get_local $1)
-   (get_local $2)
-  )
-  (get_local $0)
- )
- (func $../../src/log/Logger#flush (; 31 ;) (type $iv) (param $0 i32)
-  (call $../../src/log/env.ts_log_done)
- )
- (func $../../src/asset/StringToSymbol (; 32 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $../../src/asset/StringToSymbol (; 33 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -3563,7 +3620,7 @@
        (call $../../src/log/Logger#i
         (call $../../src/log/Logger#s
          (get_global $../../src/log/Log)
-         (i32.const 1536)
+         (i32.const 1552)
         )
         (i64.extend_s/i32
          (get_local $5)
@@ -3617,7 +3674,7 @@
   )
   (get_local $3)
  )
- (func $../../src/utils/char_to_symbol (; 33 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/utils/char_to_symbol (; 34 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (if (result i32)
@@ -3691,7 +3748,7 @@
   )
   (i64.const 0)
  )
- (func $../../src/utils/N (; 34 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/utils/N (; 35 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -3803,7 +3860,7 @@
   )
   (get_local $2)
  )
- (func $nft/Nft#constructor (; 35 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $nft/Nft#constructor (; 36 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (drop
    (get_local $0)
@@ -3836,12 +3893,12 @@
   )
   (get_local $0)
  )
- (func $../../lib/contract/Contract#get:receiver (; 36 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/contract/Contract#get:receiver (; 37 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 38 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3867,7 +3924,7 @@
     (get_local $2)
    )
   )
-  (block $~lib/memory/memory.fill|inlined.2
+  (block $~lib/memory/memory.fill|inlined.3
    (set_local $4
     (i32.add
      (get_local $3)
@@ -3924,7 +3981,7 @@
   )
   (get_local $0)
  )
- (func $../../src/datastream/DataStream#constructor (; 38 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../src/datastream/DataStream#constructor (; 39 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (tee_local $0
@@ -3967,7 +4024,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/contract/DataStreamFromCurrentAction (; 39 ;) (type $i) (result i32)
+ (func $../../lib/contract/DataStreamFromCurrentAction (; 40 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -3999,43 +4056,14 @@
   )
   (get_local $2)
  )
- (func $../../lib/contract/Contract#getDataStream (; 40 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/contract/Contract#getDataStream (; 41 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../lib/contract/DataStreamFromCurrentAction)
  )
- (func $../../lib/contract/Contract#onInit (; 41 ;) (type $iv) (param $0 i32)
+ (func $../../lib/contract/Contract#onInit (; 42 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $../../lib/contract/Contract#onStop (; 42 ;) (type $iv) (param $0 i32)
+ (func $../../lib/contract/Contract#onStop (; 43 ;) (type $iv) (param $0 i32)
   (nop)
- )
- (func $../../src/asset/Asset#prints (; 43 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#i
-     (call $../../src/log/Logger#s
-      (call $../../src/log/Logger#i
-       (call $../../src/log/Logger#s
-        (call $../../src/log/Logger#s
-         (get_global $../../src/log/Log)
-         (get_local $1)
-        )
-        (i32.const 1784)
-       )
-       (i64.load
-        (get_local $0)
-       )
-       (i32.const 10)
-      )
-      (i32.const 1832)
-     )
-     (i64.load offset=8
-      (get_local $0)
-     )
-     (i32.const 16)
-    )
-    (i32.const 1864)
-   )
-  )
  )
  (func $../../src/asset/Asset#symbolName (; 44 ;) (type $iI) (param $0 i32) (result i64)
   (i64.shr_u
@@ -4462,483 +4490,18 @@
   )
   (i32.const 1)
  )
- (func $~lib/array/Array<u8>#__set (; 57 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (set_local $3
-   (i32.load
-    (get_local $0)
-   )
-  )
-  (set_local $4
-   (i32.shr_u
-    (i32.load
-     (get_local $3)
-    )
-    (i32.const 0)
-   )
-  )
-  (if
-   (i32.ge_u
-    (get_local $1)
-    (get_local $4)
-   )
-   (block
-    (if
-     (i32.ge_u
-      (get_local $1)
-      (i32.const 1073741816)
-     )
-     (block
-      (call $~lib/env/abort)
-      (unreachable)
-     )
-    )
-    (set_local $3
-     (call $~lib/internal/arraybuffer/reallocateUnsafe
-      (get_local $3)
-      (i32.shl
-       (i32.add
-        (get_local $1)
-        (i32.const 1)
-       )
-       (i32.const 0)
-      )
-     )
-    )
-    (i32.store
-     (get_local $0)
-     (get_local $3)
-    )
-    (i32.store offset=4
-     (get_local $0)
-     (i32.add
-      (get_local $1)
-      (i32.const 1)
-     )
-    )
-   )
-  )
-  (block $~lib/internal/arraybuffer/storeUnsafe<u8_u8>|inlined.1
-   (i32.store8 offset=8
-    (i32.add
-     (get_local $3)
-     (i32.shl
-      (get_local $1)
-      (i32.const 0)
-     )
-    )
-    (get_local $2)
-   )
-  )
- )
- (func $~lib/array/Array<u8>#__get (; 58 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (set_local $2
-   (i32.load
-    (get_local $0)
-   )
-  )
-  (if (result i32)
-   (i32.lt_u
-    (get_local $1)
-    (i32.shr_u
-     (i32.load
-      (get_local $2)
-     )
-     (i32.const 0)
-    )
-   )
-   (block $~lib/internal/arraybuffer/loadUnsafe<u8_u8>|inlined.0 (result i32)
-    (i32.load8_u offset=8
-     (i32.add
-      (get_local $2)
-      (i32.shl
-       (get_local $1)
-       (i32.const 0)
-      )
-     )
-    )
-   )
-   (unreachable)
-  )
- )
- (func $~lib/array/Array<String>#__get (; 59 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (set_local $2
-   (i32.load
-    (get_local $0)
-   )
-  )
-  (if (result i32)
-   (i32.lt_u
-    (get_local $1)
-    (i32.shr_u
-     (i32.load
-      (get_local $2)
-     )
-     (i32.const 2)
-    )
-   )
-   (block $~lib/internal/arraybuffer/loadUnsafe<String_String>|inlined.0 (result i32)
-    (i32.load offset=8
-     (i32.add
-      (get_local $2)
-      (i32.shl
-       (get_local $1)
-       (i32.const 2)
-      )
-     )
-    )
-   )
-   (unreachable)
-  )
- )
- (func $~lib/internal/string/allocateUnsafe (; 60 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (if
-   (i32.eqz
-    (if (result i32)
-     (tee_local $1
-      (i32.gt_s
-       (get_local $0)
-       (i32.const 0)
-      )
-     )
-     (i32.le_s
-      (get_local $0)
-      (get_global $~lib/internal/string/MAX_LENGTH)
-     )
-     (get_local $1)
-    )
-   )
-   (block
-    (call $~lib/env/abort)
-    (unreachable)
-   )
-  )
-  (set_local $2
-   (block $~lib/memory/memory.allocate|inlined.1 (result i32)
-    (set_local $1
-     (i32.add
-      (get_global $~lib/internal/string/HEADER_SIZE)
-      (i32.shl
-       (get_local $0)
-       (i32.const 1)
-      )
-     )
-    )
-    (br $~lib/memory/memory.allocate|inlined.1
-     (call $~lib/allocator/arena/__memory_allocate
-      (get_local $1)
-     )
-    )
-   )
-  )
-  (i32.store
-   (get_local $2)
-   (get_local $0)
-  )
-  (get_local $2)
- )
- (func $~lib/internal/string/copyUnsafe (; 61 ;) (type $iiiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 i32)
-  (block $~lib/memory/memory.copy|inlined.1
-   (set_local $5
-    (i32.add
-     (i32.add
-      (get_local $0)
-      (i32.shl
-       (get_local $1)
-       (i32.const 1)
-      )
-     )
-     (get_global $~lib/internal/string/HEADER_SIZE)
-    )
-   )
-   (set_local $6
-    (i32.add
-     (i32.add
-      (get_local $2)
-      (i32.shl
-       (get_local $3)
-       (i32.const 1)
-      )
-     )
-     (get_global $~lib/internal/string/HEADER_SIZE)
-    )
-   )
-   (set_local $7
-    (i32.shl
-     (get_local $4)
-     (i32.const 1)
-    )
-   )
-   (call $~lib/internal/memory/memmove
-    (get_local $5)
-    (get_local $6)
-    (get_local $7)
-   )
-  )
- )
- (func $~lib/string/String#concat (; 62 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (if
-   (i32.eqz
-    (i32.ne
-     (get_local $0)
-     (i32.const 0)
-    )
-   )
-   (block
-    (call $~lib/env/abort)
-    (unreachable)
-   )
-  )
-  (if
-   (i32.eq
-    (get_local $1)
-    (i32.const 0)
-   )
-   (set_local $1
-    (i32.const 2264)
-   )
-  )
-  (set_local $2
-   (i32.load
-    (get_local $0)
-   )
-  )
-  (set_local $3
-   (i32.load
-    (get_local $1)
-   )
-  )
-  (set_local $4
-   (i32.add
-    (get_local $2)
-    (get_local $3)
-   )
-  )
-  (if
-   (i32.eq
-    (get_local $4)
-    (i32.const 0)
-   )
-   (return
-    (i32.const 2256)
-   )
-  )
-  (set_local $5
-   (call $~lib/internal/string/allocateUnsafe
-    (get_local $4)
-   )
-  )
-  (call $~lib/internal/string/copyUnsafe
-   (get_local $5)
-   (i32.const 0)
-   (get_local $0)
-   (i32.const 0)
-   (get_local $2)
-  )
-  (call $~lib/internal/string/copyUnsafe
-   (get_local $5)
-   (get_local $2)
-   (get_local $1)
-   (i32.const 0)
-   (get_local $3)
-  )
-  (get_local $5)
- )
- (func $~lib/string/String.__concat (; 63 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (if
-   (i32.eqz
-    (get_local $0)
-   )
-   (set_local $0
-    (i32.const 2264)
-   )
-  )
-  (call $~lib/string/String#concat
-   (get_local $0)
-   (get_local $1)
-  )
- )
- (func $../../src/utils/RN (; 64 ;) (type $Ii) (param $0 i64) (result i32)
-  (local $1 i32)
-  (local $2 i64)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (set_local $1
-   (i32.const 2248)
-  )
-  (set_local $2
-   (get_local $0)
-  )
-  (block $break|0
-   (set_local $3
-    (i32.const 0)
-   )
-   (loop $repeat|0
-    (br_if $break|0
-     (i32.eqz
-      (i32.le_u
-       (get_local $3)
-       (i32.const 12)
-      )
-     )
-    )
-    (block
-     (set_local $4
-      (i32.wrap/i64
-       (i64.and
-        (get_local $2)
-        (if (result i64)
-         (i32.eq
-          (get_local $3)
-          (i32.const 0)
-         )
-         (i64.const 15)
-         (i64.const 31)
-        )
-       )
-      )
-     )
-     (set_local $5
-      (i32.and
-       (call $~lib/string/String#charCodeAt
-        (i32.const 2144)
-        (get_local $4)
-       )
-       (i32.const 255)
-      )
-     )
-     (call $~lib/array/Array<u8>#__set
-      (get_local $1)
-      (i32.sub
-       (i32.const 12)
-       (get_local $3)
-      )
-      (get_local $5)
-     )
-     (set_local $2
-      (i64.shr_u
-       (get_local $2)
-       (if (result i64)
-        (i32.eq
-         (get_local $3)
-         (i32.const 0)
-        )
-        (i64.const 4)
-        (i64.const 5)
-       )
-      )
-     )
-    )
-    (set_local $3
-     (i32.add
-      (get_local $3)
-      (i32.const 1)
-     )
-    )
-    (br $repeat|0)
-   )
-  )
-  (set_local $3
-   (i32.const 2256)
-  )
-  (set_local $5
-   (i32.const 1)
-  )
-  (block $break|1
-   (set_local $4
-    (i32.const 12)
-   )
-   (loop $repeat|1
-    (br_if $break|1
-     (i32.eqz
-      (i32.ge_s
-       (get_local $4)
-       (i32.const 0)
-      )
-     )
-    )
-    (if
-     (if (result i32)
-      (tee_local $6
-       (i32.eq
-        (i32.and
-         (call $~lib/array/Array<u8>#__get
-          (get_local $1)
-          (get_local $4)
-         )
-         (i32.const 255)
-        )
-        (i32.const 46)
-       )
-      )
-      (get_local $5)
-      (get_local $6)
-     )
-     (nop)
-     (block
-      (set_local $5
-       (i32.const 0)
-      )
-      (set_local $6
-       (i32.sub
-        (call $~lib/array/Array<u8>#__get
-         (get_local $1)
-         (get_local $4)
-        )
-        (i32.const 32)
-       )
-      )
-      (set_local $3
-       (call $~lib/string/String.__concat
-        (call $~lib/array/Array<String>#__get
-         (get_global $../../src/utils/ASCIICHAR)
-         (i32.and
-          (get_local $6)
-          (i32.const 255)
-         )
-        )
-        (get_local $3)
-       )
-      )
-     )
-    )
-    (set_local $4
-     (i32.sub
-      (get_local $4)
-      (i32.const 1)
-     )
-    )
-    (br $repeat|1)
-   )
-  )
-  (get_local $3)
- )
- (func $../../src/asset/Asset#getSymbol (; 65 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getSymbol (; 57 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setSymbol (; 66 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setSymbol (; 58 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream#isMesureMode (; 67 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#isMesureMode (; 59 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4946,7 +4509,7 @@
    (i32.const 0)
   )
  )
- (func $../../src/datastream/DataStream#write<u64> (; 68 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/datastream/DataStream#write<u64> (; 60 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
     (call $../../src/datastream/DataStream#isMesureMode
@@ -4975,7 +4538,7 @@
    )
   )
  )
- (func $../../src/asset/Asset#serialize (; 69 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#serialize (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -4989,7 +4552,7 @@
    )
   )
  )
- (func $nft/CurrencyStats#serialize (; 70 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/CurrencyStats#serialize (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -5009,7 +4572,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 71 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 63 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -5026,14 +4589,14 @@
    (get_local $1)
   )
  )
- (func $nft/CurrencyStats#primaryKey (; 72 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/CurrencyStats#primaryKey (; 64 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 73 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 65 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5045,7 +4608,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2408)
+   (i32.const 2096)
   )
   (set_local $3
    (call $../../src/datastream/DataStream.measure<CurrencyStats>
@@ -5095,15 +4658,11 @@
    )
   )
  )
- (func $nft/Nft#create (; 74 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $nft/Nft#create (; 66 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
-  (call $../../src/asset/Asset#prints
-   (get_local $2)
-   (i32.const 1760)
-  )
   (call $../../internal/action.d/env.require_auth
    (call $../../lib/contract/Contract#get:receiver
     (get_local $0)
@@ -5118,7 +4677,7 @@
    (call $../../src/asset/Asset#isSymbolValid
     (get_local $2)
    )
-   (i32.const 1872)
+   (i32.const 1776)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -5127,13 +4686,13 @@
     )
     (i64.const 0)
    )
-   (i32.const 1944)
+   (i32.const 1848)
   )
   (call $../../src/utils/ultrain_assert
    (call $../../src/asset/Asset#isValid
     (get_local $2)
    )
-   (i32.const 2056)
+   (i32.const 1960)
   )
   (set_local $4
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -5170,22 +4729,11 @@
     (get_local $5)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 2120)
-    )
-    (call $../../src/utils/RN
-     (get_local $3)
-    )
-   )
-  )
   (call $../../src/utils/ultrain_assert
    (i32.eqz
     (get_local $6)
    )
-   (i32.const 2336)
+   (i32.const 2024)
   )
   (call $../../src/asset/Asset#setSymbol
    (i32.load
@@ -5211,12 +4759,12 @@
    (get_local $5)
   )
  )
- (func $../../src/asset/Asset#getAmount (; 75 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getAmount (; 67 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $~lib/array/Array<u64>#constructor (; 76 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u64>#constructor (; 68 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5273,7 +4821,7 @@
    (get_local $0)
    (get_local $1)
   )
-  (block $~lib/memory/memory.fill|inlined.3
+  (block $~lib/memory/memory.fill|inlined.4
    (set_local $4
     (i32.add
      (get_local $3)
@@ -5291,7 +4839,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<Token>#constructor (; 77 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#constructor (; 69 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -5334,7 +4882,7 @@
   )
   (get_local $0)
  )
- (func $nft/Token#constructor (; 78 ;) (type $iIIiiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
+ (func $nft/Token#constructor (; 70 ;) (type $iIIiiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
   (local $6 i32)
   (i64.store
    (tee_local $0
@@ -5401,7 +4949,7 @@
   )
   (get_local $0)
  )
- (func $../../src/datastream/DataStream#read<u8> (; 79 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#read<u8> (; 71 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -5426,7 +4974,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readVarint32 (; 80 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVarint32 (; 72 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5482,7 +5030,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readString (; 81 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readString (; 73 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5499,11 +5047,11 @@
     (i32.const 0)
    )
    (return
-    (i32.const 2256)
+    (i32.const 3040)
    )
   )
   (set_local $3
-   (block $~lib/memory/memory.allocate|inlined.2 (result i32)
+   (block $~lib/memory/memory.allocate|inlined.1 (result i32)
     (set_local $2
      (i32.add
       (get_global $../../src/datastream/HEADER_SIZE)
@@ -5513,7 +5061,7 @@
       )
      )
     )
-    (br $~lib/memory/memory.allocate|inlined.2
+    (br $~lib/memory/memory.allocate|inlined.1
      (call $~lib/allocator/arena/__memory_allocate
       (get_local $2)
      )
@@ -5568,7 +5116,7 @@
   )
   (get_local $2)
  )
- (func $nft/Token#deserialize (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/Token#deserialize (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $../../src/datastream/DataStream#read<u64>
@@ -5581,21 +5129,11 @@
     (get_local $1)
    )
   )
-  (i64.store
+  (call $../../src/asset/Asset#deserialize
    (i32.load offset=16
     (get_local $0)
    )
-   (call $../../src/datastream/DataStream#read<u64>
-    (get_local $1)
-   )
-  )
-  (i64.store offset=8
-   (i32.load offset=16
-    (get_local $0)
-   )
-   (call $../../src/datastream/DataStream#read<u64>
-    (get_local $1)
-   )
+   (get_local $1)
   )
   (i32.store offset=20
    (get_local $0)
@@ -5616,7 +5154,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#loadObjectByPrimaryIterator (; 83 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#loadObjectByPrimaryIterator (; 75 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5656,7 +5194,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#get (; 84 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#get (; 76 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -5688,7 +5226,7 @@
   )
   (i32.const 1)
  )
- (func $nft/Token#increaseId (; 85 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#increaseId (; 77 ;) (type $iI) (param $0 i32) (result i64)
   (i64.store offset=32
    (get_local $0)
    (i64.add
@@ -5702,7 +5240,7 @@
    (get_local $0)
   )
  )
- (func $nft/Nft#availablePrimaryKey (; 86 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Nft#availablePrimaryKey (; 78 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5729,14 +5267,8 @@
      (i64.const 0)
      (i64.const 1397183748)
     )
-    (i32.const 2256)
-    (i32.const 2256)
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 3368)
+    (i32.const 3040)
+    (i32.const 3040)
    )
   )
   (set_local $3
@@ -5747,19 +5279,48 @@
    )
   )
   (set_local $4
-   (get_global $nft/Nft.TOKEN_START)
-  )
-  (if
-   (get_local $3)
-   (set_local $4
+   (if (result i64)
+    (get_local $3)
     (call $nft/Token#increaseId
      (get_local $2)
     )
+    (get_global $nft/Nft.TOKEN_START)
    )
   )
   (get_local $4)
  )
- (func $~lib/array/Array<u64>#push (; 87 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/array/Array<String>#__get (; 79 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (set_local $2
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (if (result i32)
+   (i32.lt_u
+    (get_local $1)
+    (i32.shr_u
+     (i32.load
+      (get_local $2)
+     )
+     (i32.const 2)
+    )
+   )
+   (block $~lib/internal/arraybuffer/loadUnsafe<String_String>|inlined.0 (result i32)
+    (i32.load offset=8
+     (i32.add
+      (get_local $2)
+      (i32.shl
+       (get_local $1)
+       (i32.const 2)
+      )
+     )
+    )
+   )
+   (unreachable)
+  )
+ )
+ (func $~lib/array/Array<u64>#push (; 80 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5837,56 +5398,7 @@
   )
   (get_local $5)
  )
- (func $nft/Token#print (; 88 ;) (type $iv) (param $0 i32)
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#s
-      (call $../../src/log/Logger#s
-       (call $../../src/log/Logger#s
-        (call $../../src/log/Logger#s
-         (call $../../src/log/Logger#s
-          (call $../../src/log/Logger#s
-           (call $../../src/log/Logger#i
-            (call $../../src/log/Logger#s
-             (get_global $../../src/log/Log)
-             (i32.const 3432)
-            )
-            (i64.load
-             (get_local $0)
-            )
-            (i32.const 10)
-           )
-           (i32.const 3456)
-          )
-          (call $../../src/utils/RN
-           (i64.load offset=8
-            (get_local $0)
-           )
-          )
-         )
-         (i32.const 3472)
-        )
-        (i32.load offset=20
-         (get_local $0)
-        )
-       )
-       (i32.const 3488)
-      )
-      (i32.load offset=24
-       (get_local $0)
-      )
-     )
-     (i32.const 3504)
-    )
-    (i64.load offset=32
-     (get_local $0)
-    )
-    (i32.const 10)
-   )
-  )
- )
- (func $../../src/datastream/DataStream#write<u8> (; 89 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#write<u8> (; 81 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (call $../../src/datastream/DataStream#isMesureMode
@@ -5915,7 +5427,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeVarint32 (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVarint32 (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (block $break|0
    (loop $continue|0
@@ -5959,7 +5471,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeString (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeString (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6001,7 +5513,7 @@
       (i32.const 8)
      )
     )
-    (block $~lib/memory/memory.copy|inlined.2
+    (block $~lib/memory/memory.copy|inlined.1
      (set_local $5
       (i32.add
        (i32.load
@@ -6014,7 +5526,7 @@
      )
      (set_local $6
       (i32.sub
-       (block $~lib/array/Array<u8>#get:length|inlined.0 (result i32)
+       (block $~lib/array/Array<u8>#get:length|inlined.1 (result i32)
         (i32.load offset=4
          (get_local $3)
         )
@@ -6037,7 +5549,7 @@
      (get_local $0)
     )
     (i32.sub
-     (block $~lib/array/Array<u8>#get:length|inlined.1 (result i32)
+     (block $~lib/array/Array<u8>#get:length|inlined.2 (result i32)
       (i32.load offset=4
        (get_local $3)
       )
@@ -6047,7 +5559,7 @@
    )
   )
  )
- (func $nft/Token#serialize (; 92 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/Token#serialize (; 84 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -6060,21 +5572,11 @@
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#write<u64>
-   (get_local $1)
-   (i64.load
-    (i32.load offset=16
-     (get_local $0)
-    )
+  (call $../../src/asset/Asset#serialize
+   (i32.load offset=16
+    (get_local $0)
    )
-  )
-  (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
-   (i64.load offset=8
-    (i32.load offset=16
-     (get_local $0)
-    )
-   )
   )
   (call $../../src/datastream/DataStream#writeString
    (get_local $1)
@@ -6084,7 +5586,9 @@
   )
   (call $../../src/datastream/DataStream#writeString
    (get_local $1)
-   (i32.const 3536)
+   (i32.load offset=24
+    (get_local $0)
+   )
   )
   (call $../../src/datastream/DataStream#write<u64>
    (get_local $1)
@@ -6093,7 +5597,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<Token> (; 93 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<Token> (; 85 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -6110,12 +5614,12 @@
    (get_local $1)
   )
  )
- (func $nft/Token#primaryKey (; 94 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#primaryKey (; 86 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#emplace (; 95 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#emplace (; 87 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6127,7 +5631,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2408)
+   (i32.const 2096)
   )
   (set_local $3
    (call $../../src/datastream/DataStream.measure<Token>
@@ -6177,7 +5681,7 @@
    )
   )
  )
- (func $nft/Nft#mint (; 96 ;) (type $iIIIiiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32) (param $5 i32) (param $6 i32)
+ (func $nft/Nft#mint (; 88 ;) (type $iIIIiiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32) (param $5 i32) (param $6 i32)
   (local $7 i32)
   (local $8 i32)
   (local $9 i32)
@@ -6210,33 +5714,19 @@
     (get_local $8)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 3408)
-    )
-    (i32.load offset=20
-     (get_local $8)
-    )
-   )
-  )
-  (call $nft/Token#print
-   (get_local $8)
-  )
   (call $../../src/dbmanager/DBManager<Token>#emplace
    (get_local $7)
    (get_local $3)
    (get_local $8)
   )
  )
- (func $../../src/asset/Asset#setAmount (; 97 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setAmount (; 89 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 98 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 90 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -6254,7 +5744,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 99 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 91 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6272,7 +5762,7 @@
     (get_local $3)
     (i32.const 0)
    )
-   (i32.const 3712)
+   (i32.const 3136)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6281,7 +5771,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 3832)
+   (i32.const 3256)
   )
   (set_local $4
    (call $../../src/datastream/DataStream.measure<CurrencyStats>
@@ -6318,7 +5808,7 @@
    )
   )
  )
- (func $nft/Nft#subSupply (; 100 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $nft/Nft#subSupply (; 92 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -6328,10 +5818,6 @@
    (call $../../src/asset/Asset#symbolName
     (get_local $2)
    )
-  )
-  (call $../../src/asset/Asset#prints
-   (get_local $2)
-   (i32.const 3576)
   )
   (set_local $4
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -6361,17 +5847,6 @@
     (i64.const 0)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 2120)
-    )
-    (call $../../src/utils/RN
-     (get_local $3)
-    )
-   )
-  )
   (set_local $6
    (call $../../src/dbmanager/DBManager<CurrencyStats>#get
     (get_local $4)
@@ -6381,7 +5856,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $6)
-   (i32.const 3624)
+   (i32.const 3048)
   )
   (set_local $7
    (i64.add
@@ -6407,7 +5882,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#constructor (; 101 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#constructor (; 93 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -6450,7 +5925,7 @@
   )
   (get_local $0)
  )
- (func $nft/Account#constructor (; 102 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $nft/Account#constructor (; 94 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store offset=4
    (tee_local $0
@@ -6488,7 +5963,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u64>#__set (; 103 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/array/Array<u64>#__set (; 95 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -6558,7 +6033,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#readVector<u64> (; 104 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readVector<u64> (; 96 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6616,7 +6091,7 @@
   )
   (get_local $2)
  )
- (func $nft/Account#deserialize (; 105 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/Account#deserialize (; 97 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -6630,7 +6105,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 106 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 98 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6670,7 +6145,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#get (; 107 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#get (; 99 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -6702,7 +6177,7 @@
   )
   (i32.const 1)
  )
- (func $~lib/array/Array<u64>#__get (; 108 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/array/Array<u64>#__get (; 100 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6733,11 +6208,11 @@
    (unreachable)
   )
  )
- (func $../../src/datastream/DataStream#writeVector<u64> (; 109 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/datastream/DataStream#writeVector<u64> (; 101 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
-   (block $~lib/array/Array<u64>#get:length|inlined.1 (result i32)
+   (block $~lib/array/Array<u64>#get:length|inlined.0 (result i32)
     (i32.load offset=4
      (get_local $1)
     )
@@ -6777,7 +6252,7 @@
    )
   )
  )
- (func $nft/Account#serialize (; 110 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/Account#serialize (; 102 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -6791,7 +6266,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<Account> (; 111 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream.measure<Account> (; 103 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../src/datastream/DataStream#constructor
@@ -6808,14 +6283,14 @@
    (get_local $1)
   )
  )
- (func $nft/Account#primaryKey (; 112 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Account#primaryKey (; 104 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#emplace (; 113 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Account>#emplace (; 105 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6827,7 +6302,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 2408)
+   (i32.const 2096)
   )
   (set_local $3
    (call $../../src/datastream/DataStream.measure<Account>
@@ -6877,7 +6352,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#find (; 114 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Account>#find (; 106 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -6895,7 +6370,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Account>#modify (; 115 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Account>#modify (; 107 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6913,7 +6388,7 @@
     (get_local $3)
     (i32.const 0)
    )
-   (i32.const 3712)
+   (i32.const 3136)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6922,7 +6397,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 3832)
+   (i32.const 3256)
   )
   (set_local $4
    (call $../../src/datastream/DataStream.measure<Account>
@@ -6959,18 +6434,12 @@
    )
   )
  )
- (func $nft/Nft#addBalance (; 116 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $nft/Nft#addBalance (; 108 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
   (local $9 i64)
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 4072)
-   )
-  )
   (set_local $5
    (call $../../src/dbmanager/DBManager<Account>#constructor
     (i32.const 0)
@@ -6993,10 +6462,6 @@
     )
    )
   )
-  (call $../../src/asset/Asset#prints
-   (get_local $3)
-   (i32.const 4112)
-  )
   (set_local $7
    (call $../../src/dbmanager/DBManager<Account>#get
     (get_local $5)
@@ -7011,12 +6476,6 @@
     (get_local $7)
    )
    (block
-    (call $../../src/log/Logger#flush
-     (call $../../src/log/Logger#s
-      (get_global $../../src/log/Log)
-      (i32.const 4144)
-     )
-    )
     (set_local $8
      (call $nft/Account#constructor
       (i32.const 0)
@@ -7027,12 +6486,6 @@
      (get_local $8)
      (get_local $2)
     )
-    (call $../../src/log/Logger#flush
-     (call $../../src/log/Logger#s
-      (get_global $../../src/log/Log)
-      (i32.const 4200)
-     )
-    )
     (call $../../src/dbmanager/DBManager<Account>#emplace
      (get_local $5)
      (get_local $4)
@@ -7040,12 +6493,6 @@
     )
    )
    (block
-    (call $../../src/log/Logger#flush
-     (call $../../src/log/Logger#s
-      (get_global $../../src/log/Log)
-      (i32.const 4256)
-     )
-    )
     (set_local $9
      (i64.add
       (call $../../src/asset/Asset#getAmount
@@ -7073,7 +6520,7 @@
        (i32.eqz
         (i32.lt_s
          (get_local $8)
-         (block $~lib/array/Array<u64>#get:length|inlined.3 (result i32)
+         (block $~lib/array/Array<u64>#get:length|inlined.2 (result i32)
           (i32.load offset=4
            (get_local $2)
           )
@@ -7101,12 +6548,6 @@
       (br $repeat|0)
      )
     )
-    (call $../../src/asset/Asset#prints
-     (i32.load
-      (get_local $6)
-     )
-     (i32.const 4304)
-    )
     (call $../../src/dbmanager/DBManager<Account>#modify
      (get_local $5)
      (get_local $4)
@@ -7115,7 +6556,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#find (; 117 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#find (; 109 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -7133,7 +6574,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Token>#modify (; 118 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#modify (; 110 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7151,7 +6592,7 @@
     (get_local $3)
     (i32.const 0)
    )
-   (i32.const 3712)
+   (i32.const 3136)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7160,7 +6601,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 3832)
+   (i32.const 3256)
   )
   (set_local $4
    (call $../../src/datastream/DataStream.measure<Token>
@@ -7197,7 +6638,7 @@
    )
   )
  )
- (func $nft/Nft#updateMaxPrimaryKey (; 119 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $nft/Nft#updateMaxPrimaryKey (; 111 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7224,8 +6665,8 @@
      (i64.const 0)
      (i64.const 1397183748)
     )
-    (i32.const 2256)
-    (i32.const 2256)
+    (i32.const 3040)
+    (i32.const 3040)
    )
   )
   (set_local $5
@@ -7250,8 +6691,8 @@
        (i64.const 0)
        (i64.const 1397183748)
       )
-      (i32.const 2256)
-      (i32.const 2256)
+      (i32.const 3040)
+      (i32.const 3040)
      )
     )
     (i64.store offset=32
@@ -7272,7 +6713,7 @@
        (get_local $4)
       )
      )
-     (i32.const 4376)
+     (i32.const 3368)
     )
     (i64.store offset=32
      (get_local $4)
@@ -7286,7 +6727,7 @@
    )
   )
  )
- (func $nft/Nft#issue (; 120 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $nft/Nft#issue (; 112 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -7299,7 +6740,7 @@
    (call $../../src/asset/Asset#isSymbolValid
     (get_local $2)
    )
-   (i32.const 2520)
+   (i32.const 2208)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7308,7 +6749,7 @@
     )
     (i64.const 0)
    )
-   (i32.const 2592)
+   (i32.const 2280)
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -7317,7 +6758,7 @@
     )
     (i32.const 256)
    )
-   (i32.const 2704)
+   (i32.const 2392)
   )
   (set_local $6
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -7360,7 +6801,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $8)
-   (i32.const 2792)
+   (i32.const 2480)
   )
   (call $../../internal/action.d/env.require_auth
    (i64.load offset=8
@@ -7371,7 +6812,7 @@
    (call $../../src/asset/Asset#isValid
     (get_local $2)
    )
-   (i32.const 2872)
+   (i32.const 2560)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7384,7 +6825,7 @@
      )
     )
    )
-   (i32.const 2936)
+   (i32.const 2624)
   )
   (call $../../src/utils/ultrain_assert
    (i64.le_u
@@ -7404,7 +6845,7 @@
      )
     )
    )
-   (i32.const 3024)
+   (i32.const 2712)
   )
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7419,7 +6860,7 @@
      )
     )
    )
-   (i32.const 3128)
+   (i32.const 2816)
   )
   (call $../../src/utils/ultrain_assert
    (i32.ne
@@ -7430,26 +6871,7 @@
     )
     (i32.const 0)
    )
-   (i32.const 3264)
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 3352)
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 2120)
-    )
-    (call $../../src/utils/RN
-     (call $../../src/asset/Asset#symbolName
-      (get_local $2)
-     )
-    )
-   )
+   (i32.const 2952)
   )
   (set_local $9
    (call $~lib/array/Array<u64>#constructor
@@ -7469,12 +6891,6 @@
     (call $../../src/asset/Asset#getSymbol
      (get_local $2)
     )
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 3384)
    )
   )
   (block $break|0
@@ -7534,81 +6950,12 @@
     (br $repeat|0)
    )
   )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 3552)
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 2120)
-    )
-    (call $../../src/utils/RN
-     (call $../../src/asset/Asset#symbolName
-      (get_local $2)
-     )
-    )
-   )
-  )
   (call $nft/Nft#subSupply
    (get_local $0)
    (i64.load offset=8
     (get_local $7)
    )
    (get_local $2)
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 3944)
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 3968)
-    )
-    (call $../../src/utils/RN
-     (i64.load offset=8
-      (get_local $7)
-     )
-    )
-   )
-  )
-  (call $../../src/asset/Asset#prints
-   (get_local $2)
-   (i32.const 3992)
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 4024)
-    )
-    (call $../../src/utils/RN
-     (get_local $1)
-    )
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (get_global $../../src/log/Log)
-     (i32.const 4032)
-    )
-    (i64.extend_s/i32
-     (block $~lib/array/Array<u64>#get:length|inlined.0 (result i32)
-      (i32.load offset=4
-       (get_local $9)
-      )
-     )
-    )
-    (i32.const 10)
-   )
   )
   (call $nft/Nft#addBalance
    (get_local $0)
@@ -7617,12 +6964,6 @@
    (get_local $2)
    (i64.load offset=8
     (get_local $7)
-   )
-  )
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#s
-    (get_global $../../src/log/Log)
-    (i32.const 4352)
    )
   )
   (call $nft/Nft#updateMaxPrimaryKey
@@ -7638,14 +6979,14 @@
    )
   )
  )
- (func $nft/Token#symbolName (; 121 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#symbolName (; 113 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load offset=16
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#erase (; 122 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/dbmanager/DBManager<Account>#erase (; 114 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7654,7 +6995,7 @@
     )
     (call $../../internal/action.d/env.current_receiver)
    )
-   (i32.const 5368)
+   (i32.const 4360)
   )
   (set_local $2
    (call $../../src/dbmanager/DBManager<Account>#find
@@ -7673,7 +7014,7 @@
    (nop)
   )
  )
- (func $nft/Nft#subBalance (; 123 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $nft/Nft#subBalance (; 115 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7714,7 +7055,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $6)
-   (i32.const 5152)
+   (i32.const 4144)
   )
   (call $../../src/utils/ultrain_assert
    (i64.ge_u
@@ -7727,7 +7068,7 @@
      (get_local $3)
     )
    )
-   (i32.const 5248)
+   (i32.const 4240)
   )
   (if
    (i64.eq
@@ -7744,7 +7085,7 @@
     (call $../../src/log/Logger#flush
      (call $../../src/log/Logger#s
       (get_global $../../src/log/Log)
-      (i32.const 5328)
+      (i32.const 4320)
      )
     )
     (call $../../src/dbmanager/DBManager<Account>#erase
@@ -7777,7 +7118,7 @@
      (call $~lib/array/Array<u64>#constructor
       (i32.const 0)
       (i32.sub
-       (block $~lib/array/Array<u64>#get:length|inlined.4 (result i32)
+       (block $~lib/array/Array<u64>#get:length|inlined.3 (result i32)
         (set_local $8
          (i32.load offset=4
           (get_local $5)
@@ -7800,7 +7141,7 @@
        (i32.eqz
         (i32.lt_s
          (get_local $9)
-         (block $~lib/array/Array<u64>#get:length|inlined.6 (result i32)
+         (block $~lib/array/Array<u64>#get:length|inlined.5 (result i32)
           (set_local $10
            (i32.load offset=4
             (get_local $5)
@@ -7856,7 +7197,7 @@
    )
   )
  )
- (func $nft/Nft#transfer (; 124 ;) (type $iIIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32)
+ (func $nft/Nft#transfer (; 116 ;) (type $iIIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -7888,8 +7229,8 @@
      (i64.const 0)
      (i64.const 1397183748)
     )
-    (i32.const 2256)
-    (i32.const 2256)
+    (i32.const 3040)
+    (i32.const 3040)
    )
   )
   (set_local $7
@@ -7901,7 +7242,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $7)
-   (i32.const 4552)
+   (i32.const 3544)
   )
   (set_local $8
    (call $nft/Token#symbolName
@@ -7913,7 +7254,7 @@
     (get_local $1)
     (get_local $2)
    )
-   (i32.const 4664)
+   (i32.const 3656)
   )
   (call $../../internal/action.d/env.require_auth
    (get_local $1)
@@ -7922,7 +7263,7 @@
    (call $../../internal/action.d/env.is_account
     (get_local $2)
    )
-   (i32.const 4752)
+   (i32.const 3744)
   )
   (set_local $9
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
@@ -7961,7 +7302,7 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $11)
-   (i32.const 4840)
+   (i32.const 3832)
   )
   (call $../../internal/action.d/env.require_recipient
    (get_local $1)
@@ -7976,7 +7317,7 @@
      (get_local $6)
     )
    )
-   (i32.const 4928)
+   (i32.const 3920)
   )
   (call $../../src/utils/ultrain_assert
    (i32.le_s
@@ -7985,7 +7326,7 @@
     )
     (i32.const 256)
    )
-   (i32.const 5056)
+   (i32.const 4048)
   )
   (i64.store offset=8
    (get_local $6)
@@ -8027,7 +7368,7 @@
    (get_local $1)
   )
  )
- (func $nft/Nft#ownerof (; 125 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $nft/Nft#ownerof (; 117 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8053,8 +7394,8 @@
      (i64.const 0)
      (i64.const 1397183748)
     )
-    (i32.const 2256)
-    (i32.const 2256)
+    (i32.const 3040)
+    (i32.const 3040)
    )
   )
   (set_local $4
@@ -8066,13 +7407,13 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $4)
-   (i32.const 5480)
+   (i32.const 4472)
   )
   (i64.load offset=8
    (get_local $3)
   )
  )
- (func $nft/Nft#uriof (; 126 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $nft/Nft#uriof (; 118 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8098,8 +7439,8 @@
      (i64.const 0)
      (i64.const 1397183748)
     )
-    (i32.const 2256)
-    (i32.const 2256)
+    (i32.const 3040)
+    (i32.const 3040)
    )
   )
   (set_local $4
@@ -8111,13 +7452,13 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $4)
-   (i32.const 5480)
+   (i32.const 4472)
   )
   (i32.load offset=20
    (get_local $3)
   )
  )
- (func $nft/Nft#tokenbyindex (; 127 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
+ (func $nft/Nft#tokenbyindex (; 119 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
   (local $4 i64)
   (local $5 i32)
   (local $6 i32)
@@ -8157,11 +7498,11 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $7)
-   (i32.const 5568)
+   (i32.const 4560)
   )
   (call $../../src/utils/ultrain_assert
    (i32.gt_s
-    (block $~lib/array/Array<u64>#get:length|inlined.7 (result i32)
+    (block $~lib/array/Array<u64>#get:length|inlined.6 (result i32)
      (set_local $8
       (i32.load offset=4
        (get_local $6)
@@ -8173,7 +7514,7 @@
     )
     (get_local $3)
    )
-   (i32.const 5680)
+   (i32.const 4672)
   )
   (call $~lib/array/Array<u64>#__get
    (i32.load offset=4
@@ -8182,7 +7523,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#getsupply (; 128 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $nft/Nft#getsupply (; 120 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (local $3 i32)
   (local $4 i32)
@@ -8229,13 +7570,13 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $5)
-   (i32.const 5800)
+   (i32.const 4792)
   )
   (i32.load
    (get_local $4)
   )
  )
- (func $nft/Nft#getbalance (; 129 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $nft/Nft#getbalance (; 121 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -8274,13 +7615,13 @@
   )
   (call $../../src/utils/ultrain_assert
    (get_local $6)
-   (i32.const 5888)
+   (i32.const 4880)
   )
   (i32.load
    (get_local $5)
   )
  )
- (func $../../src/name_ex/NameEx#constructor (; 130 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../src/name_ex/NameEx#constructor (; 122 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -8315,7 +7656,7 @@
   )
   (get_local $0)
  )
- (func $../../src/name_ex/char_to_symbol_ex (; 131 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/name_ex/char_to_symbol_ex (; 123 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (i32.eq
@@ -8448,7 +7789,7 @@
   )
   (i64.const 255)
  )
- (func $../../src/name_ex/NEX (; 132 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/name_ex/NEX (; 124 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -8603,7 +7944,7 @@
   )
   (get_local $1)
  )
- (func $../../src/name_ex/NameEx._eq (; 133 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/name_ex/NameEx._eq (; 125 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -8627,7 +7968,7 @@
    (get_local $2)
   )
  )
- (func $~lib/array/Array<String>#constructor (; 134 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#constructor (; 126 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8684,7 +8025,7 @@
    (get_local $0)
    (get_local $1)
   )
-  (block $~lib/memory/memory.fill|inlined.4
+  (block $~lib/memory/memory.fill|inlined.5
    (set_local $4
     (i32.add
      (get_local $3)
@@ -8702,7 +8043,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<String>#__set (; 135 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<String>#__set (; 127 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -8772,7 +8113,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#readStringVector (; 136 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/datastream/DataStream#readStringVector (; 128 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -8830,7 +8171,7 @@
   )
   (get_local $2)
  )
- (func $nft/apply (; 137 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $nft/apply (; 129 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -8869,7 +8210,7 @@
      (call $../../src/name_ex/NameEx._eq
       (get_local $6)
       (call $../../src/name_ex/NEX
-       (i32.const 5984)
+       (i32.const 4976)
       )
      )
      (block
@@ -8900,7 +8241,7 @@
      (call $../../src/name_ex/NameEx._eq
       (get_local $6)
       (call $../../src/name_ex/NEX
-       (i32.const 6000)
+       (i32.const 4992)
       )
      )
      (block
@@ -8949,7 +8290,7 @@
      (call $../../src/name_ex/NameEx._eq
       (get_local $6)
       (call $../../src/name_ex/NEX
-       (i32.const 6016)
+       (i32.const 5008)
       )
      )
      (block
@@ -8985,7 +8326,7 @@
    )
   )
  )
- (func $start (; 138 ;) (type $v)
+ (func $start (; 130 ;) (type $v)
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
@@ -9002,7 +8343,6 @@
   (set_global $~lib/allocator/arena/offset
    (get_global $~lib/allocator/arena/startOffset)
   )
-  (nop)
   (set_global $../../src/log/Log
    (block (result i32)
     (set_local $0
@@ -9013,6 +8353,7 @@
     (get_local $0)
    )
   )
+  (nop)
   (nop)
   (set_global $../../src/balance/SYS
    (call $../../src/asset/StringToSymbol
@@ -9034,16 +8375,16 @@
   )
   (set_global $nft/Nft.token_scope
    (call $../../src/utils/N
-    (i32.const 1680)
+    (i32.const 1696)
    )
   )
  )
- (func $Nft#get:_receiver (; 139 ;) (type $iI) (param $0 i32) (result i64)
+ (func $Nft#get:_receiver (; 131 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $Nft#set:_receiver (; 140 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $Nft#set:_receiver (; 132 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)

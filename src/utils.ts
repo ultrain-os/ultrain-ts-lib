@@ -1,5 +1,6 @@
 import { env as console } from "../internal/print.d";
 import { env as system } from "../internal/system.d";
+import { Log } from "./log";
 /**
  * printable characters.
  */
@@ -42,7 +43,7 @@ export function intToString(_int: u64): string {
  * @returns an array of uint8
  */
 export function toUTF8Array(str: string): u8[] {
-    var utf8: u8[] = [];
+    var utf8: u8[] = new Array<u8>();
     for (var i = 0; i < str.length; i++) {
         var charcode = str.charCodeAt(i);
         if (charcode < 0x80) utf8.push(<u8>charcode);

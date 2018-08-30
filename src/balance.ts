@@ -45,9 +45,9 @@ export class CurrencyStats implements ISerializable {
     max_supply: Asset;
     issuer: account_name;
 
-    constructor(supply: Asset = new Asset(), max_supply: Asset = new Asset(), issuer: u64 = 0) {
-        this.supply = supply;
+    constructor(supply: Asset, max_supply: Asset, issuer: account_name) {
         this.max_supply = max_supply;
+        this.supply = supply;
         this.issuer = issuer;
     }
 

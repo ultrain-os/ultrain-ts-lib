@@ -15,8 +15,6 @@ class Account implements ISerializable {
     token_ids: Array<id_type>; // Current account token ids
 
     constructor(blc: Asset) {
-        // if (blc == null) blc = new Asset();
-
         this.token_ids = new Array<id_type>();
         this.balance = blc;
     }
@@ -41,8 +39,8 @@ class CurrencyStats implements ISerializable {
     max_supply: Asset;
     issuer: account_name;
 
-    constructor(supply: Asset, max_supply: Asset, issuer: u64) {
-        // this.max_supply = max_supply;
+    constructor(supply: Asset, max_supply: Asset, issuer: account_name) {
+        this.max_supply = max_supply;
         this.supply = supply;
         this.issuer = issuer;
     }
@@ -133,7 +131,6 @@ export class Nft extends Contract {
     @action
     create(issuer: account_name, maximum_supply: Asset): void {
 
-        maximum_supply.prints("create: ");
         action.require_auth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
@@ -144,8 +141,6 @@ export class Nft extends Contract {
         let cs: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
 
         let existing = statstable.get(sym, cs);
-        Log.s("symname").s(RN(sym)).flush();
-
         ultrain_assert(!existing, "token with symbol already exists.");
 
         cs.supply.setSymbol(maximum_supply.getSymbol());
@@ -174,33 +169,18 @@ export class Nft extends Contract {
         ultrain_assert(quantity.getAmount() == uris.length, "token.issue: mismatch between number of tokens and uris provided");
         ultrain_assert(uris.length != 0, "token.issue: issue quantity can't be zero.");
 
-        Log.s("middle").flush();
-
-        Log.s("symname").s(RN(quantity.symbolName())).flush();
-
-
         let token_ids: Array<id_type> = new Array<id_type>();
         let token_id_start = this.availablePrimaryKey();
         let oneAsset: Asset = new Asset(1, quantity.getSymbol());
 
-        Log.s("middle 1").flush();
         for (let index = 0; index < uris.length; index++) {
             let uri = uris[index];
             token_ids.push(token_id_start);
             this.mint(token_id_start, to, st.issuer, oneAsset, uri, name);
             token_id_start++;
         }
-        Log.s("middle 2").flush();
-        Log.s("symname").s(RN(quantity.symbolName())).flush();
         this.subSupply(st.issuer, quantity);
-        Log.s("middle 3").flush();
-        Log.s("st.issuer").s(RN(st.issuer)).flush();
-        quantity.prints("issue quantity");
-        Log.s("to").s(RN(to)).flush();
-
-        Log.s("token_ids length:").i(token_ids.length).flush();
         this.addBalance(to, token_ids, quantity, st.issuer);
-        Log.s("middle 4").flush();
         this.updateMaxPrimaryKey(st.issuer, --token_id_start);
     }
 
@@ -243,9 +223,7 @@ export class Nft extends Contract {
         this.addBalance(to, token_ids, oneToken, from);
     }
 
-
     ownerof(id: id_type): account_name {
-
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
@@ -255,7 +233,6 @@ export class Nft extends Contract {
     }
 
     uriof(token_id: id_type): string {
-
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
@@ -275,7 +252,6 @@ export class Nft extends Contract {
 
         return account.token_ids[index];
     }
-
 
     getsupply(sym_name: string): Asset {
         let symname = N(sym_name);
@@ -299,14 +275,8 @@ export class Nft extends Contract {
     private availablePrimaryKey(): id_type {
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this._receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
-        Log.s("begin").flush();
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
-
-        let res = Nft.TOKEN_START;
-        if (existing) {
-            res = token.increaseId();
-        }
-        // let res =  existing ? token.increaseId() : this.TOKEN_START;
+        let res =  existing ? token.increaseId() : Nft.TOKEN_START;
         return res;
     }
 
@@ -327,42 +297,29 @@ export class Nft extends Contract {
         }
     }
 
-
     private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
 
         let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
-        Log.s("token uri").s(token.uri).flush();
-        token.print();
-        tokens.emplace(ram_payer, token)
+        tokens.emplace(ram_payer, token);
     }
 
-
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
-
-        Log.s("addBalance begin").flush();
         let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
         let to: Account = new Account(new Asset());
-        value.prints("addBalance 00");
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
-            Log.s("addBalance not existing 00").flush();
             let account: Account = new Account(value);
             account.token_ids = token_ids;
-            Log.s("addBalance not existing 01").flush();
-
             toaccount.emplace(ram_payer, account);
         } else {
-            Log.s("addBalance existing 00").flush();
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
             for (let i = 0; i < token_ids.length; i++) {
                 to.token_ids.push(token_ids[i]);
             }
-            // Log.s("addBalance existing 01").i(to.primaryKey()).flush();
-            to.balance.prints("addBalance existing 01");
             toaccount.modify(ram_payer, to); // ram_payer or 0
         }
     }
@@ -393,16 +350,11 @@ export class Nft extends Contract {
         }
     }
 
-
     private subSupply(ram_payer: u64, quantity: Asset): void {
 
         let symname = quantity.symbolName();
-        quantity.prints("quantity subSupply 01");
-
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
-
-        Log.s("symname").s(RN(symname)).flush();
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "subSupply failed, states is not existed.");
 
