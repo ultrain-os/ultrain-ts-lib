@@ -1,6 +1,5 @@
 import "allocator/arena";
 
-import { DataStream } from "../../../src/datastream";
 import { printstr, N, ultrain_assert, RN } from "../../../src/utils";
 import { Log } from "../../../src/log";
 import { Contract } from "../../../lib/contract";
@@ -11,6 +10,45 @@ class TestTrack extends Contract {
     constructor(receiver: account_name){
         super(receiver);
         this._receiver = receiver;
+    }
+
+    @action
+    public test(): void {
+        this.testMax();
+        Log.s("Max running successful!").flush();
+        this.testIndexOf();
+        Log.s("Indexof running successful!").flush();
+        this.testBreak();
+        Log.s("Break running successful!").flush();
+        this.testTernary();
+        Log.s("Ternary running successful!").flush();
+        
+        Log.s("Successful!!!").flush();
+
+        this.toCheckList();
+    }
+
+    private toCheckList(): void {
+
+        Log.s("Still to check list:").flush();
+        this.testArrayBracket();
+        Log.s("ArrayBracket running not expected!").flush();
+    }
+
+    private createArrayUsingBracket(len: i32): i32[] {
+        var arr: Array<i32> = [];
+        for (let index = 0; index < len; index ++) {
+            arr.push(index);
+        }
+        return arr;
+    }
+
+    private testArrayBracket(): void {
+        var arr = this.createArrayUsingBracket(10);
+        assert( arr.length == 10);
+
+        arr = this.createArrayUsingBracket(10);
+        assert( arr.length == 20)
     }
 
     /**
@@ -64,22 +102,6 @@ class TestTrack extends Contract {
         res = existing ?  666 : 999;
         assert( res == 666);
     }
-
-    @action
-    public test(): void {
-        this.testMax();
-        Log.s("Max running successful!").flush();
-        this.testIndexOf();
-        Log.s("Indexof running successful!").flush();
-        this.testBreak();
-        Log.s("Break running successful!").flush();
-        this.testTernary();
-        Log.s("Ternary running successful!").flush();
-
-        Log.s("Successful!!!").flush();
-    }
-
-
 
     testMax(): void {
         var res = this.max(12, 23);
