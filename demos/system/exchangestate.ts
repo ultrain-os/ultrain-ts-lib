@@ -2,9 +2,9 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { ISerializable } from "../../lib/ISerializable";
+import { ISerializable } from "../../src/ISerializable";
 import { Asset } from "../../src/asset";
-import { DataStream } from "../../src/datastream";
+import { DataStream } from "../../lib/datastream";
 
 class Connector implements ISerializable {
     balance: Asset;
@@ -24,6 +24,8 @@ class Connector implements ISerializable {
         this.balance.deserialize(ds);
         this.weight = ds.readDouble();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
 export class ExchangeState implements ISerializable {

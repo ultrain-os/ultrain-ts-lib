@@ -1,7 +1,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { NameEx } from "../src/name_ex";
+import { NameEx } from "../lib/name_ex";
 
 declare type token_name = u64;
 declare type region_id = u16;

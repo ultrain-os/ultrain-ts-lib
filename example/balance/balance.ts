@@ -1,10 +1,7 @@
 import "allocator/arena";
-import { Contract } from "../../lib/contract";
+import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
-import { send, queryBalance } from "../../src/balance";
-import { Action } from "../../src/action";
-import { Log } from "../../src/log";
-import { NEX, NameEx } from "../../src/name_ex";
+import { send, queryBalance } from "../../lib/balance";
 import { ultrain_assert } from "../../src/utils";
 
 class BalanceContract extends Contract {

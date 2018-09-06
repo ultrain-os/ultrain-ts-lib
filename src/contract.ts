@@ -1,4 +1,4 @@
-import { DataStream } from "../src/datastream";
+import { DataStream } from "../lib/datastream";
 import { env as action } from "../internal/action.d";
 
 export function DataStreamFromCurrentAction(): DataStream {

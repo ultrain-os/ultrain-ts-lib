@@ -1,16 +1,16 @@
 import "allocator/arena";
-import { env as action } from "../../internal/action.d";
-import { Contract } from "../../lib/contract";
-import { ISerializable } from "../../lib/ISerializable";
+import { Action } from "../../src/action";
+import { Contract } from "../../src/contract";
+import { ISerializable } from "../../src/ISerializable";
 import { Asset } from "../../src/asset";
-import { DataStream } from "../../src/datastream";
+import { DataStream } from "../../lib/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
-import { N, RN, ultrain_assert } from "../../src/utils";
-import { NEX, NameEx } from "../../src/name_ex";
+import { ultrain_assert } from "../../src/utils";
+import { ACCOUNT, NAME, Account } from "../../src/account";
 
 
-class Account implements ISerializable {
+class NftAccount implements ISerializable {
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
@@ -79,7 +79,7 @@ class Token implements ISerializable {
     }
 
     print():void {
-        Log.s("token id:").i(this.id).s("owner:").s(RN(this.owner)).s("uri:").s(this.uri).s("name:").s(this.name).s("current_id:").i(this.current_id).flush();
+        Log.s("token id:").i(this.id).s("owner:").s(ACCOUNT(this.owner).name).s("uri:").s(this.uri).s("name:").s(this.name).s("current_id:").i(this.current_id).flush();
     }
 
     constructor(id: id_type , owner: account_name , value: Asset, uri: string, name: string) {
@@ -116,7 +116,7 @@ const TOKENTABLE: string = "token";
 
 @database(Token, TOKENTABLE)
 @database(CurrencyStats, STATSTABLE)
-@database(Account, ACCOUNTTABLE)
+@database(NftAccount, ACCOUNTTABLE)
 export class Nft extends Contract {
 
     constructor(receiver: account_name) {
@@ -124,20 +124,20 @@ export class Nft extends Contract {
         this._receiver = receiver;
     }
 
-    private static token_scope: u64 = N("token");
+    private static token_scope: u64 = NAME("token");
     private static TOKEN_PRIMARY_ID: id_type = 0;
     private static TOKEN_START: id_type = 1;
 
     @action
     create(issuer: account_name, maximum_supply: Asset): void {
 
-        action.require_auth(this.receiver);
+        Action.requireAuth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.symbolPrecision() == 0, "token.create: symbol precision must be a whole number");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, sym);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, sym);
         let cs: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
 
         let existing = statstable.get(sym, cs);
@@ -156,13 +156,13 @@ export class Nft extends Contract {
         ultrain_assert(quantity.symbolPrecision() == 0, "token.issue: symbol precision must be a whole number");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, quantity.symbolName());
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, quantity.symbolName());
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
 
-        action.require_auth(st.issuer);
+        Action.requireAuth(st.issuer);
         ultrain_assert(quantity.isValid(), "token.issue: invalid quantity.");
         ultrain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
         ultrain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
@@ -187,7 +187,7 @@ export class Nft extends Contract {
     @action
     transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {
         // tansfer token:id to user
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let tokenExisting = tokens.get(token_id, token);
 
@@ -196,18 +196,18 @@ export class Nft extends Contract {
         let symname = token.symbolName();
 
         ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
-        action.require_auth(from);
-        ultrain_assert(action.is_account(to), "token.transfer: to account does not exist.");
+        Action.requireAuth(from);
+        ultrain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
         let statExisting = statstable.get(symname, st);
 
         ultrain_assert(statExisting, "token.transfer symbol name is not exist.");
 
-        action.require_recipient(from);
-        action.require_recipient(to);
+        Action.requireRecipient(from);
+        Action.requireRecipient(to);
 
         ultrain_assert(from == token.owner, "token.transfer: sender does not own token with specified ID.");
         ultrain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
@@ -224,7 +224,7 @@ export class Nft extends Contract {
     }
 
     ownerof(id: id_type): account_name {
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
 
@@ -233,7 +233,7 @@ export class Nft extends Contract {
     }
 
     uriof(token_id: id_type): string {
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
 
@@ -242,9 +242,9 @@ export class Nft extends Contract {
     }
 
     tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type {
-        let symname = N(sym_name);
-        let accounts: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
-        let account: Account = new Account(new Asset());
+        let symname = NAME(sym_name);
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
+        let account: NftAccount = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
 
         ultrain_assert(existing, "tokenOfOwnerByIndex failed, account is not existed.")
@@ -254,8 +254,8 @@ export class Nft extends Contract {
     }
 
     getsupply(sym_name: string): Asset {
-        let symname = N(sym_name);
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
+        let symname = NAME(sym_name);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0);
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "getSupply failed, states is not existed.");
@@ -263,9 +263,9 @@ export class Nft extends Contract {
     }
 
     getbalance(owner: account_name, sym_name: string): Asset {
-        let symname = N(sym_name);
-        let accounts: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), owner, symname);
-        let account = new Account(new Asset());
+        let symname = NAME(sym_name);
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
+        let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
         ultrain_assert(existing, "getBalance failed, account is n ot existed.")
 
@@ -273,7 +273,7 @@ export class Nft extends Contract {
     }
 
     private availablePrimaryKey(): id_type {
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this._receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this._receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
         let res =  existing ? token.increaseId() : Nft.TOKEN_START;
@@ -282,7 +282,7 @@ export class Nft extends Contract {
 
     private updateMaxPrimaryKey(ram_payer: u64, max_token_id: id_type): void {
 
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
 
@@ -299,19 +299,19 @@ export class Nft extends Contract {
 
     private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
 
-        let tokens: DBManager<Token> = new DBManager<Token>(N(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
         tokens.emplace(ram_payer, token);
     }
 
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
-        let toaccount: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let to: Account = new Account(new Asset());
+        let toaccount: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
+        let to: NftAccount = new NftAccount(new Asset());
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
-            let account: Account = new Account(value);
+            let account: NftAccount = new NftAccount(value);
             account.token_ids = token_ids;
             toaccount.emplace(ram_payer, account);
         } else {
@@ -326,8 +326,8 @@ export class Nft extends Contract {
 
     private subBalance(owner: account_name, token_id: id_type, value: Asset): void {
 
-        let ats: DBManager<Account> = new DBManager<Account>(N(ACCOUNTTABLE), this.receiver, owner);
-        let from: Account = new Account(new Asset());
+        let ats: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
+        let from: NftAccount = new NftAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);
 
         ultrain_assert(existing, "token.subBalance: from account is not exist.");
@@ -353,7 +353,7 @@ export class Nft extends Contract {
     private subSupply(ram_payer: u64, quantity: Asset): void {
 
         let symname = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(N(STATSTABLE), this.receiver, symname);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "subSupply failed, states is not existed.");

@@ -1,23 +1,23 @@
-import { env as Action } from "../../internal/action.d";
-import { ultrain_assert, N, intToString, RN } from "../../src/utils";
+import { Action } from "../../src/action";
+import { ultrain_assert, intToString} from "../../src/utils";
 import { Asset } from "../../src/asset";
-import { Map } from "../../src/map";
-import { hours, days, seconds } from "../../lib/time";
-import { Pausable } from "./pausable";
+import { Map } from "../../lib/map";
 import { DragonCore } from "./dragoncore";
 import { FightCore } from "./fightcore";
 import { Titles } from "./titles";
 import { BetId } from "./betid";
-import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
+import { ISerializable } from "../../src/ISerializable";
+import { DataStream } from "../../lib/datastream";
 import { GenType } from "./genetype";
 import { DBManager } from "../../src/dbmanager";
-import { emit, EventObject } from "../../lib/events";
-import { UGS } from "../../internal/types";
+import { emit, EventObject } from "../../src/events";
+import { SYS } from "../../src/asset";
 import { MatchAddress, HyperDragonContract, DEBUG } from "./consts";
-import { queryBalance, send } from "../../src/balance";
+import { queryBalance, send } from "../../lib/balance";
 import { Log } from "../../src/log";
 import { Return } from "../../src/return";
+import { NAME } from "../../src/account";
+import { seconds } from "../../src/time";
 
 class JoinUser implements ISerializable {
     dragon_id: u64;
@@ -368,8 +368,8 @@ class MatchInfo implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-let MatchInfoTable: u64 = N("hd.matches");
-let MatchInfoTableScope: u64 = N("mat.scope");
+let MatchInfoTable: u64 = NAME("hd.matches");
+let MatchInfoTableScope: u64 = NAME("mat.scope");
 
 class MatchBase implements ISerializable {
     // match id
@@ -377,11 +377,11 @@ class MatchBase implements ISerializable {
 
     // 报名费
     regfees: Asset[] = [
-        new Asset(200000, UGS), // 20.0000 UGS
-        new Asset(200000, UGS),
-        new Asset(200000, UGS),
-        new Asset(200000, UGS),
-        new Asset(200000, UGS)
+        new Asset(200000, SYS), // 20.0000 SYS
+        new Asset(200000, SYS),
+        new Asset(200000, SYS),
+        new Asset(200000, SYS),
+        new Asset(200000, SYS)
     ];
 
     // 奖励系数
@@ -400,8 +400,8 @@ class MatchBase implements ISerializable {
     groupLimit: u64 = 2;
     // 竞猜上下限
     // TODO(liangqin): fee的大小需要确定
-    guessFeeMin: Asset = new Asset(100000, UGS); // 10.0000 UGS
-    guessFeeMax: Asset = new Asset(100000000, UGS); // 10000.0000 UGS
+    guessFeeMin: Asset = new Asset(100000, SYS); // 10.0000 SYS
+    guessFeeMax: Asset = new Asset(100000000, SYS); // 10000.0000 SYS
 
     matchList: Map<u64, MatchInfo> = new Map<u64, MatchInfo>();
 
@@ -633,7 +633,7 @@ export class MatchCore extends MatchBase {
         ultrain_assert(matchInfo.round == round, "round dismatched for the match and betid.");
         ultrain_assert(fIndex >= 0 && fIndex < matchInfo.fightGroup.length, "selected group index is overflow.");
 
-        let guessUser = new GuessUser(Action.current_sender(), val);
+        let guessUser = new GuessUser(Action.sender, val);
         let d1id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p1).dragon_id;
         let d2id = matchInfo.joinList.get(matchInfo.fightGroup[fIndex].p2).dragon_id;
 
@@ -698,7 +698,7 @@ export class MatchCore extends MatchBase {
 
     /*@action*/public withdrawBalance(): void {
         // 转帐
-        let msgSender = Action.current_sender();
+        let msgSender = Action.sender;
         ultrain_assert(msgSender == MatchAddress || msgSender == HyperDragonContract, "can not withdraw balance");
         let balance = queryBalance(MatchAddress);
         send(MatchAddress, HyperDragonContract, balance, "match withdraw balance");
@@ -814,7 +814,6 @@ export class MatchCore extends MatchBase {
         let a1: account_name;
         let a2: account_name;
 
-        // let seed = Action.random_uint64(nonce);
         let seed = nonce;
         let r: i32;
         let idx: i32 = 0;
@@ -956,13 +955,13 @@ export class MatchCore extends MatchBase {
             // event FinalResult(matchId: u64, dragonId_1: u64, dragonId_2: u64);
             emit("FinalResult", EventObject.setInt("matchId", this.match_id).setInt("dragonId_1", dra2.dragon_id).setInt("dragonId_2", dra1.dragon_id));
             // 冠亚军奖励
-            send(MatchAddress, result.winner, new Asset(1500 * rewardBase, UGS), "winner reward");
-            send(MatchAddress, result.loser, new Asset(1000 * rewardBase, UGS), "2nd winner reward");
+            send(MatchAddress, result.winner, new Asset(1500 * rewardBase, SYS), "winner reward");
+            send(MatchAddress, result.loser, new Asset(1000 * rewardBase, SYS), "2nd winner reward");
         }
 
         if (matchInfo.fightGroup.length == 2) {
             this.master.setTitles(dra1.dragon_id, this.match_id, 3);
-            send(MatchAddress, result.loser, new Asset(500 * rewardBase, UGS), "2rd winner reward");
+            send(MatchAddress, result.loser, new Asset(500 * rewardBase, SYS), "2rd winner reward");
         }
 
         return result;
@@ -1059,7 +1058,7 @@ export class MatchCore extends MatchBase {
                     <u64>betUsers.length;
             for (let i = <i32>matchInfo.awardIndex; i < <i32>awardEnd; i++) {
                 money = (rate * betUsers[i].money.amount) / 10000;
-                send(MatchAddress, betUsers[i].beter, new Asset(money, UGS), "better transfer.");
+                send(MatchAddress, betUsers[i].beter, new Asset(money, SYS), "better transfer.");
 
                 // 竞猜获胜 触发event
                 if (dragonId == winDragon) {

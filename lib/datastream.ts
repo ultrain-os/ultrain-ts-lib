@@ -1,5 +1,5 @@
-import {toUTF8Array } from "./utils";
-import {ISerializable} from "../lib/ISerializable";
+import {toUTF8Array } from "../src/utils";
+import {ISerializable} from "../src/ISerializable";
 /**
  * internal memory HEADER SIZE. NEVER used by users.
  */

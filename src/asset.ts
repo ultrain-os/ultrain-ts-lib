@@ -1,9 +1,8 @@
-import { ISerializable } from "../lib/ISerializable";
-import { DataStream } from "./datastream";
+import { ISerializable } from "./ISerializable";
+import { DataStream } from "../lib/datastream";
 import { Log } from "./log";
 import { ultrain_assert, intToString } from "./utils";
-import { queryBalance, send } from "./balance";
-import { UGS } from "../internal/types";
+import { queryBalance, send } from "../lib/balance";
 
 /**
  * ASCII code of character A.
@@ -13,6 +12,7 @@ const CHAR_A: u8 = 0x41;
  * ASCII code of character Z.
  */
 const CHAR_Z: u8 = 0x5A;
+
 /**
  * Encode a string to uint64 value,
  * for example,
@@ -61,6 +61,16 @@ function SymbolNameLength(symbolName: u64): u32 {
 
     return length;
 }
+
+/**
+ * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
+ */
+export let SYS: u64 = StringToSymbol(4, "SYS");
+/**
+ * Ultrain block system Token name "UGS".
+ */
+export let SYS_NAME: u64 = <u64>(SYS >> 8);
+
 /**
  * max amount of Asset, which is 2^62 - 1.
  */

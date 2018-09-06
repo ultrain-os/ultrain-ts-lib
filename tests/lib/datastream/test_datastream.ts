@@ -1,10 +1,10 @@
-import { Contract } from "../../../lib/contract";
+import { Contract } from "../../../src/contract";
 import { DBManager } from "../../../src/dbmanager";
 import { N } from "../../../src/utils";
-import { ISerializable } from "../../../lib/ISerializable";
-import { DataStream } from "../../../src/datastream";
+import { ISerializable } from "../../../src/ISerializable";
+import { DataStream } from "../../../lib/datastream";
 import { Log } from "../../../src/log";
-import { NameEx, RNEX ,NEX} from "../../../src/name_ex";
+import { NameEx, RNEX ,NEX} from "../../../lib/name_ex";
 import "allocator/arena";
 
 class A {
@@ -32,7 +32,7 @@ class MyContract extends Contract {
         let size = sizeof<A>();
         let aArr = new Array<A>();
         let buffer =  memory.allocate(sizeof<A>()* len );
-        
+
         Log.s("sizeof").i(sizeof<A>()).flush();
         Log.s("sizeof u64").i(sizeof<u64>()).flush();
         Log.s("alignof").i(alignof<A>()).flush();

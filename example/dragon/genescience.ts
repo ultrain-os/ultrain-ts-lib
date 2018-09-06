@@ -2,10 +2,10 @@
  * @author fanliangqin@ultrain.io
  */
 import { GenType } from "./genetype";
-import { env as Action } from "../../internal/action.d";
+import { SafeMath } from "../../src/safemath";
 import { DragonCore } from "./dragoncore";
 import { Log } from "../../src/log";
-import { minutes } from "../../lib/time";
+import { minutes } from "../../src/time";
 
 class SkillAndLevel {
     skills: u32 = 0;
@@ -35,7 +35,7 @@ export class GeneScience {
 
     private createSkillAndLevel(seed: u64, skillCount: u64, have_skill: u64): SkillAndLevel {
         if (seed == 0) {
-            seed = Action.random_uint64(0);
+            seed = SafeMath.random(0);
         }
         let sal = new SkillAndLevel();
         let scores: u64[] = [];
@@ -88,7 +88,7 @@ export class GeneScience {
     }
 
     private mixCharacter(genes1: GenType, genes2: GenType, tp: u64): CharAndHchar {
-        let seed: u64 = Action.random_uint64(0);
+        let seed: u64 = SafeMath.random(0);
         if (tp == 1) {
             return this.specicalCharacter(seed);
         }
@@ -279,7 +279,7 @@ export class GeneScience {
     }
 
     private genGene(owner: account_name, key: u64): GenType {
-        let seed = Action.random_uint64(owner);
+        let seed = SafeMath.random(owner);
         let result = new GenType();
 
         let chr = this.specicalCharacter(seed);
@@ -319,7 +319,7 @@ export class GeneScience {
     public isGeneScience(): boolean { return true; }
 
     public gen0Genes(genes: GenType): GenType {
-        let seed = Action.random_uint64(0);
+        let seed = SafeMath.random(0);
 
         genes.blood += <u32>(seed % 21);
         genes.type += 2;
@@ -360,7 +360,7 @@ export class GeneScience {
      * @param tid task id
      */
     public mixGenes(gene1: GenType, generation1: u64, gene2: GenType, generation2: u64, tid: u64): GenType {
-        let r = Action.random_uint64(0) / 100;
+        let r = SafeMath.random(0) / 100;
         let new_gene_1 = new GenType();
         let new_gene_2 = new GenType();
         let b: u64 = generation1 > generation2 ? (generation1 + 1) : (generation2 + 1);

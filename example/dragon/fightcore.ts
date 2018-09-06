@@ -1,7 +1,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { env as Action } from "../../internal/action.d";
+import { SafeMath } from "../../src/safemath";
 import { ultrain_assert } from "../../src/utils";
 import { MatchCore } from "./match";
 import { Pausable } from "./pausable";
@@ -199,14 +199,14 @@ export class FightCore/*  extends Pausable */ {
         d1.blood = this.getBlood(gen1);
         d1.skills = this.getSkills(gen1);
         d1.skillLevels = this.getSkillsLevel(gen1);
-        d1.seed = Action.random_uint64(nonce);
+        d1.seed = SafeMath.random(nonce);
 
         let d2 = new DragonInfo();
         d2.id = did2;
         d2.blood = this.getBlood(gen2);
         d2.skills = this.getSkills(gen2);
         d2.skillLevels = this.getSkillsLevel(gen2);
-        d2.seed = Action.random_uint64(nonce);
+        d2.seed = SafeMath.random(nonce);
 
         this.getAddition(gen1, d1);
         this.getAddition(gen2, d2);
@@ -227,11 +227,11 @@ export class FightCore/*  extends Pausable */ {
 
         while (d1.blood > 0 && d2.blood > 0 && limit < 80) {
             if (d1.seed < 100000) {
-                d1.seed = Action.random_uint64(nonce) / 3;
+                d1.seed = SafeMath.random(nonce) / 3;
             }
 
             if (d2.seed < 100000) {
-                d2.seed = Action.random_uint64(nonce) / 3;
+                d2.seed = SafeMath.random(nonce) / 3;
             }
 
             if (attacker % 2 == 0) {

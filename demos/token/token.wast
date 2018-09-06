@@ -52,16 +52,15 @@
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
- (global $../../src/utils/ASCIICHAR i32 (i32.const 1272))
- (global $../../src/datastream/HEADER_SIZE i32 (i32.const 4))
+ (global $../../src/utils/PrintableChar i32 (i32.const 1272))
+ (global $../../lib/datastream/HEADER_SIZE i32 (i32.const 4))
+ (global $../../src/asset/CHAR_A i32 (i32.const 65))
+ (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
  (global $~lib/internal/arraybuffer/MAX_BLENGTH i32 (i32.const 1073741816))
  (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
- (global $../../src/asset/CHAR_A i32 (i32.const 65))
- (global $../../src/asset/CHAR_Z i32 (i32.const 90))
- (global $../../src/balance/SYS (mut i64) (i64.const 0))
- (global $../../src/balance/SYS_NAME (mut i64) (i64.const 0))
- (global $../../internal/types/UGS (mut i64) (i64.const 0))
+ (global $../../src/asset/SYS (mut i64) (i64.const 0))
+ (global $../../src/asset/SYS_NAME (mut i64) (i64.const 0))
  (global $../../src/asset/MAX_AMOUNT i64 (i64.const 4611686018427387903))
  (global $token/STATSTABLE i32 (i32.const 1624))
  (global $token/ACCOUNTTABLE i32 (i32.const 1640))
@@ -3625,7 +3624,7 @@
   )
   (get_local $3)
  )
- (func $../../lib/contract/Contract#constructor (; 36 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/contract/Contract#constructor (; 36 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -3735,7 +3734,7 @@
   )
   (get_local $0)
  )
- (func $../../src/datastream/DataStream#constructor (; 38 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../lib/datastream/DataStream#constructor (; 38 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (tee_local $0
@@ -3778,7 +3777,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/contract/DataStreamFromCurrentAction (; 39 ;) (type $i) (result i32)
+ (func $../../src/contract/DataStreamFromCurrentAction (; 39 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -3800,7 +3799,7 @@
    )
   )
   (set_local $2
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $1)
@@ -3810,10 +3809,10 @@
   )
   (get_local $2)
  )
- (func $../../lib/contract/Contract#getDataStream (; 40 ;) (type $ii) (param $0 i32) (result i32)
-  (call $../../lib/contract/DataStreamFromCurrentAction)
+ (func $../../src/contract/Contract#getDataStream (; 40 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../src/contract/DataStreamFromCurrentAction)
  )
- (func $../../src/name_ex/NameEx#constructor (; 41 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../lib/name_ex/NameEx#constructor (; 41 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -3848,7 +3847,7 @@
   )
   (get_local $0)
  )
- (func $../../src/name_ex/char_to_symbol_ex (; 42 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name_ex/char_to_symbol_ex (; 42 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (i32.eq
@@ -3981,7 +3980,7 @@
   )
   (i64.const 255)
  )
- (func $../../src/name_ex/NEX (; 43 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/name_ex/NEX (; 43 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -3990,7 +3989,7 @@
   (local $6 i64)
   (local $7 i64)
   (set_local $1
-   (call $../../src/name_ex/NameEx#constructor
+   (call $../../lib/name_ex/NameEx#constructor
     (i32.const 0)
     (i64.const 0)
     (i64.const 0)
@@ -4019,7 +4018,7 @@
     )
     (block
      (set_local $5
-      (call $../../src/name_ex/char_to_symbol_ex
+      (call $../../lib/name_ex/char_to_symbol_ex
        (call $~lib/string/String#charCodeAt
         (get_local $0)
         (get_local $4)
@@ -4136,7 +4135,7 @@
   )
   (get_local $1)
  )
- (func $../../src/name_ex/NameEx._eq (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/name_ex/NameEx._eq (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -4160,7 +4159,7 @@
    (get_local $2)
   )
  )
- (func $../../src/datastream/DataStream#read<u64> (; 45 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/datastream/DataStream#read<u64> (; 45 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -4223,18 +4222,18 @@
  (func $../../src/asset/Asset#deserialize (; 47 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
-   (call $../../src/datastream/DataStream#read<u64>
+   (call $../../lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
   (i64.store offset=8
    (get_local $0)
-   (call $../../src/datastream/DataStream#read<u64>
+   (call $../../lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
  )
- (func $../../lib/contract/Contract#get:receiver (; 48 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/contract/Contract#get:receiver (; 48 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
@@ -4408,7 +4407,7 @@
    (get_local $1)
   )
  )
- (func $../../src/utils/char_to_symbol (; 53 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/char_to_symbol (; 53 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (if (result i32)
@@ -4482,7 +4481,7 @@
   )
   (i64.const 0)
  )
- (func $../../src/utils/N (; 54 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/N (; 54 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -4528,7 +4527,7 @@
        (get_local $5)
       )
       (set_local $4
-       (call $../../src/utils/char_to_symbol
+       (call $../../lib/name/char_to_symbol
         (i32.and
          (call $~lib/string/String#charCodeAt
           (get_local $0)
@@ -4594,7 +4593,12 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#constructor (; 55 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/account/NAME (; 55 ;) (type $iI) (param $0 i32) (result i64)
+  (call $../../lib/name/N
+   (get_local $0)
+  )
+ )
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#constructor (; 56 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -4637,7 +4641,7 @@
   )
   (get_local $0)
  )
- (func $../../src/balance/CurrencyStats#constructor (; 56 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
+ (func $../../lib/balance/CurrencyStats#constructor (; 57 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
   (local $4 i32)
   (i32.store offset=4
    (tee_local $0
@@ -4680,7 +4684,7 @@
   )
   (get_local $0)
  )
- (func $../../src/balance/CurrencyStats#deserialize (; 57 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/balance/CurrencyStats#deserialize (; 58 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -4695,12 +4699,12 @@
   )
   (i64.store offset=8
    (get_local $0)
-   (call $../../src/datastream/DataStream#read<u64>
+   (call $../../lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 58 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 59 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4718,7 +4722,7 @@
    )
   )
   (set_local $5
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -4735,12 +4739,12 @@
     (get_local $3)
    )
   )
-  (call $../../src/balance/CurrencyStats#deserialize
+  (call $../../lib/balance/CurrencyStats#deserialize
    (get_local $2)
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 59 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 60 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -4772,18 +4776,18 @@
   )
   (i32.const 1)
  )
- (func $../../src/asset/Asset#getSymbol (; 60 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getSymbol (; 61 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setSymbol (; 61 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setSymbol (; 62 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream#isMesureMode (; 62 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream#isMesureMode (; 63 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4791,10 +4795,10 @@
    (i32.const 0)
   )
  )
- (func $../../src/datastream/DataStream#write<u64> (; 63 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../lib/datastream/DataStream#write<u64> (; 64 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
-    (call $../../src/datastream/DataStream#isMesureMode
+    (call $../../lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -4820,21 +4824,21 @@
    )
   )
  )
- (func $../../src/asset/Asset#serialize (; 64 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/datastream/DataStream#write<u64>
+ (func $../../src/asset/Asset#serialize (; 65 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#write<u64>
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $../../src/balance/CurrencyStats#serialize (; 65 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/balance/CurrencyStats#serialize (; 66 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -4847,23 +4851,23 @@
    )
    (get_local $1)
   )
-  (call $../../src/datastream/DataStream#write<u64>
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<CurrencyStats> (; 66 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream.measure<CurrencyStats> (; 67 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
    )
   )
-  (call $../../src/balance/CurrencyStats#serialize
+  (call $../../lib/balance/CurrencyStats#serialize
    (get_local $0)
    (get_local $1)
   )
@@ -4871,14 +4875,14 @@
    (get_local $1)
   )
  )
- (func $../../src/balance/CurrencyStats#primaryKey (; 67 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/balance/CurrencyStats#primaryKey (; 68 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 68 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 69 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4893,7 +4897,7 @@
    (i32.const 1952)
   )
   (set_local $3
-   (call $../../src/datastream/DataStream.measure<CurrencyStats>
+   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
     (get_local $2)
    )
   )
@@ -4904,7 +4908,7 @@
    )
   )
   (set_local $5
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -4912,12 +4916,12 @@
     (get_local $3)
    )
   )
-  (call $../../src/balance/CurrencyStats#serialize
+  (call $../../lib/balance/CurrencyStats#serialize
    (get_local $2)
    (get_local $5)
   )
   (set_local $6
-   (call $../../src/balance/CurrencyStats#primaryKey
+   (call $../../lib/balance/CurrencyStats#primaryKey
     (get_local $2)
    )
   )
@@ -4940,13 +4944,13 @@
    )
   )
  )
- (func $token/Token#create (; 69 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $token/Token#create (; 70 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (call $../../internal/action.d/env.require_auth
-   (call $../../lib/contract/Contract#get:receiver
+   (call $../../src/contract/Contract#get:receiver
     (get_local $0)
    )
   )
@@ -4970,17 +4974,17 @@
   (set_local $4
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
     (i32.const 0)
-    (call $../../src/utils/N
+    (call $../../src/account/NAME
      (get_global $token/STATSTABLE)
     )
-    (call $../../lib/contract/Contract#get:receiver
+    (call $../../src/contract/Contract#get:receiver
      (get_local $0)
     )
     (get_local $3)
    )
   )
   (set_local $5
-   (call $../../src/balance/CurrencyStats#constructor
+   (call $../../lib/balance/CurrencyStats#constructor
     (i32.const 0)
     (call $../../src/asset/Asset#constructor
      (i32.const 0)
@@ -5026,13 +5030,13 @@
   )
   (call $../../src/dbmanager/DBManager<CurrencyStats>#emplace
    (get_local $4)
-   (call $../../lib/contract/Contract#get:receiver
+   (call $../../src/contract/Contract#get:receiver
     (get_local $0)
    )
    (get_local $5)
   )
  )
- (func $../../src/datastream/DataStream#read<u8> (; 70 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream#read<u8> (; 71 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -5057,7 +5061,7 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readVarint32 (; 71 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream#readVarint32 (; 72 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5072,7 +5076,7 @@
    (loop $continue|0
     (block
      (set_local $3
-      (call $../../src/datastream/DataStream#read<u8>
+      (call $../../lib/datastream/DataStream#read<u8>
        (get_local $0)
       )
      )
@@ -5113,14 +5117,14 @@
   )
   (get_local $1)
  )
- (func $../../src/datastream/DataStream#readString (; 72 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream#readString (; 73 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (set_local $1
-   (call $../../src/datastream/DataStream#readVarint32
+   (call $../../lib/datastream/DataStream#readVarint32
     (get_local $0)
    )
   )
@@ -5137,7 +5141,7 @@
    (block $~lib/memory/memory.allocate|inlined.1 (result i32)
     (set_local $2
      (i32.add
-      (get_global $../../src/datastream/HEADER_SIZE)
+      (get_global $../../lib/datastream/HEADER_SIZE)
       (i32.shl
        (get_local $1)
        (i32.const 1)
@@ -5171,7 +5175,7 @@
      (block
       (block
        (set_local $5
-        (call $../../src/datastream/DataStream#read<u8>
+        (call $../../lib/datastream/DataStream#read<u8>
          (get_local $0)
         )
        )
@@ -5199,18 +5203,18 @@
   )
   (get_local $2)
  )
- (func $../../src/asset/Asset#getAmount (; 73 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getAmount (; 74 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setAmount (; 74 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setAmount (; 75 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 75 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 76 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -5228,7 +5232,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 76 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 77 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5236,7 +5240,7 @@
   (set_local $3
    (call $../../src/dbmanager/DBManager<CurrencyStats>#find
     (get_local $0)
-    (call $../../src/balance/CurrencyStats#primaryKey
+    (call $../../lib/balance/CurrencyStats#primaryKey
      (get_local $2)
     )
    )
@@ -5258,7 +5262,7 @@
    (i32.const 2704)
   )
   (set_local $4
-   (call $../../src/datastream/DataStream.measure<CurrencyStats>
+   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
     (get_local $2)
    )
   )
@@ -5269,7 +5273,7 @@
    )
   )
   (set_local $6
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -5277,7 +5281,7 @@
     (get_local $4)
    )
   )
-  (call $../../src/balance/CurrencyStats#serialize
+  (call $../../lib/balance/CurrencyStats#serialize
    (get_local $2)
    (get_local $6)
   )
@@ -5292,7 +5296,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#constructor (; 77 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#constructor (; 78 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -5335,7 +5339,7 @@
   )
   (get_local $0)
  )
- (func $../../src/balance/Account#constructor (; 78 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/balance/CurrencyAccount#constructor (; 79 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store
    (tee_local $0
@@ -5362,7 +5366,7 @@
   )
   (get_local $0)
  )
- (func $../../src/balance/Account#deserialize (; 79 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/balance/CurrencyAccount#deserialize (; 80 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -5370,7 +5374,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator (; 80 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#loadObjectByPrimaryIterator (; 81 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5388,7 +5392,7 @@
    )
   )
   (set_local $5
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5405,12 +5409,12 @@
     (get_local $3)
    )
   )
-  (call $../../src/balance/Account#deserialize
+  (call $../../lib/balance/CurrencyAccount#deserialize
    (get_local $2)
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#get (; 81 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#get (; 82 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -5435,14 +5439,14 @@
     (i32.const 0)
    )
   )
-  (call $../../src/dbmanager/DBManager<Account>#loadObjectByPrimaryIterator
+  (call $../../src/dbmanager/DBManager<CurrencyAccount>#loadObjectByPrimaryIterator
    (get_local $0)
    (get_local $3)
    (get_local $2)
   )
   (i32.const 1)
  )
- (func $../../src/balance/Account#serialize (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/balance/CurrencyAccount#serialize (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -5450,16 +5454,16 @@
    (get_local $1)
   )
  )
- (func $../../src/datastream/DataStream.measure<Account> (; 83 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream.measure<CurrencyAccount> (; 84 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
    )
   )
-  (call $../../src/balance/Account#serialize
+  (call $../../lib/balance/CurrencyAccount#serialize
    (get_local $0)
    (get_local $1)
   )
@@ -5467,14 +5471,14 @@
    (get_local $1)
   )
  )
- (func $../../src/balance/Account#primaryKey (; 84 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/balance/CurrencyAccount#primaryKey (; 85 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#emplace (; 85 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#emplace (; 86 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5489,7 +5493,7 @@
    (i32.const 1952)
   )
   (set_local $3
-   (call $../../src/datastream/DataStream.measure<Account>
+   (call $../../lib/datastream/DataStream.measure<CurrencyAccount>
     (get_local $2)
    )
   )
@@ -5500,7 +5504,7 @@
    )
   )
   (set_local $5
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5508,12 +5512,12 @@
     (get_local $3)
    )
   )
-  (call $../../src/balance/Account#serialize
+  (call $../../lib/balance/CurrencyAccount#serialize
    (get_local $2)
    (get_local $5)
   )
   (set_local $6
-   (call $../../src/balance/Account#primaryKey
+   (call $../../lib/balance/CurrencyAccount#primaryKey
     (get_local $2)
    )
   )
@@ -5536,7 +5540,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#find (; 86 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#find (; 87 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -5554,15 +5558,15 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Account>#modify (; 87 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#modify (; 88 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (set_local $3
-   (call $../../src/dbmanager/DBManager<Account>#find
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#find
     (get_local $0)
-    (call $../../src/balance/Account#primaryKey
+    (call $../../lib/balance/CurrencyAccount#primaryKey
      (get_local $2)
     )
    )
@@ -5584,7 +5588,7 @@
    (i32.const 2704)
   )
   (set_local $4
-   (call $../../src/datastream/DataStream.measure<Account>
+   (call $../../lib/datastream/DataStream.measure<CurrencyAccount>
     (get_local $2)
    )
   )
@@ -5595,7 +5599,7 @@
    )
   )
   (set_local $6
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -5603,7 +5607,7 @@
     (get_local $4)
    )
   )
-  (call $../../src/balance/Account#serialize
+  (call $../../lib/balance/CurrencyAccount#serialize
    (get_local $2)
    (get_local $6)
   )
@@ -5618,26 +5622,26 @@
    )
   )
  )
- (func $token/Token#addBalance (; 88 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+ (func $token/Token#addBalance (; 89 ;) (type $iIiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i64)
   (set_local $4
-   (call $../../src/dbmanager/DBManager<Account>#constructor
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#constructor
     (i32.const 0)
-    (call $../../src/utils/N
+    (call $../../src/account/NAME
      (get_global $token/ACCOUNTTABLE)
     )
-    (call $../../lib/contract/Contract#get:receiver
+    (call $../../src/contract/Contract#get:receiver
      (get_local $0)
     )
     (get_local $1)
    )
   )
   (set_local $5
-   (call $../../src/balance/Account#constructor
+   (call $../../lib/balance/CurrencyAccount#constructor
     (i32.const 0)
     (call $../../src/asset/Asset#constructor
      (i32.const 0)
@@ -5647,7 +5651,7 @@
    )
   )
   (set_local $6
-   (call $../../src/dbmanager/DBManager<Account>#get
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#get
     (get_local $4)
     (call $../../src/asset/Asset#symbolName
      (get_local $2)
@@ -5661,12 +5665,12 @@
    )
    (block
     (set_local $7
-     (call $../../src/balance/Account#constructor
+     (call $../../lib/balance/CurrencyAccount#constructor
       (i32.const 0)
       (get_local $2)
      )
     )
-    (call $../../src/dbmanager/DBManager<Account>#emplace
+    (call $../../src/dbmanager/DBManager<CurrencyAccount>#emplace
      (get_local $4)
      (get_local $3)
      (get_local $7)
@@ -5691,7 +5695,7 @@
      )
      (get_local $8)
     )
-    (call $../../src/dbmanager/DBManager<Account>#modify
+    (call $../../src/dbmanager/DBManager<CurrencyAccount>#modify
      (get_local $4)
      (i64.const 0)
      (get_local $5)
@@ -5699,7 +5703,7 @@
    )
   )
  )
- (func $../../src/permission-level/PermissionLevel#constructor (; 89 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../lib/permission-level/PermissionLevel#constructor (; 90 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -5734,7 +5738,7 @@
   )
   (get_local $0)
  )
- (func $../../src/action/TransferParams#constructor (; 90 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
+ (func $../../src/action/TransferParams#constructor (; 91 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (i64.store
    (tee_local $0
@@ -5789,7 +5793,7 @@
   )
   (get_local $0)
  )
- (func $../../src/action/ActionImpl#constructor (; 91 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/action/ActionImpl#constructor (; 92 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (tee_local $0
@@ -5828,7 +5832,7 @@
   )
   (i32.store offset=8
    (get_local $0)
-   (call $../../src/name_ex/NameEx#constructor
+   (call $../../lib/name_ex/NameEx#constructor
     (i32.const 0)
     (i64.const 0)
     (i64.const 0)
@@ -5844,7 +5848,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<PermissionLevel>#push (; 92 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#push (; 93 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5922,10 +5926,10 @@
   )
   (get_local $5)
  )
- (func $../../src/datastream/DataStream#write<u8> (; 93 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/datastream/DataStream#write<u8> (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
-    (call $../../src/datastream/DataStream#isMesureMode
+    (call $../../lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -5951,7 +5955,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeVarint32 (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/datastream/DataStream#writeVarint32 (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (block $break|0
    (loop $continue|0
@@ -5984,7 +5988,7 @@
        )
       )
      )
-     (call $../../src/datastream/DataStream#write<u8>
+     (call $../../lib/datastream/DataStream#write<u8>
       (get_local $0)
       (get_local $2)
      )
@@ -5995,7 +5999,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#writeString (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/datastream/DataStream#writeString (; 96 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6006,7 +6010,7 @@
     (get_local $1)
    )
   )
-  (call $../../src/datastream/DataStream#writeVarint32
+  (call $../../lib/datastream/DataStream#writeVarint32
    (get_local $0)
    (get_local $2)
   )
@@ -6024,7 +6028,7 @@
   )
   (if
    (i32.eqz
-    (call $../../src/datastream/DataStream#isMesureMode
+    (call $../../lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -6083,14 +6087,14 @@
    )
   )
  )
- (func $../../src/action/TransferParams#serialize (; 96 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/datastream/DataStream#write<u64>
+ (func $../../src/action/TransferParams#serialize (; 97 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#write<u64>
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
@@ -6102,17 +6106,17 @@
    )
    (get_local $1)
   )
-  (call $../../src/datastream/DataStream#writeString
+  (call $../../lib/datastream/DataStream#writeString
    (get_local $1)
    (i32.load offset=20
     (get_local $0)
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<TransferParams> (; 97 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream.measure<TransferParams> (; 98 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -6126,7 +6130,7 @@
    (get_local $1)
   )
  )
- (func $~lib/array/Array<u8>#__set (; 98 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<u8>#__set (; 99 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -6196,7 +6200,7 @@
    )
   )
  )
- (func $../../src/datastream/DataStream#toArray<u8> (; 99 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream#toArray<u8> (; 100 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6280,21 +6284,21 @@
   )
   (get_local $2)
  )
- (func $../../src/name_ex/NameEx#serialize (; 100 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/datastream/DataStream#write<u64>
+ (func $../../lib/name_ex/NameEx#serialize (; 101 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#write<u64>
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $~lib/array/Array<PermissionLevel>#__get (; 101 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#__get (; 102 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6325,21 +6329,21 @@
    (unreachable)
   )
  )
- (func $../../src/permission-level/PermissionLevel#serialize (; 102 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/datastream/DataStream#write<u64>
+ (func $../../lib/permission-level/PermissionLevel#serialize (; 103 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#write<u64>
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $../../src/datastream/DataStream#writeComplexVector<PermissionLevel> (; 103 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/datastream/DataStream#writeComplexVector<PermissionLevel> (; 104 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -6349,7 +6353,7 @@
     )
    )
   )
-  (call $../../src/datastream/DataStream#writeVarint32
+  (call $../../lib/datastream/DataStream#writeVarint32
    (get_local $0)
    (get_local $2)
   )
@@ -6366,7 +6370,7 @@
       )
      )
     )
-    (call $../../src/permission-level/PermissionLevel#serialize
+    (call $../../lib/permission-level/PermissionLevel#serialize
      (call $~lib/array/Array<PermissionLevel>#__get
       (get_local $1)
       (get_local $3)
@@ -6383,7 +6387,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#__get (; 104 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 105 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6414,7 +6418,7 @@
    (unreachable)
   )
  )
- (func $../../src/datastream/DataStream#writeVector<u8> (; 105 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/datastream/DataStream#writeVector<u8> (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -6424,7 +6428,7 @@
     )
    )
   )
-  (call $../../src/datastream/DataStream#writeVarint32
+  (call $../../lib/datastream/DataStream#writeVarint32
    (get_local $0)
    (get_local $2)
   )
@@ -6441,7 +6445,7 @@
       )
      )
     )
-    (call $../../src/datastream/DataStream#write<u8>
+    (call $../../lib/datastream/DataStream#write<u8>
      (get_local $0)
      (call $~lib/array/Array<u8>#__get
       (get_local $1)
@@ -6458,36 +6462,36 @@
    )
   )
  )
- (func $../../src/action/ActionImpl#serialize (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../src/datastream/DataStream#write<u64>
+ (func $../../src/action/ActionImpl#serialize (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $../../lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../src/name_ex/NameEx#serialize
+  (call $../../lib/name_ex/NameEx#serialize
    (i32.load offset=8
     (get_local $0)
    )
    (get_local $1)
   )
-  (call $../../src/datastream/DataStream#writeComplexVector<PermissionLevel>
+  (call $../../lib/datastream/DataStream#writeComplexVector<PermissionLevel>
    (get_local $1)
    (i32.load offset=12
     (get_local $0)
    )
   )
-  (call $../../src/datastream/DataStream#writeVector<u8>
+  (call $../../lib/datastream/DataStream#writeVector<u8>
    (get_local $1)
    (i32.load offset=16
     (get_local $0)
    )
   )
  )
- (func $../../src/datastream/DataStream.measure<ActionImpl> (; 107 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/datastream/DataStream.measure<ActionImpl> (; 108 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -6501,7 +6505,7 @@
    (get_local $1)
   )
  )
- (func $../../src/action/dispatchInline (; 108 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $../../src/action/dispatchInline (; 109 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6528,7 +6532,7 @@
    (get_local $2)
   )
   (set_local $5
-   (call $../../src/datastream/DataStream.measure<TransferParams>
+   (call $../../lib/datastream/DataStream.measure<TransferParams>
     (get_local $3)
    )
   )
@@ -6539,7 +6543,7 @@
    )
   )
   (set_local $7
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $6)
@@ -6553,12 +6557,12 @@
   )
   (i32.store offset=16
    (get_local $4)
-   (call $../../src/datastream/DataStream#toArray<u8>
+   (call $../../lib/datastream/DataStream#toArray<u8>
     (get_local $7)
    )
   )
   (set_local $5
-   (call $../../src/datastream/DataStream.measure<ActionImpl>
+   (call $../../lib/datastream/DataStream.measure<ActionImpl>
     (get_local $4)
    )
   )
@@ -6569,7 +6573,7 @@
    )
   )
   (set_local $7
-   (call $../../src/datastream/DataStream#constructor
+   (call $../../lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $6)
@@ -6590,7 +6594,7 @@
    )
   )
  )
- (func $token/Token#issue (; 109 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $token/Token#issue (; 110 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -6615,10 +6619,10 @@
   (set_local $4
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
     (i32.const 0)
-    (call $../../src/utils/N
+    (call $../../src/account/NAME
      (get_global $token/STATSTABLE)
     )
-    (call $../../lib/contract/Contract#get:receiver
+    (call $../../src/contract/Contract#get:receiver
      (get_local $0)
     )
     (call $../../src/asset/Asset#symbolName
@@ -6627,7 +6631,7 @@
    )
   )
   (set_local $5
-   (call $../../src/balance/CurrencyStats#constructor
+   (call $../../lib/balance/CurrencyStats#constructor
     (i32.const 0)
     (call $../../src/asset/Asset#constructor
      (i32.const 0)
@@ -6741,7 +6745,7 @@
    )
    (block
     (set_local $8
-     (call $../../src/permission-level/PermissionLevel#constructor
+     (call $../../lib/permission-level/PermissionLevel#constructor
       (i32.const 0)
       (i64.const 0)
       (i64.const 0)
@@ -6755,7 +6759,7 @@
     )
     (i64.store offset=8
      (get_local $8)
-     (call $../../src/utils/N
+     (call $../../src/account/NAME
       (i32.const 2816)
      )
     )
@@ -6792,10 +6796,10 @@
     )
     (call $../../src/action/dispatchInline
      (get_local $8)
-     (call $../../lib/contract/Contract#get:receiver
+     (call $../../src/contract/Contract#get:receiver
       (get_local $0)
      )
-     (call $../../src/name_ex/NEX
+     (call $../../lib/name_ex/NEX
       (i32.const 2832)
      )
      (get_local $9)
@@ -6803,7 +6807,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Account>#erase (; 110 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#erase (; 111 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -6815,7 +6819,7 @@
    (i32.const 3584)
   )
   (set_local $2
-   (call $../../src/dbmanager/DBManager<Account>#find
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#find
     (get_local $0)
     (get_local $1)
    )
@@ -6831,25 +6835,25 @@
    (nop)
   )
  )
- (func $token/Token#subBalance (; 111 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $token/Token#subBalance (; 112 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
   (set_local $3
-   (call $../../src/dbmanager/DBManager<Account>#constructor
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#constructor
     (i32.const 0)
-    (call $../../src/utils/N
+    (call $../../src/account/NAME
      (get_global $token/ACCOUNTTABLE)
     )
-    (call $../../lib/contract/Contract#get:receiver
+    (call $../../src/contract/Contract#get:receiver
      (get_local $0)
     )
     (get_local $1)
    )
   )
   (set_local $4
-   (call $../../src/balance/Account#constructor
+   (call $../../lib/balance/CurrencyAccount#constructor
     (i32.const 0)
     (call $../../src/asset/Asset#constructor
      (i32.const 0)
@@ -6859,7 +6863,7 @@
    )
   )
   (set_local $5
-   (call $../../src/dbmanager/DBManager<Account>#get
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#get
     (get_local $3)
     (call $../../src/asset/Asset#symbolName
      (get_local $2)
@@ -6895,9 +6899,9 @@
      (get_local $2)
     )
    )
-   (call $../../src/dbmanager/DBManager<Account>#erase
+   (call $../../src/dbmanager/DBManager<CurrencyAccount>#erase
     (get_local $3)
-    (call $../../src/balance/Account#primaryKey
+    (call $../../lib/balance/CurrencyAccount#primaryKey
      (get_local $4)
     )
    )
@@ -6920,7 +6924,7 @@
      )
      (get_local $6)
     )
-    (call $../../src/dbmanager/DBManager<Account>#modify
+    (call $../../src/dbmanager/DBManager<CurrencyAccount>#modify
      (get_local $3)
      (get_local $1)
      (get_local $4)
@@ -6928,7 +6932,7 @@
    )
   )
  )
- (func $token/Token#transfer (; 112 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
+ (func $token/Token#transfer (; 113 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -6951,10 +6955,10 @@
   (set_local $5
    (call $../../src/dbmanager/DBManager<CurrencyStats>#constructor
     (i32.const 0)
-    (call $../../src/utils/N
+    (call $../../src/account/NAME
      (get_global $token/STATSTABLE)
     )
-    (call $../../lib/contract/Contract#get:receiver
+    (call $../../src/contract/Contract#get:receiver
      (get_local $0)
     )
     (call $../../src/asset/Asset#symbolName
@@ -6963,7 +6967,7 @@
    )
   )
   (set_local $6
-   (call $../../src/balance/CurrencyStats#constructor
+   (call $../../lib/balance/CurrencyStats#constructor
     (i32.const 0)
     (call $../../src/asset/Asset#constructor
      (i32.const 0)
@@ -7037,7 +7041,7 @@
    (get_local $1)
   )
  )
- (func $main/apply (; 113 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $main/apply (; 114 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7052,33 +7056,33 @@
    )
    (block
     (set_local $4
-     (call $../../lib/contract/Contract#constructor
+     (call $../../src/contract/Contract#constructor
       (i32.const 0)
       (get_local $0)
      )
     )
     (set_local $5
-     (call $../../lib/contract/Contract#getDataStream
+     (call $../../src/contract/Contract#getDataStream
       (get_local $4)
      )
     )
     (set_local $6
-     (call $../../src/name_ex/NameEx#constructor
+     (call $../../lib/name_ex/NameEx#constructor
       (i32.const 0)
       (get_local $2)
       (get_local $3)
      )
     )
     (if
-     (call $../../src/name_ex/NameEx._eq
+     (call $../../lib/name_ex/NameEx._eq
       (get_local $6)
-      (call $../../src/name_ex/NEX
+      (call $../../lib/name_ex/NEX
        (i32.const 1728)
       )
      )
      (block
       (set_local $7
-       (call $../../src/datastream/DataStream#read<u64>
+       (call $../../lib/datastream/DataStream#read<u64>
         (get_local $5)
        )
       )
@@ -7100,15 +7104,15 @@
       )
      )
      (if
-      (call $../../src/name_ex/NameEx._eq
+      (call $../../lib/name_ex/NameEx._eq
        (get_local $6)
-       (call $../../src/name_ex/NEX
+       (call $../../lib/name_ex/NEX
         (i32.const 2064)
        )
       )
       (block
        (set_local $7
-        (call $../../src/datastream/DataStream#read<u64>
+        (call $../../lib/datastream/DataStream#read<u64>
          (get_local $5)
         )
        )
@@ -7124,7 +7128,7 @@
         (get_local $5)
        )
        (set_local $9
-        (call $../../src/datastream/DataStream#readString
+        (call $../../lib/datastream/DataStream#readString
          (get_local $5)
         )
        )
@@ -7136,20 +7140,20 @@
        )
       )
       (if
-       (call $../../src/name_ex/NameEx._eq
+       (call $../../lib/name_ex/NameEx._eq
         (get_local $6)
-        (call $../../src/name_ex/NEX
+        (call $../../lib/name_ex/NEX
          (i32.const 2832)
         )
        )
        (block
         (set_local $7
-         (call $../../src/datastream/DataStream#read<u64>
+         (call $../../lib/datastream/DataStream#read<u64>
           (get_local $5)
          )
         )
         (set_local $10
-         (call $../../src/datastream/DataStream#read<u64>
+         (call $../../lib/datastream/DataStream#read<u64>
           (get_local $5)
          )
         )
@@ -7165,7 +7169,7 @@
          (get_local $5)
         )
         (set_local $8
-         (call $../../src/datastream/DataStream#readString
+         (call $../../lib/datastream/DataStream#readString
           (get_local $5)
          )
         )
@@ -7186,7 +7190,7 @@
    )
   )
  )
- (func $start (; 114 ;) (type $v)
+ (func $start (; 115 ;) (type $v)
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
@@ -7215,22 +7219,16 @@
   )
   (nop)
   (nop)
-  (set_global $../../src/balance/SYS
+  (set_global $../../src/asset/SYS
    (call $../../src/asset/StringToSymbol
     (i32.const 4)
     (i32.const 1280)
    )
   )
-  (set_global $../../src/balance/SYS_NAME
+  (set_global $../../src/asset/SYS_NAME
    (i64.shr_u
-    (get_global $../../src/balance/SYS)
+    (get_global $../../src/asset/SYS)
     (i64.const 8)
-   )
-  )
-  (set_global $../../internal/types/UGS
-   (call $../../src/asset/StringToSymbol
-    (i32.const 4)
-    (i32.const 1280)
    )
   )
  )

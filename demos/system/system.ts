@@ -1,8 +1,8 @@
 import { BlockchainParameters } from "../../lib/privileged";
-import { BlockTimestamp } from "../../lib/time";
-import { DataStream } from "../../src/datastream";
+import { BlockTimestamp } from "../../src/time";
+import { DataStream } from "../../lib/datastream";
 import { PublicKey } from "../../internal/types";
-import { ISerializable } from "../../lib/ISerializable";
+import { ISerializable } from "../../src/ISerializable";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Native } from "./native";
 import { DBManager } from "../../src/dbmanager";

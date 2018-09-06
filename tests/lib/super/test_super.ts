@@ -1,5 +1,5 @@
-import { Contract } from "../../../lib/contract";
-import { NameEx, RNEX ,NEX} from "../../../src/name_ex";
+import { Contract } from "../../../src/contract";
+import { NameEx, RNEX ,NEX} from "../../../lib/name_ex";
 
 
 
@@ -13,6 +13,6 @@ class Super extends Contract{
 
 
 export function getAge(age:i32):i32{
-   
+
     return  age*age;
 }

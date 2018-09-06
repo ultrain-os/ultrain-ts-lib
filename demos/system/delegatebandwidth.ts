@@ -2,8 +2,8 @@
  * @author fanliangqin@ultrain.io
  */
 import { Asset } from "../../src/asset";
-import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
+import { ISerializable } from "../../src/ISerializable";
+import { DataStream } from "../../lib/datastream";
 
 export let refund_delay: time = 3 * 24 * 3600;
 export let refund_expiration_time: time = 3600;

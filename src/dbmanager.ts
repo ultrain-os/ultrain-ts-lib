@@ -3,11 +3,11 @@
  */
 
 import { Log } from "./log";
-import { DataStream } from "./datastream";
-import { ultrain_assert, RN } from "./utils";
+import { DataStream } from "../lib/datastream";
+import { ultrain_assert } from "./utils";
 import { env as action } from "../internal/action.d";
 import { env as db } from "../internal/db.d";
-import { ISerializable } from "../lib/ISerializable";
+import { ISerializable } from "./ISerializable";
 /**
  * class DBManager is used to manager reading or writing to system db.
  * the type T must be implements interface ISerializable,

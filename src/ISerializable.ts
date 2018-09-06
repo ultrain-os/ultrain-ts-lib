@@ -1,5 +1,5 @@
 
-import {DataStream} from "../src/datastream";
+import {DataStream} from "../lib/datastream";
 
 export interface ISerializable {
     deserialize(ds: DataStream): void;
