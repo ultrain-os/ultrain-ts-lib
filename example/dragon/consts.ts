@@ -2,7 +2,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { N } from "../../src/utils";
+import { NAME } from "../../src/account";
 
 // type GenType    = u64;
 type DragonGene = u64;
@@ -11,14 +11,14 @@ type DragonIndex = u64;
 type TokenId = u64;
 type MatchId = u64;
 
-export let HyperDragonContract = N("mima.dragon");
-export let CEO = N("mima.ceo");
-export let CFO = N("mima.cfo");
-export let API = N("mima.api");
+export let HyperDragonContract = NAME("mima.dragon");
+export let CEO = NAME("mima.ceo");
+export let CFO = NAME("mima.cfo");
+export let API = NAME("mima.api");
 
-export let SaleAuctionAddress = N("mm.saleauc");
-export let SireAuctionAddress = N("mm.sireauc");
+export let SaleAuctionAddress = NAME("mm.saleauc");
+export let SireAuctionAddress = NAME("mm.sireauc");
 
-export let MatchAddress = N("mm.match");
+export let MatchAddress = NAME("mm.match");
 
 export const DEBUG: boolean = false;

@@ -2,11 +2,10 @@
  * @author fanliangqin@ultrain.io
  */
 import { Asset } from "./asset";
-import { DataStream } from "./datastream";
-import { ISerializable } from "../lib/ISerializable";
-import { PermissionLevel } from "./permission-level";
-import { env as action } from "../internal/action.d";
-import { NameEx, NameEx as action_name } from "./name_ex";
+import { DataStream } from "../lib/datastream";
+import { ISerializable } from "./ISerializable";
+import { PermissionLevel } from "../lib/permission-level";
+import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
 
 /**
@@ -16,7 +15,7 @@ import { env as ActionAPI } from "../internal/action.d";
  * @function requirePermissionLevel
  */
 export function requirePermissionLevel(pl: PermissionLevel): void {
-    action.require_auth2(pl.actor, pl.permission);
+    ActionAPI.require_auth2(pl.actor, pl.permission);
 }
 /**
  * class TransferParams is applied to transfer Tokens from an account to another.
@@ -112,7 +111,7 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name,
     arr = new Uint8Array(len);
     ds = new DataStream(<usize>arr.buffer, len);
     actimpl.serialize(ds);
-    action.send_inline(<usize>ds.buffer, ds.pos);
+    ActionAPI.send_inline(<usize>ds.buffer, ds.pos);
 }
 
 /**
@@ -154,12 +153,52 @@ export class Action {
     public static requireAuth(account: account_name): void {
         ActionAPI.require_auth(account);
     }
+
     /**
-     * to check if an account name is valid or not.
-     * @param account account name to be checked.
-     * @returns boolean
+     * add account to be notified.
+     * @param account account to be notified.
      */
-    public static isAccount(account: account_name): boolean {
-        return ActionAPI.is_account(account);
+    public static requireRecipient(account: account_name): void {
+        ActionAPI.require_recipient(account);
     }
+
+    private _action: NameEx;
+
+    constructor(h: u64, l: u64) {
+        this._action = new NameEx(h, l);
+    }
+
+    /**
+     * get property of action's code, which is an instance of NameEx.
+     */
+    public get code(): NameEx {
+        return this._action;
+    }
+
+    /**
+     * get property of action's name, which is a human readable string.
+     */
+    public get name(): string {
+        return RNEX(this._action.valueH, this._action.valueL);
+    }
+
+    /**
+     * equal operation of Action.
+     * @param lhs left hand side instance of Action.
+     * @param rhs right hand side instance of Action.
+     * @returns true or false.
+     */
+    @operator("==")
+    private static _eq(lhs: Action, rhs: Action): boolean {
+        return lhs._action == rhs._action;
+    }
+}
+
+/**
+ * convert a string to Action.
+ * @param str an readable string of action name. It can only include: _0-9a-zA-Z
+ */
+export function ACTION(str: string): Action {
+    let nex = NEX(str);
+    return new Action(nex.valueH, nex.valueL);
 }

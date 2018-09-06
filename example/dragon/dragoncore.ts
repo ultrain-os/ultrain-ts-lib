@@ -1,28 +1,28 @@
 
 import "allocator/arena";
 
-import { DataStream } from "../../src/datastream";
-import { N, ultrain_assert, RN, intToString } from "../../src/utils";
-import { env as Action } from "../../internal/action.d";
+import { DataStream } from "../../lib/datastream";
+import { ultrain_assert, intToString } from "../../src/utils";
+import { Action } from "../../src/action";
 import { GenType } from "./genetype";
-import { minutes, hours, days, seconds, now } from "../../lib/time";
+import { minutes, hours, days, seconds, now } from "../../src/time";
 import { SaleClockAuction, SireClockAuction } from "./saleclockauction";
-import { Map } from "../../src/map";
+import { Map } from "../../lib/map";
 import { GeneScience } from "./genescience";
-import { env as system } from "../../internal/system.d";
-import { ISerializable } from "../../lib/ISerializable";
-import { env as trx } from "../../internal/transaction.d";
-import { Asset, StringToSymbol } from "../../src/asset";
+import { ISerializable } from "../../src/ISerializable";
+import { Block } from "../../src/block";
+import { Asset } from "../../src/asset";
 import { MatchCore } from "./match";
 import "./consts";
 import { Titles } from "./titles";
-import { emit, EventObject } from "../../lib/events";
-import { UGS } from "../../internal/types";
+import { emit, EventObject } from "../../src/events";
 import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddress, MatchAddress, DEBUG } from "./consts";
-import { queryBalance, send, SYS } from "../../src/balance";
+import { SYS } from "../../src/asset";
 import { Return } from "../../src/return";
 import { Log } from "../../src/log";
 import { DBManager } from "../../src/dbmanager";
+import { NAME, RNAME } from "../../src/account";
+import { Account } from "../../src/account";
 
 class DragonAccessControl {
     ceoAddress: account_name = CEO;
@@ -32,19 +32,19 @@ class DragonAccessControl {
     paused: boolean = false;
 
     onlyOwner(): void {
-        ultrain_assert(Action.current_sender() == this.ceoAddress, "only CEO can execute this command.");
+        ultrain_assert(Action.sender == this.ceoAddress, "only CEO can execute this command.");
     }
 
     onlyCEO(): void {
-        ultrain_assert(Action.current_sender() == this.ceoAddress, "only CEO can execute this command.");
+        ultrain_assert(Action.sender == this.ceoAddress, "only CEO can execute this command.");
     }
 
     onlyCFO(): void {
-        ultrain_assert(Action.current_sender() == this.cfoAddress, "only CFO can execute this command.");
+        ultrain_assert(Action.sender == this.cfoAddress, "only CFO can execute this command.");
     }
 
     onlyAPI(): void {
-        // ultrain_assert(Action.current_sender() == this.apiAddress, "only API can execute this command.");
+        // ultrain_assert(Action.sender == this.apiAddress, "only API can execute this command.");
     }
 
     whenNotPaused(): void {
@@ -57,19 +57,19 @@ class DragonAccessControl {
 
     setCEO(newCEO: account_name): void {
         this.onlyCEO();
-        ultrain_assert(Action.is_account(newCEO), "parameter newCEO is not a valid account.");
+        ultrain_assert(Account.isValid(newCEO), "parameter newCEO is not a valid account.");
         this.ceoAddress = newCEO;
     }
 
     setCFO(newCFO: account_name): void {
         this.onlyCEO();
-        ultrain_assert(Action.current_sender() == this.cfoAddress, "parameter newCFO is not a valid account.");
+        ultrain_assert(Action.sender == this.cfoAddress, "parameter newCFO is not a valid account.");
         this.cfoAddress = newCFO;
     }
 
     setAPI(newAPI: account_name): void {
         this.onlyCEO();
-        ultrain_assert(Action.current_sender() == this.apiAddress, "parameter newAPI is not a valid account.");
+        ultrain_assert(Action.sender == this.apiAddress, "parameter newAPI is not a valid account.");
         this.apiAddress = newAPI;
     }
 
@@ -220,7 +220,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
             let accounts = this.dragonIndexToOwner.values();
             Log.s("[DEBUG] dragonIndexToOwner size = ").i(size).s(", contents: ").flush();
             for (let i: i32 = 0; i < size; i++) {
-                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RNAME(accounts[i])).flush();
             }
         }
     }
@@ -232,7 +232,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
             let accounts = this.dragonIndexToApproved.values();
             Log.s("[DEBUG] dragonIndexToApproved size = ").i(size).s(", contents: ").flush();
             for (let i: i32 = 0; i < size; i++) {
-                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RNAME(accounts[i])).flush();
             }
         }
     }
@@ -255,7 +255,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
 
             Log.s("[DEBUG] ownershipTokenCount size =  ").i(size).s(", contents:").flush();
             for (let i: i32 = 0; i < size; i++) {
-                Log.s("    account: ").s(RN(accounts[i])).s(", count: ").i(counts[i]).flush();
+                Log.s("    account: ").s(RNAME(accounts[i])).s(", count: ").i(counts[i]).flush();
             }
         }
     }
@@ -267,7 +267,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
             let accounts = this.sireAllowedToAddress.values();
             Log.s("[DEBUG] sireAllowedToAddress size = ").i(size).s(", contents: ").flush();
             for (let i: i32 = 0; i < size; i++) {
-                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RN(accounts[i])).flush();
+                Log.s("    tokenId: ").i(tokenIds[i]).s(", account_name: ").s(RNAME(accounts[i])).flush();
             }
         }
     }
@@ -298,9 +298,9 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     public prints(tag: string): void {
         Log.s(tag).flush();
 
-        Log.s("ceoAddress: ").s(RN(this.ceoAddress)).flush();
-        Log.s("cfoAddress: ").s(RN(this.cfoAddress)).flush();
-        Log.s("apiAddress: ").s(RN(this.apiAddress)).flush();
+        Log.s("ceoAddress: ").s(RNAME(this.ceoAddress)).flush();
+        Log.s("cfoAddress: ").s(RNAME(this.cfoAddress)).flush();
+        Log.s("apiAddress: ").s(RNAME(this.apiAddress)).flush();
         Log.s("paused: ").s(this.paused ? "true" : "false").flush();
         this.prints_dragons();
         this.prints_dragonIndexToOwner();
@@ -316,9 +316,9 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         Log.s("pregnantDragons: ").i(this.pregnantDragons, 10).flush();
         Log.s("autoBirthFee: ").flush();
 
-        Log.s("saleAuctionOriginator: ").s(RN(this.saleAuctionOriginator)).flush();
+        Log.s("saleAuctionOriginator: ").s(RNAME(this.saleAuctionOriginator)).flush();
         Log.s("saleAuctionCut: ").i(this.saleAuctionCut, 10).flush();
-        Log.s("sireAuctionOriginator: ").s(RN(this.sireAuctionOriginator)).flush();
+        Log.s("sireAuctionOriginator: ").s(RNAME(this.sireAuctionOriginator)).flush();
         Log.s("sireAuctionCut: ").i(this.sireAuctionCut, 10).flush();
     }
 
@@ -383,7 +383,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
         this.sireAuctionCut = ds.read<u64>();
     }
 
-    public primaryKey(): u64 { return N("hd.dragon"); }
+    public primaryKey(): u64 { return NAME("hd.dragon"); }
 
     // NEXT CONSTS does not need to store
     cooldowns: u64[] = [
@@ -421,7 +421,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
 
         this.dragonIndexToOwner.set(tokenId, to);
 
-        if (Action.is_account(from)) {
+        if (Account.isValid(from)) {
             status = this.ownershipTokenCount.contains(from);
             ultrain_assert(status, "account does not own any token can transfer from.");
             let val = this.ownershipTokenCount.get(from);
@@ -439,7 +439,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     }
 
     public saveToDBManager(): void {
-        let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
+        let db = new DBManager<DragonBase>(NAME("mima.dragon"), HyperDragonContract, NAME("hd.sym"));
         let existing = db.exists(this.primaryKey());
         // this.prints("=====> DragonCore.saveToDB existing = " + (existing? "true":"false"));
         if (existing) {
@@ -450,7 +450,7 @@ class DragonBase extends DragonAccessControl implements ISerializable {
     }
 
     public loadFromDBManager(): void {
-        let db = new DBManager<DragonBase>(N("mima.dragon"), HyperDragonContract, N("hd.sym"));
+        let db = new DBManager<DragonBase>(NAME("mima.dragon"), HyperDragonContract, NAME("hd.sym"));
         let existing = db.get(this.primaryKey(), this);
         // this.prints("<====== DragonCore.loadFromDB existing =" + (existing ? "true": "false"));
     }
@@ -489,20 +489,20 @@ class DragonAssetControl extends DragonBase {
     }
 
     public transferFrom(from: account_name, to: account_name, tokenId: TokenId): void {
-        ultrain_assert(Action.is_account(to), RN(to) + " : 'to' account is invalid.");
+        ultrain_assert(Account.isValid(to), "'to' account is invalid.");
         ultrain_assert(to != HyperDragonContract, "can not transfer dragon to mima.dragon");
         let approved = this._approvedFor(from, tokenId);
-        ultrain_assert(approved, "this asset is not approved to " + RN(from));
+        ultrain_assert(approved, "this asset is not approved to " + RNAME(from));
         let own = this._owns(from, tokenId);
-        ultrain_assert(own, RN(from) + " : 'from' does not own this asset.");
+        ultrain_assert(own, RNAME(from) + " does not own this asset.");
 
         this._transfer(from, to, tokenId);
     }
 
     public transfer(to: account_name, tokenId: TokenId): void {
         this.whenNotPaused();
-        let from = Action.current_sender();
-        ultrain_assert(Action.is_account(to), "'to' is invalid account name.");
+        let from = Action.sender;
+        ultrain_assert(Account.isValid(to), "'to' is invalid account name.");
         ultrain_assert(to != HyperDragonContract, "can not transfer to 'to' account");
         ultrain_assert(to != SaleAuctionAddress, "can't transfer to sale auction address.");
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
@@ -515,11 +515,11 @@ class DragonAssetControl extends DragonBase {
     // SireClockAuction bid
     public transferByBid(from: account_name, to: account_name, tokenId: TokenId): void {
         this.whenNotPaused();
-        ultrain_assert(Action.is_account(to), "'to' is invalid account name.");
+        ultrain_assert(Account.isValid(to), "'to' is invalid account name.");
         ultrain_assert(to != HyperDragonContract, "can not transfer to 'to' account");
         ultrain_assert(to != SaleAuctionAddress, "can't transfer to sale auction address.");
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
-        ultrain_assert(this._owns(from, tokenId), RN(from) + " don't own this asset for bid.");
+        ultrain_assert(this._owns(from, tokenId), RNAME(from) + " doesn't own this asset for bid.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
         emit("GiveDragon", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
 
@@ -545,11 +545,11 @@ class DragonAssetControl extends DragonBase {
 
     public approve(to: account_name, tokenId: TokenId): void {
         this.whenNotPaused();
-        ultrain_assert(this._owns(Action.current_sender(), tokenId), "you do not own this asset.");
+        ultrain_assert(this._owns(Action.sender, tokenId), "you do not own this asset.");
         this._approve(tokenId, to);
 
         // event Approval(address owner, address approved, uint256 tokenId);
-        emit("Approval", EventObject.setInt("owner", Action.current_sender())
+        emit("Approval", EventObject.setInt("owner", Action.sender)
             .setInt("to", to).setInt("tokenId", tokenId));
     }
 
@@ -575,7 +575,7 @@ class DragonBreeding extends DragonAssetControl {
         // the dragon has a pending birth; there can be some period of time between the end
         // of the pregnacy timer and the birth event.
         return dra.siringWithId == 0
-            && (dra.cooldownEndBlock <= <u64>trx.tapos_block_num());
+            && (dra.cooldownEndBlock <= <u64>Block.number);
     }
 
     /// @dev Check if a sire has authorized breeding with this matron. True if both sire
@@ -585,7 +585,7 @@ class DragonBreeding extends DragonAssetControl {
         let matronOwner = this.dragonIndexToOwner.get(matronId);
         let sireOwner = this.dragonIndexToOwner.get(sireId);
 
-        Log.s("mathronOwner = ").s(RN(matronOwner)).s(" sireOwner = ").s(RN(sireOwner)).flush();
+        Log.s("mathronOwner = ").s(RNAME(matronOwner)).s(" sireOwner = ").s(RNAME(sireOwner)).flush();
         // Siring is okay if they have same owner, or if the matron's owner was given
         // permission to breed with this sire.
         return matronOwner == sireOwner
@@ -608,7 +608,7 @@ class DragonBreeding extends DragonAssetControl {
     ///  address(0) to clear all siring approvals for this Dragon.
     /// @param _sireId A Dragon that you own that _addr will now be able to sire with.
     public approvesiring(addr: account_name, sireId: DragonId): void {
-        ultrain_assert(this._owns(Action.current_sender(), sireId), "the sire dragon does not belongs to trx sender.");
+        ultrain_assert(this._owns(Action.sender, sireId), "the sire dragon does not belongs to trx sender.");
         this.sireAllowedToAddress.set(sireId, addr);
     }
 
@@ -626,7 +626,7 @@ class DragonBreeding extends DragonAssetControl {
     ///  period has passed.
     private _isReadyToGiveBirth(matron: Dragon): boolean {
         return matron.siringWithId != 0
-            && matron.cooldownEndBlock <=trx.tapos_block_num();
+            && matron.cooldownEndBlock <=Block.number;
     }
 
     /// @notice Checks that a given dragon is able to breed (i.e. it is not pregnant or
@@ -726,7 +726,7 @@ class DragonBreeding extends DragonAssetControl {
     public breedWithAuto(matronId: DragonId, sireId: DragonId, fee: Asset): void {
         this.whenNotPaused();
         ultrain_assert(fee.gte(this.autoBirthFee), "payer is lower than autoBirthFee.");
-        ultrain_assert(this._owns(Action.current_sender(), matronId), "thx sender does not own the matron.");
+        ultrain_assert(this._owns(Action.sender, matronId), "thx sender does not own the matron.");
         ultrain_assert(this._isSiringPermitted(sireId, matronId), "matronId and sireId is not premitted to breed.");
 
         let matron = this.dragons[<i32>matronId];
@@ -790,14 +790,14 @@ class DragonMinting extends DragonAuction {
 class DragonMatch extends DragonMinting {
 
     protected _isNotCooldownIng(_dra: Dragon): boolean {
-        return (_dra.cooldownEndBlock <= <u64>trx.tapos_block_num())
-            && (_dra.fightCooldownEndBlock <= <u64>trx.tapos_block_num());
+        return (_dra.cooldownEndBlock <= <u64>Block.number)
+            && (_dra.fightCooldownEndBlock <= <u64>Block.number);
     }
 
     public fightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldowntime: u64): void {
         if (this.containsDragon(dragonId)) {
             let dra = this.dragons[<i32>dragonId];
-            dra.fightCooldownEndBlock = cooldowntime / this.secondsPerBlock + trx.tapos_block_num();
+            dra.fightCooldownEndBlock = cooldowntime / this.secondsPerBlock + Block.number;
             dra.fightcooldownIndex =  cooldownIndex;
 
             // event FightCooldown(dragonId: DragonId, cooldownIndex: u64, cooldownTime: u64, fightCooldownEndBlock: u64);
@@ -855,9 +855,9 @@ export class InterestDragon {
 }
 
 export class DragonCore extends DragonExtend {
-    constructor() {
-        // super();
-    }
+    // constructor() {
+    //     super();
+    // }
 
     public getDragon(id: DragonId): InterestDragon {
 
@@ -869,7 +869,7 @@ export class DragonCore extends DragonExtend {
 
         let ret = new InterestDragon();
 
-        ret.isReady               = (dra.cooldownEndBlock <= <u64>trx.tapos_block_num());
+        ret.isReady               = (dra.cooldownEndBlock <= <u64>Block.number);
         ret.cooldownIndex         = dra.cooldownIndex;
         ret.nextActionAt          = dra.cooldownEndBlock;
         ret.siringWithId          = dra.siringWithId;
@@ -906,8 +906,8 @@ export class DragonCore extends DragonExtend {
 
     public withdrawBalance(): void {
         this.onlyCFO();
-
-        let balance = queryBalance(HyperDragonContract);
+        let hdc = new Account(HyperDragonContract);
+        let balance = hdc.balance;
 
         let subtractFees = new Asset();
         subtractFees.setAmount((this.pregnantDragons + 1) * this.autoBirthFee.getAmount());
@@ -916,14 +916,14 @@ export class DragonCore extends DragonExtend {
         if (balance.gt(subtractFees)) {
             let fee: u64 = balance.amount - subtractFees.amount;
             subtractFees.setAmount(fee);
-            send(HyperDragonContract, CFO, subtractFees, "dragoncore withdraw balance.");
+            hdc.transfer(CFO, subtractFees, "dragoncore withdraw balance.");
         }
     }
 
 
     public createSaleAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
         this.whenNotPaused();
-        let seller = Action.current_sender();
+        let seller = Action.sender;
         // Auction contract checks input sizes
         // If dragon is already on any auction, this will throw
         // because it will be owned by the auction contract.
@@ -944,7 +944,7 @@ export class DragonCore extends DragonExtend {
     public createSiringAuction(dragonId: DragonId, startingPrice: Asset, endingPrice: Asset, duration: u64): void {
         this.whenNotPaused();
 
-        let seller = Action.current_sender();
+        let seller = Action.sender;
         ultrain_assert(this._owns(seller, dragonId), "the dragon does not belong to trx sender.");
         ultrain_assert(this.isReadyToBreed(dragonId), "the dragon is not ready to breed.");
         this._approve(dragonId, seller);
@@ -976,7 +976,7 @@ export class DragonCore extends DragonExtend {
     /// @param _matronId - ID of the matron owned by the bidder.
     public bidOnSiringAuction(sireId: DragonId, matronId: DragonId, value: Asset): void {
         this.whenNotPaused();
-        let sender = Action.current_sender();
+        let sender = Action.sender;
         ultrain_assert(this._owns(sender, matronId), "the matron dragon does not belong to trx sender.");
         ultrain_assert(this.isReadyToBreed(matronId), "the matron dragon is not ready to breed.");
         ultrain_assert(this._canBreedWithViaAuction(matronId, sireId), "the matron can not breed with the sire dragons via auction.");
@@ -1028,8 +1028,8 @@ export class DragonCore extends DragonExtend {
         matron.siringWithId = 0;
 
         this.pregnantDragons -= 1;
-        let sender = Action.current_sender();
-        send(HyperDragonContract, sender, this.autoBirthFee, "give birth fee.");
+        let sender = Action.sender;
+        Asset.transfer(HyperDragonContract, sender, this.autoBirthFee, "give birth fee.");
         return dragonId;
     }
 
@@ -1086,7 +1086,7 @@ export class DragonCore extends DragonExtend {
             if (cooldownIndex > 13) cooldownIndex = 13;
         }
 
-        if (Action.is_account(owner)) {
+        if (Account.isValid(owner)) {
             genes = this.confirmGene(genes);
         }
 
@@ -1122,7 +1122,7 @@ export class DragonCore extends DragonExtend {
         this.whenNotPaused();
         let exists = this.containsDragon(dragonId);
         if (exists) {
-            let sender = Action.current_sender();
+            let sender = Action.sender;
             ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
             let dra = this.dragons[<i32>dragonId];
             let count = (dra.titles & 0xFF);
@@ -1131,7 +1131,7 @@ export class DragonCore extends DragonExtend {
             ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
             let matchInterface = new MatchCore(this);
             matchInterface.loadFromDBManager();
-            ultrain_assert(matchInterface.isCanJoin(sender), RN(sender) + " can not join the match.");
+            ultrain_assert(matchInterface.isCanJoin(sender), RNAME(sender) + " can not join the match.");
             this._approve(dragonId, sender);
             matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
             matchInterface.saveToDBManager();

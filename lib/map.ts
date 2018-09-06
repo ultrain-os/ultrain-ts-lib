@@ -1,5 +1,3 @@
-import { ultrain_assert } from "./utils";
-
 /**
  * @author fanliangqin@ultrain.io
  * @datetime 16:53:10, 07/11/2018
@@ -25,8 +23,6 @@ export class Map<K, V> {
 
     get(key: K): V {
         let idx: i32 = this.find(key);
-        ultrain_assert(idx != -1, "map does not contain target key.");
-
         return this._values[idx];
     }
 

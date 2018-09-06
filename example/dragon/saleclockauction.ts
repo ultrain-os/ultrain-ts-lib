@@ -4,21 +4,20 @@
  * All rights reserved by ultrain.io @2018
  */
 
-import { env as Action } from "../../internal/action.d";
+import { Action } from "../../src/action";
 import { Asset } from "../../src/asset";
 import { DragonCore, DragonAuction } from "./dragoncore";
-import { ultrain_assert, N, RN, intToString } from "../../src/utils";
-import { env as system } from "../../internal/system.d";
-import { Map } from "../../src/map";
-import { emit, EventObject } from "../../lib/events";
-import { send, queryBalance } from "../../src/balance";
+import { ultrain_assert, intToString } from "../../src/utils";
+import { Map } from "../../lib/map";
+import { emit, EventObject } from "../../src/events";
 import { HyperDragonContract, SireAuctionAddress } from "./consts";
-import { now } from "../../lib/time";
+import { now } from "../../src/time";
 import { Log } from "../../src/log";
-import { SYS } from "../../src/balance";
-import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
+import { SYS } from "../../src/asset";
+import { ISerializable } from "../../src/ISerializable";
+import { DataStream } from "../../lib/datastream";
 import { DBManager } from "../../src/dbmanager";
+import { NAME, ACCOUNT, RNAME, Account } from "../../src/account";
 
 class Auction implements ISerializable {
     // current owner of NFT
@@ -52,7 +51,7 @@ class Auction implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 
     public toString(): string {
-        let str: string = "Auction: [ seller: " + RN(this.seller) + ", startingPrice: " + intToString(this.startingPrice.amount) +", endingPrice: " + intToString(this.endingPrice.amount) + "]";
+        let str: string = "Auction: [ seller: " + RNAME(this.seller) + ", startingPrice: " + intToString(this.startingPrice.amount) +", endingPrice: " + intToString(this.endingPrice.amount) + "]";
         return str;
     }
  }
@@ -69,6 +68,9 @@ class ClockAuctionBase {
     // Map from token ID to thieir corresponding auction.
     tokenIdToAuction: Map<u64, Auction> = new Map<u64, Auction>();
 
+    constructor() {
+
+    }
     protected prints(tag: string): void {
         Log.s(tag).flush();
         Log.s("ownerCut: ").i(this.ownerCut, 10).flush();
@@ -122,7 +124,7 @@ class ClockAuctionBase {
 
     protected escrow(owner: account_name, tokenId: u64): void {
         // escrow this token to the contract originator
-        Log.s("SaleClockAuction.escorw owner = ").s(RN(owner)).s(" to = ").s(RN(this.originator)).s(" tokenId = ").i(tokenId, 10).flush();
+        Log.s("SaleClockAuction.escorw owner = ").s(RNAME(owner)).s(" to = ").s(RNAME(this.originator)).s(" tokenId = ").i(tokenId, 10).flush();
         this.master.transferFrom(owner, this.originator, tokenId);
     }
 
@@ -256,7 +258,7 @@ class ClockAuctionBase {
             sellerProceeds.sub(auctioneerCut);
 
             // 从发起人帐户上转入到卖家帐户
-            send(this.originator, seller, sellerProceeds, "seller proceeds");
+            Asset.transfer(this.originator, seller, sellerProceeds, "seller proceeds");
         }
 
         let bidExcess = bidAmount.clone();
@@ -265,11 +267,11 @@ class ClockAuctionBase {
         // Return the funds. Similar to the previous transfer, this is
         // not susceptible to a re-entry attack because the auction is
         // removed before any transfers occur.
-        send(this.originator, Action.current_sender(), bidExcess, "bid excess");
+        Asset.transfer(this.originator, Action.sender, bidExcess, "bid excess");
         // Tell the world!
         // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
         emit("AuctionSuccessful", EventObject.setInt("tokenId", tokenId).setInt("totalPrice", price.amount)
-            .setInt("winner", Action.current_sender()).setInt("seller", seller));
+            .setInt("winner", Action.sender).setInt("seller", seller));
 
         return price;
     }
@@ -278,23 +280,24 @@ class ClockAuctionBase {
 export class ClockAuction extends ClockAuctionBase {
     // master: UIP09;
 
-    // constructor(master: DragonCore, cut: u64) {
-    //     // super();
-    //     this.master = master;
-    //     ultrain_assert(cut <= 10000, "ownercut must less than 10000.");
-    //     this.ownerCut = cut;
-    // }
+    constructor() {
+        // super();
+        // this.master = master;
+        // ultrain_assert(cut <= 10000, "ownercut must less than 10000.");
+        // this.ownerCut = cut;
+    }
 
     public withdrawBalance(): void {
-        let msgSender = Action.current_sender();
+        let msgSender = Action.sender;
         ultrain_assert(msgSender == this.originator || msgSender == HyperDragonContract, "can not withdraw balance");
-        let balance = queryBalance(this.originator);
-        send(this.originator, HyperDragonContract, balance, "auction withdraw balance");
+        let originator = new Account(this.originator);
+        let balance = originator.balance;
+        originator.transfer(HyperDragonContract, balance, "auction withdraw balance");
     }
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
-        ultrain_assert(this.owns(Action.current_sender(), tokenId), "transaction sender does not own the token.");
-        this.escrow(Action.current_sender(), tokenId);
+        ultrain_assert(this.owns(Action.sender, tokenId), "transaction sender does not own the token.");
+        this.escrow(Action.sender, tokenId);
         let auction = new Auction();
         auction.seller = seller;
         auction.startingPrice = startingPrice;
@@ -315,7 +318,7 @@ export class ClockAuction extends ClockAuctionBase {
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token is not on auction.");
         let seller: account_name = auction.seller;
-        ultrain_assert(Action.current_sender() == seller, "transaction sender is not the sender of auction ");
+        ultrain_assert(Action.sender == seller, "transaction sender is not the sender of auction ");
         this._cancelAuction(tokenId, seller);
     }
 
@@ -351,7 +354,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
 
     constructor(master: DragonCore, originator: account_name, cut: u64) {
         // super();
-        Log.s("SaleClockAuction.constructor originator = ").s(RN(originator)).s(" cut = ").i(cut, 10).flush();
+        Log.s("SaleClockAuction.constructor originator = ").s(RNAME(originator)).s(" cut = ").i(cut, 10).flush();
         this.master = master;
         ultrain_assert(cut <= 10000, "the cut is larger than 10000, and it is forbidden.");
         this.originator = originator;
@@ -375,7 +378,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 
     primaryKey(): u64 {
-        return N("auc.sale");
+        return NAME("auc.sale");
     }
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
@@ -391,7 +394,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 
     public bid(tokenId: u64, val: Asset): void {
-        let bidder = Action.current_sender();
+        let bidder = Action.sender;
         let price = this._bid(tokenId, val);
         // createAuction时，tokenId已经转移到this.originator了。
         // 所以现在直接从this.originator转移到bidder
@@ -418,7 +421,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 
     public saveToDBManager(): void {
-        let db = new DBManager<SaleClockAuction>(N("mm.saleauc"), HyperDragonContract, N("mm.saleauc"));
+        let db = new DBManager<SaleClockAuction>(NAME("mm.saleauc"), HyperDragonContract, NAME("mm.saleauc"));
         let existing = db.exists(this.primaryKey());
         if (existing) {
             Log.s("SaleClockAuction.saveToDB  existing = true.").flush();
@@ -430,7 +433,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 
     public loadFromDBManager(): void {
-        let db = new DBManager<SaleClockAuction>(N("mm.saleauc"), HyperDragonContract, N("mm.saleauc"));
+        let db = new DBManager<SaleClockAuction>(NAME("mm.saleauc"), HyperDragonContract, NAME("mm.saleauc"));
         let existing = db.get(this.primaryKey(), this);
 
         Log.s("SaleClockAuction.loadFromDB  existing = ").s( existing ? "true": "false").flush();
@@ -463,11 +466,11 @@ export class SireClockAuction extends ClockAuction implements ISerializable {
     public bid(tokenId: u64, val: Asset): void {
         let seller = this.tokenIdToAuction[tokenId].seller;
         this._bid(tokenId, val);
-        Log.s("ClockAuction.bid seller = ").s(RN(seller)).s(" current_sender = ").s(RN(Action.current_sender())).flush();
+        Log.s("ClockAuction.bid seller = ").s(RNAME(seller)).s(" current_sender = ").s(RNAME(Action.sender)).flush();
         /*
          * CAUTION: from地址使用SireAuctionAddress的原因在于， createSiringAuction时，这个token已经被SireAcutionAddress托管了。
          */
-        this.master.transferByBid(SireAuctionAddress, Action.current_sender(), tokenId);
+        this.master.transferByBid(SireAuctionAddress, Action.sender, tokenId);
     }
 
     public serialize(ds: DataStream): void {
@@ -478,16 +481,16 @@ export class SireClockAuction extends ClockAuction implements ISerializable {
         this._deserialize(ds);
     }
 
-    public primaryKey(): u64 { return N("auc.sire"); }
+    public primaryKey(): u64 { return NAME("auc.sire"); }
 
     public loadFromDBManager(): void {
-        let db = new DBManager<SireClockAuction>(N("mm.sireauc"), HyperDragonContract, N("mm.sireauc"));
+        let db = new DBManager<SireClockAuction>(NAME("mm.sireauc"), HyperDragonContract, NAME("mm.sireauc"));
         let existing = db.get(this.primaryKey(), this);
         this.prints("<== SireClockAuction.loadFromDB");
     }
 
     public saveToDBManager(): void {
-        let db = new DBManager<SireClockAuction>(N("mm.sireauc"), HyperDragonContract, N("mm.sireauc"));
+        let db = new DBManager<SireClockAuction>(NAME("mm.sireauc"), HyperDragonContract, NAME("mm.sireauc"));
         let existing = db.exists(this.primaryKey());
         this.prints("==> SireClockAuction.saveToDB existing = " + (existing ? "true" : "false"));
         if (existing) {

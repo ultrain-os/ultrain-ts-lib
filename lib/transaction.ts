@@ -1,11 +1,11 @@
-import { DataStreamFromCurrentAction } from "../lib/contract";
-import { ISerializable } from "../lib/ISerializable";
-import { DataStream } from "../src/datastream";
+import { DataStreamFromCurrentAction } from "../src/contract";
+import { ISerializable } from "../src/ISerializable";
+import { DataStream } from "../lib/datastream";
 import { Action, ActionImpl } from "../src/action";
 import { ultrain_assert } from "../src/utils";
 import { env as system } from "../internal/system.d";
 import { env as transaction } from "../internal/transaction.d";
-import { now } from "./time";
+import { now } from "../src/time";
 
 export class TransactionHeader implements ISerializable {
 
@@ -141,7 +141,7 @@ export class DeferredTransaction implements ISerializable {
 //     ultrain.check_auth(trs_buffer, size, ds.buffer, ds.pos);
 // }
 
-export function getAction(type: u32, index: u32): Action {
+export function getAction(type: u32, index: u32): ActionImpl {
     let size1 = transaction.get_action(type, index, 0, 0);
     ultrain_assert(size1 > 0, "get_action size failed.");
 

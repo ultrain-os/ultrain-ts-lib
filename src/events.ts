@@ -4,10 +4,10 @@
  * @datetime 14:35:49, 07/09/2018
  * All rights reserved by ultrain.io @2018
  */
-import { ultrain_assert, string2cstr, intToString } from "../src/utils";
-import { Map } from "../src/map";
+import { ultrain_assert, string2cstr } from "../src/utils";
+import { Map } from "../lib/map";
 import { ISerializable } from "./ISerializable";
-import { DataStream, DSHelper } from "../src/datastream";
+import { DataStream, DSHelper } from "../lib/datastream";
 import { env as system } from "../internal/system.d";
 
 const TYPE_STRING: u8 = 0x1;

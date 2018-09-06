@@ -4,21 +4,20 @@
  * All rights reserved by ultrain.io @2018
  */
 
-import { ISerializable } from "../lib/ISerializable";
-import { Asset, StringToSymbol } from "./asset";
+import { ISerializable } from "../src/ISerializable";
+import { Asset, StringToSymbol, SYS_NAME, SYS } from "../src/asset";
 import { DataStream } from "./datastream";
-import { DBManager } from "./dbmanager";
-import { N, RN } from "./utils";
+import { DBManager } from "../src/dbmanager";
 import { PermissionLevel } from "./permission-level";
-import { TransferParams, dispatchInline, Action } from "./action";
+import { TransferParams, dispatchInline } from "../src/action";
 import { NEX } from "./name_ex";
-import { Log } from "./log";
+import { NAME } from "../src/account";
 /**
- * class Account for Token system.
+ * class CurrencyAccount for Token system.
  *
- * @class Account
+ * @class CurrencyAccount
  */
-export class Account implements ISerializable {
+export class CurrencyAccount implements ISerializable {
     balance: Asset;
 
     constructor(blc: Asset) {
@@ -67,14 +66,6 @@ export class CurrencyStats implements ISerializable {
 }
 
 /**
- * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
- */
-export let SYS: u64 = StringToSymbol(4, "SYS");
-/**
- * Ultrain block system Token name "UGS".
- */
-export let SYS_NAME: u64 = <u64>(SYS >> 8);
-/**
  * to query the balance of an account from Ultrain Token system.
  * @param owner account name to be queried.
  *
@@ -83,8 +74,8 @@ export let SYS_NAME: u64 = <u64>(SYS >> 8);
  * @function queryBalance
  */
 export function queryBalance(owner: account_name): Asset {
-    let accounts: DBManager<Account> = new DBManager<Account>(N("accounts"), N("utrio.token"), owner);
-    let act: Account = new Account(new Asset());
+    let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME("accounts"), NAME("utrio.token"), owner);
+    let act: CurrencyAccount = new CurrencyAccount(new Asset());
     let existing = accounts.get(SYS_NAME, act);
 
     return existing ? act.balance : new Asset(0, SYS);
@@ -103,12 +94,8 @@ export function send(from: account_name, to: account_name, quantity: Asset, memo
     // Action.requireAuth(from);
     let pl: PermissionLevel = new PermissionLevel();
     pl.actor = from;
-    pl.permission = N("active");
-    let params = new TransferParams();
-    params.from = from;
-    params.to = to;
-    params.quantity = quantity;
-    params.memo = memo;
+    pl.permission = NAME("active");
+    let params = new TransferParams(from, to, quantity, memo);
     // params.quantity.prints("before dispatchInline");
-    dispatchInline(pl, N("utrio.token"), NEX("transfer"), params);
+    dispatchInline(pl, NAME("utrio.token"), NEX("transfer"), params);
 }

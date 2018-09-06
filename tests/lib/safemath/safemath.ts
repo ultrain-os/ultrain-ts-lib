@@ -1,12 +1,8 @@
 import "allocator/arena";
 
-import { DataStream } from "../../../src/datastream";
 import { printstr, N, ultrain_assert, RN } from "../../../src/utils";
-import { Log } from "../../../src/log";
-import { Contract } from "../../../lib/contract";
-import { env as Action } from "../../../internal/action.d";
-import { NameEx, RNEX ,NEX} from "../../../src/name_ex";
-import { SafeMath } from "../../../lib/safemath";
+import { Contract } from "../../../src/contract";
+import { SafeMath } from "../../../src/safemath";
 
 
 class TestSafeMath extends Contract {
@@ -21,7 +17,7 @@ class TestSafeMath extends Contract {
 		assert(SafeMath.square(12) == 144);
 		assert(SafeMath.pwr(2,2) == 4);
 
-		
-		ultrain_assert(SafeMath.sub(a,13) == 0, "error sub operation");		
+
+		ultrain_assert(SafeMath.sub(a,13) == 0, "error sub operation");
 	}
 }

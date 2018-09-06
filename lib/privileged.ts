@@ -1,5 +1,5 @@
-import { ISerializable } from "./ISerializable";
-import { DataStream, DSHelper } from "../src/datastream";
+import { ISerializable } from "../src/ISerializable";
+import { DataStream, DSHelper } from "../lib/datastream";
 import { PublicKey } from "../internal/types";
 import { env as privileged } from "../internal/privileged.d";
 import { ultrain_assert } from "../src/utils";
@@ -68,6 +68,8 @@ export class BlockchainParameters implements ISerializable {
         this.max_inline_action_depth             = ds.read<u16>();
         this.max_authority_depth                 = ds.read<u16>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
  }
 
  export class ProducerKey implements ISerializable {
@@ -87,6 +89,8 @@ export class BlockchainParameters implements ISerializable {
          this.producer_name          = ds.read<account_name>();
          this.block_signing_key.data = ds.readVector<u8>();
      }
+
+     primaryKey(): u64 { return <u64>0; }
  }
 
  export function setBlockchainParameters(params: BlockchainParameters): void {

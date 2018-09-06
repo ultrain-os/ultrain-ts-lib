@@ -1,12 +1,8 @@
-import { Contract, DataStreamFromCurrentAction } from "../../lib/contract";
+import { Contract, DataStreamFromCurrentAction } from "../../src/contract";
 import { DragonCore, InterestDragon } from "./dragoncore";
 import { Return, ReturnArray } from "../../src/return";
 import { GenType } from "./genetype";
 import { Asset } from "../../src/asset";
-import { N } from "../../src/utils";
-import { NEX, NameEx } from "../../src/name_ex";
-import { DBManager } from "../../src/dbmanager";
-import { Action } from "../../src/action";
 import { Log } from "../../src/log";
 /**
  * @author fanliangqin@ultrain.io

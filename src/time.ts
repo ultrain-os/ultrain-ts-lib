@@ -1,6 +1,6 @@
 import { ISerializable } from "./ISerializable";
-import { DataStream } from "../src/datastream";
-import { ultrain_assert } from "../src/utils";
+import { DataStream } from "../lib/datastream";
+import { ultrain_assert } from "./utils";
 import { env as system } from "../internal/system.d";
 
 export class Microseconds implements ISerializable {
@@ -55,6 +55,8 @@ export class Microseconds implements ISerializable {
     deserialize(ds: DataStream): void {
         this._count = ds.read<u64>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
 export function milliseconds(c: u64): Microseconds {

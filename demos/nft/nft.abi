@@ -136,7 +136,7 @@
           "type": "id_type[]"
         }
       ],
-      "name": "Account",
+      "name": "NftAccount",
       "base": ""
     }
   ],
@@ -189,7 +189,7 @@
         "uint64"
       ],
       "name": "account",
-      "type": "Account"
+      "type": "NftAccount"
     }
   ]
 }

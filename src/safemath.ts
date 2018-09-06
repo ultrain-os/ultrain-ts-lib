@@ -1,7 +1,7 @@
 /**
  *  Math operations with safety checks that throw on error
  */
-import { ultrain_assert } from "../src/utils";
+import { ultrain_assert } from "./utils";
 /**
  *  Math operations with safety checks that throw on error
  */
@@ -30,7 +30,7 @@ export namespace SafeMath {
 	}
 
 	/**
-	 * Subtracts two numbers, throws on overflow 
+	 * Subtracts two numbers, throws on overflow
 	 * if subtrahend is greater than minuend
 	 * @param a the mimuend number
 	 * @param b the subtrahead number
@@ -52,7 +52,7 @@ export namespace SafeMath {
 
 	/**
 	 * gives square root of given x.
-	 * @param x 
+	 * @param x
 	 */
 	function sqrt(x: u64): u64 {
 		var z = (add(x, 1) / 2);
@@ -86,6 +86,10 @@ export namespace SafeMath {
 			}
 			return c;
 		}
+	}
+
+	function random(seed: u64): u64 {
+		return seed;
 	}
 
 }

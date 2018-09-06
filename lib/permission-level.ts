@@ -1,6 +1,6 @@
-import { ISerializable } from "../lib/ISerializable";
+import { ISerializable } from "../src/ISerializable";
 import { DataStream } from "./datastream";
-import { Log } from "./log";
+import { Log } from "../src/log";
 
 /**
  * Permission Level stands for '-p' paramters.

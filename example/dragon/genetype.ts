@@ -4,8 +4,8 @@
  * All rights reserved by ultrain.io @2018
  */
 
- import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
+ import { ISerializable } from "../../src/ISerializable";
+import { DataStream } from "../../lib/datastream";
 import { intToString } from "../../src/utils";
 import { Log } from "../../src/log";
 /**

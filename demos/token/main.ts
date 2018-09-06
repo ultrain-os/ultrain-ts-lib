@@ -5,7 +5,7 @@ import "allocator/arena";
 import { Token } from "./token";
 import { Asset } from "../../src/asset";
 import { env as system } from "../../internal/system.d";
-import { NEX, NameEx } from "../../src/name_ex";
+import { NEX, NameEx } from "../../lib/name_ex";
 
 export function apply(receiver: u64, code: u64, actH: u64, actL: u64): void {
     if (receiver == code) {

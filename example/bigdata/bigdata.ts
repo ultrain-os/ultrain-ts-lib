@@ -1,7 +1,6 @@
 import "allocator/arena";
-import { Contract } from "../../lib/contract";
+import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
-import { NEX, NameEx } from "../../src/name_ex";
 import { ultrain_assert, string2cstr } from "../../src/utils";
 
 declare namespace env {

@@ -4,8 +4,8 @@
  * All rights reserved by ultrain.io @2018
  */
 import "allocator/arena";
-import { ASCIICHAR } from "./utils";
-import { ISerializable } from "../lib/ISerializable";
+import { PrintableChar } from "../src/utils";
+import { ISerializable } from "../src/ISerializable";
 import { DataStream } from "./datastream";
 
 /* format index: ._0-9a-zA-Z */
@@ -108,7 +108,7 @@ export function RNEX(h: u64, l: u64): string {
         } else {
             skipDot = false;
             let charIdx = str[i] - 0x20;
-            result = ASCIICHAR[charIdx] + result;
+            result = PrintableChar[charIdx] + result;
         }
     }
     return result;
@@ -151,12 +151,6 @@ export class NameEx implements ISerializable {
 
     primaryKey(): u64 {
         return <u64>0;
-    }
-    /**
-     * convert NameEx to string.
-     */
-    toString(): string {
-        return RNEX(this.valueH, this.valueL);
     }
 }
 
