@@ -4,10 +4,8 @@
  * @datetime 14:35:49, 07/09/2018
  * All rights reserved by ultrain.io @2018
  */
-import { ultrain_assert, string2cstr, intToString } from "../src/utils";
-import { Map } from "../src/map";
-import { ISerializable } from "./ISerializable";
-import { DataStream, DSHelper } from "../src/datastream";
+import { ultrain_assert, string2cstr } from "../src/utils";
+import { Map } from "../lib/map";
 import { env as system } from "../internal/system.d";
 
 const TYPE_STRING: u8 = 0x1;
@@ -17,7 +15,7 @@ const TYPE_STRING_ARRAY: u8 = 0x8;
 const TYPE_BOOL_ARRAY: u8 = 0x10;
 const TYPE_U64_ARRAY: u8 = 0x11;
 
-class _EventObject implements ISerializable {
+class _EventObject implements Serializable {
     private _strmap: Map<string, string> = new Map<string, string>();
     private _intmap: Map<string, u64> = new Map<string, u64>();
     private _boolmap: Map<string, u8> = new Map<string, u8>();

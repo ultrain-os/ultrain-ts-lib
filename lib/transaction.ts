@@ -1,13 +1,11 @@
-import { DataStreamFromCurrentAction } from "../lib/contract";
-import { ISerializable } from "../lib/ISerializable";
-import { DataStream } from "../src/datastream";
+import { DataStreamFromCurrentAction } from "../src/contract";
 import { Action, ActionImpl } from "../src/action";
 import { ultrain_assert } from "../src/utils";
 import { env as system } from "../internal/system.d";
 import { env as transaction } from "../internal/transaction.d";
-import { now } from "./time";
+import { now } from "../src/time";
 
-export class TransactionHeader implements ISerializable {
+export class TransactionHeader implements Serializable {
 
     expiration: u32;
     region: u16;
@@ -51,7 +49,7 @@ export class TransactionHeader implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
 }
 
-export class Transaction implements ISerializable {
+export class Transaction implements Serializable {
     header: TransactionHeader;
     context_free_actions: ActionImpl[];
     actions: ActionImpl[];
@@ -87,7 +85,7 @@ export class Transaction implements ISerializable {
 }
 // TODO(liangqin): transaction should support datatype u128.
 type u128 = u64;
-export class DeferredTransaction implements ISerializable {
+export class DeferredTransaction implements Serializable {
     transaction: Transaction;
     sender_id: u128;
     sender: u64;
@@ -96,14 +94,12 @@ export class DeferredTransaction implements ISerializable {
 
     static fromCurrentAction(): DeferredTransaction {
         let ds = DataStreamFromCurrentAction();
-        let dt = new DeferredTransaction();
+        let dt = new DeferredTransaction(new Transaction(now() + 0), 0, 0, 0);
         dt.deserialize(ds);
         return dt;
     }
 
-    constructor(trs: Transaction = null, sid: u128 = 0, sender: u64 = 0, payer: u64 = 0, eafter: u32 = 0) {
-        if (trs == null) trs = new Transaction(now() + 0);
-
+    constructor(trs: Transaction, sid: u128 = 0, sender: u64 = 0, payer: u64 = 0, eafter: u32 = 0) {
         this.transaction = trs;
         this.sender_id = sid;
         this.sender = sender;
@@ -141,7 +137,7 @@ export class DeferredTransaction implements ISerializable {
 //     ultrain.check_auth(trs_buffer, size, ds.buffer, ds.pos);
 // }
 
-export function getAction(type: u32, index: u32): Action {
+export function getAction(type: u32, index: u32): ActionImpl {
     let size1 = transaction.get_action(type, index, 0, 0);
     ultrain_assert(size1 > 0, "get_action size failed.");
 

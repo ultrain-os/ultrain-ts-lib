@@ -6,7 +6,7 @@
  */
 import { DragonCore } from "./dragoncore";
 import { ultrain_assert } from "../../src/utils";
-import { env as Action } from "../../internal/action.d";
+import { Action } from "../../src/action";
 
 export class DragonCastle {
     master: DragonCore;
@@ -19,7 +19,7 @@ export class DragonCastle {
     batchTransfer(to: account_name, tokenIds: u64[]): void {
         ultrain_assert(tokenIds.length <= 20, "Can not transfer more than 20 token ids in one batch transfer.");
         for (let i: u32 = 0; i < (<u32>(tokenIds.length)); i++) {
-            if (this.master.ownerOf(tokenIds[i]) == Action.current_sender()) {
+            if (this.master.ownerOf(tokenIds[i]) == Action.sender) {
                 this.master.transfer(to, tokenIds);
             }
         }

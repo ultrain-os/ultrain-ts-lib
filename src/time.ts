@@ -1,16 +1,14 @@
-import { ISerializable } from "./ISerializable";
-import { DataStream } from "../src/datastream";
-import { ultrain_assert } from "../src/utils";
+import { ultrain_assert } from "./utils";
 import { env as system } from "../internal/system.d";
 
-export class Microseconds implements ISerializable {
+export class Microseconds implements Serializable {
     _count: u64;
 
     static maximum(): Microseconds {
         return new Microseconds(0x7FFFFFFFFFFFFFFF);
     }
 
-    constructor(c: u64 = 0) {
+    constructor(c: u64) {
         this._count = c;
     }
 
@@ -55,6 +53,8 @@ export class Microseconds implements ISerializable {
     deserialize(ds: DataStream): void {
         this._count = ds.read<u64>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
 export function milliseconds(c: u64): Microseconds {
@@ -82,7 +82,7 @@ export function days(d: u64): Microseconds {
     return mis;
 }
 
-export class TimePoint implements ISerializable {
+export class TimePoint implements Serializable {
     _elapsed: Microseconds;
 
     static fromIsoString(str: string): TimePoint {
@@ -108,7 +108,7 @@ export class TimePoint implements ISerializable {
     deserialize(ds: DataStream): void { this._elapsed.deserialize(ds); }
 }
 
-export class TimePointSec implements ISerializable {
+export class TimePointSec implements Serializable {
     utc_seconds: u32;
 
     static maximum(): TimePointSec { return new TimePointSec(0xFFFFFFFF); }
@@ -137,11 +137,11 @@ export class TimePointSec implements ISerializable {
 const block_interval_ms: u32 = 500;
 const block_timestamp_epoch: u64 = 946684800000; // epoch since year 2000.
 
-export class BlockTimestamp implements ISerializable {
+export class BlockTimestamp implements Serializable {
     _slot: u32;
 
     static fromTimePoint(tp: TimePoint): BlockTimestamp {
-        let bts = new BlockTimestamp();
+        let bts = new BlockTimestamp(0);
         bts._slot = bts.setTimePoint(tp);
         return bts;
     }
@@ -155,7 +155,7 @@ export class BlockTimestamp implements ISerializable {
     static maximum(): BlockTimestamp { return new BlockTimestamp(0xffff); }
     static min(): BlockTimestamp { return new BlockTimestamp(0); }
 
-    constructor(slot: u32 = 0) {
+    constructor(slot: u32) {
         this._slot = slot;
     }
 

@@ -3,23 +3,24 @@
  * @author fanliangqin@ultrain.io
  */
 import { ultrain_assert } from "../../src/utils";
-import { env as Action } from "../../internal/action.d";
-import { emit, EventObject } from "../../lib/events";
+import { Action } from "../../src/action";
+import { emit, EventObject } from "../../src/events";
+import { Account } from "../../src/account";
 
 class Ownable {
     owner: account_name;
 
     constructor() {
-        this.owner = Action.current_sender();
+        this.owner = Action.sender;
     }
 
     onlyOwner(): void {
-        ultrain_assert(Action.current_sender() == this.owner, "only the owner of this contract can run this request.");
+        ultrain_assert(Action.sender == this.owner, "only the owner of this contract can run this request.");
     }
 
     transferOwnership(newOwner: account_name): void {
         this.onlyOwner();
-        if (Action.is_account(newOwner)) {
+        if (Account.isValid(newOwner)) {
             this.owner = newOwner;
         }
     }

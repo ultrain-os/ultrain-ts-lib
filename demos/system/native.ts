@@ -2,19 +2,44 @@
  * @author fanliangqin@ultrain.io
  */
 
-import { ISerializable } from "../../lib/ISerializable";
-import { Contract } from "../../lib/contract";
-import { PermissionLevel } from "../../src/permission-level";
-import { DataStream } from "../../src/datastream";
+import { Contract } from "../../src/contract";
+import { PermissionLevel } from "../../lib/permission-level";
 import { PublicKey, Checksum256 } from "../../internal/types";
 import { DBManager } from "../../src/dbmanager";
 import { UserResources } from "./delegatebandwidth";
-import { N, ultrain_assert, NameSuffix } from "../../src/utils";
+import { ultrain_assert } from "../../src/utils";
 import { env as privileged } from "../../internal/privileged.d";
+import { NAME } from "../../src/account";
 
 declare type bytes = Array<u8>;
 
-export class PermissionLevelWeight implements ISerializable {
+
+function NameSuffix(n: u64): u64 {
+    let remaining_bits_after_last_actual_dot: u32 = 0;
+    let tmp: u32 = 0;
+
+    for (let remaing_bits: i32 = 59; remaing_bits >= 4; remaing_bits -= 5) {
+        let c: u64 = (n >> remaing_bits) & 0x000000000000001F; /* 64 bits */
+        if (c == 0) {
+            tmp = <u32>remaing_bits;
+        } else {
+            remaining_bits_after_last_actual_dot = tmp;
+        }
+    }
+
+    let thirteenth_character: u64 = n & 0x000000000000000F;
+    if (thirteenth_character != 0) {
+        remaining_bits_after_last_actual_dot = tmp;
+    }
+
+    if (remaining_bits_after_last_actual_dot == 0) return n; // no actual dot in the name except leading dots.
+
+    let mask: u64 = (0x0000000000000001 << remaining_bits_after_last_actual_dot) - 16;
+    let shift = 64 - remaining_bits_after_last_actual_dot;
+    return (((n & mask) << shift) + (thirteenth_character << (shift - 1)));
+}
+
+export class PermissionLevelWeight implements Serializable {
     permission: PermissionLevel;
     weight: weight_type;
 
@@ -27,9 +52,11 @@ export class PermissionLevelWeight implements ISerializable {
         this.permission.deserialize(ds);
         this.weight = ds.read<weight_type>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
-export class KeyWeight implements ISerializable {
+export class KeyWeight implements Serializable {
     key: PublicKey;
     weight: weight_type;
 
@@ -42,9 +69,11 @@ export class KeyWeight implements ISerializable {
         this.key.data = ds.readVector<u8>();
         this.weight = ds.read<weight_type>();
     }
+
+    primaryKey(): u64 { return <u64>0; }
 }
 
-export class Authority implements ISerializable {
+export class Authority implements Serializable {
     threshold: u32;
     delay_sec: u32;
     keys: KeyWeight[];
@@ -75,7 +104,7 @@ export class Authority implements ISerializable {
 /*
  * BlockHeader is not used yet, let it go temporaryly.
  */
-// class BlockHeader implements ISerializable {
+// class BlockHeader implements Serializable {
 //     timestamp: u32;
 //     producer: account_name;
 //     confirmed: u16;
@@ -108,7 +137,7 @@ export class Native extends Contract {
             }
         }
 
-        let userres = new DBManager<UserResources>(N("userres"), this.receiver, newact);
+        let userres = new DBManager<UserResources>(NAME("userres"), this.receiver, newact);
         let res = new UserResources();
         res.owner = newact;
         userres.emplace(newact, res);

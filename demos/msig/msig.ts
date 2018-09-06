@@ -2,21 +2,21 @@
  * @author fanliangqin@ultrain.io
  */
 
-import { Contract } from "../../lib/contract";
-import { ISerializable } from "../../lib/ISerializable";
-import { DataStream, DSHelper } from "../../src/datastream";
-import { PermissionLevel } from "../../src/permission-level";
+import { Contract } from "../../src/contract";
+import { DSHelper } from "../../lib/datastream";
+import { PermissionLevel } from "../../lib/permission-level";
 import { TransactionHeader, Transaction } from "../../lib/transaction";
-import { ultrain_assert, N } from "../../src/utils";
+import { ultrain_assert} from "../../src/utils";
 import { DBManager } from "../../src/dbmanager";
 import { requirePermissionLevel } from "../../src/action";
 import { env as action } from "../../internal/action.d";
 import { env as transaction } from "../../internal/transaction.d";
 import { env as system } from "../../internal/system.d";
 import { env as permission } from "../../internal/permission.d";
-import { now } from "../../lib/time";
+import { now } from "../../src/time";
+import { NAME } from "../../src/account";
 
-class Proposal implements ISerializable {
+class Proposal implements Serializable {
     proposal_name: u64;
     packed_transaction: u8[];
 
@@ -40,7 +40,7 @@ class Proposal implements ISerializable {
     }
 }
 
-class ApprovalsInfo implements ISerializable {
+class ApprovalsInfo implements Serializable {
     proposal_name: u64;
     requested_approvals: PermissionLevel[];
     provided_approvals: PermissionLevel[];
@@ -92,7 +92,7 @@ export class MultiSig extends Contract {
         // TODO(liangqin): ultrain.now should change to time_point_sec.
         ultrain_assert(trx_header.expiration > now(), "msig.propose: transaction expired");
 
-        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let proptable = new DBManager<Proposal>(NAME("proposal"), this.receiver, proposer);
         let prop = new Proposal();
         let existing = proptable.get(proposal_name, prop);
         ultrain_assert(!existing, "msig.propose: proposal with the same name exists");
@@ -108,7 +108,7 @@ export class MultiSig extends Contract {
         proptable.emplace(proposer, obj);
 
 
-        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approvals = new DBManager<ApprovalsInfo>(NAME("approvals"), this.receiver, proposer);
         let a = new ApprovalsInfo();
         a.proposal_name = proposal_name;
         a.requested_approvals = requested;
@@ -118,7 +118,7 @@ export class MultiSig extends Contract {
 
     approve(proposer: u64, proposal_name: u64, level: PermissionLevel): void {
         requirePermissionLevel(level);
-        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approvals = new DBManager<ApprovalsInfo>(NAME("approvals"), this.receiver, proposer);
         let approval = new ApprovalsInfo();
         let existing = approvals.get(proposal_name, approval);
 
@@ -141,7 +141,7 @@ export class MultiSig extends Contract {
 
     unapprove(proposer: u64, proposal_name: u64, level: PermissionLevel): void {
         requirePermissionLevel(level);
-        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approvals = new DBManager<ApprovalsInfo>(NAME("approvals"), this.receiver, proposer);
         let approval = new ApprovalsInfo();
         let existing = approvals.get(proposal_name, approval);
 
@@ -166,7 +166,7 @@ export class MultiSig extends Contract {
     cancel(proposer: u64, proposal_name: u64, canceler: u64): void {
         action.require_auth(canceler);
 
-        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let proptable = new DBManager<Proposal>(NAME("proposal"), this.receiver, proposer);
         let prop = new Proposal();
         let existing = proptable.get(proposal_name, prop);
 
@@ -181,7 +181,7 @@ export class MultiSig extends Contract {
         }
         proptable.erase(prop.primaryKey());
 
-        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approvals = new DBManager<ApprovalsInfo>(NAME("approvals"), this.receiver, proposer);
         let approval = new ApprovalsInfo();
         existing = approvals.get(proposer, approval);
         ultrain_assert(existing, "msig.cancel: approvals not found.");
@@ -191,12 +191,12 @@ export class MultiSig extends Contract {
     exec(proposer: account_name, proposal_name: u64, executer: u64): void {
         action.require_auth(executer);
 
-        let proptable = new DBManager<Proposal>(N("proposal"), this.receiver, proposer);
+        let proptable = new DBManager<Proposal>(NAME("proposal"), this.receiver, proposer);
         let prop = new Proposal();
         let existing = proptable.get(proposal_name, prop);
         ultrain_assert(existing, "msig.exec: proposal not found.");
 
-        let approvals = new DBManager<ApprovalsInfo>(N("approvals"), this.receiver, proposer);
+        let approvals = new DBManager<ApprovalsInfo>(NAME("approvals"), this.receiver, proposer);
         let approval = new ApprovalsInfo();
         existing = approvals.get(proposal_name, approval);
         ultrain_assert(existing, "msig.exec: approval not found.");

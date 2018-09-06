@@ -2,8 +2,8 @@ import "allocator/arena";
 
 import { printstr, N, ultrain_assert, RN } from "../../../src/utils";
 import { Log } from "../../../src/log";
-import { Contract } from "../../../lib/contract";
-import { NameEx, RNEX ,NEX} from "../../../src/name_ex";
+import { Contract } from "../../../src/contract";
+import { NameEx, RNEX ,NEX} from "../../../lib/name_ex";
 
 class TestTrack extends Contract {
 
@@ -22,7 +22,7 @@ class TestTrack extends Contract {
         Log.s("Break running successful!").flush();
         this.testTernary();
         Log.s("Ternary running successful!").flush();
-        
+
         Log.s("Successful!!!").flush();
 
         this.toCheckList();
@@ -53,8 +53,8 @@ class TestTrack extends Contract {
 
     /**
      * Test the double return when the condition is if statement
-     * @param a 
-     * @param b 
+     * @param a
+     * @param b
      */
     private max(a: i32, b: i32): i32 {
         if (a > b) {
@@ -66,8 +66,8 @@ class TestTrack extends Contract {
 
     /**
      * Used for test the return statement in loop statement
-     * @param arr 
-     * @param index 
+     * @param arr
+     * @param index
      */
     private indexOf(arr: Array<i32>, index: i32): i32 {
         for (let i = 0; i < arr.length; i++) {
@@ -83,16 +83,16 @@ class TestTrack extends Contract {
      */
     private testBreak():void{
         var item:i32 =0;
-    
+
         for (let idx:i32=0; idx < 32; ++idx) {
-            if (idx == 12) { 
+            if (idx == 12) {
                 item = idx + 32;
                 break;
             }
         }
         assert(item == 44);
     }
-    
+
     private testTernary(): void {
         var existing = false;
         var res = existing ?  666 : 999;
@@ -121,4 +121,4 @@ class TestTrack extends Contract {
         assert(res == 1);
 
     }
-}   
+}

@@ -2,10 +2,10 @@
  * @author fanliangqin@ultrain.io
  */
 import { GenType } from "./genetype";
-import { env as Action } from "../../internal/action.d";
+import { SafeMath } from "../../src/safemath";
 import { DragonCore } from "./dragoncore";
 import { Log } from "../../src/log";
-import { minutes } from "../../lib/time";
+import { minutes } from "../../src/time";
 
 class SkillAndLevel {
     skills: u32 = 0;
@@ -35,7 +35,7 @@ export class GeneScience {
 
     private createSkillAndLevel(seed: u64, skillCount: u64, have_skill: u64): SkillAndLevel {
         if (seed == 0) {
-            seed = Action.random_uint64(0);
+            seed = SafeMath.random(0);
         }
         let sal = new SkillAndLevel();
         let scores: u64[] = [];
@@ -70,9 +70,7 @@ export class GeneScience {
                     skillKey = j;
                     t -= this.skillRate[j] * (100 + additional[i]) / 100;
                     scores[j] = 0;
-                    // break;
-                    // FIXME 不能break，先退出循环
-                    j = <u32>scores.length;
+                    break;
                 }
             }
             // reset scores
@@ -88,7 +86,7 @@ export class GeneScience {
     }
 
     private mixCharacter(genes1: GenType, genes2: GenType, tp: u64): CharAndHchar {
-        let seed: u64 = Action.random_uint64(0);
+        let seed: u64 = SafeMath.random(0);
         if (tp == 1) {
             return this.specicalCharacter(seed);
         }
@@ -223,9 +221,7 @@ export class GeneScience {
                             t -= this.outsideRate[j];
                         }
                         characterScores[j] = 0;
-                        // break;
-                        // FIXME for break
-                        j = characterScores.length;
+                        break;
                     }
                 }
                 if (i < c) {
@@ -259,9 +255,7 @@ export class GeneScience {
                 for (let j = 0; j < 8; j++) {
                     if (c == ((un >> (35 - j * 5)) & 0x1f)) {
                         r = true;
-                        // break;
-                        // FIXME for break
-                        j = 9;
+                        break;
                     }
                 }
                 if (r == false) {
@@ -279,7 +273,7 @@ export class GeneScience {
     }
 
     private genGene(owner: account_name, key: u64): GenType {
-        let seed = Action.random_uint64(owner);
+        let seed = SafeMath.random(owner);
         let result = new GenType();
 
         let chr = this.specicalCharacter(seed);
@@ -319,7 +313,7 @@ export class GeneScience {
     public isGeneScience(): boolean { return true; }
 
     public gen0Genes(genes: GenType): GenType {
-        let seed = Action.random_uint64(0);
+        let seed = SafeMath.random(0);
 
         genes.blood += <u32>(seed % 21);
         genes.type += 2;
@@ -337,9 +331,7 @@ export class GeneScience {
         for (let i = 0; i < scores.length; i++) {
             if ((seed % t) < scores[i]) {
                 skillCount = <u64>i;
-                // break;
-                // FIXME for break
-                i = scores.length;
+                break;
             }
         }
 
@@ -360,7 +352,7 @@ export class GeneScience {
      * @param tid task id
      */
     public mixGenes(gene1: GenType, generation1: u64, gene2: GenType, generation2: u64, tid: u64): GenType {
-        let r = Action.random_uint64(0) / 100;
+        let r = SafeMath.random(0) / 100;
         let new_gene_1 = new GenType();
         let new_gene_2 = new GenType();
         let b: u64 = generation1 > generation2 ? (generation1 + 1) : (generation2 + 1);
@@ -494,8 +486,7 @@ export class GeneScience {
                 }
             }
 
-            let keepLoop: boolean = true;
-            while (skill_cnt < 5 && keepLoop) {
+            while (skill_cnt < 5) {
                 //  "**" operator is not implements.
                 // let factor: u64 = <u64>(10 ** (skill_cnt + 2));
                 let factor: u64 = 1;
@@ -509,9 +500,7 @@ export class GeneScience {
                 if (mod < target) {
                     skill_cnt += 1;
                 } else {
-                    // break;
-                    // FIXME for break
-                    keepLoop = false;
+                    break;
                 }
             }
         }
@@ -534,8 +523,13 @@ export class GeneScience {
         } else {
             let subtype = genes.subtype;
 
-            let cur: u64 = this.master.specialDragon.get(subtype);
-            let limit: u64 = this.master.specialDragonLimit.get(subtype);
+            let cur: u64 = this.master.specialDragon.contains(subtype) ?
+                            this.master.specialDragon.get(subtype) :
+                            0;
+            let limit: u64 = this.master.specialDragonLimit.contains(subtype) ?
+                            this.master.specialDragonLimit.get(subtype) :
+                            0;
+
             if (cur < limit) {
                 this.master.increaseSpecialDragon(subtype);
             } else {

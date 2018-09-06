@@ -4,8 +4,6 @@
  * All rights reserved by ultrain.io @2018
  */
 
- import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
 import { intToString } from "../../src/utils";
 import { Log } from "../../src/log";
 /**
@@ -22,7 +20,7 @@ import { Log } from "../../src/log";
  *
  * 现改成4个u64来表示一个基因。
  */
-export class GenType implements ISerializable {
+export class GenType implements Serializable {
 
     hsb2: u64 = 0; /*193 ~ 256 bit*/
     hsb1: u64 = 0; /*129 ~ 192 bit*/
@@ -149,23 +147,23 @@ export class GenType implements ISerializable {
         this.hsb2 = mask | temp;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<u64>(this.hsb2);
-        ds.write<u64>(this.hsb1);
-        ds.write<u64>(this.lsb2);
-        ds.write<u64>(this.lsb1);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.hsb2);
+    //     ds.write<u64>(this.hsb1);
+    //     ds.write<u64>(this.lsb2);
+    //     ds.write<u64>(this.lsb1);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.hsb2 = ds.read<u64>();
-        this.hsb1 = ds.read<u64>();
-        this.lsb2 = ds.read<u64>();
-        this.lsb1 = ds.read<u64>();
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.hsb2 = ds.read<u64>();
+    //     this.hsb1 = ds.read<u64>();
+    //     this.lsb2 = ds.read<u64>();
+    //     this.lsb1 = ds.read<u64>();
+    // }
 
-    public primaryKey(): u64 {
-        return 0;
-    }
+    // public primaryKey(): u64 {
+    //     return 0;
+    // }
 
     public toString(): string {
         let str = intToString(this.hsb2);

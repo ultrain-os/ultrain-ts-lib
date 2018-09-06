@@ -1,20 +1,17 @@
 import "allocator/arena";
-import { Contract } from "../../lib/contract";
-import { Action } from "../../src/action";
+import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
-import { NEX, NameEx } from "../../src/name_ex";
-import { ultrain_assert, N } from "../../src/utils";
-import { ISerializable } from "../../lib/ISerializable";
+import { ultrain_assert } from "../../src/utils";
 import { DBManager } from "../../src/dbmanager";
-import { DataStream } from "../../src/datastream";
+import { NAME } from "../../src/account";
 
-class Person implements ISerializable {
+class Person implements Serializable {
     // name: string;
     name: string
     age: u32;
     salary: u32;
 
-    primaryKey(): u64 { return N(this.name); }
+    primaryKey(): u64 { return NAME(this.name); }
 
     prints(): void {
         Log.s("name = ").s(this.name).s(", age = ").i(this.age).s(", salary = ").i(this.salary).flush();
@@ -31,7 +28,7 @@ class PersonContract extends Contract {
     db: DBManager<Person>;
 
     public onInit(): void {
-        this.db = new DBManager<Person>(N(tblname), this.receiver, N(scope));
+        this.db = new DBManager<Person>(NAME(tblname), this.receiver, NAME(scope));
     }
 
 
@@ -53,7 +50,7 @@ class PersonContract extends Contract {
         p.age = age;
         p.salary = salary;
 
-        let existing = this.db.exists(N(name));
+        let existing = this.db.exists(NAME(name));
         ultrain_assert(!existing, "this person has existed in db yet.");
         p.prints();
         this.db.emplace(this.receiver, p);
@@ -62,7 +59,7 @@ class PersonContract extends Contract {
     @action
     modify(name: string, salary: u32): void {
         let p = new Person();
-        let existing = this.db.get(N(name), p);
+        let existing = this.db.get(NAME(name), p);
         ultrain_assert(existing, "the person does not exist.");
 
         p.salary = salary;
@@ -73,6 +70,6 @@ class PersonContract extends Contract {
     @action
     remove(name: string): void {
         Log.s("start to remove: ").s(name).flush();
-        this.db.erase(N(name));
+        this.db.erase(NAME(name));
     }
 }

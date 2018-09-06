@@ -1,6 +1,5 @@
 import { Log } from "../../../src/log";
-import { Contract } from "../../../lib/contract";
-import { NameEx, RNEX ,NEX} from "../../../src/name_ex";
+import { Contract } from "../../../src/contract";
 
 
 export class Utils extends Contract{

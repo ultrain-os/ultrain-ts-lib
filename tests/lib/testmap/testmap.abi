@@ -1,0 +1,61 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "a",
+          "abiType": "u64"
+        }
+      ],
+      "name": "teststore",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "b",
+          "abiType": "u64"
+        }
+      ],
+      "name": "testrestore",
+      "base": ""
+    },
+    {
+      "fields": [],
+      "name": "A",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "teststore",
+      "type": "teststore"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testrestore",
+      "type": "testrestore"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "aaaaa",
+      "type": "A"
+    }
+  ]
+}

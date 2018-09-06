@@ -2,13 +2,11 @@
  * @author fanliangqin@ultrain.io
  */
 import { Asset } from "../../src/asset";
-import { ISerializable } from "../../lib/ISerializable";
-import { DataStream } from "../../src/datastream";
 
 export let refund_delay: time = 3 * 24 * 3600;
 export let refund_expiration_time: time = 3600;
 
-export class UserResources implements ISerializable {
+export class UserResources implements Serializable {
     owner: account_name;
     net_weight: Asset;
     cpu_weight: Asset;
@@ -38,7 +36,7 @@ export class UserResources implements ISerializable {
     primaryKey(): u64 { return this.owner; }
 }
 
-export class DelegatedBandwidth implements ISerializable {
+export class DelegatedBandwidth implements Serializable {
     from: account_name;
     to: account_name;
     net_weight: Asset;
@@ -68,7 +66,7 @@ export class DelegatedBandwidth implements ISerializable {
     primaryKey(): u64 { return this.to; }
 }
 
-export class RefundRequest implements ISerializable {
+export class RefundRequest implements Serializable {
     owner: account_name;
     request_time: time;
     net_amount: Asset;
