@@ -3,8 +3,7 @@
  */
 
 import { Contract } from "../../src/contract";
-import { ISerializable } from "../../src/ISerializable";
-import { DataStream, DSHelper } from "../../lib/datastream";
+import { DSHelper } from "../../lib/datastream";
 import { PermissionLevel } from "../../lib/permission-level";
 import { TransactionHeader, Transaction } from "../../lib/transaction";
 import { ultrain_assert} from "../../src/utils";
@@ -17,7 +16,7 @@ import { env as permission } from "../../internal/permission.d";
 import { now } from "../../src/time";
 import { NAME } from "../../src/account";
 
-class Proposal implements ISerializable {
+class Proposal implements Serializable {
     proposal_name: u64;
     packed_transaction: u8[];
 
@@ -41,7 +40,7 @@ class Proposal implements ISerializable {
     }
 }
 
-class ApprovalsInfo implements ISerializable {
+class ApprovalsInfo implements Serializable {
     proposal_name: u64;
     requested_approvals: PermissionLevel[];
     provided_approvals: PermissionLevel[];

@@ -2,11 +2,10 @@ import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
 import { ultrain_assert } from "../../src/utils";
-import { ISerializable } from "../../src/ISerializable";
 import { DBManager } from "../../src/dbmanager";
 import { NAME } from "../../src/account";
 
-class Person implements ISerializable {
+class Person implements Serializable {
     // name: string;
     name: string
     age: u32;

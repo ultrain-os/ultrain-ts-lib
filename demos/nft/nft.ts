@@ -1,16 +1,24 @@
 import "allocator/arena";
 import { Action } from "../../src/action";
 import { Contract } from "../../src/contract";
+<<<<<<< HEAD
 import { ISerializable } from "../../src/ISerializable";
 import { Asset } from "../../src/asset";
 import { DataStream } from "../../lib/datastream";
+=======
+import { Asset } from "../../src/asset";
+>>>>>>> 420ed6dad9cc13b5b5a2268f6228dc103751e5d1
 import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
 import { ultrain_assert } from "../../src/utils";
 import { ACCOUNT, NAME, Account } from "../../src/account";
 
+<<<<<<< HEAD
 
 class NftAccount implements ISerializable {
+=======
+class NftAccount implements Serializable {
+>>>>>>> 420ed6dad9cc13b5b5a2268f6228dc103751e5d1
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
@@ -34,7 +42,7 @@ class NftAccount implements ISerializable {
 
 
 // TODO add serializable implements
-class CurrencyStats implements ISerializable {
+class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
     issuer: account_name;
@@ -47,21 +55,21 @@ class CurrencyStats implements ISerializable {
 
     primaryKey(): id_type { return this.supply.symbolName(); }
 
-    deserialize(ds: DataStream): void {
-        this.supply.deserialize(ds);
-        this.max_supply.deserialize(ds);
-        this.issuer = ds.read<account_name>();
-    }
+    // deserialize(ds: DataStream): void {
+    //     this.supply.deserialize(ds);
+    //     this.max_supply.deserialize(ds);
+    //     this.issuer = ds.read<account_name>();
+    // }
 
-    serialize(ds: DataStream): void {
-        this.supply.serialize(ds);
-        this.max_supply.serialize(ds);
-        ds.write<account_name>(this.issuer);
-    }
+    // serialize(ds: DataStream): void {
+    //     this.supply.serialize(ds);
+    //     this.max_supply.serialize(ds);
+    //     ds.write<account_name>(this.issuer);
+    // }
 }
 
 
-class Token implements ISerializable {
+class Token implements Serializable {
 
     id: id_type;
     owner: account_name;
@@ -91,23 +99,23 @@ class Token implements ISerializable {
         this.current_id = <id_type> 0; //default current id value is zero
     }
 
-    deserialize(ds: DataStream): void {
-        this.id = ds.read<id_type>();
-        this.owner = ds.read<account_name>();
-        this.value.deserialize(ds);
-        this.uri = ds.readString();
-        this.name = ds.readString();
-        this.current_id = ds.read<id_type>();
-    }
+    // deserialize(ds: DataStream): void {
+    //     this.id = ds.read<id_type>();
+    //     this.owner = ds.read<account_name>();
+    //     this.value.deserialize(ds);
+    //     this.uri = ds.readString();
+    //     this.name = ds.readString();
+    //     this.current_id = ds.read<id_type>();
+    // }
 
-    serialize(ds: DataStream): void {
-        ds.write<id_type>(this.id);
-        ds.write<account_name>(this.owner);
-        this.value.serialize(ds);
-        ds.writeString(this.uri);
-        ds.writeString(this.name);
-        ds.write<id_type>(this.current_id);
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.write<id_type>(this.id);
+    //     ds.write<account_name>(this.owner);
+    //     this.value.serialize(ds);
+    //     ds.writeString(this.uri);
+    //     ds.writeString(this.name);
+    //     ds.write<id_type>(this.current_id);
+    // }
 }
 
 const STATSTABLE: string = "stat";
@@ -121,7 +129,6 @@ export class Nft extends Contract {
 
     constructor(receiver: account_name) {
         super(receiver);
-        this._receiver = receiver;
     }
 
     private static token_scope: u64 = NAME("token");

@@ -1,7 +1,3 @@
-import { ISerializable } from "../src/ISerializable";
-import { DataStream } from "./datastream";
-import { Log } from "../src/log";
-
 /**
  * Permission Level stands for '-p' paramters.
  * for example,
@@ -9,7 +5,7 @@ import { Log } from "../src/log";
  *
  * @class PermissionLevel
  */
-export class PermissionLevel implements ISerializable {
+export class PermissionLevel implements Serializable {
     public actor: u64;
     public permission: u64;
 

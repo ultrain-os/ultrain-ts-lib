@@ -1,14 +1,12 @@
-import { ISerializable } from "../src/ISerializable";
 import { UIP09 } from "../uips/uip09";
 import { Asset } from "../src/asset";
 import { ultrain_assert } from "../src/utils";
-import { DataStream } from "../lib/datastream";
 import { DBManager } from "../src/dbmanager";
 import { env as action } from "../internal/action.d";
 import "allocator/arena"
 import { NAME } from "../src/account";
 
-class Account implements ISerializable {
+class Account implements Serializable {
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
@@ -32,7 +30,7 @@ class Account implements ISerializable {
 
 
 // TODO add serializable implements
-class CurrencyStats implements ISerializable {
+class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
     issuer: account_name;
@@ -59,7 +57,7 @@ class CurrencyStats implements ISerializable {
 }
 
 
-class Token implements ISerializable {
+class Token implements Serializable {
 
     id: id_type;
     owner: account_name;

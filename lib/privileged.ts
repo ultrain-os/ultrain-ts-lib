@@ -1,10 +1,9 @@
-import { ISerializable } from "../src/ISerializable";
-import { DataStream, DSHelper } from "../lib/datastream";
+import { DSHelper } from "../lib/datastream";
 import { PublicKey } from "../internal/types";
 import { env as privileged } from "../internal/privileged.d";
 import { ultrain_assert } from "../src/utils";
 
-export class BlockchainParameters implements ISerializable {
+export class BlockchainParameters implements Serializable {
     max_block_net_usage: u64;
     target_block_net_usage_pct: u32;
     max_transaction_net_usage: u32;
@@ -72,7 +71,7 @@ export class BlockchainParameters implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
  }
 
- export class ProducerKey implements ISerializable {
+ export class ProducerKey implements Serializable {
      producer_name: account_name;
      block_signing_key: PublicKey
 

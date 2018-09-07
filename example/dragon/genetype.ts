@@ -4,8 +4,6 @@
  * All rights reserved by ultrain.io @2018
  */
 
- import { ISerializable } from "../../src/ISerializable";
-import { DataStream } from "../../lib/datastream";
 import { intToString } from "../../src/utils";
 import { Log } from "../../src/log";
 /**
@@ -22,7 +20,7 @@ import { Log } from "../../src/log";
  *
  * 现改成4个u64来表示一个基因。
  */
-export class GenType implements ISerializable {
+export class GenType implements Serializable {
 
     hsb2: u64 = 0; /*193 ~ 256 bit*/
     hsb1: u64 = 0; /*129 ~ 192 bit*/

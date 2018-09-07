@@ -1,7 +1,5 @@
-import { ISerializable } from "./ISerializable";
-import { DataStream } from "../lib/datastream";
 import { Log } from "./log";
-import { ultrain_assert, intToString } from "./utils";
+import { ultrain_assert } from "./utils";
 import { queryBalance, send } from "../lib/balance";
 
 /**
@@ -84,7 +82,7 @@ const MAX_AMOUNT: u64 = ((1 << 62) - 1);
  *
  * @class Asset
  */
-export class Asset implements ISerializable {
+export class Asset implements Serializable {
 
     private _amount: u64;
     private _symbol: u64;

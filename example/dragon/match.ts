@@ -6,8 +6,6 @@ import { DragonCore } from "./dragoncore";
 import { FightCore } from "./fightcore";
 import { Titles } from "./titles";
 import { BetId } from "./betid";
-import { ISerializable } from "../../src/ISerializable";
-import { DataStream } from "../../lib/datastream";
 import { GenType } from "./genetype";
 import { DBManager } from "../../src/dbmanager";
 import { emit, EventObject } from "../../src/events";
@@ -19,7 +17,7 @@ import { Return } from "../../src/return";
 import { NAME } from "../../src/account";
 import { seconds } from "../../src/time";
 
-class JoinUser implements ISerializable {
+class JoinUser implements Serializable {
     dragon_id: u64;
     gen: GenType;
     titles: u64;
@@ -45,7 +43,7 @@ class JoinUser implements ISerializable {
     public primaryKey(): u64 { return <u64>0;}
 }
 
-class GuessUser implements ISerializable {
+class GuessUser implements Serializable {
     beter: account_name;
     money: Asset;
 
@@ -67,7 +65,7 @@ class GuessUser implements ISerializable {
     public primaryKey(): u64 { return <u64>0;}
 }
 
-class GuessInfo implements ISerializable {
+class GuessInfo implements Serializable {
     totalMoney: Asset;
     guessUserList: GuessUser[];
 
@@ -103,7 +101,7 @@ class GuessInfo implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-class GuessDragonMap implements ISerializable {
+class GuessDragonMap implements Serializable {
     dragonId: DragonId;
     guesser: GuessInfo;
 
@@ -127,7 +125,7 @@ class GuessDragonMap implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-class GuessNode implements ISerializable {
+class GuessNode implements Serializable {
     betId: u64;
     participants: GuessDragonMap[];
 
@@ -190,7 +188,7 @@ class GuessNode implements ISerializable {
 }
 
 // map struct: betid => { dragonId => GuessInfo }
-class GuessArray implements ISerializable {
+class GuessArray implements Serializable {
     nodes: GuessNode[];
 
     constructor() {
@@ -235,7 +233,7 @@ class GuessArray implements ISerializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 
-class GroupParam implements ISerializable {
+class GroupParam implements Serializable {
     p1: account_name;
     p2: account_name;
 
@@ -257,7 +255,7 @@ class GroupParam implements ISerializable {
     public primaryKey(): u64 { return <u64> 0;}
 }
 
-class MatchInfo implements ISerializable {
+class MatchInfo implements Serializable {
     id: u8;
     // 0: 开启比赛 1：报名结束 2：竞猜阶段 3：战斗 4：发奖 5：比赛结束
     step: u8;
@@ -371,7 +369,7 @@ class MatchInfo implements ISerializable {
 let MatchInfoTable: u64 = NAME("hd.matches");
 let MatchInfoTableScope: u64 = NAME("mat.scope");
 
-class MatchBase implements ISerializable {
+class MatchBase implements Serializable {
     // match id
     match_id: u64 = 0;
 
