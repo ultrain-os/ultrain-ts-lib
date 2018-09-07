@@ -2,10 +2,8 @@
  * @author fanliangqin@ultrain.io
  */
 
-import { ISerializable } from "../../src/ISerializable";
 import { Contract } from "../../src/contract";
 import { PermissionLevel } from "../../lib/permission-level";
-import { DataStream } from "../../lib/datastream";
 import { PublicKey, Checksum256 } from "../../internal/types";
 import { DBManager } from "../../src/dbmanager";
 import { UserResources } from "./delegatebandwidth";
@@ -41,7 +39,7 @@ function NameSuffix(n: u64): u64 {
     return (((n & mask) << shift) + (thirteenth_character << (shift - 1)));
 }
 
-export class PermissionLevelWeight implements ISerializable {
+export class PermissionLevelWeight implements Serializable {
     permission: PermissionLevel;
     weight: weight_type;
 
@@ -58,7 +56,7 @@ export class PermissionLevelWeight implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
 }
 
-export class KeyWeight implements ISerializable {
+export class KeyWeight implements Serializable {
     key: PublicKey;
     weight: weight_type;
 
@@ -75,7 +73,7 @@ export class KeyWeight implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
 }
 
-export class Authority implements ISerializable {
+export class Authority implements Serializable {
     threshold: u32;
     delay_sec: u32;
     keys: KeyWeight[];
@@ -106,7 +104,7 @@ export class Authority implements ISerializable {
 /*
  * BlockHeader is not used yet, let it go temporaryly.
  */
-// class BlockHeader implements ISerializable {
+// class BlockHeader implements Serializable {
 //     timestamp: u32;
 //     producer: account_name;
 //     confirmed: u16;

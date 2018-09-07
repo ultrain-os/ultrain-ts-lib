@@ -1,7 +1,6 @@
 
 import "allocator/arena";
 
-import { DataStream } from "../../lib/datastream";
 import { ultrain_assert, intToString } from "../../src/utils";
 import { Action } from "../../src/action";
 import { GenType } from "./genetype";
@@ -9,7 +8,6 @@ import { minutes, hours, days, seconds, now } from "../../src/time";
 import { SaleClockAuction, SireClockAuction } from "./saleclockauction";
 import { Map } from "../../lib/map";
 import { GeneScience } from "./genescience";
-import { ISerializable } from "../../src/ISerializable";
 import { Block } from "../../src/block";
 import { Asset } from "../../src/asset";
 import { MatchCore } from "./match";
@@ -86,7 +84,7 @@ class DragonAccessControl {
     }
 }
 
-class Dragon implements ISerializable {
+class Dragon implements Serializable {
     id                    : u64  = 0;
     gene_s1               : u64  = 0;
     gene_s2               : u64  = 0;
@@ -171,7 +169,7 @@ class Dragon implements ISerializable {
     primaryKey(): u64 { return this.id; }
 }
 
-class DragonBase extends DragonAccessControl implements ISerializable {
+class DragonBase extends DragonAccessControl implements Serializable {
 
     dragons: Dragon[] = [];
     // a map from dragon's id to owner's address

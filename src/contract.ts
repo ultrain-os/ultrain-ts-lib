@@ -1,5 +1,5 @@
-import { DataStream } from "../lib/datastream";
 import { env as action } from "../internal/action.d";
+import { NameEx, NEX } from "../lib/name_ex";
 
 export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
@@ -12,6 +12,8 @@ export function DataStreamFromCurrentAction(): DataStream {
 export class Contract {
 
     protected _receiver: account_name;
+    private currentActionName: NameEx;
+
 
     constructor(receiver: account_name) {
         this._receiver = receiver;
@@ -21,6 +23,14 @@ export class Contract {
         return this._receiver;
     }
 
+    public setActionName(actH: u64, actL: u64): void {
+        this.currentActionName = new NameEx(actH, actL);
+    }
+
+    public isAction(actionName: string): bool {
+        return this.currentActionName == NEX(actionName);
+    }
+
     public getDataStream(): DataStream {
         return DataStreamFromCurrentAction();
     }
@@ -28,4 +38,6 @@ export class Contract {
     public onInit(): void {}
 
     public onStop(): void {}
+
+
 }

@@ -2,11 +2,9 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { ISerializable } from "../../src/ISerializable";
 import { Asset } from "../../src/asset";
-import { DataStream } from "../../lib/datastream";
 
-class Connector implements ISerializable {
+class Connector implements Serializable {
     balance: Asset;
     weight: f64;
 
@@ -28,7 +26,7 @@ class Connector implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
 }
 
-export class ExchangeState implements ISerializable {
+export class ExchangeState implements Serializable {
     supply: Asset;
     base: Connector;
     quote: Connector;

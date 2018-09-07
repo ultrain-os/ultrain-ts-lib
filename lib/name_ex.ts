@@ -5,9 +5,6 @@
  */
 import "allocator/arena";
 import { PrintableChar } from "../src/utils";
-import { ISerializable } from "../src/ISerializable";
-import { DataStream } from "./datastream";
-
 /* format index: ._0-9a-zA-Z */
 function char_to_symbol_ex(c: u8): u64 {
     if (c == 0x2E) // .
@@ -120,7 +117,7 @@ export function RNEX(h: u64, l: u64): string {
  *
  * @class NameEx
  */
-export class NameEx implements ISerializable {
+export class NameEx implements Serializable {
     valueH: u64;
     valueL: u64;
 

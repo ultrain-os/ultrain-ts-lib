@@ -10,15 +10,16 @@
  (type $Iiv (func (param i64 i32)))
  (type $iI (func (param i32) (result i64)))
  (type $iIi (func (param i32 i64) (result i32)))
+ (type $iIv (func (param i32 i64)))
+ (type $iIIv (func (param i32 i64 i64)))
+ (type $iIIi (func (param i32 i64 i64) (result i32)))
  (type $i (func (result i32)))
  (type $iiii (func (param i32 i32 i32) (result i32)))
  (type $iIiv (func (param i32 i64 i32)))
  (type $Iv (func (param i64)))
  (type $iIIIi (func (param i32 i64 i64 i64) (result i32)))
- (type $iIIi (func (param i32 i64 i64) (result i32)))
  (type $iiiIi (func (param i32 i32 i32 i64) (result i32)))
  (type $IIIIi (func (param i64 i64 i64 i64) (result i32)))
- (type $iIv (func (param i32 i64)))
  (type $I (func (result i64)))
  (type $IIIIiii (func (param i64 i64 i64 i64 i32 i32) (result i32)))
  (type $iIiiiiv (func (param i32 i64 i32 i32 i32 i32)))
@@ -27,12 +28,12 @@
  (type $iIiiv (func (param i32 i64 i32 i32)))
  (type $iIiiIv (func (param i32 i64 i32 i32 i64)))
  (type $iiIv (func (param i32 i32 i64)))
- (type $iIIv (func (param i32 i64 i64)))
  (type $iIIIiv (func (param i32 i64 i64 i64 i32)))
  (type $Ii (func (param i64) (result i32)))
  (type $iIIiv (func (param i32 i64 i64 i32)))
  (type $iII (func (param i32 i64) (result i64)))
  (type $iIiiI (func (param i32 i64 i32 i32) (result i64)))
+ (type $IIIIv (func (param i64 i64 i64 i64)))
  (import "env" "abort" (func $~lib/env/abort))
  (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/env.ts_log_print_s (param i32)))
@@ -72,7 +73,8 @@
  (global $nft/Nft.token_scope (mut i64) (i64.const 0))
  (global $nft/Nft.TOKEN_PRIMARY_ID (mut i64) (i64.const 0))
  (global $nft/Nft.TOKEN_START (mut i64) (i64.const 1))
- (global $HEAP_BASE i32 (i32.const 4940))
+ (global $~lib/datastream/HEADER_SIZE i32 (i32.const 4))
+ (global $HEAP_BASE i32 (i32.const 4996))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 \00")
  (data (i32.const 16) "\01\00\00\00!\00")
@@ -214,14 +216,20 @@
  (data (i32.const 4640) "7\00\00\00t\00o\00k\00e\00n\00O\00f\00O\00w\00n\00e\00r\00B\00y\00I\00n\00d\00e\00x\00 \00f\00a\00i\00l\00e\00d\00,\00 \00t\00h\00e\00 \00i\00n\00d\00e\00x\00 \00b\00e\00y\00o\00n\00d\00 \00t\00h\00e\00 \00r\00a\00n\00g\00e\00.\00")
  (data (i32.const 4760) "(\00\00\00g\00e\00t\00S\00u\00p\00p\00l\00y\00 \00f\00a\00i\00l\00e\00d\00,\00 \00s\00t\00a\00t\00e\00s\00 \00i\00s\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
  (data (i32.const 4848) "+\00\00\00g\00e\00t\00B\00a\00l\00a\00n\00c\00e\00 \00f\00a\00i\00l\00e\00d\00,\00 \00a\00c\00c\00o\00u\00n\00t\00 \00i\00s\00 \00n\00 \00o\00t\00 \00e\00x\00i\00s\00t\00e\00d\00.\00")
+ (data (i32.const 4944) "\06\00\00\00c\00r\00e\00a\00t\00e\00")
+ (data (i32.const 4960) "\05\00\00\00i\00s\00s\00u\00e\00")
+ (data (i32.const 4976) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r\00")
  (export "memory" (memory $0))
  (export "Nft#constructor" (func $nft/Nft#constructor))
  (export "Nft#get:_receiver" (func $Nft#get:_receiver))
  (export "Nft#set:_receiver" (func $Nft#set:_receiver))
  (export "Nft#get:receiver" (func $../../src/contract/Contract#get:receiver))
+ (export "Nft#setActionName" (func $../../src/contract/Contract#setActionName))
+ (export "Nft#isAction" (func $../../src/contract/Contract#isAction))
  (export "Nft#getDataStream" (func $../../src/contract/Contract#getDataStream))
  (export "Nft#onInit" (func $../../src/contract/Contract#onInit))
  (export "Nft#onStop" (func $../../src/contract/Contract#onStop))
+ (export "Nft#_super" (func $nft/Nft#_super))
  (export "Nft#create" (func $nft/Nft#create))
  (export "Nft#issue" (func $nft/Nft#issue))
  (export "Nft#transfer" (func $nft/Nft#transfer))
@@ -230,6 +238,7 @@
  (export "Nft#tokenbyindex" (func $nft/Nft#tokenbyindex))
  (export "Nft#getsupply" (func $nft/Nft#getsupply))
  (export "Nft#getbalance" (func $nft/Nft#getbalance))
+ (export "apply" (func $nft/apply))
  (start $start)
  (func $~lib/allocator/arena/__memory_allocate (; 16 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
@@ -3842,7 +3851,13 @@
    (get_local $0)
   )
  )
- (func $nft/Nft#constructor (; 37 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $nft/Nft#_super (; 37 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  (i64.store
+   (get_local $0)
+   (get_local $1)
+  )
+ )
+ (func $nft/Nft#constructor (; 38 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (drop
    (get_local $0)
@@ -3850,7 +3865,7 @@
   (drop
    (get_local $1)
   )
-  (i64.store
+  (call $nft/Nft#_super
    (tee_local $0
     (if (result i32)
      (get_local $0)
@@ -3859,12 +3874,16 @@
       (block (result i32)
        (set_local $2
         (call $~lib/memory/memory.allocate
-         (i32.const 8)
+         (i32.const 12)
         )
        )
        (i64.store
         (get_local $2)
         (i64.const 0)
+       )
+       (i32.store offset=8
+        (get_local $2)
+        (i32.const 0)
        )
        (get_local $2)
       )
@@ -3875,12 +3894,379 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/Contract#get:receiver (; 38 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/contract/Contract#get:receiver (; 39 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 39 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/name_ex/NameEx#constructor (; 40 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+  (local $3 i32)
+  (i64.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $3
+        (call $~lib/memory/memory.allocate
+         (i32.const 16)
+        )
+       )
+       (i64.store
+        (get_local $3)
+        (i64.const 0)
+       )
+       (i64.store offset=8
+        (get_local $3)
+        (i64.const 0)
+       )
+       (get_local $3)
+      )
+     )
+    )
+   )
+   (get_local $1)
+  )
+  (i64.store offset=8
+   (get_local $0)
+   (get_local $2)
+  )
+  (get_local $0)
+ )
+ (func $../../src/contract/Contract#setActionName (; 41 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+  (i32.store offset=8
+   (get_local $0)
+   (call $../../lib/name_ex/NameEx#constructor
+    (i32.const 0)
+    (get_local $1)
+    (get_local $2)
+   )
+  )
+ )
+ (func $../../lib/name_ex/char_to_symbol_ex (; 42 ;) (type $iI) (param $0 i32) (result i64)
+  (local $1 i32)
+  (if
+   (i32.eq
+    (i32.and
+     (get_local $0)
+     (i32.const 255)
+    )
+    (i32.const 46)
+   )
+   (return
+    (i64.const 0)
+   )
+  )
+  (if
+   (i32.eq
+    (i32.and
+     (get_local $0)
+     (i32.const 255)
+    )
+    (i32.const 95)
+   )
+   (return
+    (i64.const 1)
+   )
+  )
+  (if
+   (if (result i32)
+    (tee_local $1
+     (i32.ge_u
+      (i32.and
+       (get_local $0)
+       (i32.const 255)
+      )
+      (i32.const 48)
+     )
+    )
+    (i32.le_u
+     (i32.and
+      (get_local $0)
+      (i32.const 255)
+     )
+     (i32.const 57)
+    )
+    (get_local $1)
+   )
+   (return
+    (i64.extend_u/i32
+     (i32.and
+      (i32.add
+       (i32.sub
+        (get_local $0)
+        (i32.const 48)
+       )
+       (i32.const 2)
+      )
+      (i32.const 255)
+     )
+    )
+   )
+  )
+  (if
+   (if (result i32)
+    (tee_local $1
+     (i32.ge_u
+      (i32.and
+       (get_local $0)
+       (i32.const 255)
+      )
+      (i32.const 97)
+     )
+    )
+    (i32.le_u
+     (i32.and
+      (get_local $0)
+      (i32.const 255)
+     )
+     (i32.const 122)
+    )
+    (get_local $1)
+   )
+   (return
+    (i64.extend_u/i32
+     (i32.and
+      (i32.add
+       (i32.sub
+        (get_local $0)
+        (i32.const 97)
+       )
+       (i32.const 12)
+      )
+      (i32.const 255)
+     )
+    )
+   )
+  )
+  (if
+   (if (result i32)
+    (tee_local $1
+     (i32.ge_u
+      (i32.and
+       (get_local $0)
+       (i32.const 255)
+      )
+      (i32.const 65)
+     )
+    )
+    (i32.le_u
+     (i32.and
+      (get_local $0)
+      (i32.const 255)
+     )
+     (i32.const 90)
+    )
+    (get_local $1)
+   )
+   (return
+    (i64.extend_u/i32
+     (i32.and
+      (i32.add
+       (i32.sub
+        (get_local $0)
+        (i32.const 65)
+       )
+       (i32.const 38)
+      )
+      (i32.const 255)
+     )
+    )
+   )
+  )
+  (i64.const 255)
+ )
+ (func $../../lib/name_ex/NEX (; 43 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i64)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i64)
+  (local $6 i64)
+  (local $7 i64)
+  (set_local $1
+   (call $../../lib/name_ex/NameEx#constructor
+    (i32.const 0)
+    (i64.const 0)
+    (i64.const 0)
+   )
+  )
+  (set_local $2
+   (i64.const 0)
+  )
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (block $break|0
+   (set_local $4
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $4)
+       (get_local $3)
+      )
+     )
+    )
+    (block
+     (set_local $5
+      (call $../../lib/name_ex/char_to_symbol_ex
+       (call $~lib/string/String#charCodeAt
+        (get_local $0)
+        (get_local $4)
+       )
+      )
+     )
+     (if
+      (i32.le_s
+       (get_local $4)
+       (i32.const 9)
+      )
+      (set_local $2
+       (i64.or
+        (get_local $2)
+        (i64.shl
+         (get_local $5)
+         (i64.mul
+          (i64.const 6)
+          (i64.extend_u/i32
+           (get_local $4)
+          )
+         )
+        )
+       )
+      )
+      (if
+       (i32.eq
+        (get_local $4)
+        (i32.const 10)
+       )
+       (block
+        (set_local $6
+         (i64.and
+          (get_local $5)
+          (i64.const 15)
+         )
+        )
+        (set_local $2
+         (i64.or
+          (get_local $2)
+          (i64.shl
+           (get_local $6)
+           (i64.mul
+            (i64.const 6)
+            (i64.extend_u/i32
+             (get_local $4)
+            )
+           )
+          )
+         )
+        )
+        (i64.store offset=8
+         (get_local $1)
+         (get_local $2)
+        )
+        (set_local $7
+         (i64.shr_u
+          (i64.and
+           (get_local $5)
+           (i64.const 48)
+          )
+          (i64.const 4)
+         )
+        )
+        (set_local $2
+         (get_local $7)
+        )
+       )
+       (set_local $2
+        (i64.or
+         (get_local $2)
+         (i64.shl
+          (get_local $5)
+          (i64.add
+           (i64.mul
+            (i64.const 6)
+            (i64.extend_u/i32
+             (i32.sub
+              (get_local $4)
+              (i32.const 11)
+             )
+            )
+           )
+           (i64.const 2)
+          )
+         )
+        )
+       )
+      )
+     )
+     (if
+      (i32.le_s
+       (get_local $3)
+       (i32.const 10)
+      )
+      (i64.store offset=8
+       (get_local $1)
+       (get_local $2)
+      )
+      (i64.store
+       (get_local $1)
+       (get_local $2)
+      )
+     )
+    )
+    (set_local $4
+     (i32.add
+      (get_local $4)
+      (i32.const 1)
+     )
+    )
+    (br $repeat|0)
+   )
+  )
+  (get_local $1)
+ )
+ (func $../../lib/name_ex/NameEx._eq (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (if (result i32)
+   (tee_local $2
+    (i64.eq
+     (i64.load
+      (get_local $0)
+     )
+     (i64.load
+      (get_local $1)
+     )
+    )
+   )
+   (i64.eq
+    (i64.load offset=8
+     (get_local $0)
+    )
+    (i64.load offset=8
+     (get_local $1)
+    )
+   )
+   (get_local $2)
+  )
+ )
+ (func $../../src/contract/Contract#isAction (; 45 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (call $../../lib/name_ex/NameEx._eq
+   (i32.load offset=8
+    (get_local $0)
+   )
+   (call $../../lib/name_ex/NEX
+    (get_local $1)
+   )
+  )
+ )
+ (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 46 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3963,7 +4349,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/datastream/DataStream#constructor (; 40 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/datastream/DataStream#constructor (; 47 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (tee_local $0
@@ -4006,7 +4392,7 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/DataStreamFromCurrentAction (; 41 ;) (type $i) (result i32)
+ (func $../../src/contract/DataStreamFromCurrentAction (; 48 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -4028,7 +4414,7 @@
    )
   )
   (set_local $2
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $1)
@@ -4038,21 +4424,21 @@
   )
   (get_local $2)
  )
- (func $../../src/contract/Contract#getDataStream (; 42 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/contract/Contract#getDataStream (; 49 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../src/contract/DataStreamFromCurrentAction)
  )
- (func $../../src/contract/Contract#onInit (; 43 ;) (type $iv) (param $0 i32)
+ (func $../../src/contract/Contract#onInit (; 50 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $../../src/contract/Contract#onStop (; 44 ;) (type $iv) (param $0 i32)
+ (func $../../src/contract/Contract#onStop (; 51 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $../../src/action/Action.requireAuth (; 45 ;) (type $Iv) (param $0 i64)
+ (func $../../src/action/Action.requireAuth (; 52 ;) (type $Iv) (param $0 i64)
   (call $../../internal/action.d/env.require_auth
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#symbolName (; 46 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#symbolName (; 53 ;) (type $iI) (param $0 i32) (result i64)
   (i64.shr_u
    (i64.load offset=8
     (get_local $0)
@@ -4060,7 +4446,7 @@
    (i64.const 8)
   )
  )
- (func $../../src/asset/Asset#isSymbolValid (; 47 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isSymbolValid (; 54 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (local $2 i32)
   (local $3 i32)
@@ -4185,7 +4571,7 @@
   )
   (i32.const 1)
  )
- (func $../../src/asset/Asset#symbolPrecision (; 48 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#symbolPrecision (; 55 ;) (type $iI) (param $0 i32) (result i64)
   (i64.and
    (i64.load offset=8
     (get_local $0)
@@ -4193,7 +4579,7 @@
    (i64.const 255)
   )
  )
- (func $../../src/asset/Asset#isAmountWithinRange (; 49 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isAmountWithinRange (; 56 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (tee_local $1
@@ -4215,7 +4601,7 @@
    (get_local $1)
   )
  )
- (func $../../src/asset/Asset#isValid (; 50 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#isValid (; 57 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (if (result i32)
    (tee_local $1
@@ -4229,7 +4615,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#constructor (; 51 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#constructor (; 58 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -4272,7 +4658,7 @@
   )
   (get_local $0)
  )
- (func $../../src/asset/Asset#constructor (; 52 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../src/asset/Asset#constructor (; 59 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -4307,7 +4693,7 @@
   )
   (get_local $0)
  )
- (func $nft/CurrencyStats#constructor (; 53 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
+ (func $nft/CurrencyStats#constructor (; 60 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
   (local $4 i32)
   (i32.store offset=4
    (tee_local $0
@@ -4350,7 +4736,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/datastream/DataStream#read<u64> (; 54 ;) (type $iI) (param $0 i32) (result i64)
+ (func $~lib/datastream/DataStream#read<u64> (; 61 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -4375,21 +4761,21 @@
   )
   (get_local $1)
  )
- (func $../../src/asset/Asset#deserialize (; 55 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/asset/Asset#deserialize (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
   (i64.store offset=8
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
  )
- (func $nft/CurrencyStats#deserialize (; 56 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/CurrencyStats#deserialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -4404,12 +4790,12 @@
   )
   (i64.store offset=8
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 57 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#loadObjectByPrimaryIterator (; 64 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4427,7 +4813,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -4449,7 +4835,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 58 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#get (; 65 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -4481,18 +4867,18 @@
   )
   (i32.const 1)
  )
- (func $../../src/asset/Asset#getSymbol (; 59 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getSymbol (; 66 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setSymbol (; 60 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setSymbol (; 67 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../lib/datastream/DataStream#isMesureMode (; 61 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#isMesureMode (; 68 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4500,10 +4886,10 @@
    (i32.const 0)
   )
  )
- (func $../../lib/datastream/DataStream#write<u64> (; 62 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $~lib/datastream/DataStream#write<u64> (; 69 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
-    (call $../../lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -4529,21 +4915,21 @@
    )
   )
  )
- (func $../../src/asset/Asset#serialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
+ (func $../../src/asset/Asset#serialize (; 70 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../lib/datastream/DataStream#write<u64>
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $nft/CurrencyStats#serialize (; 64 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/CurrencyStats#serialize (; 71 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -4556,17 +4942,17 @@
    )
    (get_local $1)
   )
-  (call $../../lib/datastream/DataStream#write<u64>
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
- (func $../../lib/datastream/DataStream.measure<CurrencyStats> (; 65 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<CurrencyStats> (; 72 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -4580,14 +4966,14 @@
    (get_local $1)
   )
  )
- (func $nft/CurrencyStats#primaryKey (; 66 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/CurrencyStats#primaryKey (; 73 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 67 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#emplace (; 74 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4602,7 +4988,7 @@
    (i32.const 2064)
   )
   (set_local $3
-   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
+   (call $~lib/datastream/DataStream.measure<CurrencyStats>
     (get_local $2)
    )
   )
@@ -4613,7 +4999,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -4649,7 +5035,7 @@
    )
   )
  )
- (func $nft/Nft#create (; 68 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $nft/Nft#create (; 75 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -4750,12 +5136,12 @@
    (get_local $5)
   )
  )
- (func $../../src/asset/Asset#getAmount (; 69 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getAmount (; 76 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $~lib/array/Array<u64>#constructor (; 70 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u64>#constructor (; 77 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4830,7 +5216,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<Token>#constructor (; 71 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#constructor (; 78 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -4873,7 +5259,7 @@
   )
   (get_local $0)
  )
- (func $nft/Token#constructor (; 72 ;) (type $iIIiiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
+ (func $nft/Token#constructor (; 79 ;) (type $iIIiiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
   (local $6 i32)
   (i64.store
    (tee_local $0
@@ -4940,7 +5326,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/datastream/DataStream#read<u8> (; 73 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#read<u8> (; 80 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -4965,7 +5351,7 @@
   )
   (get_local $1)
  )
- (func $../../lib/datastream/DataStream#readVarint32 (; 74 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readVarint32 (; 81 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4980,7 +5366,7 @@
    (loop $continue|0
     (block
      (set_local $3
-      (call $../../lib/datastream/DataStream#read<u8>
+      (call $~lib/datastream/DataStream#read<u8>
        (get_local $0)
       )
      )
@@ -5021,14 +5407,14 @@
   )
   (get_local $1)
  )
- (func $../../lib/datastream/DataStream#readString (; 75 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readString (; 82 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (set_local $1
-   (call $../../lib/datastream/DataStream#readVarint32
+   (call $~lib/datastream/DataStream#readVarint32
     (get_local $0)
    )
   )
@@ -5045,7 +5431,7 @@
    (block $~lib/memory/memory.allocate|inlined.1 (result i32)
     (set_local $2
      (i32.add
-      (get_global $../../lib/datastream/HEADER_SIZE)
+      (get_global $~lib/datastream/HEADER_SIZE)
       (i32.shl
        (get_local $1)
        (i32.const 1)
@@ -5079,7 +5465,7 @@
      (block
       (block
        (set_local $5
-        (call $../../lib/datastream/DataStream#read<u8>
+        (call $~lib/datastream/DataStream#read<u8>
          (get_local $0)
         )
        )
@@ -5107,16 +5493,16 @@
   )
   (get_local $2)
  )
- (func $nft/Token#deserialize (; 76 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/Token#deserialize (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
   (i64.store offset=8
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
@@ -5128,24 +5514,24 @@
   )
   (i32.store offset=20
    (get_local $0)
-   (call $../../lib/datastream/DataStream#readString
+   (call $~lib/datastream/DataStream#readString
     (get_local $1)
    )
   )
   (i32.store offset=24
    (get_local $0)
-   (call $../../lib/datastream/DataStream#readString
+   (call $~lib/datastream/DataStream#readString
     (get_local $1)
    )
   )
   (i64.store offset=32
    (get_local $0)
-   (call $../../lib/datastream/DataStream#read<u64>
+   (call $~lib/datastream/DataStream#read<u64>
     (get_local $1)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#loadObjectByPrimaryIterator (; 77 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#loadObjectByPrimaryIterator (; 84 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5163,7 +5549,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5185,7 +5571,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#get (; 78 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#get (; 85 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -5217,7 +5603,7 @@
   )
   (i32.const 1)
  )
- (func $nft/Token#increaseId (; 79 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#increaseId (; 86 ;) (type $iI) (param $0 i32) (result i64)
   (i64.store offset=32
    (get_local $0)
    (i64.add
@@ -5231,7 +5617,7 @@
    (get_local $0)
   )
  )
- (func $nft/Nft#availablePrimaryKey (; 80 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Nft#availablePrimaryKey (; 87 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5280,7 +5666,7 @@
   )
   (get_local $4)
  )
- (func $~lib/array/Array<String>#__get (; 81 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 88 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -5311,7 +5697,7 @@
    (unreachable)
   )
  )
- (func $~lib/array/Array<u64>#push (; 82 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/array/Array<u64>#push (; 89 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5389,10 +5775,10 @@
   )
   (get_local $5)
  )
- (func $../../lib/datastream/DataStream#write<u8> (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#write<u8> (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
-    (call $../../lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -5418,7 +5804,7 @@
    )
   )
  )
- (func $../../lib/datastream/DataStream#writeVarint32 (; 84 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVarint32 (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (block $break|0
    (loop $continue|0
@@ -5451,7 +5837,7 @@
        )
       )
      )
-     (call $../../lib/datastream/DataStream#write<u8>
+     (call $~lib/datastream/DataStream#write<u8>
       (get_local $0)
       (get_local $2)
      )
@@ -5462,7 +5848,241 @@
    )
   )
  )
- (func $../../lib/datastream/DataStream#writeString (; 85 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/utf8util/toUTF8Array (; 92 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (set_local $1
+   (call $~lib/array/Array<u8>#constructor
+    (i32.const 0)
+    (i32.const 0)
+   )
+  )
+  (block $break|0
+   (set_local $2
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_s
+       (get_local $2)
+       (i32.load
+        (get_local $0)
+       )
+      )
+     )
+    )
+    (block
+     (set_local $3
+      (call $~lib/string/String#charCodeAt
+       (get_local $0)
+       (get_local $2)
+      )
+     )
+     (if
+      (i32.lt_s
+       (get_local $3)
+       (i32.const 128)
+      )
+      (drop
+       (call $~lib/array/Array<u8>#push
+        (get_local $1)
+        (get_local $3)
+       )
+      )
+      (if
+       (i32.lt_s
+        (get_local $3)
+        (i32.const 2048)
+       )
+       (block
+        (drop
+         (call $~lib/array/Array<u8>#push
+          (get_local $1)
+          (i32.or
+           (i32.const 192)
+           (i32.shr_s
+            (get_local $3)
+            (i32.const 6)
+           )
+          )
+         )
+        )
+        (drop
+         (call $~lib/array/Array<u8>#push
+          (get_local $1)
+          (i32.or
+           (i32.const 128)
+           (i32.and
+            (get_local $3)
+            (i32.const 63)
+           )
+          )
+         )
+        )
+       )
+       (if
+        (if (result i32)
+         (tee_local $4
+          (i32.lt_s
+           (get_local $3)
+           (i32.const 55296)
+          )
+         )
+         (get_local $4)
+         (i32.ge_s
+          (get_local $3)
+          (i32.const 57344)
+         )
+        )
+        (block
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 224)
+            (i32.shr_s
+             (get_local $3)
+             (i32.const 12)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (i32.shr_s
+              (get_local $3)
+              (i32.const 6)
+             )
+             (i32.const 63)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (get_local $3)
+             (i32.const 63)
+            )
+           )
+          )
+         )
+        )
+        (block
+         (set_local $2
+          (i32.add
+           (get_local $2)
+           (i32.const 1)
+          )
+         )
+         (set_local $3
+          (i32.add
+           (i32.const 65536)
+           (i32.or
+            (i32.shl
+             (i32.and
+              (get_local $3)
+              (i32.const 1023)
+             )
+             (i32.const 10)
+            )
+            (i32.and
+             (call $~lib/string/String#charCodeAt
+              (get_local $0)
+              (get_local $2)
+             )
+             (i32.const 1023)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 240)
+            (i32.shr_s
+             (get_local $3)
+             (i32.const 18)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (i32.shr_s
+              (get_local $3)
+              (i32.const 12)
+             )
+             (i32.const 63)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (i32.shr_s
+              (get_local $3)
+              (i32.const 6)
+             )
+             (i32.const 63)
+            )
+           )
+          )
+         )
+         (drop
+          (call $~lib/array/Array<u8>#push
+           (get_local $1)
+           (i32.or
+            (i32.const 128)
+            (i32.and
+             (get_local $3)
+             (i32.const 63)
+            )
+           )
+          )
+         )
+        )
+       )
+      )
+     )
+    )
+    (set_local $2
+     (i32.add
+      (get_local $2)
+      (i32.const 1)
+     )
+    )
+    (br $repeat|0)
+   )
+  )
+  (drop
+   (call $~lib/array/Array<u8>#push
+    (get_local $1)
+    (i32.const 0)
+   )
+  )
+  (get_local $1)
+ )
+ (func $~lib/datastream/DataStream#writeString (; 93 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5473,7 +6093,7 @@
     (get_local $1)
    )
   )
-  (call $../../lib/datastream/DataStream#writeVarint32
+  (call $~lib/datastream/DataStream#writeVarint32
    (get_local $0)
    (get_local $2)
   )
@@ -5485,13 +6105,13 @@
    (return)
   )
   (set_local $3
-   (call $../../src/utils/toUTF8Array
+   (call $~lib/utf8util/toUTF8Array
     (get_local $1)
    )
   )
   (if
    (i32.eqz
-    (call $../../lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMesureMode
      (get_local $0)
     )
    )
@@ -5550,14 +6170,14 @@
    )
   )
  )
- (func $nft/Token#serialize (; 86 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
+ (func $nft/Token#serialize (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-  (call $../../lib/datastream/DataStream#write<u64>
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
@@ -5569,29 +6189,29 @@
    )
    (get_local $1)
   )
-  (call $../../lib/datastream/DataStream#writeString
+  (call $~lib/datastream/DataStream#writeString
    (get_local $1)
    (i32.load offset=20
     (get_local $0)
    )
   )
-  (call $../../lib/datastream/DataStream#writeString
+  (call $~lib/datastream/DataStream#writeString
    (get_local $1)
    (i32.load offset=24
     (get_local $0)
    )
   )
-  (call $../../lib/datastream/DataStream#write<u64>
+  (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load offset=32
     (get_local $0)
    )
   )
  )
- (func $../../lib/datastream/DataStream.measure<Token> (; 87 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<Token> (; 95 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -5605,12 +6225,12 @@
    (get_local $1)
   )
  )
- (func $nft/Token#primaryKey (; 88 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#primaryKey (; 96 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#emplace (; 89 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#emplace (; 97 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5625,7 +6245,7 @@
    (i32.const 2064)
   )
   (set_local $3
-   (call $../../lib/datastream/DataStream.measure<Token>
+   (call $~lib/datastream/DataStream.measure<Token>
     (get_local $2)
    )
   )
@@ -5636,7 +6256,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5672,7 +6292,7 @@
    )
   )
  )
- (func $nft/Nft#mint (; 90 ;) (type $iIIIiiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32) (param $5 i32) (param $6 i32)
+ (func $nft/Nft#mint (; 98 ;) (type $iIIIiiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32) (param $5 i32) (param $6 i32)
   (local $7 i32)
   (local $8 i32)
   (local $9 i32)
@@ -5711,13 +6331,13 @@
    (get_local $8)
   )
  )
- (func $../../src/asset/Asset#setAmount (; 91 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setAmount (; 99 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 92 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 100 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -5735,7 +6355,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 93 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyStats>#modify (; 101 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5765,7 +6385,7 @@
    (i32.const 3224)
   )
   (set_local $4
-   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
+   (call $~lib/datastream/DataStream.measure<CurrencyStats>
     (get_local $2)
    )
   )
@@ -5776,7 +6396,7 @@
    )
   )
   (set_local $6
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -5799,7 +6419,7 @@
    )
   )
  )
- (func $nft/Nft#subSupply (; 94 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $nft/Nft#subSupply (; 102 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -5873,7 +6493,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#constructor (; 95 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#constructor (; 103 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -5916,7 +6536,7 @@
   )
   (get_local $0)
  )
- (func $nft/NftAccount#constructor (; 96 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $nft/NftAccount#constructor (; 104 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store offset=4
    (tee_local $0
@@ -5954,7 +6574,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u64>#__set (; 97 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/array/Array<u64>#__set (; 105 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -6024,12 +6644,12 @@
    )
   )
  )
- (func $../../lib/datastream/DataStream#readVector<u64> (; 98 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readVector<u64> (; 106 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $1
-   (call $../../lib/datastream/DataStream#readVarint32
+   (call $~lib/datastream/DataStream#readVarint32
     (get_local $0)
    )
   )
@@ -6067,7 +6687,7 @@
     (call $~lib/array/Array<u64>#__set
      (get_local $2)
      (get_local $3)
-     (call $../../lib/datastream/DataStream#read<u64>
+     (call $~lib/datastream/DataStream#read<u64>
       (get_local $0)
      )
     )
@@ -6082,7 +6702,7 @@
   )
   (get_local $2)
  )
- (func $nft/NftAccount#deserialize (; 99 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/NftAccount#deserialize (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -6091,12 +6711,12 @@
   )
   (i32.store offset=4
    (get_local $0)
-   (call $../../lib/datastream/DataStream#readVector<u64>
+   (call $~lib/datastream/DataStream#readVector<u64>
     (get_local $1)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#loadObjectByPrimaryIterator (; 100 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#loadObjectByPrimaryIterator (; 108 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6114,7 +6734,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -6136,7 +6756,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#get (; 101 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#get (; 109 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -6168,7 +6788,7 @@
   )
   (i32.const 1)
  )
- (func $~lib/array/Array<u64>#__get (; 102 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/array/Array<u64>#__get (; 110 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6199,7 +6819,7 @@
    (unreachable)
   )
  )
- (func $../../lib/datastream/DataStream#writeVector<u64> (; 103 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVector<u64> (; 111 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -6209,7 +6829,7 @@
     )
    )
   )
-  (call $../../lib/datastream/DataStream#writeVarint32
+  (call $~lib/datastream/DataStream#writeVarint32
    (get_local $0)
    (get_local $2)
   )
@@ -6226,7 +6846,7 @@
       )
      )
     )
-    (call $../../lib/datastream/DataStream#write<u64>
+    (call $~lib/datastream/DataStream#write<u64>
      (get_local $0)
      (call $~lib/array/Array<u64>#__get
       (get_local $1)
@@ -6243,24 +6863,24 @@
    )
   )
  )
- (func $nft/NftAccount#serialize (; 104 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $nft/NftAccount#serialize (; 112 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
    )
    (get_local $1)
   )
-  (call $../../lib/datastream/DataStream#writeVector<u64>
+  (call $~lib/datastream/DataStream#writeVector<u64>
    (get_local $1)
    (i32.load offset=4
     (get_local $0)
    )
   )
  )
- (func $../../lib/datastream/DataStream.measure<NftAccount> (; 105 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<NftAccount> (; 113 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -6274,14 +6894,14 @@
    (get_local $1)
   )
  )
- (func $nft/NftAccount#primaryKey (; 106 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/NftAccount#primaryKey (; 114 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#emplace (; 107 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#emplace (; 115 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6296,7 +6916,7 @@
    (i32.const 2064)
   )
   (set_local $3
-   (call $../../lib/datastream/DataStream.measure<NftAccount>
+   (call $~lib/datastream/DataStream.measure<NftAccount>
     (get_local $2)
    )
   )
@@ -6307,7 +6927,7 @@
    )
   )
   (set_local $5
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -6343,7 +6963,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#find (; 108 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#find (; 116 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -6361,7 +6981,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#modify (; 109 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<NftAccount>#modify (; 117 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6391,7 +7011,7 @@
    (i32.const 3224)
   )
   (set_local $4
-   (call $../../lib/datastream/DataStream.measure<NftAccount>
+   (call $~lib/datastream/DataStream.measure<NftAccount>
     (get_local $2)
    )
   )
@@ -6402,7 +7022,7 @@
    )
   )
   (set_local $6
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -6425,7 +7045,7 @@
    )
   )
  )
- (func $nft/Nft#addBalance (; 110 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $nft/Nft#addBalance (; 118 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -6547,7 +7167,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Token>#find (; 111 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Token>#find (; 119 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -6565,7 +7185,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Token>#modify (; 112 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Token>#modify (; 120 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6595,7 +7215,7 @@
    (i32.const 3224)
   )
   (set_local $4
-   (call $../../lib/datastream/DataStream.measure<Token>
+   (call $~lib/datastream/DataStream.measure<Token>
     (get_local $2)
    )
   )
@@ -6606,7 +7226,7 @@
    )
   )
   (set_local $6
-   (call $../../lib/datastream/DataStream#constructor
+   (call $~lib/datastream/DataStream#constructor
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -6629,7 +7249,7 @@
    )
   )
  )
- (func $nft/Nft#updateMaxPrimaryKey (; 113 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $nft/Nft#updateMaxPrimaryKey (; 121 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6718,7 +7338,7 @@
    )
   )
  )
- (func $nft/Nft#issue (; 114 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $nft/Nft#issue (; 122 ;) (type $iIiiiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -6970,24 +7590,24 @@
    )
   )
  )
- (func $nft/Token#symbolName (; 115 ;) (type $iI) (param $0 i32) (result i64)
+ (func $nft/Token#symbolName (; 123 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/asset/Asset#symbolName
    (i32.load offset=16
     (get_local $0)
    )
   )
  )
- (func $../../src/account/Account.isValid (; 116 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../src/account/Account.isValid (; 124 ;) (type $Ii) (param $0 i64) (result i32)
   (call $../../internal/action.d/env.is_account
    (get_local $0)
   )
  )
- (func $../../src/action/Action.requireRecipient (; 117 ;) (type $Iv) (param $0 i64)
+ (func $../../src/action/Action.requireRecipient (; 125 ;) (type $Iv) (param $0 i64)
   (call $../../internal/action.d/env.require_recipient
    (get_local $0)
   )
  )
- (func $../../src/dbmanager/DBManager<NftAccount>#erase (; 118 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/dbmanager/DBManager<NftAccount>#erase (; 126 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7015,7 +7635,7 @@
    (nop)
   )
  )
- (func $nft/Nft#subBalance (; 119 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $nft/Nft#subBalance (; 127 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7198,7 +7818,7 @@
    )
   )
  )
- (func $nft/Nft#transfer (; 120 ;) (type $iIIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32)
+ (func $nft/Nft#transfer (; 128 ;) (type $iIIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -7369,7 +7989,7 @@
    (get_local $1)
   )
  )
- (func $nft/Nft#ownerof (; 121 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $nft/Nft#ownerof (; 129 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7414,7 +8034,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#uriof (; 122 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $nft/Nft#uriof (; 130 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7459,7 +8079,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#tokenbyindex (; 123 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
+ (func $nft/Nft#tokenbyindex (; 131 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
   (local $4 i64)
   (local $5 i32)
   (local $6 i32)
@@ -7524,7 +8144,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#getsupply (; 124 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $nft/Nft#getsupply (; 132 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (local $3 i32)
   (local $4 i32)
@@ -7577,7 +8197,7 @@
    (get_local $4)
   )
  )
- (func $nft/Nft#getbalance (; 125 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $nft/Nft#getbalance (; 133 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -7622,7 +8242,362 @@
    (get_local $5)
   )
  )
- (func $start (; 126 ;) (type $v)
+ (func $~lib/array/Array<String>#constructor (; 134 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (if
+   (i32.gt_u
+    (get_local $1)
+    (i32.const 268435454)
+   )
+   (block
+    (call $~lib/env/abort)
+    (unreachable)
+   )
+  )
+  (set_local $2
+   (i32.shl
+    (get_local $1)
+    (i32.const 2)
+   )
+  )
+  (set_local $3
+   (call $~lib/internal/arraybuffer/allocateUnsafe
+    (get_local $2)
+   )
+  )
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $4
+        (call $~lib/memory/memory.allocate
+         (i32.const 8)
+        )
+       )
+       (i32.store
+        (get_local $4)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $4)
+        (i32.const 0)
+       )
+       (get_local $4)
+      )
+     )
+    )
+   )
+   (get_local $3)
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (get_local $1)
+  )
+  (block $~lib/memory/memory.fill|inlined.5
+   (set_local $4
+    (i32.add
+     (get_local $3)
+     (get_global $~lib/internal/arraybuffer/HEADER_SIZE)
+    )
+   )
+   (set_local $5
+    (i32.const 0)
+   )
+   (call $~lib/internal/memory/memset
+    (get_local $4)
+    (get_local $5)
+    (get_local $2)
+   )
+  )
+  (get_local $0)
+ )
+ (func $~lib/array/Array<String>#__set (; 135 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (set_local $3
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (set_local $4
+   (i32.shr_u
+    (i32.load
+     (get_local $3)
+    )
+    (i32.const 2)
+   )
+  )
+  (if
+   (i32.ge_u
+    (get_local $1)
+    (get_local $4)
+   )
+   (block
+    (if
+     (i32.ge_u
+      (get_local $1)
+      (i32.const 268435454)
+     )
+     (block
+      (call $~lib/env/abort)
+      (unreachable)
+     )
+    )
+    (set_local $3
+     (call $~lib/internal/arraybuffer/reallocateUnsafe
+      (get_local $3)
+      (i32.shl
+       (i32.add
+        (get_local $1)
+        (i32.const 1)
+       )
+       (i32.const 2)
+      )
+     )
+    )
+    (i32.store
+     (get_local $0)
+     (get_local $3)
+    )
+    (i32.store offset=4
+     (get_local $0)
+     (i32.add
+      (get_local $1)
+      (i32.const 1)
+     )
+    )
+   )
+  )
+  (block $~lib/internal/arraybuffer/storeUnsafe<String_String>|inlined.0
+   (i32.store offset=8
+    (i32.add
+     (get_local $3)
+     (i32.shl
+      (get_local $1)
+      (i32.const 2)
+     )
+    )
+    (get_local $2)
+   )
+  )
+ )
+ (func $~lib/datastream/DataStream#readStringVector (; 136 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (set_local $1
+   (call $~lib/datastream/DataStream#readVarint32
+    (get_local $0)
+   )
+  )
+  (if
+   (i32.eq
+    (get_local $1)
+    (i32.const 0)
+   )
+   (return
+    (call $~lib/array/Array<String>#constructor
+     (i32.const 0)
+     (i32.const 0)
+    )
+   )
+  )
+  (set_local $2
+   (call $~lib/array/Array<String>#constructor
+    (i32.const 0)
+    (get_local $1)
+   )
+  )
+  (block $break|0
+   (set_local $3
+    (i32.const 0)
+   )
+   (loop $repeat|0
+    (br_if $break|0
+     (i32.eqz
+      (i32.lt_u
+       (get_local $3)
+       (get_local $1)
+      )
+     )
+    )
+    (call $~lib/array/Array<String>#__set
+     (get_local $2)
+     (get_local $3)
+     (call $~lib/datastream/DataStream#readString
+      (get_local $0)
+     )
+    )
+    (set_local $3
+     (i32.add
+      (get_local $3)
+      (i32.const 1)
+     )
+    )
+    (br $repeat|0)
+   )
+  )
+  (get_local $2)
+ )
+ (func $nft/apply (; 137 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i64)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 i64)
+  (local $12 i64)
+  (if
+   (i64.eq
+    (get_local $0)
+    (get_local $1)
+   )
+   (block
+    (set_local $4
+     (call $nft/Nft#constructor
+      (i32.const 0)
+      (get_local $0)
+     )
+    )
+    (set_local $5
+     (call $../../src/contract/Contract#getDataStream
+      (get_local $4)
+     )
+    )
+    (call $../../src/contract/Contract#setActionName
+     (get_local $4)
+     (get_local $2)
+     (get_local $3)
+    )
+    (call $../../src/contract/Contract#onInit
+     (get_local $4)
+    )
+    (if
+     (call $../../src/contract/Contract#isAction
+      (get_local $4)
+      (i32.const 4944)
+     )
+     (block
+      (set_local $6
+       (call $~lib/datastream/DataStream#read<u64>
+        (get_local $5)
+       )
+      )
+      (set_local $7
+       (call $../../src/asset/Asset#constructor
+        (i32.const 0)
+        (i64.const 0)
+        (i64.const 1397183748)
+       )
+      )
+      (call $../../src/asset/Asset#deserialize
+       (get_local $7)
+       (get_local $5)
+      )
+      (call $nft/Nft#create
+       (get_local $4)
+       (get_local $6)
+       (get_local $7)
+      )
+     )
+    )
+    (if
+     (call $../../src/contract/Contract#isAction
+      (get_local $4)
+      (i32.const 4960)
+     )
+     (block
+      (set_local $6
+       (call $~lib/datastream/DataStream#read<u64>
+        (get_local $5)
+       )
+      )
+      (set_local $7
+       (call $../../src/asset/Asset#constructor
+        (i32.const 0)
+        (i64.const 0)
+        (i64.const 1397183748)
+       )
+      )
+      (call $../../src/asset/Asset#deserialize
+       (get_local $7)
+       (get_local $5)
+      )
+      (set_local $8
+       (call $~lib/datastream/DataStream#readStringVector
+        (get_local $5)
+       )
+      )
+      (set_local $9
+       (call $~lib/datastream/DataStream#readString
+        (get_local $5)
+       )
+      )
+      (set_local $10
+       (call $~lib/datastream/DataStream#readString
+        (get_local $5)
+       )
+      )
+      (call $nft/Nft#issue
+       (get_local $4)
+       (get_local $6)
+       (get_local $7)
+       (get_local $8)
+       (get_local $9)
+       (get_local $10)
+      )
+     )
+    )
+    (if
+     (call $../../src/contract/Contract#isAction
+      (get_local $4)
+      (i32.const 4976)
+     )
+     (block
+      (set_local $6
+       (call $~lib/datastream/DataStream#read<u64>
+        (get_local $5)
+       )
+      )
+      (set_local $11
+       (call $~lib/datastream/DataStream#read<u64>
+        (get_local $5)
+       )
+      )
+      (set_local $12
+       (call $~lib/datastream/DataStream#read<u64>
+        (get_local $5)
+       )
+      )
+      (set_local $10
+       (call $~lib/datastream/DataStream#readString
+        (get_local $5)
+       )
+      )
+      (call $nft/Nft#transfer
+       (get_local $4)
+       (get_local $6)
+       (get_local $11)
+       (get_local $12)
+       (get_local $10)
+      )
+     )
+    )
+    (call $../../src/contract/Contract#onStop
+     (get_local $4)
+    )
+   )
+  )
+ )
+ (func $start (; 138 ;) (type $v)
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
@@ -7669,12 +8644,12 @@
    )
   )
  )
- (func $Nft#get:_receiver (; 127 ;) (type $iI) (param $0 i32) (result i64)
+ (func $Nft#get:_receiver (; 139 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $Nft#set:_receiver (; 128 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $Nft#set:_receiver (; 140 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)

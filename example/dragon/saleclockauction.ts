@@ -14,12 +14,10 @@ import { HyperDragonContract, SireAuctionAddress } from "./consts";
 import { now } from "../../src/time";
 import { Log } from "../../src/log";
 import { SYS } from "../../src/asset";
-import { ISerializable } from "../../src/ISerializable";
-import { DataStream } from "../../lib/datastream";
 import { DBManager } from "../../src/dbmanager";
 import { NAME, ACCOUNT, RNAME, Account } from "../../src/account";
 
-class Auction implements ISerializable {
+class Auction implements Serializable {
     // current owner of NFT
     seller: account_name;
     // price in UGS at beginning of auction
@@ -347,7 +345,7 @@ export class ClockAuction extends ClockAuctionBase {
     }
 }
 
-export class SaleClockAuction extends ClockAuction implements ISerializable {
+export class SaleClockAuction extends ClockAuction implements Serializable {
     isSaleClockAuction: boolean = true;
     gen0SaleCount: u64;
     lastGen0SalePrices: Asset[] = [];
@@ -440,7 +438,7 @@ export class SaleClockAuction extends ClockAuction implements ISerializable {
     }
 }
 
-export class SireClockAuction extends ClockAuction implements ISerializable {
+export class SireClockAuction extends ClockAuction implements Serializable {
 
     isSireClockAuction: boolean = true;
     constructor(master: DragonCore, originator: account_name, cut: u64) {

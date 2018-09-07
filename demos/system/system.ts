@@ -1,8 +1,6 @@
 import { BlockchainParameters } from "../../lib/privileged";
 import { BlockTimestamp } from "../../src/time";
-import { DataStream } from "../../lib/datastream";
 import { PublicKey } from "../../internal/types";
-import { ISerializable } from "../../src/ISerializable";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Native } from "./native";
 import { DBManager } from "../../src/dbmanager";
@@ -78,7 +76,7 @@ export class UltrainioGlobalState extends BlockchainParameters {
     }
 }
 
-export class ProducerInfo implements ISerializable {
+export class ProducerInfo implements Serializable {
     owner          : account_name;
     total_votes    : f64;
     producer_key   : PublicKey;
@@ -120,7 +118,7 @@ export class ProducerInfo implements ISerializable {
     }
 }
 
-export class VoterInfo implements ISerializable {
+export class VoterInfo implements Serializable {
     owner              : account_name = 0;
     proxy              : account_name = 0;
     producers          : account_name[];

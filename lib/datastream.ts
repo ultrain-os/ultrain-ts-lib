@@ -1,5 +1,4 @@
 import {toUTF8Array } from "../src/utils";
-import {ISerializable} from "../src/ISerializable";
 /**
  * internal memory HEADER SIZE. NEVER used by users.
  */
@@ -9,7 +8,7 @@ const HEADER_SIZE = (offsetof<String>() + 1) & ~1; // 2 byte aligned
  * internal class, not for external users.
  */
 export class DSHelper {
-    static serializeComplexVector<T extends ISerializable>(arr: T[]): DataStream {
+    static serializeComplexVector<T extends Serializable>(arr: T[]): DataStream {
         let len = DataStream.measureComplexVector<T>(arr);
         let data = new Uint8Array(len);
         let ds = new DataStream( changetype<usize>(data.buffer), len);
@@ -17,7 +16,7 @@ export class DSHelper {
         return ds;
     }
 
-    static serializeComplex<T extends ISerializable>(t: T): DataStream {
+    static serializeComplex<T extends Serializable>(t: T): DataStream {
         let len = DataStream.measure<T>(t);
         let data = new Uint8Array(len);
         let ds = new DataStream(changetype<usize>(data.buffer), len);
@@ -58,16 +57,16 @@ export class DataStream {
 
     /**
      * to measure the length of serialized buffer.
-     * @param obj an instance of class which implements ISerializable.
+     * @param obj an instance of class which implements Serializable.
      */
-    static measure<T extends ISerializable>(obj: T): u32 {
+    static measure<T extends Serializable>(obj: T): u32 {
         let ins = new DataStream(0, 0);
         obj.serialize(ins);
 
         return ins.pos;
     }
 
-    static measureComplexVector<T extends ISerializable>(arr: T[]): u32 {
+    static measureComplexVector<T extends Serializable>(arr: T[]): u32 {
         let ins = new DataStream(0, 0);
         let len: u32 = <u32>arr.length;
         ins.writeVarint32(len);
@@ -182,9 +181,9 @@ export class DataStream {
     }
 
     /**
-     * read array of complex class which implements ISerializable interface.
+     * read array of complex class which implements Serializable interface.
      */
-    readComplexVector<T extends ISerializable>(): T[] {
+    readComplexVector<T extends Serializable>(): T[] {
         let len = this.readVarint32();
         if (len == 0) return new Array<T>();
 
@@ -199,7 +198,7 @@ export class DataStream {
     /**
      * write array of complex class which implements ISerialzable interface.
      */
-    writeComplexVector<T extends ISerializable>(arr: T[]): void {
+    writeComplexVector<T extends Serializable>(arr: T[]): void {
         let len: u32 = <u32>arr.length;
         this.writeVarint32(len);
         for (let i: u32 = 0; i < len; i++) {

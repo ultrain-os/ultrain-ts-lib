@@ -4,9 +4,7 @@
  * All rights reserved by ultrain.io @2018
  */
 
-import { ISerializable } from "../src/ISerializable";
 import { Asset, StringToSymbol, SYS_NAME, SYS } from "../src/asset";
-import { DataStream } from "./datastream";
 import { DBManager } from "../src/dbmanager";
 import { PermissionLevel } from "./permission-level";
 import { TransferParams, dispatchInline } from "../src/action";
@@ -17,7 +15,7 @@ import { NAME } from "../src/account";
  *
  * @class CurrencyAccount
  */
-export class CurrencyAccount implements ISerializable {
+export class CurrencyAccount implements Serializable {
     balance: Asset;
 
     constructor(blc: Asset) {
@@ -39,7 +37,7 @@ export class CurrencyAccount implements ISerializable {
  *
  * @class CurrencyStats
  */
-export class CurrencyStats implements ISerializable {
+export class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
     issuer: account_name;

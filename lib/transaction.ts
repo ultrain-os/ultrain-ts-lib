@@ -1,13 +1,11 @@
 import { DataStreamFromCurrentAction } from "../src/contract";
-import { ISerializable } from "../src/ISerializable";
-import { DataStream } from "../lib/datastream";
 import { Action, ActionImpl } from "../src/action";
 import { ultrain_assert } from "../src/utils";
 import { env as system } from "../internal/system.d";
 import { env as transaction } from "../internal/transaction.d";
 import { now } from "../src/time";
 
-export class TransactionHeader implements ISerializable {
+export class TransactionHeader implements Serializable {
 
     expiration: u32;
     region: u16;
@@ -51,7 +49,7 @@ export class TransactionHeader implements ISerializable {
     primaryKey(): u64 { return <u64>0; }
 }
 
-export class Transaction implements ISerializable {
+export class Transaction implements Serializable {
     header: TransactionHeader;
     context_free_actions: ActionImpl[];
     actions: ActionImpl[];
@@ -87,7 +85,7 @@ export class Transaction implements ISerializable {
 }
 // TODO(liangqin): transaction should support datatype u128.
 type u128 = u64;
-export class DeferredTransaction implements ISerializable {
+export class DeferredTransaction implements Serializable {
     transaction: Transaction;
     sender_id: u128;
     sender: u64;

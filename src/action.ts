@@ -2,8 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 import { Asset } from "./asset";
-import { DataStream } from "../lib/datastream";
-import { ISerializable } from "./ISerializable";
 import { PermissionLevel } from "../lib/permission-level";
 import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
@@ -22,7 +20,7 @@ export function requirePermissionLevel(pl: PermissionLevel): void {
  *
  * @class TransferParams
  */
-export class TransferParams implements ISerializable {
+export class TransferParams implements Serializable {
     public from: u64;
     public to: u64;
     public quantity: Asset;
@@ -57,7 +55,7 @@ export class TransferParams implements ISerializable {
  *
  * @class ActionImpl
  */
-export class ActionImpl implements ISerializable {
+export class ActionImpl implements Serializable {
     public account: account_name;
     public name: action_name;
     public authorization: PermissionLevel[];
