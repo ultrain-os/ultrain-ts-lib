@@ -190,16 +190,6 @@ export class Action {
     private static _eq(lhs: Action, rhs: Action): boolean {
         return lhs._action == rhs._action;
     }
-
-    @operator("==")
-    private static _eq(lhs: Action, rhs: Action): boolean {
-        return lhs._action == rhs._action;
-    }
-}
-
-export function ACTION(str: string): Action {
-    let nex = NEX(str);
-    return new Action(nex.valueH, nex.valueL);
 }
 
 /**
