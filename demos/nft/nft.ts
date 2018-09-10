@@ -1,24 +1,13 @@
 import "allocator/arena";
 import { Action } from "../../src/action";
 import { Contract } from "../../src/contract";
-<<<<<<< HEAD
-import { ISerializable } from "../../src/ISerializable";
 import { Asset } from "../../src/asset";
-import { DataStream } from "../../lib/datastream";
-=======
-import { Asset } from "../../src/asset";
->>>>>>> 420ed6dad9cc13b5b5a2268f6228dc103751e5d1
 import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
 import { ultrain_assert } from "../../src/utils";
 import { ACCOUNT, NAME, Account } from "../../src/account";
 
-<<<<<<< HEAD
-
-class NftAccount implements ISerializable {
-=======
 class NftAccount implements Serializable {
->>>>>>> 420ed6dad9cc13b5b5a2268f6228dc103751e5d1
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
