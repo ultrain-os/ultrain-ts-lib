@@ -11,10 +11,9 @@ import { DBManager } from "../../src/dbmanager";
 import { emit, EventObject } from "../../src/events";
 import { SYS } from "../../src/asset";
 import { MatchAddress, HyperDragonContract, DEBUG } from "./consts";
-import { queryBalance, send } from "../../lib/balance";
 import { Log } from "../../src/log";
 import { Return } from "../../src/return";
-import { NAME } from "../../src/account";
+import { NAME, Account } from "../../src/account";
 import { seconds } from "../../src/time";
 
 class JoinUser implements Serializable {
@@ -28,19 +27,19 @@ class JoinUser implements Serializable {
         this.titles    = titles;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<u64>(this.dragon_id);
-        ds.write<u64>(this.titles);
-        this.gen.serialize(ds);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.dragon_id);
+    //     ds.write<u64>(this.titles);
+    //     this.gen.serialize(ds);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.dragon_id = ds.read<u64>();
-        this.titles = ds.read<u64>();
-        this.gen.deserialize(ds);
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.dragon_id = ds.read<u64>();
+    //     this.titles = ds.read<u64>();
+    //     this.gen.deserialize(ds);
+    // }
 
-    public primaryKey(): u64 { return <u64>0;}
+    // public primaryKey(): u64 { return <u64>0;}
 }
 
 class GuessUser implements Serializable {
@@ -52,17 +51,17 @@ class GuessUser implements Serializable {
         this.money = money;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<account_name>(this.beter);
-        this.money.serialize(ds);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<account_name>(this.beter);
+    //     this.money.serialize(ds);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.beter = ds.read<account_name>();
-        this.money.deserialize(ds);
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.beter = ds.read<account_name>();
+    //     this.money.deserialize(ds);
+    // }
 
-    public primaryKey(): u64 { return <u64>0;}
+    // public primaryKey(): u64 { return <u64>0;}
 }
 
 class GuessInfo implements Serializable {
@@ -74,31 +73,31 @@ class GuessInfo implements Serializable {
         this.guessUserList = [];
     }
 
-    public serialize(ds: DataStream): void {
-        this.totalMoney.serialize(ds);
-        // ds.writeComplexVector<GuessUser>(this.guessUserList);
-        let len = this.guessUserList.length;
-        Log.s("GuessInfo.serialize len = ").i(len).flush();
-        ds.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
-            this.guessUserList[i].serialize(ds);
-        }
-    }
+    // public serialize(ds: DataStream): void {
+    //     this.totalMoney.serialize(ds);
+    //     // ds.writeComplexVector<GuessUser>(this.guessUserList);
+    //     let len = this.guessUserList.length;
+    //     Log.s("GuessInfo.serialize len = ").i(len).flush();
+    //     ds.writeVarint32(len);
+    //     for (let i: i32 = 0; i < len; i++) {
+    //         this.guessUserList[i].serialize(ds);
+    //     }
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.totalMoney.deserialize(ds);
-        // this.guessUserList = ds.readComplexVector<GuessUser>();
-        let len = ds.readVarint32();
-        Log.s("GuessInfo.deserialize len = ").i(len).flush();
-        for (let i: u32 = 0; i< len; i++) {
-            let user = new GuessUser();
-            user.deserialize(ds);
+    // public deserialize(ds: DataStream): void {
+    //     this.totalMoney.deserialize(ds);
+    //     // this.guessUserList = ds.readComplexVector<GuessUser>();
+    //     let len = ds.readVarint32();
+    //     Log.s("GuessInfo.deserialize len = ").i(len).flush();
+    //     for (let i: u32 = 0; i< len; i++) {
+    //         let user = new GuessUser();
+    //         user.deserialize(ds);
 
-            this.guessUserList.push(user);
-        }
-    }
+    //         this.guessUserList.push(user);
+    //     }
+    // }
 
-    public primaryKey(): u64 { return <u64>0; }
+    // public primaryKey(): u64 { return <u64>0; }
 }
 
 class GuessDragonMap implements Serializable {
@@ -110,19 +109,19 @@ class GuessDragonMap implements Serializable {
         this.guesser = new GuessInfo();
     }
 
-    public serialize(ds: DataStream): void {
-        Log.s("GuessDragonMap.serialize dragonId = ").i(this.dragonId).flush();
-        ds.write<u64>(this.dragonId);
-        this.guesser.serialize(ds);
-    }
+    // public serialize(ds: DataStream): void {
+    //     Log.s("GuessDragonMap.serialize dragonId = ").i(this.dragonId).flush();
+    //     ds.write<u64>(this.dragonId);
+    //     this.guesser.serialize(ds);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.dragonId = ds.read<u64>();
-        Log.s("GuessDragonMap.deserialize dragonId = ").i(this.dragonId).flush();
-        this.guesser.deserialize(ds);
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.dragonId = ds.read<u64>();
+    //     Log.s("GuessDragonMap.deserialize dragonId = ").i(this.dragonId).flush();
+    //     this.guesser.deserialize(ds);
+    // }
 
-    public primaryKey(): u64 { return <u64>0; }
+    // public primaryKey(): u64 { return <u64>0; }
 }
 
 class GuessNode implements Serializable {
@@ -151,7 +150,7 @@ class GuessNode implements Serializable {
         for (let i: i32 = 0; i < this.participants.length; i++) {
             if (this.participants[i].dragonId == dragonid) {
                 idx = i;
-                // FIXME liangqin 能够支持break之后，这里直接break
+                break;
             }
         }
 
@@ -160,31 +159,31 @@ class GuessNode implements Serializable {
         }
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<u64>(this.betId);
-        // ds.writeComplexVector<GuessDragonMap>(this.participants);
-        let len = this.participants.length;
-        Log.s("GuessNode.serialize betId = ").i(this.betId).s(", len = ").i(len).flush();
-        ds.writeVarint32(len);
-        for (let i: i32 = 0; i < len; i++) {
-            this.participants[i].serialize(ds);
-        }
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.betId);
+    //     // ds.writeComplexVector<GuessDragonMap>(this.participants);
+    //     let len = this.participants.length;
+    //     Log.s("GuessNode.serialize betId = ").i(this.betId).s(", len = ").i(len).flush();
+    //     ds.writeVarint32(len);
+    //     for (let i: i32 = 0; i < len; i++) {
+    //         this.participants[i].serialize(ds);
+    //     }
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.betId = ds.read<u64>();
-        // this.participants = ds.readComplexVector<GuessDragonMap>();
-        let len = ds.readVarint32();
-        Log.s("GuessNode.deserialize betId = ").i(this.betId).s(", len = ").i(len).flush();
-        for (let i: u32 = 0; i < len; i++) {
-            let parti = new GuessDragonMap();
-            parti.deserialize(ds);
+    // public deserialize(ds: DataStream): void {
+    //     this.betId = ds.read<u64>();
+    //     // this.participants = ds.readComplexVector<GuessDragonMap>();
+    //     let len = ds.readVarint32();
+    //     Log.s("GuessNode.deserialize betId = ").i(this.betId).s(", len = ").i(len).flush();
+    //     for (let i: u32 = 0; i < len; i++) {
+    //         let parti = new GuessDragonMap();
+    //         parti.deserialize(ds);
 
-            this.participants.push(parti);
-        }
-    }
+    //         this.participants.push(parti);
+    //     }
+    // }
 
-    public primaryKey(): u64 { return <u64>0; }
+    // public primaryKey(): u64 { return <u64>0; }
 }
 
 // map struct: betid => { dragonId => GuessInfo }
@@ -207,30 +206,30 @@ class GuessArray implements Serializable {
         return node;
     }
 
-    public serialize(ds: DataStream): void {
-        // ds.writeComplexVector<GuessNode>(this.nodes);
+    // public serialize(ds: DataStream): void {
+    //     // ds.writeComplexVector<GuessNode>(this.nodes);
 
-        let len = this.nodes.length;
-        Log.s("GuessArray.serialize len = ").i(len).flush();
-        ds.writeVarint32(len);
-        for (let i: i32 = 0; i< len; i++) {
-            this.nodes[i].serialize(ds);
-        }
-    }
+    //     let len = this.nodes.length;
+    //     Log.s("GuessArray.serialize len = ").i(len).flush();
+    //     ds.writeVarint32(len);
+    //     for (let i: i32 = 0; i< len; i++) {
+    //         this.nodes[i].serialize(ds);
+    //     }
+    // }
 
-    public deserialize(ds: DataStream): void {
-        // this.nodes = ds.readComplexVector<GuessNode>();
-        let len = ds.readVarint32();
-        Log.s("GuessArray.deserialize len = ").i(len).flush();
-        for (let i: u32 = 0; i < len; i++) {
-            let node = new GuessNode();
-            node.deserialize(ds);
+    // public deserialize(ds: DataStream): void {
+    //     // this.nodes = ds.readComplexVector<GuessNode>();
+    //     let len = ds.readVarint32();
+    //     Log.s("GuessArray.deserialize len = ").i(len).flush();
+    //     for (let i: u32 = 0; i < len; i++) {
+    //         let node = new GuessNode();
+    //         node.deserialize(ds);
 
-            this.nodes.push(node);
-        }
-    }
+    //         this.nodes.push(node);
+    //     }
+    // }
 
-    public primaryKey(): u64 { return <u64>0; }
+    // public primaryKey(): u64 { return <u64>0; }
 }
 
 class GroupParam implements Serializable {
@@ -242,17 +241,17 @@ class GroupParam implements Serializable {
         this.p2 = p2;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<account_name>(this.p1);
-        ds.write<account_name>(this.p2);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<account_name>(this.p1);
+    //     ds.write<account_name>(this.p2);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.p1 = ds.read<account_name>();
-        this.p2 = ds.read<account_name>();
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.p1 = ds.read<account_name>();
+    //     this.p2 = ds.read<account_name>();
+    // }
 
-    public primaryKey(): u64 { return <u64> 0;}
+    // public primaryKey(): u64 { return <u64> 0;}
 }
 
 class MatchInfo implements Serializable {
@@ -515,8 +514,11 @@ class MatchBase implements Serializable {
 
     public loadFromDBManager(): void {
         let matchdb: DBManager<MatchBase> = new DBManager<MatchBase>(MatchInfoTable, HyperDragonContract, MatchInfoTableScope);
-        let existing = matchdb.get(this.primaryKey(), this);
-
+        Log.s("match.loadFromDBManager  1").flush();
+        let key = this.primaryKey();
+        Log.s("match.loadFromDBManager  2 key = ").i(key).flush();
+        let existing = matchdb.get(key, this);
+        Log.s("match.loadFromDBManager  3").flush();
         if (!existing) {
             // the first time to read from db and it is not exist, use default setting.
         }
@@ -698,8 +700,9 @@ export class MatchCore extends MatchBase {
         // 转帐
         let msgSender = Action.sender;
         ultrain_assert(msgSender == MatchAddress || msgSender == HyperDragonContract, "can not withdraw balance");
-        let balance = queryBalance(MatchAddress);
-        send(MatchAddress, HyperDragonContract, balance, "match withdraw balance");
+        let matchContract = new Account(MatchAddress);
+        let balance = matchContract.balance;
+        matchContract.transfer(HyperDragonContract, balance, "match withdraw balance");
     }
 
     /*@action*/public setFightLimit(limit: u64): void {
@@ -953,13 +956,13 @@ export class MatchCore extends MatchBase {
             // event FinalResult(matchId: u64, dragonId_1: u64, dragonId_2: u64);
             emit("FinalResult", EventObject.setInt("matchId", this.match_id).setInt("dragonId_1", dra2.dragon_id).setInt("dragonId_2", dra1.dragon_id));
             // 冠亚军奖励
-            send(MatchAddress, result.winner, new Asset(1500 * rewardBase, SYS), "winner reward");
-            send(MatchAddress, result.loser, new Asset(1000 * rewardBase, SYS), "2nd winner reward");
+            Asset.transfer(MatchAddress, result.winner, new Asset(1500 * rewardBase, SYS), "winner reward");
+            Asset.transfer(MatchAddress, result.loser, new Asset(1000 * rewardBase, SYS), "2nd winner reward");
         }
 
         if (matchInfo.fightGroup.length == 2) {
             this.master.setTitles(dra1.dragon_id, this.match_id, 3);
-            send(MatchAddress, result.loser, new Asset(500 * rewardBase, SYS), "2rd winner reward");
+            Asset.transfer(MatchAddress, result.loser, new Asset(500 * rewardBase, SYS), "2rd winner reward");
         }
 
         return result;
@@ -1056,7 +1059,7 @@ export class MatchCore extends MatchBase {
                     <u64>betUsers.length;
             for (let i = <i32>matchInfo.awardIndex; i < <i32>awardEnd; i++) {
                 money = (rate * betUsers[i].money.amount) / 10000;
-                send(MatchAddress, betUsers[i].beter, new Asset(money, SYS), "better transfer.");
+                Asset.transfer(MatchAddress, betUsers[i].beter, new Asset(money, SYS), "better transfer.");
 
                 // 竞猜获胜 触发event
                 if (dragonId == winDragon) {

@@ -193,7 +193,7 @@ export class Action {
 }
 
 /**
- * convert a string to Action.
+ * convert a string to {@link Action}.
  * @param str an readable string of action name. It can only include: _0-9a-zA-Z
  */
 export function ACTION(str: string): Action {

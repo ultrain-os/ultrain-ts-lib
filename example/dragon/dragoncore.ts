@@ -85,6 +85,7 @@ class DragonAccessControl {
 }
 
 class Dragon implements Serializable {
+    @primaryid
     id                    : u64  = 0;
     gene_s1               : u64  = 0;
     gene_s2               : u64  = 0;
@@ -119,54 +120,54 @@ class Dragon implements Serializable {
         this.gene_s1 = g.lsb1;
     }
 
-    serialize(ds: DataStream): void {
-        ds.write<u64>(this.id);
-        ds.write<u64>(this.gene_s1);
-        ds.write<u64>(this.gene_s2);
-        ds.write<u64>(this.gene_s3);
-        ds.write<u64>(this.gene_s4);
+    // serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.id);
+    //     ds.write<u64>(this.gene_s1);
+    //     ds.write<u64>(this.gene_s2);
+    //     ds.write<u64>(this.gene_s3);
+    //     ds.write<u64>(this.gene_s4);
 
-        ds.write<time>(this.birthTime);
-        ds.write<u64>(this.cooldownEndBlock);
-        ds.write<u64>(this.fightCooldownEndBlock);
-        ds.write<u64>(this.matronId);
-        ds.write<u64>(this.sireId);
+    //     ds.write<time>(this.birthTime);
+    //     ds.write<u64>(this.cooldownEndBlock);
+    //     ds.write<u64>(this.fightCooldownEndBlock);
+    //     ds.write<u64>(this.matronId);
+    //     ds.write<u64>(this.sireId);
 
-        ds.write<u64>(this.siringWithId);
-        ds.write<u16>(this.cooldownIndex);
-        ds.write<u64>(this.fightcooldownIndex);
-        ds.write<u16>(this.generation);
-        ds.write<u64>(this.titles);
+    //     ds.write<u64>(this.siringWithId);
+    //     ds.write<u16>(this.cooldownIndex);
+    //     ds.write<u64>(this.fightcooldownIndex);
+    //     ds.write<u16>(this.generation);
+    //     ds.write<u64>(this.titles);
 
-        ds.write<u64>(this.extend);
+    //     ds.write<u64>(this.extend);
 
-        // Log.s("Dragon.serialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
-    }
+    //     // Log.s("Dragon.serialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
+    // }
 
-    deserialize(ds: DataStream): void {
-        this.id                    = ds.read<u64>();
-        this.gene_s1               = ds.read<u64>();
-        this.gene_s2               = ds.read<u64>();
-        this.gene_s3               = ds.read<u64>();
-        this.gene_s4               = ds.read<u64>();
+    // deserialize(ds: DataStream): void {
+    //     this.id                    = ds.read<u64>();
+    //     this.gene_s1               = ds.read<u64>();
+    //     this.gene_s2               = ds.read<u64>();
+    //     this.gene_s3               = ds.read<u64>();
+    //     this.gene_s4               = ds.read<u64>();
 
-        this.birthTime             = ds.read<time>();
-        this.cooldownEndBlock      = ds.read<u64>();
-        this.fightCooldownEndBlock = ds.read<u64>();
-        this.matronId              = ds.read<u64>();
-        this.sireId                = ds.read<u64>();
+    //     this.birthTime             = ds.read<time>();
+    //     this.cooldownEndBlock      = ds.read<u64>();
+    //     this.fightCooldownEndBlock = ds.read<u64>();
+    //     this.matronId              = ds.read<u64>();
+    //     this.sireId                = ds.read<u64>();
 
-        this.siringWithId          = ds.read<u64>();
-        this.cooldownIndex         = ds.read<u16>();
-        this.fightcooldownIndex    = ds.read<u64>();
-        this.generation            = ds.read<u16>();
-        this.titles                = ds.read<u64>();
+    //     this.siringWithId          = ds.read<u64>();
+    //     this.cooldownIndex         = ds.read<u16>();
+    //     this.fightcooldownIndex    = ds.read<u64>();
+    //     this.generation            = ds.read<u16>();
+    //     this.titles                = ds.read<u64>();
 
-        this.extend                = ds.read<u64>();
-        // Log.s("Dragon.deserialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
-    }
+    //     this.extend                = ds.read<u64>();
+    //     // Log.s("Dragon.deserialize: ").s("id = ").i(this.id, 10).s(" matronId = ").i(this.matronId, 10).s(" sireId = ").i(this.sireId, 10).flush();
+    // }
 
-    primaryKey(): u64 { return this.id; }
+    // primaryKey(): u64 { return this.id; }
 }
 
 class DragonBase extends DragonAccessControl implements Serializable {
@@ -988,7 +989,6 @@ export class DragonCore extends DragonExtend {
         }
         ultrain_assert(value.gte(lowestPrice), "bid value is too low.");
 
-        // FIXME(liangqin): the sireId is same with tokenId????
         let bidPrice = value.sub(this.autoBirthFee);
         siringAuction.bid(sireId, bidPrice);
         this._breedWith(matronId, sireId);
@@ -1038,10 +1038,14 @@ export class DragonCore extends DragonExtend {
         let genes = genScience.gen0Genes(_genes);
         let owner = HyperDragonContract;
         let dragonId = this._createDragon(0, 0, 0, genes, 0, owner, _extend);
+
         this._approve(dragonId, owner);
+
         let saleAuction = new SaleClockAuction(this, this.saleAuctionOriginator, this.saleAuctionCut);
         saleAuction.loadFromDBManager();
+
         let startPrice = this._computeNextGen0Price(saleAuction);
+
         saleAuction.createAuction(
                 dragonId,
                 startPrice,
@@ -1049,6 +1053,7 @@ export class DragonCore extends DragonExtend {
                 GEN0_AUCTION_DURATION,
                 owner
         );
+
         saleAuction.saveToDBManager();
         this.gen0CreatedCount ++;
         Return<u64>(dragonId);
@@ -1110,28 +1115,36 @@ export class DragonCore extends DragonExtend {
         // event Birth( owner: account_name, dragonId: u64, matronId: u64, sireId: u64, genes: GenType);
         emit("Birth", EventObject.setInt("owner", owner).setInt("dragonId", newDragonId).setInt("matronId", mathronId)
             .setInt("sireId", sireId).setString("gen", genes.toString()));
-
         this._transfer(0, owner, newDragonId);
 
         return newDragonId;
     }
 
     public joinMatch(dragonId: DragonId, value: Asset): void {
+        Log.s("JoinMatch 1").flush();
         this.whenNotPaused();
+        Log.s("JoinMatch 2").flush();
         let exists = this.containsDragon(dragonId);
         if (exists) {
             let sender = Action.sender;
             ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
+            Log.s("JoinMatch 3").flush();
             let dra = this.dragons[<i32>dragonId];
             let count = (dra.titles & 0xFF);
             ultrain_assert(count < 10, "the dragon joins too many matches.");
             ultrain_assert(!this.isPregnant(dragonId), "the dragon is pregnant.");
             ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
+            Log.s("JoinMatch 4").flush();
             let matchInterface = new MatchCore(this);
+            Log.s("JoinMatch 5").flush();
             matchInterface.loadFromDBManager();
+            Log.s("JoinMatch 6").flush();
             ultrain_assert(matchInterface.isCanJoin(sender), RNAME(sender) + " can not join the match.");
+            Log.s("JoinMatch 7").flush();
             this._approve(dragonId, sender);
+            Log.s("JoinMatch 8").flush();
             matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
+            Log.s("JoinMatch 9").flush();
             matchInterface.saveToDBManager();
         } else {
             Log.s("JoinMatch failed, " + intToString(dragonId) + " is not exists.");

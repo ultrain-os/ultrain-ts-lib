@@ -30,23 +30,23 @@ class Auction implements Serializable {
     // NOTE: 0 if this auction has been concluded.
     startedAt: u64;
 
-    public serialize(ds: DataStream): void {
-        ds.write<account_name>(this.seller);
-        this.startingPrice.serialize(ds);
-        this.endingPrice.serialize(ds);
-        ds.write<u64>(this.duration);
-        ds.write<u64>(this.startedAt);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<account_name>(this.seller);
+    //     this.startingPrice.serialize(ds);
+    //     this.endingPrice.serialize(ds);
+    //     ds.write<u64>(this.duration);
+    //     ds.write<u64>(this.startedAt);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.seller = ds.read<account_name>();
-        this.startingPrice.deserialize(ds);
-        this.endingPrice.deserialize(ds);
-        this.duration = ds.read<u64>();
-        this.startedAt = ds.read<u64>();
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.seller = ds.read<account_name>();
+    //     this.startingPrice.deserialize(ds);
+    //     this.endingPrice.deserialize(ds);
+    //     this.duration = ds.read<u64>();
+    //     this.startedAt = ds.read<u64>();
+    // }
 
-    public primaryKey(): u64 { return <u64>0; }
+    // public primaryKey(): u64 { return <u64>0; }
 
     public toString(): string {
         let str: string = "Auction: [ seller: " + RNAME(this.seller) + ", startingPrice: " + intToString(this.startingPrice.amount) +", endingPrice: " + intToString(this.endingPrice.amount) + "]";
@@ -66,9 +66,6 @@ class ClockAuctionBase {
     // Map from token ID to thieir corresponding auction.
     tokenIdToAuction: Map<u64, Auction> = new Map<u64, Auction>();
 
-    constructor() {
-
-    }
     protected prints(tag: string): void {
         Log.s(tag).flush();
         Log.s("ownerCut: ").i(this.ownerCut, 10).flush();

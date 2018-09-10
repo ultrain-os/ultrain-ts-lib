@@ -11,7 +11,7 @@ do
     Keys=($($clultrain create key | awk -F: '{print $2}'))
     PrivKey=${Keys[0]}
     PubKey=${Keys[1]}
-    $clultrain wallet import $PrivKey
+    $clultrain wallet import --private-key $PrivKey
     $clultrain system newaccount ultrainio ${account} -u ${PubKey} ${PubKey} --stake-net "1000000.0000 SYS" --stake-cpu "1000000.0000 SYS" --buy-ram-kbytes 1024
 done
 
@@ -22,7 +22,7 @@ do
 done
 
 # deploy DragonCore contract
-$clultrain set contract mima.dragon $HOME/rdisk6/sources/ultrain-sdk-ts/example/dragon -p mima.dragon
+$clultrain set contract mima.dragon $HOME/server/sources/ultrain-sdk-ts/example/dragon -p mima.dragon
 
 
 function wait1s {

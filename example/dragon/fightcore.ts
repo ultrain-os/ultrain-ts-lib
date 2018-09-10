@@ -119,7 +119,6 @@ export class FightCore/*  extends Pausable */ {
                 if (i < 2) {
                     addition = this.dataes.cAddition1[idx];
                     // addition = (<Addition>(this.dataes.cAddition[0])).addi[idx];
-                    // FIXME 编译器问题，必须加一个无效的log在这里……
                     Log.s("").flush();
                 } else {
                     // addition = (this.dataes.cAddition[1]).addi[idx];

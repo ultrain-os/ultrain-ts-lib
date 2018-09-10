@@ -147,23 +147,23 @@ export class GenType implements Serializable {
         this.hsb2 = mask | temp;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<u64>(this.hsb2);
-        ds.write<u64>(this.hsb1);
-        ds.write<u64>(this.lsb2);
-        ds.write<u64>(this.lsb1);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.hsb2);
+    //     ds.write<u64>(this.hsb1);
+    //     ds.write<u64>(this.lsb2);
+    //     ds.write<u64>(this.lsb1);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.hsb2 = ds.read<u64>();
-        this.hsb1 = ds.read<u64>();
-        this.lsb2 = ds.read<u64>();
-        this.lsb1 = ds.read<u64>();
-    }
+    // public deserialize(ds: DataStream): void {
+    //     this.hsb2 = ds.read<u64>();
+    //     this.hsb1 = ds.read<u64>();
+    //     this.lsb2 = ds.read<u64>();
+    //     this.lsb1 = ds.read<u64>();
+    // }
 
-    public primaryKey(): u64 {
-        return 0;
-    }
+    // public primaryKey(): u64 {
+    //     return 0;
+    // }
 
     public toString(): string {
         let str = intToString(this.hsb2);
