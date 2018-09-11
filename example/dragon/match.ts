@@ -15,13 +15,14 @@ import { Log } from "../../src/log";
 import { Return } from "../../src/return";
 import { NAME, Account } from "../../src/account";
 import { seconds } from "../../src/time";
+import { GeneScience } from "./genescience";
 
 class JoinUser implements Serializable {
     dragon_id: u64;
     gen: GenType;
     titles: u64;
 
-    constructor(dragon_id: u64 = 0, gen: GenType = new GenType(), titles: u64 = 0) {
+    constructor(dragon_id: u64, gen: GenType, titles: u64) {
         this.dragon_id = dragon_id;
         this.gen       = gen;
         this.titles    = titles;
@@ -45,7 +46,7 @@ class JoinUser implements Serializable {
 class GuessUser implements Serializable {
     beter: account_name;
     money: Asset;
-
+    // FIXME can not remove default parameters here. Waiting for fix.
     constructor(beter: account_name = 0, money: Asset = new Asset()) {
         this.beter = beter;
         this.money = money;
@@ -70,7 +71,7 @@ class GuessInfo implements Serializable {
 
     constructor() {
         this.totalMoney    = new Asset();
-        this.guessUserList = [];
+        this.guessUserList = new Array<GuessUser>(0);
     }
 
     // public serialize(ds: DataStream): void {
@@ -90,7 +91,7 @@ class GuessInfo implements Serializable {
     //     let len = ds.readVarint32();
     //     Log.s("GuessInfo.deserialize len = ").i(len).flush();
     //     for (let i: u32 = 0; i< len; i++) {
-    //         let user = new GuessUser();
+    //         let user = new GuessUser(0, new Asset());
     //         user.deserialize(ds);
 
     //         this.guessUserList.push(user);
@@ -347,7 +348,7 @@ class MatchInfo implements Serializable {
         let len: u32 = <u32>ds.readVarint32();
         for (let i: u32 = 0; i < len; i++) {
             let acnt = ds.read<account_name>();
-            let joinUser = new JoinUser();
+            let joinUser = new JoinUser(0, new GenType(), 0);
             joinUser.deserialize(ds);
             this.joinList.set(acnt, joinUser);
         }

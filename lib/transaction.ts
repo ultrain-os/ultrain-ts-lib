@@ -94,14 +94,12 @@ export class DeferredTransaction implements Serializable {
 
     static fromCurrentAction(): DeferredTransaction {
         let ds = DataStreamFromCurrentAction();
-        let dt = new DeferredTransaction();
+        let dt = new DeferredTransaction(new Transaction(now() + 0), 0, 0, 0);
         dt.deserialize(ds);
         return dt;
     }
 
-    constructor(trs: Transaction = null, sid: u128 = 0, sender: u64 = 0, payer: u64 = 0, eafter: u32 = 0) {
-        if (trs == null) trs = new Transaction(now() + 0);
-
+    constructor(trs: Transaction, sid: u128 = 0, sender: u64 = 0, payer: u64 = 0, eafter: u32 = 0) {
         this.transaction = trs;
         this.sender_id = sid;
         this.sender = sender;

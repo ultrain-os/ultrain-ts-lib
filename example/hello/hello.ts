@@ -23,10 +23,10 @@ class HelloContract extends Contract {
 
     dummy: u64;
 
-    on_hi(name: u64, age: u32, msg: string): void {
-        Log.s("on_hi: name = ").s(RNAME(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
+    on_hi(name: u64): void {
+        Log.s("on_hi: name = ").s(RNAME(name)).flush();
         // Return(10086);
-        let tester = new Account("tester");
+        let tester = new Account(NAME("tester"));
         let ass = tester.balance;
         ass.prints("AAA: ");
 
@@ -44,14 +44,14 @@ class HelloContract extends Contract {
             let name = ds.read<u64>();
 
             Log.s("aaaaa  ").s(RNAME(name)).flush();
-            let age = ds.read<u32>();
-            let msg = ds.readString();
+            // let age = ds.read<u32>();
+            // let msg = ds.readString();
 
-            let amount = ds.read<u64>();
-            let symbol = ds.read<u64>();
+            // let amount = ds.read<u64>();
+            // let symbol = ds.read<u64>();
 
-            Log.s("amount = ").i(amount, 10).s(" symbol = ").i(symbol, 16).flush();
-            this.on_hi(name, age, msg);
+            // Log.s("amount = ").i(amount, 10).s(" symbol = ").i(symbol, 16).flush();
+            this.on_hi(name);
         } else if (action ==  ACTION("hi_empty")) {
             this.on_empty_hi();
         } else {

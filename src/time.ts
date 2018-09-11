@@ -8,7 +8,7 @@ export class Microseconds implements Serializable {
         return new Microseconds(0x7FFFFFFFFFFFFFFF);
     }
 
-    constructor(c: u64 = 0) {
+    constructor(c: u64) {
         this._count = c;
     }
 
@@ -141,7 +141,7 @@ export class BlockTimestamp implements Serializable {
     _slot: u32;
 
     static fromTimePoint(tp: TimePoint): BlockTimestamp {
-        let bts = new BlockTimestamp();
+        let bts = new BlockTimestamp(0);
         bts._slot = bts.setTimePoint(tp);
         return bts;
     }
@@ -155,7 +155,7 @@ export class BlockTimestamp implements Serializable {
     static maximum(): BlockTimestamp { return new BlockTimestamp(0xffff); }
     static min(): BlockTimestamp { return new BlockTimestamp(0); }
 
-    constructor(slot: u32 = 0) {
+    constructor(slot: u32) {
         this._slot = slot;
     }
 
