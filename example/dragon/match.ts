@@ -535,6 +535,7 @@ class FightResult {
 export class MatchCore extends MatchBase {
 
     constructor(master: DragonCore) {
+        super();
         this.master = master;
     }
 

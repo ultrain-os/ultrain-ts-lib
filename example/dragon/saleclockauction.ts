@@ -276,7 +276,7 @@ export class ClockAuction extends ClockAuctionBase {
     // master: UIP09;
 
     constructor() {
-        // super();
+        super();
         // this.master = master;
         // ultrain_assert(cut <= 10000, "ownercut must less than 10000.");
         // this.ownerCut = cut;
@@ -348,7 +348,7 @@ export class SaleClockAuction extends ClockAuction implements Serializable {
     lastGen0SalePrices: Asset[] = [];
 
     constructor(master: DragonCore, originator: account_name, cut: u64) {
-        // super();
+        super();
         Log.s("SaleClockAuction.constructor originator = ").s(RNAME(originator)).s(" cut = ").i(cut, 10).flush();
         this.master = master;
         ultrain_assert(cut <= 10000, "the cut is larger than 10000, and it is forbidden.");
@@ -439,7 +439,7 @@ export class SireClockAuction extends ClockAuction implements Serializable {
 
     isSireClockAuction: boolean = true;
     constructor(master: DragonCore, originator: account_name, cut: u64) {
-        // super();
+        super();
         this.master = master;
         this.originator = originator;
         ultrain_assert(cut <= 10000, "the cut is larger than 10000, and it is forbidden.");
