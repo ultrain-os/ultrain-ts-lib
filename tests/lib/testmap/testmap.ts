@@ -10,25 +10,25 @@ import { ArrayMap } from "../../../lib/arraymap";
 class Obj implements Serializable {
     x: u8;
     y: u8;
-    z: u64;
 
-    constructor() {
-        Log.s("Obj constructor called.").flush();
-        this.x = 6;
-        this.y = 8;
-        this.z = 0;
+    constructor(x: u8 = 6, y: u8 = 8) {
+        this.x = x;
+        this.y = y;
     }
 
-    public serialize(ds: DataStream): void {
-        ds.write<u8>(this.x);
-        ds.write<u8>(this.y);
-    }
+    // public serialize(ds: DataStream): void {
+    //     ds.write<u8>(this.x);
+    //     ds.write<u8>(this.y);
+    // }
 
-    public deserialize(ds: DataStream): void {
-        this.x = ds.read<u8>();
-        this.y = ds.read<u8>();
+    // public deserialize(ds: DataStream): void {
+    //     this.x = ds.read<u8>();
+    //     this.y = ds.read<u8>();
+    // }
 
-        Log.s("Obj.deserialize ").i(this.x).s("  ").i(this.y).flush();
+    @operator("==")
+    public static __eq(lhs: Obj, rhs: Obj): boolean {
+        return lhs.x == rhs.x && lhs.y == rhs.y;
     }
 }
 
@@ -41,6 +41,22 @@ class A implements Serializable {
     int_int_array_map: ArrayMap<u8, u8> = new ArrayMap<u8, u8>();
     int_string_array_map: ArrayMap<u8, string> = new ArrayMap<u8, string>();
     int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
+
+    string_int_map: Map<string, u8> = new Map<string, u8>();
+    string_string_map: Map<string, string> = new Map<string, string>();
+    string_object_map: Map<string, Obj> = new Map<string, Obj>();
+
+    string_int_array_map: ArrayMap<string, u8> = new ArrayMap<string, u8>();
+    string_string_array_map: ArrayMap<string, string> = new ArrayMap<string, string>();
+    string_object_array_map: ArrayMap<string, Obj> = new ArrayMap<string, Obj>();
+
+    obj_int_map: Map<Obj, u8> = new Map<Obj, u8>();
+    obj_string_map: Map<Obj, string> = new Map<Obj, string>();
+    obj_obj_map: Map<Obj, Obj> = new Map<Obj, Obj>();
+
+    obj_int_array_map: ArrayMap<Obj, u8> = new ArrayMap<Obj, u8>();
+    obj_string_array_map: ArrayMap<Obj, string> = new ArrayMap<Obj, string>();
+    obj_obj_array_map: ArrayMap<Obj, Obj> = new ArrayMap<Obj, Obj>();
 
     // public serialize(ds: DataStream): void {
     //     this.int_int_Map.serialize(ds);
@@ -69,30 +85,6 @@ class MapTest extends Contract{
 
     @action
     teststore(a: u64):void{
-        let _uint8: u8 = 0;
-        let _int8: i8 = <i8> -3;
-        let _uint64: u64 = <u64>20;
-        let _int64: i64 = <i64>-100;
-
-        ultrain_assert(isInteger(_uint8), "u8 assert failed.");
-        ultrain_assert(isInteger(_int8), "i8 assert failed.");
-        ultrain_assert(isInteger(_uint64), "u64 assert failed.");
-        ultrain_assert(isInteger(_int64), "i64 assert failed.");
-
-        let _b: boolean = false;
-        ultrain_assert(isInteger(_b), "boolean assert failed.");
-
-        let _str: string = "a string";
-        ultrain_assert(isString(_str), "string assert failed.");
-        ultrain_assert(isArray(_str), "string is also an array.");
-
-        let _cls: A = new A();
-        ultrain_assert(isReference(_cls), "reference assert failed.");
-
-        let _arr: u8[] = [0, 1, 2];
-        ultrain_assert(isArray(_arr), "array assert failed.");
-
-
         let mp = new A();
         mp.int_boolean_map.set(1, false);
         mp.int_boolean_map.set(11, true);
@@ -103,12 +95,8 @@ class MapTest extends Contract{
         mp.int_string_map.set(3, "kkk");
         mp.int_string_map.set(33, "jjj");
 
-        let oo = new Obj();
-        oo.x = 100;
-        oo.y = 200;
-
         mp.int_object_map.set(4, new Obj());
-        mp.int_object_map.set(44, oo);
+        mp.int_object_map.set(44, new Obj(100, 200));
 
         mp.int_int_array_map.set(2, [0, 1, 2, 3]);
         mp.int_int_array_map.set(22, [4, 5, 6, 7]);
@@ -116,10 +104,38 @@ class MapTest extends Contract{
         mp.int_string_array_map.set(3, ["aaa", "bbb", "ccc"]);
         mp.int_string_array_map.set(33, ["ddd", "eee", "fff"]);
 
-        let obj = new Obj();
-        obj.x = 18;
-        obj.y = 36;
-        mp.int_object_array_map.set(4, [new Obj(), obj, new Obj()]);
+        mp.int_object_array_map.set(4, [new Obj(), new Obj(18, 36), new Obj()]);
+
+
+        mp.string_int_map.set("aaa", 8);
+        mp.string_int_map.set("bbb", 10);
+        mp.string_int_array_map.set("aaa", [1, 2, 3, 4]);
+        mp.string_int_array_map.set("bbb", [5, 6, 7, 8]);
+
+        mp.string_string_map.set("aaa", "xxx");
+        mp.string_string_map.set("bbb", "yyy");
+        mp.string_string_array_map.set("aaa", ["mmm", "nnn", "ooo"]);
+        mp.string_string_array_map.set("bbb", ["ppp", "qqq", "rrr"]);
+
+        mp.string_object_map.set("aaa", new Obj(10, 20));
+        mp.string_object_map.set("bbb", new Obj());
+        mp.string_object_array_map.set("aaa", [new Obj(10, 20), new Obj(66, 88), new Obj(25, 32)]);
+        mp.string_object_array_map.set("bbb", [new Obj(20, 10), new Obj(88, 66), new Obj(32, 25)]);
+
+        mp.obj_int_map.set(new Obj(1, 2), 8);
+        mp.obj_int_map.set(new Obj(3, 4), 9);
+        mp.obj_int_array_map.set(new Obj(9, 9), [9, 10, 11, 12]);
+        mp.obj_int_array_map.set(new Obj(10, 10), []);
+
+        mp.obj_string_map.set(new Obj(1, 2), "aaa");
+        mp.obj_string_map.set(new Obj(3, 4), "bbb");
+        mp.obj_string_array_map.set(new Obj(1, 2), ["aaa", "bbb", "ccc"]);
+        mp.obj_string_array_map.set(new Obj(3, 4), ["ddd", "eee", "fff"]);
+
+        mp.obj_obj_map.set(new Obj(1, 2), new Obj(8, 9));
+        mp.obj_obj_map.set(new Obj(3, 4), new Obj(10, 11));
+        mp.obj_obj_array_map.set(new Obj(1, 2), [new Obj(), new Obj(3, 4)]);
+        mp.obj_obj_array_map.set(new Obj(3, 4), []);
 
         let db = new DBManager<A>(NAME("aaaaa"), this.receiver, NAME("aaaaa"));
         db.emplace(this.receiver, mp);
@@ -176,6 +192,74 @@ class MapTest extends Contract{
             ultrain_assert(objs[0].x ==6 && objs[0].y == 8, "objs[0] failed.");
             ultrain_assert(objs[1].x ==18 && objs[1].y == 36, "objs[1] failed.");
             ultrain_assert(objs[2].x ==6 && objs[2].y == 8, "objs[2] failed.");
+
+            ultrain_assert(mp.string_int_map.get("aaa") == 8, "string int map aaa failed.");
+            ultrain_assert(mp.string_int_map.get("bbb") == 10, "string int map aaa failed.");
+            let strintarr = mp.string_int_array_map.get("aaa");
+            ultrain_assert(strintarr.length == 4, "string int arrary aaa length failed.");
+            for (let i: i32 = 0; i < 4; i++) {
+                ultrain_assert(strintarr[i] == i + 1, "string int array aaa value failed.");
+            }
+
+            strintarr = mp.string_int_array_map.get("bbb");
+            ultrain_assert(strintarr.length == 4, "string int arrary bbb length failed.");
+            for (let i: i32 = 0; i < 4; i++) {
+                ultrain_assert(strintarr[i] == i + 5, "string int array bbb value failed.");
+            }
+
+            ultrain_assert(mp.string_object_map.get("aaa") == new Obj(10, 20), "string object aaa failed");
+            ultrain_assert(mp.string_object_map.get("bbb") == new Obj(), "string object bbb failed.");
+
+            let strobjarr = mp.string_object_array_map.get("aaa");
+            ultrain_assert(strobjarr.length == 3, "string obj array aaa length failed.");
+            ultrain_assert(strobjarr[0] == new Obj(10, 20), "string obj array aaa 0 failed.");
+            ultrain_assert(strobjarr[1] == new Obj(66, 88), "string obj array aaa 1 failed.");
+            ultrain_assert(strobjarr[2] == new Obj(25, 32), "string obj array aaa 2 failed.");
+
+            strobjarr = mp.string_object_array_map.get("bbb");
+            ultrain_assert(strobjarr.length == 3, "string obj array bbb length failed.");
+            ultrain_assert(strobjarr[0] == new Obj(20, 10), "string obj array bbb 0 failed.");
+            ultrain_assert(strobjarr[1] == new Obj(88, 66), "string obj array bbb 1 failed.");
+            ultrain_assert(strobjarr[2] == new Obj(32, 25), "string obj array bbb 2 failed.");
+
+            ultrain_assert(mp.obj_int_map.get(new Obj(1,2)) == 8, "obj int 1/2 failed");
+            ultrain_assert(mp.obj_int_map.get(new Obj(3,4)) == 9, "obj int 3/4 failed");
+
+            let objintarr = mp.obj_int_array_map.get(new Obj(9, 9));
+            ultrain_assert(objintarr.length == 4, "obj int array 9, 9 length failed.");
+            ultrain_assert(objintarr[0] == 9, "obj int array 9,9 index 0 failed.");
+            ultrain_assert(objintarr[1] == 10, "obj int array 9,9 index 1 failed.");
+            ultrain_assert(objintarr[2] == 11, "obj int array 9,9 index 2 failed.");
+            ultrain_assert(objintarr[3] == 12, "obj int array 9,9 index 3 failed.");
+
+            objintarr = mp.obj_int_array_map.get(new Obj(10, 10));
+            ultrain_assert(objintarr.length == 0, "obj int array 10,10 length failed.");
+
+            ultrain_assert(mp.obj_string_map.get(new Obj(1, 2)) == "aaa", "obj string map 1,2 failed.");
+            ultrain_assert(mp.obj_string_map.get(new Obj(3, 4)) == "bbb", "obj string map 3,4 failed.");
+
+            let objstrarr = mp.obj_string_array_map.get(new Obj(1,2));
+            ultrain_assert(objstrarr.length == 3, "obj string array 1,2 length failed.");
+            ultrain_assert(objstrarr[0] == "aaa", "obj string array index 0 failed.");
+            ultrain_assert(objstrarr[1] == "bbb", "obj string array index 1 failed.");
+            ultrain_assert(objstrarr[2] == "ccc", "obj string array index 2 failed.");
+
+            objstrarr = mp.obj_string_array_map.get(new Obj(3,4));
+            ultrain_assert(objstrarr.length == 3, "obj string array 3,4 length failed.");
+            ultrain_assert(objstrarr[0] == "ddd", "obj string array 3,4 index 0 failed.");
+            ultrain_assert(objstrarr[1] == "eee", "obj string array 3,4 index 1 failed.");
+            ultrain_assert(objstrarr[2] == "fff", "obj string array 3,4 index 2 failed.");
+
+            ultrain_assert(mp.obj_obj_map.get(new Obj(1,2)) == new Obj(8,9), "obj obj 1,2 failed.");
+            ultrain_assert(mp.obj_obj_map.get(new Obj(3,4)) == new Obj(10,11), "obj obj 3,4 failed.");
+
+            let objobjarr = mp.obj_obj_array_map.get(new Obj(1,2));
+            ultrain_assert(objobjarr.length == 2, "obj obj array 1,2 length failed.");
+            ultrain_assert(objobjarr[0] == new Obj(), "obj obj array 1,2 index 0 failed.");
+            ultrain_assert(objobjarr[1] == new Obj(3,4), "obj obj array 1,2 index 1 failed.");
+
+            objobjarr = mp.obj_obj_array_map.get(new Obj(3,4));
+            ultrain_assert(objobjarr.length == 0, "obj obj array 3,4　length failed.");
         }
     }
 }

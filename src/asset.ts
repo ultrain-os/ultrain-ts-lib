@@ -140,7 +140,7 @@ export class Asset implements Serializable {
     }
 
     public set amount(a: u64) {
-        this._amount = a;
+        this.setAmount(a);
     }
 
     gt(lhs: Asset): boolean {
@@ -218,7 +218,11 @@ export class Asset implements Serializable {
      * Set the amount of Asset.
      * @param newAmount new amount value.
      */
-    setAmount(newAmount: u64): void { this._amount = newAmount; }
+    setAmount(newAmount: u64): void {
+        if (this.isAmountWithinRange(newAmount)) {
+            this._amount = newAmount;
+        }
+    }
     /**
      * Get the encoded symbol.
      * for example, if the symbol string is "ABC",
@@ -244,15 +248,18 @@ export class Asset implements Serializable {
      * @returns uint32
      */
     symbolNameLength(): u32 { return SymbolNameLength(this._symbol); }
-
-    isAmountWithinRange(): boolean {
-        return 0 <= this._amount && this._amount <= MAX_AMOUNT;
+    /**
+     * to check if the amount of Asset is valid or not.
+     * @param amount new amount of Asset, which muse be positive and less than 2^62 - 1
+     */
+    isAmountWithinRange(amount: u64): boolean {
+        return 0 <= amount && amount <= MAX_AMOUNT;
     }
     /**
      * To check if an Asset is valid or not.
      */
     isValid(): boolean {
-        return this.isAmountWithinRange() && this.isSymbolValid();
+        return this.isAmountWithinRange(this._amount) && this.isSymbolValid();
     }
 
     prints(tag: string): void {
