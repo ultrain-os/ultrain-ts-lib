@@ -11,7 +11,7 @@
       "fields": [
         {
           "name": "a",
-          "type": "u64"
+          "abiType": "u64"
         }
       ],
       "name": "teststore",
@@ -21,10 +21,15 @@
       "fields": [
         {
           "name": "b",
-          "type": "u64"
+          "abiType": "u64"
         }
       ],
       "name": "testrestore",
+      "base": ""
+    },
+    {
+      "fields": [],
+      "name": "A",
       "base": ""
     }
   ],
@@ -41,5 +46,16 @@
     }
   ],
   "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "aaaaa",
+      "type": "A"
+    }
   ]
 }

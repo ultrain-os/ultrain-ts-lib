@@ -7,6 +7,7 @@
 import { Log } from "../src/log";
 import { ultrain_assert } from "../src/utils";
 
+@ignore
 export class ArrayMap<K, V> implements Serializable {
     private _keys: Array<K>;// = [];
     private _values: Array<Array<V>>;// =[[]];

@@ -8,6 +8,7 @@ import { Log } from "../src/log";
 import { ultrain_assert } from "../src/utils";
 // import { DataStream } from "./datastream";
 
+@ignore
 export class Map<K, V> implements Serializable {
     private _keys: K[] = [];
     private _values: V[] =[];
