@@ -299,18 +299,18 @@
  (data (i32.const 2736) "\00\00\00\00")
  (data (i32.const 2744) "\04\00\00\00n\00u\00l\00l\00")
  (data (i32.const 2760) "\"\00\00\00o\00n\00l\00y\00 \00C\00E\00O\00 \00c\00a\00n\00 \00e\00x\00e\00c\00u\00t\00e\00 \00t\00h\00i\00s\00 \00c\00o\00m\00m\00a\00n\00d\00.\00")
- (data (i32.const 2832) "*\00\00\00S\00a\00l\00e\00C\00l\00o\00c\00k\00A\00u\00c\00t\00i\00o\00n\00.\00c\00o\00n\00s\00t\00r\00u\00c\00t\00o\00r\00 \00o\00r\00i\00g\00i\00n\00a\00t\00o\00r\00 \00=\00 \00")
- (data (i32.const 2920) " \00\00\00.\001\002\003\004\005\00a\00b\00c\00d\00e\00f\00g\00h\00i\00j\00k\00l\00m\00n\00o\00p\00q\00r\00s\00t\00u\00v\00w\00x\00y\00z\00")
- (data (i32.const 2992) "\0d\00\00\00\00\00\00\00.............\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 3024) "\b0\0b\00\00\0d\00\00\00")
- (data (i32.const 3032) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s\00")
- (data (i32.const 3088) "\07\00\00\00 \00c\00u\00t\00 \00=\00 \00")
- (data (i32.const 3112) "\00\00\00\00\00\00\00\00")
- (data (i32.const 3120) "(\0c\00\00\00\00\00\00")
- (data (i32.const 3128) "\00\00\00\00\00\00\00\00")
- (data (i32.const 3136) "8\0c\00\00\00\00\00\00")
- (data (i32.const 3144) "\00\00\00\00\00\00\00\00")
- (data (i32.const 3152) "H\0c\00\00\00\00\00\00")
+ (data (i32.const 2832) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2840) "\10\0b\00\00\00\00\00\00")
+ (data (i32.const 2848) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2856) " \0b\00\00\00\00\00\00")
+ (data (i32.const 2864) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2872) "0\0b\00\00\00\00\00\00")
+ (data (i32.const 2880) "*\00\00\00S\00a\00l\00e\00C\00l\00o\00c\00k\00A\00u\00c\00t\00i\00o\00n\00.\00c\00o\00n\00s\00t\00r\00u\00c\00t\00o\00r\00 \00o\00r\00i\00g\00i\00n\00a\00t\00o\00r\00 \00=\00 \00")
+ (data (i32.const 2968) " \00\00\00.\001\002\003\004\005\00a\00b\00c\00d\00e\00f\00g\00h\00i\00j\00k\00l\00m\00n\00o\00p\00q\00r\00s\00t\00u\00v\00w\00x\00y\00z\00")
+ (data (i32.const 3040) "\0d\00\00\00\00\00\00\00.............\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 3072) "\e0\0b\00\00\0d\00\00\00")
+ (data (i32.const 3080) "\17\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00s\00t\00r\00i\00n\00g\00.\00t\00s\00")
+ (data (i32.const 3136) "\07\00\00\00 \00c\00u\00t\00 \00=\00 \00")
  (data (i32.const 3160) "2\00\00\00t\00h\00e\00 \00c\00u\00t\00 \00i\00s\00 \00l\00a\00r\00g\00e\00r\00 \00t\00h\00a\00n\00 \001\000\000\000\000\00,\00 \00a\00n\00d\00 \00i\00t\00 \00i\00s\00 \00f\00o\00r\00b\00i\00d\00d\00e\00n\00.\00")
  (data (i32.const 3264) "\08\00\00\00a\00u\00c\00.\00s\00a\00l\00e\00")
  (data (i32.const 3288) "(\00\00\00S\00a\00l\00e\00C\00l\00o\00c\00k\00A\00u\00c\00t\00i\00o\00n\00.\00l\00o\00a\00d\00F\00r\00o\00m\00D\00B\00 \00 \00e\00x\00i\00s\00t\00i\00n\00g\00 \00=\00 \00")
@@ -4722,12 +4722,6 @@
  (func $index/HyperDragonContract#constructor (; 53 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
-  (drop
-   (get_local $0)
-  )
-  (drop
-   (get_local $1)
-  )
   (call $index/HyperDragonContract#_super
    (tee_local $0
     (if (result i32)
@@ -7928,7 +7922,10 @@
    (i32.const 2760)
   )
  )
- (func $~lib/array/Array<u8>#__set (; 123 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $saleclockauction/SaleClockAuction#_super (; 123 ;) (type $iv) (param $0 i32)
+  (nop)
+ )
+ (func $~lib/array/Array<u8>#__set (; 124 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -7998,7 +7995,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#__get (; 124 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 125 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -8029,7 +8026,7 @@
    (unreachable)
   )
  )
- (func $~lib/array/Array<String>#__get (; 125 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 126 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -8060,7 +8057,7 @@
    (unreachable)
   )
  )
- (func $~lib/internal/string/allocateUnsafe (; 126 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/string/allocateUnsafe (; 127 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (if
@@ -8108,7 +8105,7 @@
   )
   (get_local $2)
  )
- (func $~lib/internal/string/copyUnsafe (; 127 ;) (type $iiiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32)
+ (func $~lib/internal/string/copyUnsafe (; 128 ;) (type $iiiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -8150,7 +8147,7 @@
    )
   )
  )
- (func $~lib/string/String#concat (; 128 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#concat (; 129 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8222,7 +8219,7 @@
   )
   (get_local $5)
  )
- (func $~lib/string/String.__concat (; 129 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__concat (; 130 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (get_local $0)
@@ -8236,7 +8233,7 @@
    (get_local $1)
   )
  )
- (func $../../lib/name/RN (; 130 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../lib/name/RN (; 131 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -8244,7 +8241,7 @@
   (local $5 i32)
   (local $6 i32)
   (set_local $1
-   (i32.const 3024)
+   (i32.const 3072)
   )
   (set_local $2
    (get_local $0)
@@ -8281,7 +8278,7 @@
      (set_local $5
       (i32.and
        (call $~lib/string/String#charCodeAt
-        (i32.const 2920)
+        (i32.const 2968)
         (get_local $4)
        )
        (i32.const 255)
@@ -8393,12 +8390,12 @@
   )
   (get_local $3)
  )
- (func $../../src/account/RNAME (; 131 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../src/account/RNAME (; 132 ;) (type $Ii) (param $0 i64) (result i32)
   (call $../../lib/name/RN
    (get_local $0)
   )
  )
- (func $~lib/array/Array<Asset>#__set (; 132 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Asset>#__set (; 133 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -8468,28 +8465,10 @@
    )
   )
  )
- (func $saleclockauction/SaleClockAuction#constructor (; 133 ;) (type $iiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (result i32)
+ (func $saleclockauction/SaleClockAuction#constructor (; 134 ;) (type $iiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (local $5 i32)
-  (call $../../src/log/Logger#flush
-   (call $../../src/log/Logger#i
-    (call $../../src/log/Logger#s
-     (call $../../src/log/Logger#s
-      (call $../../src/log/Logger#s
-       (get_global $../../src/log/Log)
-       (i32.const 2832)
-      )
-      (call $../../src/account/RNAME
-       (get_local $2)
-      )
-     )
-     (i32.const 3088)
-    )
-    (get_local $3)
-    (i32.const 10)
-   )
-  )
-  (i32.store offset=8
+  (call $saleclockauction/SaleClockAuction#_super
    (tee_local $0
     (if (result i32)
      (get_local $0)
@@ -8523,11 +8502,11 @@
          )
          (i32.store
           (get_local $5)
-          (i32.const 3120)
+          (i32.const 2840)
          )
          (i32.store offset=4
           (get_local $5)
-          (i32.const 3136)
+          (i32.const 2856)
          )
          (get_local $5)
         )
@@ -8542,13 +8521,34 @@
        )
        (i32.store offset=40
         (get_local $4)
-        (i32.const 3152)
+        (i32.const 2872)
        )
        (get_local $4)
       )
      )
     )
    )
+  )
+  (call $../../src/log/Logger#flush
+   (call $../../src/log/Logger#i
+    (call $../../src/log/Logger#s
+     (call $../../src/log/Logger#s
+      (call $../../src/log/Logger#s
+       (get_global $../../src/log/Log)
+       (i32.const 2880)
+      )
+      (call $../../src/account/RNAME
+       (get_local $2)
+      )
+     )
+     (i32.const 3136)
+    )
+    (get_local $3)
+    (i32.const 10)
+   )
+  )
+  (i32.store offset=8
+   (get_local $0)
    (get_local $1)
   )
   (call $../../src/utils/ultrain_assert
@@ -8601,7 +8601,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#constructor (; 134 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#constructor (; 135 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -8644,12 +8644,12 @@
   )
   (get_local $0)
  )
- (func $saleclockauction/SaleClockAuction#primaryKey (; 135 ;) (type $iI) (param $0 i32) (result i64)
+ (func $saleclockauction/SaleClockAuction#primaryKey (; 136 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/account/NAME
    (i32.const 3264)
   )
  )
- (func $saleclockauction/Auction#deserialize (; 136 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/Auction#deserialize (; 137 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -8681,7 +8681,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Auction>#find (; 137 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#find (; 138 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -8731,7 +8731,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<Auction>#push (; 138 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Auction>#push (; 139 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8809,7 +8809,7 @@
   )
   (get_local $5)
  )
- (func $~lib/array/Array<Auction>#__set (; 139 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Auction>#__set (; 140 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -8879,7 +8879,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Auction>#set (; 140 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../lib/map/Map<u64_Auction>#set (; 141 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<u64_Auction>#find
@@ -8919,7 +8919,7 @@
    )
   )
  )
- (func $saleclockauction/ClockAuctionBase#_deserialize (; 141 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/ClockAuctionBase#_deserialize (; 142 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i64)
@@ -9012,7 +9012,7 @@
    )
   )
  )
- (func $~lib/array/Array<Asset>#constructor (; 142 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Asset>#constructor (; 143 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -9087,7 +9087,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<Asset>#__get (; 143 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Asset>#__get (; 144 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -9118,7 +9118,7 @@
    (unreachable)
   )
  )
- (func $~lib/datastream/DataStream#readComplexVector<Asset> (; 144 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readComplexVector<Asset> (; 145 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -9191,7 +9191,7 @@
   )
   (get_local $2)
  )
- (func $saleclockauction/SaleClockAuction#deserialize (; 145 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/SaleClockAuction#deserialize (; 146 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $saleclockauction/ClockAuctionBase#_deserialize
    (get_local $0)
    (get_local $1)
@@ -9209,7 +9209,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#loadObjectByPrimaryIterator (; 146 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#loadObjectByPrimaryIterator (; 147 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -9249,7 +9249,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#get (; 147 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#get (; 148 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -9281,7 +9281,7 @@
   )
   (i32.const 1)
  )
- (func $saleclockauction/SaleClockAuction#loadFromDBManager (; 148 ;) (type $iv) (param $0 i32)
+ (func $saleclockauction/SaleClockAuction#loadFromDBManager (; 149 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -9319,7 +9319,7 @@
    )
   )
  )
- (func $../../src/account/Account#constructor (; 149 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/account/Account#constructor (; 150 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -9346,12 +9346,12 @@
   )
   (get_local $0)
  )
- (func $../../src/account/Account#get:code (; 150 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/account/Account#get:code (; 151 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyAccount>#constructor (; 151 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#constructor (; 152 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -9394,7 +9394,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/balance/CurrencyAccount#constructor (; 152 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/balance/CurrencyAccount#constructor (; 153 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store
    (tee_local $0
@@ -9421,7 +9421,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/balance/CurrencyAccount#deserialize (; 153 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/balance/CurrencyAccount#deserialize (; 154 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -9429,7 +9429,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyAccount>#loadObjectByPrimaryIterator (; 154 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#loadObjectByPrimaryIterator (; 155 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -9469,7 +9469,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<CurrencyAccount>#get (; 155 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<CurrencyAccount>#get (; 156 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -9501,7 +9501,7 @@
   )
   (i32.const 1)
  )
- (func $../../lib/balance/queryBalance (; 156 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../lib/balance/queryBalance (; 157 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -9546,14 +9546,14 @@
    )
   )
  )
- (func $../../src/account/Account#get:balance (; 157 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/account/Account#get:balance (; 158 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../lib/balance/queryBalance
    (call $../../src/account/Account#get:code
     (get_local $0)
    )
   )
  )
- (func $../../lib/permission-level/PermissionLevel#constructor (; 158 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../lib/permission-level/PermissionLevel#constructor (; 159 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -9588,7 +9588,7 @@
   )
   (get_local $0)
  )
- (func $../../src/action/TransferParams#constructor (; 159 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
+ (func $../../src/action/TransferParams#constructor (; 160 ;) (type $iIIiii) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (i64.store
    (tee_local $0
@@ -9643,7 +9643,7 @@
   )
   (get_local $0)
  )
- (func $../../src/action/ActionImpl#constructor (; 160 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/action/ActionImpl#constructor (; 161 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (tee_local $0
@@ -9698,7 +9698,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<PermissionLevel>#push (; 161 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#push (; 162 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -9776,7 +9776,7 @@
   )
   (get_local $5)
  )
- (func $~lib/utf8util/toUTF8Array (; 162 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/utf8util/toUTF8Array (; 163 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -10010,7 +10010,7 @@
   )
   (get_local $1)
  )
- (func $~lib/datastream/DataStream#writeString (; 163 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeString (; 164 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10098,7 +10098,7 @@
    )
   )
  )
- (func $../../src/action/TransferParams#serialize (; 164 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/TransferParams#serialize (; 165 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -10124,7 +10124,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<TransferParams> (; 165 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<TransferParams> (; 166 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -10141,7 +10141,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#toArray<u8> (; 166 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#toArray<u8> (; 167 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -10225,7 +10225,7 @@
   )
   (get_local $2)
  )
- (func $../../lib/name_ex/NameEx#serialize (; 167 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/name_ex/NameEx#serialize (; 168 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -10239,7 +10239,7 @@
    )
   )
  )
- (func $~lib/array/Array<PermissionLevel>#__get (; 168 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<PermissionLevel>#__get (; 169 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -10270,7 +10270,7 @@
    (unreachable)
   )
  )
- (func $../../lib/permission-level/PermissionLevel#serialize (; 169 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../lib/permission-level/PermissionLevel#serialize (; 170 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -10284,7 +10284,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<PermissionLevel> (; 170 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<PermissionLevel> (; 171 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -10328,7 +10328,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeVector<u8> (; 171 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVector<u8> (; 172 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -10372,7 +10372,7 @@
    )
   )
  )
- (func $../../src/action/ActionImpl#serialize (; 172 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/action/ActionImpl#serialize (; 173 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -10398,7 +10398,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<ActionImpl> (; 173 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<ActionImpl> (; 174 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -10415,7 +10415,7 @@
    (get_local $1)
   )
  )
- (func $../../src/action/dispatchInline (; 174 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $../../src/action/dispatchInline (; 175 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -10504,7 +10504,7 @@
    )
   )
  )
- (func $../../lib/balance/send (; 175 ;) (type $IIiiv) (param $0 i64) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $../../lib/balance/send (; 176 ;) (type $IIiiv) (param $0 i64) (param $1 i64) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (set_local $4
@@ -10544,7 +10544,7 @@
    (get_local $5)
   )
  )
- (func $../../src/account/Account#transfer (; 176 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $../../src/account/Account#transfer (; 177 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
   (call $../../lib/balance/send
    (call $../../src/account/Account#get:code
     (get_local $0)
@@ -10554,7 +10554,7 @@
    (get_local $3)
   )
  )
- (func $saleclockauction/ClockAuction#withdrawBalance (; 177 ;) (type $iv) (param $0 i32)
+ (func $saleclockauction/ClockAuction#withdrawBalance (; 178 ;) (type $iv) (param $0 i32)
   (local $1 i64)
   (local $2 i32)
   (local $3 i32)
@@ -10599,7 +10599,7 @@
    (i32.const 3520)
   )
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#find (; 178 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#find (; 179 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -10617,7 +10617,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#exists (; 179 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#exists (; 180 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../src/dbmanager/DBManager<SaleClockAuction>#find
@@ -10634,7 +10634,7 @@
    (i32.const 1)
   )
  )
- (func $../../lib/map/Map<u64_Auction>#size (; 180 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#size (; 181 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (block $~lib/array/Array<u64>#get:length|inlined.5 (result i32)
    (set_local $1
@@ -10647,17 +10647,17 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Auction>#keys (; 181 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#keys (; 182 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<u64_Auction>#values (; 182 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#values (; 183 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<Auction>#__get (; 183 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Auction>#__get (; 184 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -10688,7 +10688,7 @@
    (unreachable)
   )
  )
- (func $saleclockauction/Auction#serialize (; 184 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/Auction#serialize (; 185 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -10720,7 +10720,7 @@
    )
   )
  )
- (func $saleclockauction/ClockAuctionBase#_serialize (; 185 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/ClockAuctionBase#_serialize (; 186 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10803,7 +10803,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<Asset> (; 186 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<Asset> (; 187 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -10847,7 +10847,7 @@
    )
   )
  )
- (func $saleclockauction/SaleClockAuction#serialize (; 187 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/SaleClockAuction#serialize (; 188 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $saleclockauction/ClockAuctionBase#_serialize
    (get_local $0)
    (get_local $1)
@@ -10865,7 +10865,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<SaleClockAuction> (; 188 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<SaleClockAuction> (; 189 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -10882,7 +10882,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#modify (; 189 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#modify (; 190 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -10946,7 +10946,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<SaleClockAuction>#emplace (; 190 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SaleClockAuction>#emplace (; 191 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11008,7 +11008,7 @@
    )
   )
  )
- (func $saleclockauction/SaleClockAuction#saveToDBManager (; 191 ;) (type $iv) (param $0 i32)
+ (func $saleclockauction/SaleClockAuction#saveToDBManager (; 192 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -11061,10 +11061,13 @@
    )
   )
  )
- (func $saleclockauction/SireClockAuction#constructor (; 192 ;) (type $iiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (result i32)
+ (func $saleclockauction/SireClockAuction#_super (; 193 ;) (type $iv) (param $0 i32)
+  (nop)
+ )
+ (func $saleclockauction/SireClockAuction#constructor (; 194 ;) (type $iiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (local $5 i32)
-  (i32.store offset=8
+  (call $saleclockauction/SireClockAuction#_super
    (tee_local $0
     (if (result i32)
      (get_local $0)
@@ -11116,6 +11119,9 @@
      )
     )
    )
+  )
+  (i32.store offset=8
+   (get_local $0)
    (get_local $1)
   )
   (i64.store
@@ -11135,7 +11141,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#constructor (; 193 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#constructor (; 195 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -11178,18 +11184,18 @@
   )
   (get_local $0)
  )
- (func $saleclockauction/SireClockAuction#primaryKey (; 194 ;) (type $iI) (param $0 i32) (result i64)
+ (func $saleclockauction/SireClockAuction#primaryKey (; 196 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/account/NAME
    (i32.const 3872)
   )
  )
- (func $saleclockauction/SireClockAuction#deserialize (; 195 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/SireClockAuction#deserialize (; 197 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $saleclockauction/ClockAuctionBase#_deserialize
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#loadObjectByPrimaryIterator (; 196 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#loadObjectByPrimaryIterator (; 198 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11229,7 +11235,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#get (; 197 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#get (; 199 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -11261,12 +11267,12 @@
   )
   (i32.const 1)
  )
- (func $../../src/asset/Asset#get:amount (; 198 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#get:amount (; 200 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/utils/intToString (; 199 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../src/utils/intToString (; 201 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -11336,7 +11342,7 @@
   )
   (get_local $3)
  )
- (func $saleclockauction/Auction#toString (; 200 ;) (type $ii) (param $0 i32) (result i32)
+ (func $saleclockauction/Auction#toString (; 202 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/string/String.__concat
@@ -11377,7 +11383,7 @@
   )
   (get_local $1)
  )
- (func $saleclockauction/ClockAuctionBase#prints (; 201 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/ClockAuctionBase#prints (; 203 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11480,7 +11486,7 @@
    )
   )
  )
- (func $saleclockauction/SireClockAuction#loadFromDBManager (; 202 ;) (type $iv) (param $0 i32)
+ (func $saleclockauction/SireClockAuction#loadFromDBManager (; 204 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -11509,7 +11515,7 @@
    (i32.const 3896)
   )
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#find (; 203 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#find (; 205 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -11527,7 +11533,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#exists (; 204 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#exists (; 206 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../src/dbmanager/DBManager<SireClockAuction>#find
@@ -11544,13 +11550,13 @@
    (i32.const 1)
   )
  )
- (func $saleclockauction/SireClockAuction#serialize (; 205 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $saleclockauction/SireClockAuction#serialize (; 207 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $saleclockauction/ClockAuctionBase#_serialize
    (get_local $0)
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream.measure<SireClockAuction> (; 206 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<SireClockAuction> (; 208 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -11567,7 +11573,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#modify (; 207 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#modify (; 209 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11631,7 +11637,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<SireClockAuction>#emplace (; 208 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<SireClockAuction>#emplace (; 210 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11693,7 +11699,7 @@
    )
   )
  )
- (func $saleclockauction/SireClockAuction#saveToDBManager (; 209 ;) (type $iv) (param $0 i32)
+ (func $saleclockauction/SireClockAuction#saveToDBManager (; 211 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -11741,7 +11747,7 @@
    )
   )
  )
- (func $~lib/array/Array<Asset>#__unchecked_set (; 210 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Asset>#__unchecked_set (; 212 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (block $~lib/internal/arraybuffer/storeUnsafe<Asset_Asset>|inlined.1
    (set_local $3
@@ -11761,7 +11767,7 @@
    )
   )
  )
- (func $match/MatchCore#constructor (; 211 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $match/MatchCore#constructor (; 213 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (i32.store offset=68
@@ -12017,7 +12023,7 @@
   )
   (get_local $0)
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#constructor (; 212 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#constructor (; 214 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -12060,10 +12066,10 @@
   )
   (get_local $0)
  )
- (func $match/MatchBase#primaryKey (; 213 ;) (type $iI) (param $0 i32) (result i64)
+ (func $match/MatchBase#primaryKey (; 215 ;) (type $iI) (param $0 i32) (result i64)
   (i64.const 0)
  )
- (func $~lib/datastream/DataStream#readVector<u64> (; 214 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readVector<u64> (; 216 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -12121,7 +12127,7 @@
   )
   (get_local $2)
  )
- (func $match/GuessArray#constructor (; 215 ;) (type $ii) (param $0 i32) (result i32)
+ (func $match/GuessArray#constructor (; 217 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (tee_local $0
@@ -12148,7 +12154,7 @@
   )
   (get_local $0)
  )
- (func $match/MatchInfo#constructor (; 216 ;) (type $ii) (param $0 i32) (result i32)
+ (func $match/MatchInfo#constructor (; 218 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store8
    (tee_local $0
@@ -12304,7 +12310,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GroupParam>#constructor (; 217 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GroupParam>#constructor (; 219 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12379,7 +12385,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GroupParam>#__set (; 218 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<GroupParam>#__set (; 220 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -12449,7 +12455,7 @@
    )
   )
  )
- (func $~lib/array/Array<GroupParam>#__get (; 219 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GroupParam>#__get (; 221 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -12480,7 +12486,7 @@
    (unreachable)
   )
  )
- (func $match/GroupParam#deserialize (; 220 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GroupParam#deserialize (; 222 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -12494,7 +12500,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#readComplexVector<GroupParam> (; 221 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readComplexVector<GroupParam> (; 223 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -12567,7 +12573,7 @@
   )
   (get_local $2)
  )
- (func $match/JoinUser#constructor (; 222 ;) (type $iIiIi) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64) (result i32)
+ (func $match/JoinUser#constructor (; 224 ;) (type $iIiIi) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -12610,7 +12616,7 @@
   )
   (get_local $0)
  )
- (func $genetype/GenType#deserialize (; 223 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#deserialize (; 225 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -12636,7 +12642,7 @@
    )
   )
  )
- (func $match/JoinUser#deserialize (; 224 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/JoinUser#deserialize (; 226 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -12656,7 +12662,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#find (; 225 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#find (; 227 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -12706,7 +12712,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<JoinUser>#push (; 226 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<JoinUser>#push (; 228 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12784,7 +12790,7 @@
   )
   (get_local $5)
  )
- (func $~lib/array/Array<JoinUser>#__set (; 227 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<JoinUser>#__set (; 229 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -12854,7 +12860,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#set (; 228 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../lib/map/Map<u64_JoinUser>#set (; 230 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<u64_JoinUser>#find
@@ -12894,7 +12900,7 @@
    )
   )
  )
- (func $~lib/array/Array<GuessNode>#constructor (; 229 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessNode>#constructor (; 231 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12969,7 +12975,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GuessNode>#__set (; 230 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<GuessNode>#__set (; 232 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -13039,7 +13045,7 @@
    )
   )
  )
- (func $~lib/array/Array<GuessNode>#__get (; 231 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessNode>#__get (; 233 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -13070,7 +13076,7 @@
    (unreachable)
   )
  )
- (func $~lib/array/Array<GuessDragonMap>#constructor (; 232 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessDragonMap>#constructor (; 234 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13145,7 +13151,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GuessDragonMap>#__set (; 233 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<GuessDragonMap>#__set (; 235 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -13215,7 +13221,7 @@
    )
   )
  )
- (func $~lib/array/Array<GuessDragonMap>#__get (; 234 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessDragonMap>#__get (; 236 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -13246,7 +13252,7 @@
    (unreachable)
   )
  )
- (func $~lib/array/Array<GuessUser>#constructor (; 235 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessUser>#constructor (; 237 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13321,7 +13327,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GuessUser>#__set (; 236 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<GuessUser>#__set (; 238 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -13391,7 +13397,7 @@
    )
   )
  )
- (func $~lib/array/Array<GuessUser>#__get (; 237 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessUser>#__get (; 239 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -13422,7 +13428,7 @@
    (unreachable)
   )
  )
- (func $match/GuessUser#deserialize (; 238 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessUser#deserialize (; 240 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -13436,7 +13442,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#readComplexVector<GuessUser> (; 239 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readComplexVector<GuessUser> (; 241 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -13509,7 +13515,7 @@
   )
   (get_local $2)
  )
- (func $match/GuessInfo#deserialize (; 240 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessInfo#deserialize (; 242 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#deserialize
    (i32.load
     (get_local $0)
@@ -13523,7 +13529,7 @@
    )
   )
  )
- (func $match/GuessDragonMap#deserialize (; 241 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessDragonMap#deserialize (; 243 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -13537,7 +13543,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#readComplexVector<GuessDragonMap> (; 242 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readComplexVector<GuessDragonMap> (; 244 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -13610,7 +13616,7 @@
   )
   (get_local $2)
  )
- (func $match/GuessNode#deserialize (; 243 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessNode#deserialize (; 245 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (call $~lib/datastream/DataStream#read<u64>
@@ -13624,7 +13630,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#readComplexVector<GuessNode> (; 244 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readComplexVector<GuessNode> (; 246 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -13697,7 +13703,7 @@
   )
   (get_local $2)
  )
- (func $match/GuessArray#deserialize (; 245 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessArray#deserialize (; 247 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i32.store
    (get_local $0)
    (call $~lib/datastream/DataStream#readComplexVector<GuessNode>
@@ -13705,7 +13711,7 @@
    )
   )
  )
- (func $match/MatchInfo#deserialize (; 246 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchInfo#deserialize (; 248 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i64)
@@ -13854,7 +13860,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#find (; 247 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#find (; 249 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -13904,7 +13910,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<MatchInfo>#push (; 248 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<MatchInfo>#push (; 250 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13982,7 +13988,7 @@
   )
   (get_local $5)
  )
- (func $~lib/array/Array<MatchInfo>#__set (; 249 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<MatchInfo>#__set (; 251 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -14052,7 +14058,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#set (; 250 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#set (; 252 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<u64_MatchInfo>#find
@@ -14092,7 +14098,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#find (; 251 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#find (; 253 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -14142,7 +14148,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<Array<u64>>#push (; 252 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Array<u64>>#push (; 254 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14220,7 +14226,7 @@
   )
   (get_local $5)
  )
- (func $~lib/array/Array<Array<u64>>#__set (; 253 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Array<u64>>#__set (; 255 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -14290,7 +14296,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#set (; 254 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#set (; 256 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<u64_Array<u64>>#find
@@ -14330,7 +14336,7 @@
    )
   )
  )
- (func $match/MatchBase#deserialize (; 255 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchBase#deserialize (; 257 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i64)
@@ -14492,7 +14498,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#loadObjectByPrimaryIterator (; 256 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#loadObjectByPrimaryIterator (; 258 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -14532,7 +14538,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#get (; 257 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#get (; 259 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -14564,7 +14570,7 @@
   )
   (i32.const 1)
  )
- (func $match/MatchBase#loadFromDBManager (; 258 ;) (type $iv) (param $0 i32)
+ (func $match/MatchBase#loadFromDBManager (; 260 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -14617,7 +14623,7 @@
    (nop)
   )
  )
- (func $match/MatchCore#withdrawBalance (; 259 ;) (type $iv) (param $0 i32)
+ (func $match/MatchCore#withdrawBalance (; 261 ;) (type $iv) (param $0 i32)
   (local $1 i64)
   (local $2 i32)
   (local $3 i32)
@@ -14658,7 +14664,7 @@
    (i32.const 4776)
   )
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#find (; 260 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#find (; 262 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -14676,7 +14682,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#exists (; 261 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#exists (; 263 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../src/dbmanager/DBManager<MatchBase>#find
@@ -14693,7 +14699,7 @@
    (i32.const 1)
   )
  )
- (func $~lib/datastream/DataStream#writeVector<u64> (; 262 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVector<u64> (; 264 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -14737,17 +14743,17 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#keys (; 263 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#keys (; 265 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#values (; 264 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#values (; 266 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<MatchInfo>#__get (; 265 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<MatchInfo>#__get (; 267 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -14778,7 +14784,7 @@
    (unreachable)
   )
  )
- (func $match/GroupParam#serialize (; 266 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GroupParam#serialize (; 268 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -14792,7 +14798,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<GroupParam> (; 267 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<GroupParam> (; 269 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -14836,17 +14842,17 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#keys (; 268 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#keys (; 270 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#values (; 269 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#values (; 271 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<JoinUser>#__get (; 270 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<JoinUser>#__get (; 272 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -14877,7 +14883,7 @@
    (unreachable)
   )
  )
- (func $genetype/GenType#serialize (; 271 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#serialize (; 273 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -14903,7 +14909,7 @@
    )
   )
  )
- (func $match/JoinUser#serialize (; 272 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/JoinUser#serialize (; 274 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -14923,7 +14929,7 @@
    )
   )
  )
- (func $match/GuessUser#serialize (; 273 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessUser#serialize (; 275 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -14937,7 +14943,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<GuessUser> (; 274 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<GuessUser> (; 276 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -14981,7 +14987,7 @@
    )
   )
  )
- (func $match/GuessInfo#serialize (; 275 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessInfo#serialize (; 277 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/asset/Asset#serialize
    (i32.load
     (get_local $0)
@@ -14995,7 +15001,7 @@
    )
   )
  )
- (func $match/GuessDragonMap#serialize (; 276 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessDragonMap#serialize (; 278 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -15009,7 +15015,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<GuessDragonMap> (; 277 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<GuessDragonMap> (; 279 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -15053,7 +15059,7 @@
    )
   )
  )
- (func $match/GuessNode#serialize (; 278 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessNode#serialize (; 280 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
    (get_local $1)
    (i64.load
@@ -15067,7 +15073,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeComplexVector<GuessNode> (; 279 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeComplexVector<GuessNode> (; 281 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -15111,7 +15117,7 @@
    )
   )
  )
- (func $match/GuessArray#serialize (; 280 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/GuessArray#serialize (; 282 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#writeComplexVector<GuessNode>
    (get_local $1)
    (i32.load
@@ -15119,7 +15125,7 @@
    )
   )
  )
- (func $match/MatchInfo#serialize (; 281 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchInfo#serialize (; 283 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -15272,17 +15278,17 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#keys (; 282 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#keys (; 284 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#values (; 283 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#values (; 285 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<Array<u64>>#__get (; 284 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Array<u64>>#__get (; 286 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -15313,7 +15319,7 @@
    (unreachable)
   )
  )
- (func $match/MatchBase#serialize (; 285 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchBase#serialize (; 287 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -15508,7 +15514,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<MatchBase> (; 286 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<MatchBase> (; 288 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -15525,7 +15531,7 @@
    (get_local $1)
   )
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#modify (; 287 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#modify (; 289 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -15589,7 +15595,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<MatchBase>#emplace (; 288 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<MatchBase>#emplace (; 290 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -15651,7 +15657,7 @@
    )
   )
  )
- (func $match/MatchBase#saveToDBManager (; 289 ;) (type $iv) (param $0 i32)
+ (func $match/MatchBase#saveToDBManager (; 291 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -15684,7 +15690,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#withdrawAuctionBalances (; 290 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonCore#withdrawAuctionBalances (; 292 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -15749,14 +15755,14 @@
    (get_local $3)
   )
  )
- (func $index/HyperDragonContract#withdrawAucBalances (; 291 ;) (type $iv) (param $0 i32)
+ (func $index/HyperDragonContract#withdrawAucBalances (; 293 ;) (type $iv) (param $0 i32)
   (call $dragoncore/DragonCore#withdrawAuctionBalances
    (i32.load offset=12
     (get_local $0)
    )
   )
  )
- (func $dragoncore/DragonAccessControl#onlyCFO (; 292 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonAccessControl#onlyCFO (; 294 ;) (type $iv) (param $0 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (call $../../src/action/Action.get:sender)
@@ -15767,29 +15773,53 @@
    (i32.const 4824)
   )
  )
- (func $../../src/asset/Asset#getAmount (; 293 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#getAmount (; 295 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setAmount (; 294 ;) (type $iIv) (param $0 i32) (param $1 i64)
-  (i64.store
-   (get_local $0)
-   (get_local $1)
+ (func $../../src/asset/Asset#isAmountWithinRange (; 296 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
+  (if (result i32)
+   (tee_local $2
+    (i64.le_u
+     (i64.extend_u/i32
+      (i32.const 0)
+     )
+     (get_local $1)
+    )
+   )
+   (i64.le_u
+    (get_local $1)
+    (get_global $../../src/asset/MAX_AMOUNT)
+   )
+   (get_local $2)
   )
  )
- (func $../../src/asset/Asset#getSymbol (; 295 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/asset/Asset#setAmount (; 297 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  (if
+   (call $../../src/asset/Asset#isAmountWithinRange
+    (get_local $0)
+    (get_local $1)
+   )
+   (i64.store
+    (get_local $0)
+    (get_local $1)
+   )
+  )
+ )
+ (func $../../src/asset/Asset#getSymbol (; 298 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/asset/Asset#setSymbol (; 296 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/asset/Asset#setSymbol (; 299 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
- (func $../../src/asset/Asset#gt (; 297 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/asset/Asset#gt (; 300 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -15813,7 +15843,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonCore#withdrawBalance (; 298 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonCore#withdrawBalance (; 301 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -15892,14 +15922,14 @@
    )
   )
  )
- (func $index/HyperDragonContract#withdrawBalance (; 299 ;) (type $iv) (param $0 i32)
+ (func $index/HyperDragonContract#withdrawBalance (; 302 ;) (type $iv) (param $0 i32)
   (call $dragoncore/DragonCore#withdrawBalance
    (i32.load offset=12
     (get_local $0)
    )
   )
  )
- (func $~lib/internal/string/compareUnsafe (; 300 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/internal/string/compareUnsafe (; 303 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -15971,7 +16001,7 @@
   )
   (get_local $5)
  )
- (func $~lib/string/String.__eq (; 301 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 304 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (if
@@ -16027,7 +16057,7 @@
    )
   )
  )
- (func $../../lib/map/Map<String_u64>#find (; 302 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/map/Map<String_u64>#find (; 305 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -16077,7 +16107,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<String>#push (; 303 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 306 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16155,7 +16185,7 @@
   )
   (get_local $5)
  )
- (func $../../lib/map/Map<String_u64>#set (; 304 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $../../lib/map/Map<String_u64>#set (; 307 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<String_u64>#find
@@ -16195,7 +16225,7 @@
    )
   )
  )
- (func $../../src/events/_EventObject#setInt (; 305 ;) (type $iiIi) (param $0 i32) (param $1 i32) (param $2 i64) (result i32)
+ (func $../../src/events/_EventObject#setInt (; 308 ;) (type $iiIi) (param $0 i32) (param $1 i32) (param $2 i64) (result i32)
   (call $../../lib/map/Map<String_u64>#set
    (i32.load offset=4
     (get_local $0)
@@ -16205,17 +16235,17 @@
   )
   (get_local $0)
  )
- (func $../../lib/map/Map<String_String>#keys (; 306 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_String>#keys (; 309 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_String>#values (; 307 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_String>#values (; 310 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $../../src/events/_EventObject#serializeStringMap (; 308 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/events/_EventObject#serializeStringMap (; 311 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -16288,17 +16318,17 @@
    )
   )
  )
- (func $../../lib/map/Map<String_u64>#keys (; 309 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_u64>#keys (; 312 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_u64>#values (; 310 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_u64>#values (; 313 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $../../src/events/_EventObject#serializeMap<u64> (; 311 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $../../src/events/_EventObject#serializeMap<u64> (; 314 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -16371,17 +16401,17 @@
    )
   )
  )
- (func $../../lib/map/Map<String_u8>#keys (; 312 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_u8>#keys (; 315 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_u8>#values (; 313 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_u8>#values (; 316 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $../../src/events/_EventObject#serializeMap<u8> (; 314 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $../../src/events/_EventObject#serializeMap<u8> (; 317 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -16454,17 +16484,17 @@
    )
   )
  )
- (func $../../lib/map/Map<String_Array<String>>#keys (; 315 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<String>>#keys (; 318 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_Array<String>>#values (; 316 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<String>>#values (; 319 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<Array<String>>#__get (; 317 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Array<String>>#__get (; 320 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -16495,7 +16525,7 @@
    (unreachable)
   )
  )
- (func $~lib/datastream/DataStream#writeStringVector (; 318 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeStringVector (; 321 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -16539,7 +16569,7 @@
    )
   )
  )
- (func $../../src/events/_EventObject#serializeStringArrayMap (; 319 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/events/_EventObject#serializeStringArrayMap (; 322 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -16612,17 +16642,17 @@
    )
   )
  )
- (func $../../lib/map/Map<String_Array<u64>>#keys (; 320 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<u64>>#keys (; 323 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_Array<u64>>#values (; 321 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<u64>>#values (; 324 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $../../src/events/_EventObject#serializeArrayMap<u64> (; 322 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $../../src/events/_EventObject#serializeArrayMap<u64> (; 325 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -16695,17 +16725,17 @@
    )
   )
  )
- (func $../../lib/map/Map<String_Array<u8>>#keys (; 323 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<u8>>#keys (; 326 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $../../lib/map/Map<String_Array<u8>>#values (; 324 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/map/Map<String_Array<u8>>#values (; 327 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=4
    (get_local $0)
   )
  )
- (func $~lib/array/Array<Array<u8>>#__get (; 325 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Array<u8>>#__get (; 328 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -16736,7 +16766,7 @@
    (unreachable)
   )
  )
- (func $../../src/events/_EventObject#serializeArrayMap<u8> (; 326 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $../../src/events/_EventObject#serializeArrayMap<u8> (; 329 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -16809,7 +16839,7 @@
    )
   )
  )
- (func $../../lib/map/Map<String_String>#clear (; 327 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_String>#clear (; 330 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5200)
@@ -16819,7 +16849,7 @@
    (i32.const 5216)
   )
  )
- (func $../../lib/map/Map<String_u64>#clear (; 328 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_u64>#clear (; 331 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5232)
@@ -16829,7 +16859,7 @@
    (i32.const 5248)
   )
  )
- (func $../../lib/map/Map<String_u8>#clear (; 329 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_u8>#clear (; 332 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5264)
@@ -16839,7 +16869,7 @@
    (i32.const 5280)
   )
  )
- (func $../../lib/map/Map<String_Array<String>>#clear (; 330 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_Array<String>>#clear (; 333 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5296)
@@ -16849,7 +16879,7 @@
    (i32.const 5312)
   )
  )
- (func $../../lib/map/Map<String_Array<u64>>#clear (; 331 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_Array<u64>>#clear (; 334 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5328)
@@ -16859,7 +16889,7 @@
    (i32.const 5344)
   )
  )
- (func $../../lib/map/Map<String_Array<u8>>#clear (; 332 ;) (type $iv) (param $0 i32)
+ (func $../../lib/map/Map<String_Array<u8>>#clear (; 335 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (i32.const 5360)
@@ -16869,7 +16899,7 @@
    (i32.const 5376)
   )
  )
- (func $../../src/events/_EventObject#serialize (; 333 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/events/_EventObject#serialize (; 336 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/events/_EventObject#serializeStringMap
    (get_local $0)
    (get_local $1)
@@ -16947,7 +16977,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<_EventObject> (; 334 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<_EventObject> (; 337 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -16964,7 +16994,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DSHelper.getDataStreamWithLength (; 335 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DSHelper.getDataStreamWithLength (; 338 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -16984,17 +17014,17 @@
   )
   (get_local $2)
  )
- (func $~lib/datastream/DataStream#pointer (; 336 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#pointer (; 339 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load
    (get_local $0)
   )
  )
- (func $~lib/datastream/DataStream#size (; 337 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#size (; 340 ;) (type $ii) (param $0 i32) (result i32)
   (i32.load offset=8
    (get_local $0)
   )
  )
- (func $../../src/events/emit (; 338 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/events/emit (; 341 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17039,7 +17069,7 @@
   )
   (get_local $4)
  )
- (func $dragoncore/DragonExtend#updateExtend (; 339 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonExtend#updateExtend (; 342 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -17074,7 +17104,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#updteExtend (; 340 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#updteExtend (; 343 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonExtend#updateExtend
    (i32.load offset=12
     (get_local $0)
@@ -17083,7 +17113,7 @@
    (get_local $2)
   )
  )
- (func $titles/Titles#constructor (; 341 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $titles/Titles#constructor (; 344 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -17110,7 +17140,7 @@
   )
   (get_local $0)
  )
- (func $titles/Titles#get:count (; 342 ;) (type $ii) (param $0 i32) (result i32)
+ (func $titles/Titles#get:count (; 345 ;) (type $ii) (param $0 i32) (result i32)
   (i32.wrap/i64
    (i64.and
     (i64.load
@@ -17120,7 +17150,7 @@
    )
   )
  )
- (func $titles/Titles#set:count (; 343 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $titles/Titles#set:count (; 346 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
    (i64.and
@@ -17145,7 +17175,7 @@
    )
   )
  )
- (func $titles/Titles.compositeMatchIdAndRank (; 344 ;) (type $III) (param $0 i64) (param $1 i64) (result i64)
+ (func $titles/Titles.compositeMatchIdAndRank (; 347 ;) (type $III) (param $0 i64) (param $1 i64) (result i64)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -17168,7 +17198,7 @@
    )
   )
  )
- (func $titles/Titles#setAMatch (; 345 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $titles/Titles#setAMatch (; 348 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i64)
   (set_local $2
@@ -17209,12 +17239,12 @@
    )
   )
  )
- (func $titles/Titles#get:title (; 346 ;) (type $iI) (param $0 i32) (result i64)
+ (func $titles/Titles#get:title (; 349 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $dragoncore/DragonMatch#setTitles (; 347 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonMatch#setTitles (; 350 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
@@ -17290,7 +17320,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#setTitles (; 348 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $index/HyperDragonContract#setTitles (; 351 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $dragoncore/DragonMatch#setTitles
    (i32.load offset=12
     (get_local $0)
@@ -17300,7 +17330,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonMatch#fightCooldown (; 349 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonMatch#fightCooldown (; 352 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (if
    (call $dragoncore/DragonBase#containsDragon
@@ -17363,7 +17393,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#fightCooldown (; 350 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $index/HyperDragonContract#fightCooldown (; 353 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $dragoncore/DragonMatch#fightCooldown
    (i32.load offset=12
     (get_local $0)
@@ -17373,7 +17403,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonAccessControl#whenNotPaused (; 351 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonAccessControl#whenNotPaused (; 354 ;) (type $iv) (param $0 i32)
   (call $../../src/utils/ultrain_assert
    (i32.eqz
     (i32.load8_u offset=24
@@ -17383,10 +17413,10 @@
    (i32.const 5608)
   )
  )
- (func $dragoncore/DragonBase#prints_dragonIndexToOwner (; 352 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonBase#prints_dragonIndexToOwner (; 355 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $../../lib/map/Map<u64_u64>#contains (; 353 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_u64>#contains (; 356 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i32.ne
    (call $../../lib/map/Map<u64_u64>#find
     (get_local $0)
@@ -17395,7 +17425,7 @@
    (i32.const -1)
   )
  )
- (func $../../lib/map/Map<u64_u64>#get (; 354 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $../../lib/map/Map<u64_u64>#get (; 357 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_u64>#find
@@ -17410,7 +17440,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAssetControl#_owns (; 355 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $dragoncore/DragonAssetControl#_owns (; 358 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (call $dragoncore/DragonBase#prints_dragonIndexToOwner
    (get_local $0)
@@ -17436,7 +17466,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonBreeding#isPregnant (; 356 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $dragoncore/DragonBreeding#isPregnant (; 359 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (call $../../src/utils/ultrain_assert
    (i64.gt_u
     (get_local $1)
@@ -17458,7 +17488,7 @@
    (i64.const 0)
   )
  )
- (func $dragoncore/DragonMatch#_isNotCooldownIng (; 357 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $dragoncore/DragonMatch#_isNotCooldownIng (; 360 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -17482,7 +17512,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#contains (; 358 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#contains (; 361 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i32.ne
    (call $../../lib/map/Map<u64_MatchInfo>#find
     (get_local $0)
@@ -17491,7 +17521,7 @@
    (i32.const -1)
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#get (; 359 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#get (; 362 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_MatchInfo>#find
@@ -17506,7 +17536,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#contains (; 360 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#contains (; 363 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i32.ne
    (call $../../lib/map/Map<u64_JoinUser>#find
     (get_local $0)
@@ -17515,7 +17545,7 @@
    (i32.const -1)
   )
  )
- (func $../../lib/map/Map<u64_JoinUser>#get (; 361 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#get (; 364 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_JoinUser>#find
@@ -17530,7 +17560,7 @@
    (get_local $2)
   )
  )
- (func $match/MatchCore#isCanJoin (; 362 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $match/MatchCore#isCanJoin (; 365 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17629,7 +17659,7 @@
   )
   (i32.const 1)
  )
- (func $dragoncore/DragonAssetControl#_approve (; 363 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonAssetControl#_approve (; 366 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $../../lib/map/Map<u64_u64>#set
    (i32.load offset=40
     (get_local $0)
@@ -17638,15 +17668,15 @@
    (get_local $2)
   )
  )
- (func $../../src/account/Account.isValid (; 364 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $../../src/account/Account.isValid (; 367 ;) (type $Ii) (param $0 i64) (result i32)
   (call $../../internal/action.d/env.is_account
    (get_local $0)
   )
  )
- (func $dragoncore/DragonBase#prints_dragonIndexToApproved (; 365 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonBase#prints_dragonIndexToApproved (; 368 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $dragoncore/DragonAssetControl#_approvedFor (; 366 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $dragoncore/DragonAssetControl#_approvedFor (; 369 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (call $dragoncore/DragonBase#prints_dragonIndexToApproved
    (get_local $0)
@@ -17672,7 +17702,7 @@
    (get_local $3)
   )
  )
- (func $~lib/array/Array<u64>#splice (; 367 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<u64>#splice (; 370 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -17790,7 +17820,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_u64>#remove (; 368 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_u64>#remove (; 371 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_u64>#find
@@ -17823,7 +17853,7 @@
   )
   (i32.const 1)
  )
- (func $dragoncore/DragonBase#_transfer (; 369 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonBase#_transfer (; 372 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i64)
   (set_local $4
@@ -17952,7 +17982,7 @@
    )
   )
  )
- (func $dragoncore/DragonAssetControl#transferFrom (; 370 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonAssetControl#transferFrom (; 373 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (call $../../src/utils/ultrain_assert
@@ -18007,7 +18037,7 @@
    (get_local $3)
   )
  )
- (func $match/MatchCore#_escrow (; 371 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $match/MatchCore#_escrow (; 374 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAssetControl#transferFrom
    (i32.load offset=68
     (get_local $0)
@@ -18017,7 +18047,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/map/Map<u64_MatchInfo>#_valueAt (; 372 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_MatchInfo>#_valueAt (; 375 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_MatchInfo>#find
@@ -18044,7 +18074,7 @@
   )
   (unreachable)
  )
- (func $../../src/asset/Asset#gte (; 373 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/asset/Asset#gte (; 376 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -18068,7 +18098,7 @@
    (get_local $2)
   )
  )
- (func $match/MatchCore#getDragonGeneration (; 374 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $match/MatchCore#getDragonGeneration (; 377 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (local $2 i32)
   (set_local $2
    (call $dragoncore/DragonCore#getDragon
@@ -18082,7 +18112,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#contains (; 375 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#contains (; 378 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i32.ne
    (call $../../lib/map/Map<u64_Array<u64>>#find
     (get_local $0)
@@ -18091,7 +18121,7 @@
    (i32.const -1)
   )
  )
- (func $../../lib/map/Map<u64_Array<u64>>#get (; 376 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Array<u64>>#get (; 379 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_Array<u64>>#find
@@ -18106,7 +18136,7 @@
    (get_local $2)
   )
  )
- (func $match/MatchCore#joinMatch (; 377 ;) (type $iIIiIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i32)
+ (func $match/MatchCore#joinMatch (; 380 ;) (type $iIIiIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i32)
   (local $6 i32)
   (local $7 i64)
   (local $8 i64)
@@ -18303,7 +18333,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#joinMatch (; 378 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $dragoncore/DragonCore#joinMatch (; 381 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i64)
   (local $5 i32)
@@ -18485,7 +18515,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#joinMatch (; 379 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $index/HyperDragonContract#joinMatch (; 382 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $dragoncore/DragonCore#joinMatch
    (i32.load offset=12
     (get_local $0)
@@ -18494,7 +18524,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonMinting#setSpecialDragonLimit (; 380 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonMinting#setSpecialDragonLimit (; 383 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAccessControl#onlyCEO
    (get_local $0)
   )
@@ -18506,7 +18536,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setSpecialDragonLimit (; 381 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#setSpecialDragonLimit (; 384 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonMinting#setSpecialDragonLimit
    (i32.load offset=12
     (get_local $0)
@@ -18515,7 +18545,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonMinting#increaseSpecialDragon (; 382 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonMinting#increaseSpecialDragon (; 385 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i64)
   (set_local $2
@@ -18551,7 +18581,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#increaseSpecialDragon (; 383 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#increaseSpecialDragon (; 386 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonMinting#increaseSpecialDragon
    (i32.load offset=12
     (get_local $0)
@@ -18559,7 +18589,7 @@
    (get_local $1)
   )
  )
- (func $genescience/GeneScience#constructor (; 384 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $genescience/GeneScience#constructor (; 387 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (i32.store offset=32
    (tee_local $0
@@ -18610,10 +18640,10 @@
   )
   (get_local $0)
  )
- (func $../../src/safemath/SafeMath.random (; 385 ;) (type $II) (param $0 i64) (result i64)
+ (func $../../src/safemath/SafeMath.random (; 388 ;) (type $II) (param $0 i64) (result i64)
   (get_local $0)
  )
- (func $genetype/GenType#get:blood (; 386 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:blood (; 389 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (set_local $1
    (i64.shr_u
@@ -18630,7 +18660,7 @@
    )
   )
  )
- (func $genetype/GenType#set:blood (; 387 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:blood (; 390 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -18660,7 +18690,7 @@
    )
   )
  )
- (func $genetype/GenType#get:type (; 388 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:type (; 391 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (set_local $1
    (i64.shr_u
@@ -18677,7 +18707,7 @@
    )
   )
  )
- (func $genetype/GenType#set:type (; 389 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:type (; 392 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -18707,7 +18737,7 @@
    )
   )
  )
- (func $~lib/array/Array<u16>#__get (; 390 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u16>#__get (; 393 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -18738,7 +18768,7 @@
    (unreachable)
   )
  )
- (func $genescience/GeneScience#createSkillAndLevel (; 391 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $genescience/GeneScience#createSkillAndLevel (; 394 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
@@ -19231,7 +19261,7 @@
   )
   (get_local $4)
  )
- (func $genetype/GenType#get:skills (; 392 ;) (type $iI) (param $0 i32) (result i64)
+ (func $genetype/GenType#get:skills (; 395 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i64)
   (local $2 i64)
   (local $3 i64)
@@ -19373,7 +19403,7 @@
   )
   (get_local $2)
  )
- (func $genetype/GenType#set:skills (; 393 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $genetype/GenType#set:skills (; 396 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -19401,7 +19431,7 @@
    )
   )
  )
- (func $genetype/GenType#get:skillsLevel (; 394 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:skillsLevel (; 397 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (set_local $1
    (i64.shr_u
@@ -19418,7 +19448,7 @@
    )
   )
  )
- (func $genetype/GenType#set:skillsLevel (; 395 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:skillsLevel (; 398 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -19448,7 +19478,7 @@
    )
   )
  )
- (func $genescience/GeneScience#gen0Genes (; 396 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $genescience/GeneScience#gen0Genes (; 399 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (local $3 i64)
   (local $4 i64)
@@ -19636,7 +19666,7 @@
   )
   (get_local $1)
  )
- (func $genetype/GenType#get:subtype (; 397 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:subtype (; 400 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (set_local $1
    (i64.shr_u
@@ -19653,7 +19683,7 @@
    )
   )
  )
- (func $genetype/GenType#set:subtype (; 398 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:subtype (; 401 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -19683,7 +19713,7 @@
    )
   )
  )
- (func $genescience/GeneScience#confirmGene (; 399 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $genescience/GeneScience#confirmGene (; 402 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i64)
@@ -19790,7 +19820,7 @@
   )
   (get_local $1)
  )
- (func $dragoncore/DragonCore#confirmGene (; 400 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $dragoncore/DragonCore#confirmGene (; 403 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (call $genescience/GeneScience#constructor
@@ -19803,7 +19833,7 @@
    (get_local $1)
   )
  )
- (func $dragoncore/Dragon#set:genes (; 401 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/Dragon#set:genes (; 404 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store offset=32
    (get_local $0)
    (i64.load
@@ -19829,7 +19859,7 @@
    )
   )
  )
- (func $../../src/time/now (; 402 ;) (type $i) (result i32)
+ (func $../../src/time/now (; 405 ;) (type $i) (result i32)
   (i32.wrap/i64
    (i64.div_u
     (call $../../internal/system.d/env.current_time)
@@ -19837,7 +19867,7 @@
    )
   )
  )
- (func $genetype/GenType#toString (; 403 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#toString (; 406 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../src/utils/intToString
@@ -19878,7 +19908,7 @@
   )
   (get_local $1)
  )
- (func $../../lib/map/Map<String_String>#find (; 404 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/map/Map<String_String>#find (; 407 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -19928,7 +19958,7 @@
   )
   (i32.const -1)
  )
- (func $~lib/array/Array<String>#__set (; 405 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<String>#__set (; 408 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -19998,7 +20028,7 @@
    )
   )
  )
- (func $../../lib/map/Map<String_String>#set (; 406 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../lib/map/Map<String_String>#set (; 409 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $../../lib/map/Map<String_String>#find
@@ -20038,7 +20068,7 @@
    )
   )
  )
- (func $../../src/events/_EventObject#setString (; 407 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $../../src/events/_EventObject#setString (; 410 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (call $../../lib/map/Map<String_String>#set
    (i32.load
     (get_local $0)
@@ -20048,7 +20078,7 @@
   )
   (get_local $0)
  )
- (func $dragoncore/DragonCore#_createDragon (; 408 ;) (type $iIIiiIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i64) (param $6 i64) (param $7 i64) (result i64)
+ (func $dragoncore/DragonCore#_createDragon (; 411 ;) (type $iIIiiIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32) (param $5 i64) (param $6 i64) (param $7 i64) (result i64)
   (local $8 i32)
   (local $9 i32)
   (local $10 i32)
@@ -20220,7 +20250,7 @@
    (get_local $10)
   )
  )
- (func $saleclockauction/SaleClockAuction#averageGen0SalePrice (; 409 ;) (type $ii) (param $0 i32) (result i32)
+ (func $saleclockauction/SaleClockAuction#averageGen0SalePrice (; 412 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i64)
   (local $2 i32)
   (set_local $1
@@ -20284,7 +20314,7 @@
   )
   (get_local $2)
  )
- (func $../../src/asset/Asset#clone (; 410 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/asset/Asset#clone (; 413 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $../../src/asset/Asset#constructor
@@ -20307,7 +20337,7 @@
   )
   (get_local $1)
  )
- (func $dragoncore/DragonCore#_computeNextGen0Price (; 411 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $dragoncore/DragonCore#_computeNextGen0Price (; 414 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i64)
@@ -20355,7 +20385,7 @@
   )
   (get_local $5)
  )
- (func $saleclockauction/ClockAuctionBase#escrow (; 412 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $saleclockauction/ClockAuctionBase#escrow (; 415 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -20395,7 +20425,7 @@
    (get_local $2)
   )
  )
- (func $saleclockauction/ClockAuctionBase#addAuction (; 413 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $saleclockauction/ClockAuctionBase#addAuction (; 416 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (get_global $../../src/log/Log)
@@ -20457,7 +20487,7 @@
    )
   )
  )
- (func $saleclockauction/SaleClockAuction#createAuction (; 414 ;) (type $iIiiIIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (param $5 i64)
+ (func $saleclockauction/SaleClockAuction#createAuction (; 417 ;) (type $iIiiIIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (param $5 i64)
   (local $6 i32)
   (call $saleclockauction/ClockAuctionBase#escrow
    (get_local $0)
@@ -20522,12 +20552,12 @@
    (get_local $6)
   )
  )
- (func $../../src/return/Return<u64> (; 415 ;) (type $Iv) (param $0 i64)
+ (func $../../src/return/Return<u64> (; 418 ;) (type $Iv) (param $0 i64)
   (call $../../src/return/env.set_result_int
    (get_local $0)
   )
  )
- (func $dragoncore/DragonCore#createGen0Auction (; 416 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $dragoncore/DragonCore#createGen0Auction (; 419 ;) (type $iiIv) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -20624,7 +20654,7 @@
    (get_local $6)
   )
  )
- (func $index/HyperDragonContract#createGen0Auction (; 417 ;) (type $iIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64)
+ (func $index/HyperDragonContract#createGen0Auction (; 420 ;) (type $iIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64)
   (local $6 i32)
   (set_local $6
    (call $genetype/GenType#constructor
@@ -20643,7 +20673,7 @@
    (get_local $5)
   )
  )
- (func $dragoncore/DragonCore#createPromoDragon (; 418 ;) (type $iiIIIv) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (param $4 i64)
+ (func $dragoncore/DragonCore#createPromoDragon (; 421 ;) (type $iiIIIv) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i64) (param $4 i64)
   (local $5 i64)
   (local $6 i64)
   (set_local $5
@@ -20694,7 +20724,7 @@
    (get_local $6)
   )
  )
- (func $index/HyperDragonContract#createPromoDragon (; 419 ;) (type $iIIIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64) (param $6 i64) (param $7 i64)
+ (func $index/HyperDragonContract#createPromoDragon (; 422 ;) (type $iIIIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64) (param $6 i64) (param $7 i64)
   (local $8 i32)
   (set_local $8
    (call $genetype/GenType#constructor
@@ -20715,7 +20745,7 @@
    (get_local $7)
   )
  )
- (func $dragoncore/DragonBreeding#_isReadyToBreed (; 420 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $dragoncore/DragonBreeding#_isReadyToBreed (; 423 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -20737,7 +20767,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonBreeding#isReadyToBreed (; 421 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $dragoncore/DragonBreeding#isReadyToBreed (; 424 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.gt_u
@@ -20761,7 +20791,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonBreeding#_isValidMatingPair (; 422 ;) (type $iiIiIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32) (param $4 i64) (result i32)
+ (func $dragoncore/DragonBreeding#_isValidMatingPair (; 425 ;) (type $iiIiIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32) (param $4 i64) (result i32)
   (local $5 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
@@ -20954,7 +20984,7 @@
   )
   (i32.const 1)
  )
- (func $dragoncore/DragonBreeding#_canBreedWithViaAuction (; 423 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $dragoncore/DragonBreeding#_canBreedWithViaAuction (; 426 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -20985,7 +21015,7 @@
    (get_local $2)
   )
  )
- (func $../../lib/map/Map<u64_Auction>#contains (; 424 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#contains (; 427 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i32.ne
    (call $../../lib/map/Map<u64_Auction>#find
     (get_local $0)
@@ -20994,7 +21024,7 @@
    (i32.const -1)
   )
  )
- (func $saleclockauction/ClockAuctionBase#isTokenIdOnAuction (; 425 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $saleclockauction/ClockAuctionBase#isTokenIdOnAuction (; 428 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_Auction>#contains
@@ -21014,7 +21044,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Auction>#get (; 426 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#get (; 429 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_Auction>#find
@@ -21029,7 +21059,7 @@
    (get_local $2)
   )
  )
- (func $saleclockauction/ClockAuctionBase#isOnAuction (; 427 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $saleclockauction/ClockAuctionBase#isOnAuction (; 430 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (i64.gt_u
    (i64.load offset=24
     (get_local $1)
@@ -21037,7 +21067,7 @@
    (i64.const 0)
   )
  )
- (func $saleclockauction/ClockAuctionBase#computeCurrentPrice (; 428 ;) (type $iiiIIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i64) (result i32)
+ (func $saleclockauction/ClockAuctionBase#computeCurrentPrice (; 431 ;) (type $iiiIIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i64) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i64)
@@ -21126,7 +21156,7 @@
   )
   (unreachable)
  )
- (func $saleclockauction/ClockAuctionBase#currentPrice (; 429 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $saleclockauction/ClockAuctionBase#currentPrice (; 432 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (set_local $2
    (i64.const 0)
@@ -21165,7 +21195,7 @@
    (get_local $2)
   )
  )
- (func $saleclockauction/ClockAuction#getcurrentPrice (; 430 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $saleclockauction/ClockAuction#getcurrentPrice (; 433 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (call $saleclockauction/ClockAuctionBase#isTokenIdOnAuction
    (get_local $0)
@@ -21191,7 +21221,7 @@
    (get_local $2)
   )
  )
- (func $../../src/asset/Asset#add (; 431 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/asset/Asset#add (; 434 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -21216,7 +21246,7 @@
   )
   (get_local $0)
  )
- (func $../../src/asset/Asset#sub (; 432 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/asset/Asset#sub (; 435 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (i64.load offset=8
@@ -21252,7 +21282,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/map/Map<u64_Auction>#_valueAt (; 433 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#_valueAt (; 436 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_Auction>#find
@@ -21279,7 +21309,7 @@
   )
   (unreachable)
  )
- (func $~lib/array/Array<Auction>#splice (; 434 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Auction>#splice (; 437 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -21397,7 +21427,7 @@
    )
   )
  )
- (func $../../lib/map/Map<u64_Auction>#remove (; 435 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_Auction>#remove (; 438 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_Auction>#find
@@ -21430,7 +21460,7 @@
   )
   (i32.const 1)
  )
- (func $saleclockauction/ClockAuctionBase#removeAuction (; 436 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $saleclockauction/ClockAuctionBase#removeAuction (; 439 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (drop
    (call $../../lib/map/Map<u64_Auction>#remove
     (i32.load offset=24
@@ -21440,7 +21470,7 @@
    )
   )
  )
- (func $saleclockauction/ClockAuctionBase#computeCut (; 437 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $saleclockauction/ClockAuctionBase#computeCut (; 440 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (local $3 i32)
   (set_local $2
@@ -21470,7 +21500,7 @@
   )
   (get_local $3)
  )
- (func $../../src/asset/Asset.transfer (; 438 ;) (type $IIiiv) (param $0 i64) (param $1 i64) (param $2 i32) (param $3 i32)
+ (func $../../src/asset/Asset.transfer (; 441 ;) (type $IIiiv) (param $0 i64) (param $1 i64) (param $2 i32) (param $3 i32)
   (call $../../lib/balance/send
    (get_local $0)
    (get_local $1)
@@ -21478,7 +21508,7 @@
    (get_local $3)
   )
  )
- (func $saleclockauction/ClockAuctionBase#_bid (; 439 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $saleclockauction/ClockAuctionBase#_bid (; 442 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -21605,7 +21635,7 @@
   )
   (get_local $4)
  )
- (func $dragoncore/DragonAssetControl#transferByBid (; 440 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonAssetControl#transferByBid (; 443 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
   )
@@ -21674,7 +21704,7 @@
    (get_local $3)
   )
  )
- (func $saleclockauction/SireClockAuction#bid (; 441 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $saleclockauction/SireClockAuction#bid (; 444 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (set_local $3
    (i64.load
@@ -21721,7 +21751,7 @@
    (get_local $1)
   )
  )
- (func $dragoncore/DragonBreeding#_triggerCooldown (; 442 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/DragonBreeding#_triggerCooldown (; 445 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store offset=48
    (get_local $1)
    (i64.div_u
@@ -21756,7 +21786,7 @@
    )
   )
  )
- (func $dragoncore/DragonBreeding#_breedWith (; 443 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonBreeding#_breedWith (; 446 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -21846,7 +21876,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#bidOnSiringAuction (; 444 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $dragoncore/DragonCore#bidOnSiringAuction (; 447 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (local $6 i32)
@@ -21941,7 +21971,7 @@
    (get_local $5)
   )
  )
- (func $index/HyperDragonContract#bidOnSiringAuction (; 445 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $index/HyperDragonContract#bidOnSiringAuction (; 448 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (call $dragoncore/DragonCore#bidOnSiringAuction
    (i32.load offset=12
     (get_local $0)
@@ -21951,7 +21981,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonAuction#setSaleAuctionAddress (; 446 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonAuction#setSaleAuctionAddress (; 449 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAccessControl#onlyCEO
    (get_local $0)
   )
@@ -21964,7 +21994,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setSaleAuctionAddress (; 447 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#setSaleAuctionAddress (; 450 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAuction#setSaleAuctionAddress
    (i32.load offset=12
     (get_local $0)
@@ -21973,7 +22003,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAuction#setSiringAuctionAddress (; 448 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonAuction#setSiringAuctionAddress (; 451 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAccessControl#onlyCEO
    (get_local $0)
   )
@@ -21986,7 +22016,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setSiringAucAddress (; 449 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#setSiringAucAddress (; 452 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAuction#setSiringAuctionAddress
    (i32.load offset=12
     (get_local $0)
@@ -21995,7 +22025,7 @@
    (get_local $2)
   )
  )
- (func $saleclockauction/SireClockAuction#createAuction (; 450 ;) (type $iIiiIIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (param $5 i64)
+ (func $saleclockauction/SireClockAuction#createAuction (; 453 ;) (type $iIiiIIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (param $5 i64)
   (local $6 i32)
   (call $saleclockauction/ClockAuctionBase#escrow
    (get_local $0)
@@ -22060,7 +22090,7 @@
    (get_local $6)
   )
  )
- (func $dragoncore/DragonCore#createSiringAuction (; 451 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $dragoncore/DragonCore#createSiringAuction (; 454 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i64)
   (local $6 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
@@ -22114,7 +22144,7 @@
    (get_local $6)
   )
  )
- (func $index/HyperDragonContract#createSiringAuction (; 452 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $index/HyperDragonContract#createSiringAuction (; 455 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (call $dragoncore/DragonCore#createSiringAuction
    (i32.load offset=12
     (get_local $0)
@@ -22125,7 +22155,7 @@
    (get_local $4)
   )
  )
- (func $dragoncore/DragonCore#createSaleAuction (; 453 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $dragoncore/DragonCore#createSaleAuction (; 456 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (local $5 i64)
   (local $6 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
@@ -22183,7 +22213,7 @@
    (get_local $6)
   )
  )
- (func $index/HyperDragonContract#createSaleAuction (; 454 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
+ (func $index/HyperDragonContract#createSaleAuction (; 457 ;) (type $iIiiIv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64)
   (call $dragoncore/DragonCore#createSaleAuction
    (i32.load offset=12
     (get_local $0)
@@ -22194,7 +22224,7 @@
    (get_local $4)
   )
  )
- (func $dragoncore/DragonBreeding#updateGenes (; 455 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $dragoncore/DragonBreeding#updateGenes (; 458 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $~lib/array/Array<Dragon>#__get
@@ -22227,7 +22257,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#updateGenes (; 456 ;) (type $iIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64)
+ (func $index/HyperDragonContract#updateGenes (; 459 ;) (type $iIIIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (param $5 i64)
   (local $6 i32)
   (set_local $6
    (call $genetype/GenType#constructor
@@ -22246,32 +22276,32 @@
    (get_local $6)
   )
  )
- (func $dragoncore/DragonAccessControl#onlyAPI (; 457 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonAccessControl#onlyAPI (; 460 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $genetype/GenType#get:color (; 458 ;) (type $iI) (param $0 i32) (result i64)
+ (func $genetype/GenType#get:color (; 461 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=16
    (get_local $0)
   )
  )
- (func $genetype/GenType#set:color (; 459 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $genetype/GenType#set:color (; 462 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=16
    (get_local $0)
    (get_local $1)
   )
  )
- (func $genetype/GenType#get:recessive (; 460 ;) (type $iI) (param $0 i32) (result i64)
+ (func $genetype/GenType#get:recessive (; 463 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load offset=8
    (get_local $0)
   )
  )
- (func $genetype/GenType#set:recessive (; 461 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $genetype/GenType#set:recessive (; 464 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=8
    (get_local $0)
    (get_local $1)
   )
  )
- (func $genescience/GeneScience#mixSkills (; 462 ;) (type $iIiiIi) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (result i32)
+ (func $genescience/GeneScience#mixSkills (; 465 ;) (type $iIiiIi) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (param $4 i64) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i64)
@@ -22586,7 +22616,7 @@
    (get_local $7)
   )
  )
- (func $genescience/GeneScience#createCharacter (; 463 ;) (type $iIIiI) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (result i64)
+ (func $genescience/GeneScience#createCharacter (; 466 ;) (type $iIIiI) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (result i64)
   (local $4 i64)
   (local $5 i64)
   (local $6 i64)
@@ -23146,7 +23176,7 @@
   )
   (get_local $4)
  )
- (func $genescience/GeneScience#specicalCharacter (; 464 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $genescience/GeneScience#specicalCharacter (; 467 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i64)
   (local $3 i64)
   (local $4 i64)
@@ -23309,7 +23339,7 @@
   )
   (get_local $6)
  )
- (func $genetype/GenType#get:hchar (; 465 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:hchar (; 468 ;) (type $ii) (param $0 i32) (result i32)
   (i32.wrap/i64
    (i64.and
     (i64.load
@@ -23319,7 +23349,7 @@
    )
   )
  )
- (func $genetype/GenType#get:schar (; 466 ;) (type $ii) (param $0 i32) (result i32)
+ (func $genetype/GenType#get:schar (; 469 ;) (type $ii) (param $0 i32) (result i32)
   (i32.wrap/i64
    (i64.and
     (i64.load offset=24
@@ -23329,7 +23359,7 @@
    )
   )
  )
- (func $genescience/GeneScience#getUnRepeatArr (; 467 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $genescience/GeneScience#getUnRepeatArr (; 470 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i64)
   (local $3 i64)
   (local $4 i64)
@@ -23530,7 +23560,7 @@
   )
   (get_local $7)
  )
- (func $genescience/GeneScience#joint (; 468 ;) (type $iIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i64)
+ (func $genescience/GeneScience#joint (; 471 ;) (type $iIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i64)
   (local $4 i64)
   (local $5 i64)
   (set_local $4
@@ -23584,7 +23614,7 @@
   )
   (get_local $4)
  )
- (func $genescience/GeneScience#mixCharacter (; 469 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
+ (func $genescience/GeneScience#mixCharacter (; 472 ;) (type $iiiIi) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (result i32)
   (local $4 i64)
   (local $5 i32)
   (local $6 i64)
@@ -23825,7 +23855,7 @@
   )
   (get_local $5)
  )
- (func $genetype/GenType#set:schar (; 470 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:schar (; 473 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -23852,7 +23882,7 @@
    )
   )
  )
- (func $genetype/GenType#set:hchar (; 471 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $genetype/GenType#set:hchar (; 474 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i64)
   (set_local $2
@@ -23879,7 +23909,7 @@
    )
   )
  )
- (func $genescience/GeneScience#mixGenes (; 472 ;) (type $iiIiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i64) (result i32)
+ (func $genescience/GeneScience#mixGenes (; 475 ;) (type $iiIiIIi) (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i64) (result i32)
   (local $6 i64)
   (local $7 i32)
   (local $8 i32)
@@ -24637,10 +24667,10 @@
   )
   (get_local $7)
  )
- (func $genescience/GeneScience#mixExtend (; 473 ;) (type $iIIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (result i64)
+ (func $genescience/GeneScience#mixExtend (; 476 ;) (type $iIIIII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (result i64)
   (i64.const 0)
  )
- (func $dragoncore/DragonCore#giveBirth (; 474 ;) (type $iIII) (param $0 i32) (param $1 i64) (param $2 i64) (result i64)
+ (func $dragoncore/DragonCore#giveBirth (; 477 ;) (type $iIII) (param $0 i32) (param $1 i64) (param $2 i64) (result i64)
   (local $3 i32)
   (local $4 i64)
   (local $5 i32)
@@ -24808,7 +24838,7 @@
   )
   (get_local $11)
  )
- (func $index/HyperDragonContract#giveBirth (; 475 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#giveBirth (; 478 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (drop
    (call $dragoncore/DragonCore#giveBirth
     (i32.load offset=12
@@ -24819,7 +24849,7 @@
    )
   )
  )
- (func $dragoncore/DragonBreeding#_isSiringPermitted (; 476 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $dragoncore/DragonBreeding#_isSiringPermitted (; 479 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i64)
   (local $4 i64)
   (local $5 i32)
@@ -24877,7 +24907,7 @@
    (get_local $5)
   )
  )
- (func $dragoncore/DragonBreeding#breedWithAuto (; 477 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $dragoncore/DragonBreeding#breedWithAuto (; 480 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
@@ -24958,7 +24988,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#breedWithAuto (; 478 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $index/HyperDragonContract#breedWithAuto (; 481 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (call $dragoncore/DragonBreeding#breedWithAuto
    (i32.load offset=12
     (get_local $0)
@@ -24968,7 +24998,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonBreeding#canBreedWith (; 479 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $dragoncore/DragonBreeding#canBreedWith (; 482 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -25024,7 +25054,7 @@
    (get_local $5)
   )
  )
- (func $index/HyperDragonContract#canBreedWith (; 480 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#canBreedWith (; 483 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i32)
   (set_local $3
    (call $dragoncore/DragonBreeding#canBreedWith
@@ -25043,7 +25073,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#isPregnant (; 481 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#isPregnant (; 484 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $dragoncore/DragonBreeding#isPregnant
@@ -25061,7 +25091,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#isReadyToBreed (; 482 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#isReadyToBreed (; 485 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $dragoncore/DragonBreeding#isReadyToBreed
@@ -25079,7 +25109,7 @@
    )
   )
  )
- (func $dragoncore/DragonBreeding#setAutoBirthFee (; 483 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/DragonBreeding#setAutoBirthFee (; 486 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $dragoncore/DragonAccessControl#onlyCEO
    (get_local $0)
   )
@@ -25100,7 +25130,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#setAutoBirthFee (; 484 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $index/HyperDragonContract#setAutoBirthFee (; 487 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $dragoncore/DragonBreeding#setAutoBirthFee
    (i32.load offset=12
     (get_local $0)
@@ -25108,7 +25138,7 @@
    (get_local $1)
   )
  )
- (func $dragoncore/DragonBreeding#approvesiring (; 485 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonBreeding#approvesiring (; 488 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $../../src/utils/ultrain_assert
    (call $dragoncore/DragonAssetControl#_owns
     (get_local $0)
@@ -25125,7 +25155,7 @@
    (get_local $1)
   )
  )
- (func $index/HyperDragonContract#approveSiring (; 486 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#approveSiring (; 489 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonBreeding#approvesiring
    (i32.load offset=12
     (get_local $0)
@@ -25134,7 +25164,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAssetControl#balanceOf (; 487 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $dragoncore/DragonAssetControl#balanceOf (; 490 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (if (result i64)
    (call $../../lib/map/Map<u64_u64>#contains
     (i32.load offset=36
@@ -25151,7 +25181,7 @@
    (i64.const 0)
   )
  )
- (func $index/HyperDragonContract#balanceOf (; 488 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#balanceOf (; 491 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i64)
   (set_local $2
    (call $dragoncore/DragonAssetControl#balanceOf
@@ -25165,7 +25195,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAssetControl#transfer (; 489 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonAssetControl#transfer (; 492 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (local $3 i64)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
@@ -25233,7 +25263,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#transfer (; 490 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#transfer (; 493 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAssetControl#transfer
    (i32.load offset=12
     (get_local $0)
@@ -25242,7 +25272,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAssetControl#approve (; 491 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $dragoncore/DragonAssetControl#approve (; 494 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
   )
@@ -25278,7 +25308,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#approve (; 492 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $index/HyperDragonContract#approve (; 495 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAssetControl#approve
    (i32.load offset=12
     (get_local $0)
@@ -25287,7 +25317,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#transferFrom (; 493 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $index/HyperDragonContract#transferFrom (; 496 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $dragoncore/DragonAssetControl#transferFrom
    (i32.load offset=12
     (get_local $0)
@@ -25297,7 +25327,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonAssetControl#totalSupply (; 494 ;) (type $iI) (param $0 i32) (result i64)
+ (func $dragoncore/DragonAssetControl#totalSupply (; 497 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (i64.sub
    (i64.extend_u/i32
@@ -25315,7 +25345,7 @@
    (i64.const 1)
   )
  )
- (func $index/HyperDragonContract#totalSupply (; 495 ;) (type $iv) (param $0 i32)
+ (func $index/HyperDragonContract#totalSupply (; 498 ;) (type $iv) (param $0 i32)
   (local $1 i64)
   (set_local $1
    (call $dragoncore/DragonAssetControl#totalSupply
@@ -25328,7 +25358,7 @@
    (get_local $1)
   )
  )
- (func $dragoncore/DragonAssetControl#ownerOf (; 496 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $dragoncore/DragonAssetControl#ownerOf (; 499 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (if
    (call $../../lib/map/Map<u64_u64>#contains
     (i32.load offset=32
@@ -25347,7 +25377,7 @@
   )
   (i64.const 0)
  )
- (func $index/HyperDragonContract#ownerOf (; 497 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#ownerOf (; 500 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i64)
   (set_local $2
    (call $dragoncore/DragonAssetControl#ownerOf
@@ -25361,7 +25391,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonAssetControl#tokensOfOwner (; 498 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $dragoncore/DragonAssetControl#tokensOfOwner (; 501 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i64)
   (local $3 i32)
   (local $4 i64)
@@ -25435,7 +25465,7 @@
   )
   (get_local $3)
  )
- (func $../../src/return/ReturnArray<u64> (; 499 ;) (type $iv) (param $0 i32)
+ (func $../../src/return/ReturnArray<u64> (; 502 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (block $break|0
    (set_local $1
@@ -25470,7 +25500,7 @@
    )
   )
  )
- (func $index/HyperDragonContract#tokensOfOwner (; 500 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#tokensOfOwner (; 503 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $dragoncore/DragonAssetControl#tokensOfOwner
@@ -25484,7 +25514,7 @@
    (get_local $2)
   )
  )
- (func $../../src/asset/Asset#multi (; 501 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/asset/Asset#multi (; 504 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (i64.store
    (get_local $0)
    (i64.mul
@@ -25496,7 +25526,7 @@
   )
   (get_local $0)
  )
- (func $match/MatchCore#startMatch (; 502 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $match/MatchCore#startMatch (; 505 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
@@ -25719,7 +25749,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#startMatch (; 503 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $dragoncore/DragonCore#startMatch (; 506 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
@@ -25743,7 +25773,7 @@
    (get_local $4)
   )
  )
- (func $index/HyperDragonContract#startMatch (; 504 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $index/HyperDragonContract#startMatch (; 507 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (call $dragoncore/DragonCore#startMatch
    (i32.load offset=12
     (get_local $0)
@@ -25753,7 +25783,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonCore#isCanJoin (; 505 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $dragoncore/DragonCore#isCanJoin (; 508 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $match/MatchCore#constructor
@@ -25769,7 +25799,7 @@
    (get_local $1)
   )
  )
- (func $index/HyperDragonContract#isCanJoin (; 506 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#isCanJoin (; 509 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $dragoncore/DragonCore#isCanJoin
@@ -25787,7 +25817,7 @@
    )
   )
  )
- (func $betid/BetId#constructor (; 507 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $betid/BetId#constructor (; 510 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -25814,7 +25844,7 @@
   )
   (get_local $0)
  )
- (func $betid/BetId#get:groupIndex (; 508 ;) (type $ii) (param $0 i32) (result i32)
+ (func $betid/BetId#get:groupIndex (; 511 ;) (type $ii) (param $0 i32) (result i32)
   (i32.wrap/i64
    (i64.and
     (i64.shr_u
@@ -25827,7 +25857,7 @@
    )
   )
  )
- (func $betid/BetId#get:round (; 509 ;) (type $ii) (param $0 i32) (result i32)
+ (func $betid/BetId#get:round (; 512 ;) (type $ii) (param $0 i32) (result i32)
   (i32.wrap/i64
    (i64.and
     (i64.load
@@ -25837,7 +25867,7 @@
    )
   )
  )
- (func $match/GuessUser#constructor (; 510 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $match/GuessUser#constructor (; 513 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -25872,7 +25902,7 @@
   )
   (get_local $0)
  )
- (func $match/GuessNode#constructor (; 511 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $match/GuessNode#constructor (; 514 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -25907,7 +25937,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GuessNode>#push (; 512 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessNode>#push (; 515 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25985,7 +26015,7 @@
   )
   (get_local $5)
  )
- (func $match/GuessArray#get (; 513 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $match/GuessArray#get (; 516 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -26056,7 +26086,7 @@
   )
   (get_local $2)
  )
- (func $match/GuessInfo#constructor (; 514 ;) (type $ii) (param $0 i32) (result i32)
+ (func $match/GuessInfo#constructor (; 517 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (tee_local $0
@@ -26098,7 +26128,7 @@
   )
   (get_local $0)
  )
- (func $match/GuessDragonMap#constructor (; 515 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $match/GuessDragonMap#constructor (; 518 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (i64.store
    (tee_local $0
@@ -26135,7 +26165,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GuessDragonMap>#push (; 516 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessDragonMap>#push (; 519 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26213,7 +26243,7 @@
   )
   (get_local $5)
  )
- (func $match/GuessNode#get (; 517 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $match/GuessNode#get (; 520 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (block $break|0
@@ -26284,13 +26314,13 @@
   )
   (get_local $2)
  )
- (func $../../src/asset/Asset#set:amount (; 518 ;) (type $iIv) (param $0 i32) (param $1 i64)
-  (i64.store
+ (func $../../src/asset/Asset#set:amount (; 521 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  (call $../../src/asset/Asset#setAmount
    (get_local $0)
    (get_local $1)
   )
  )
- (func $~lib/array/Array<GuessUser>#push (; 519 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GuessUser>#push (; 522 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26368,7 +26398,7 @@
   )
   (get_local $5)
  )
- (func $match/MatchCore#guess (; 520 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $match/MatchCore#guess (; 523 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -26719,7 +26749,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#guess (; 521 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $dragoncore/DragonCore#guess (; 524 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
@@ -26755,7 +26785,7 @@
    (get_local $4)
   )
  )
- (func $index/HyperDragonContract#guess (; 522 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
+ (func $index/HyperDragonContract#guess (; 525 ;) (type $iIIiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (get_global $../../src/log/Log)
@@ -26771,7 +26801,7 @@
    (get_local $3)
   )
  )
- (func $match/MatchInfo#prints (; 523 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchInfo#prints (; 526 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -26867,7 +26897,7 @@
    )
   )
  )
- (func $match/GroupParam#constructor (; 524 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $match/GroupParam#constructor (; 527 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -26902,7 +26932,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<GroupParam>#push (; 525 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<GroupParam>#push (; 528 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26980,7 +27010,7 @@
   )
   (get_local $5)
  )
- (func $match/MatchCore#giveGroup (; 526 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#giveGroup (; 529 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i64)
@@ -27348,7 +27378,7 @@
    (get_local $5)
   )
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 527 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 530 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27393,7 +27423,7 @@
   )
   (get_local $3)
  )
- (func $~lib/map/Map<u64_SeedInfo>#clear (; 528 ;) (type $iv) (param $0 i32)
+ (func $~lib/map/Map<u64_SeedInfo>#clear (; 531 ;) (type $iv) (param $0 i32)
   (i32.store
    (get_local $0)
    (call $~lib/arraybuffer/ArrayBuffer#constructor
@@ -27430,7 +27460,7 @@
    (i32.const 0)
   )
  )
- (func $~lib/map/Map<u64_SeedInfo>#constructor (; 529 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/map/Map<u64_SeedInfo>#constructor (; 532 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (call $~lib/map/Map<u64_SeedInfo>#clear
    (tee_local $0
@@ -27476,7 +27506,7 @@
   )
   (get_local $0)
  )
- (func $fightcore/FightContractData#constructor (; 530 ;) (type $ii) (param $0 i32) (result i32)
+ (func $fightcore/FightContractData#constructor (; 533 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (tee_local $0
@@ -27569,7 +27599,7 @@
   )
   (get_local $0)
  )
- (func $fightcore/FightCore#constructor (; 531 ;) (type $ii) (param $0 i32) (result i32)
+ (func $fightcore/FightCore#constructor (; 534 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i32.store
    (tee_local $0
@@ -27598,7 +27628,7 @@
   )
   (get_local $0)
  )
- (func $fightcore/DragonInfo#constructor (; 532 ;) (type $ii) (param $0 i32) (result i32)
+ (func $fightcore/DragonInfo#constructor (; 535 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (i64.store
    (tee_local $0
@@ -27713,26 +27743,26 @@
   )
   (get_local $0)
  )
- (func $fightcore/FightCore#getBlood (; 533 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $fightcore/FightCore#getBlood (; 536 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (i64.extend_u/i32
    (call $genetype/GenType#get:blood
     (get_local $1)
    )
   )
  )
- (func $fightcore/FightCore#getSkills (; 534 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $fightcore/FightCore#getSkills (; 537 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (call $genetype/GenType#get:skills
    (get_local $1)
   )
  )
- (func $fightcore/FightCore#getSkillsLevel (; 535 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $fightcore/FightCore#getSkillsLevel (; 538 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (i64.extend_u/i32
    (call $genetype/GenType#get:skillsLevel
     (get_local $1)
    )
   )
  )
- (func $fightcore/FightCore#getAddition (; 536 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $fightcore/FightCore#getAddition (; 539 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i64)
   (local $4 i64)
   (local $5 i64)
@@ -27991,7 +28021,7 @@
    )
   )
  )
- (func $~lib/internal/hash/hash64 (; 537 ;) (type $Ii) (param $0 i64) (result i32)
+ (func $~lib/internal/hash/hash64 (; 540 ;) (type $Ii) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -28121,7 +28151,7 @@
   )
   (get_local $3)
  )
- (func $~lib/map/Map<u64_SeedInfo>#find (; 538 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $~lib/map/Map<u64_SeedInfo>#find (; 541 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -28191,7 +28221,7 @@
   )
   (i32.const 0)
  )
- (func $~lib/map/Map<u64_SeedInfo>#rehash (; 539 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<u64_SeedInfo>#rehash (; 542 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -28389,7 +28419,7 @@
    )
   )
  )
- (func $~lib/map/Map<u64_SeedInfo>#set (; 540 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $~lib/map/Map<u64_SeedInfo>#set (; 543 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -28538,7 +28568,7 @@
    )
   )
  )
- (func $~lib/array/Array<u32>#__get (; 541 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u32>#__get (; 544 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -28569,7 +28599,7 @@
    (unreachable)
   )
  )
- (func $fightcore/FightCore#attack (; 542 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $fightcore/FightCore#attack (; 545 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i64)
@@ -28933,7 +28963,7 @@
    )
   )
  )
- (func $fightcore/FightCore#startFight (; 543 ;) (type $iIIiIiII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i32) (param $6 i64) (result i64)
+ (func $fightcore/FightCore#startFight (; 546 ;) (type $iIIiIiII) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i64) (param $5 i32) (param $6 i64) (result i64)
   (local $7 i32)
   (local $8 i32)
   (local $9 i32)
@@ -29266,7 +29296,7 @@
   )
   (unreachable)
  )
- (func $../../lib/map/Map<u64_JoinUser>#_valueAt (; 544 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../lib/map/Map<u64_JoinUser>#_valueAt (; 547 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../lib/map/Map<u64_JoinUser>#find
@@ -29293,7 +29323,7 @@
   )
   (unreachable)
  )
- (func $match/MatchCore#transfer (; 545 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $match/MatchCore#transfer (; 548 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $dragoncore/DragonAssetControl#transferByBid
    (i32.load offset=68
     (get_local $0)
@@ -29303,7 +29333,7 @@
    (get_local $2)
   )
  )
- (func $match/MatchCore#fightWithOther (; 546 ;) (type $iIIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (result i32)
+ (func $match/MatchCore#fightWithOther (; 549 ;) (type $iIIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i64)
@@ -29749,7 +29779,7 @@
   )
   (get_local $12)
  )
- (func $match/MatchCore#fighting (; 547 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#fighting (; 550 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -30123,7 +30153,7 @@
    )
   )
  )
- (func $~lib/array/Array<GuessDragonMap>#splice (; 548 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<GuessDragonMap>#splice (; 551 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -30241,7 +30271,7 @@
    )
   )
  )
- (func $match/GuessNode#remove (; 549 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/GuessNode#remove (; 552 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -30312,7 +30342,7 @@
    )
   )
  )
- (func $match/MatchCore#sendOne (; 550 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $match/MatchCore#sendOne (; 553 ;) (type $iIIIv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i64)
   (local $6 i64)
@@ -30742,7 +30772,7 @@
    )
   )
  )
- (func $match/MatchCore#sendReward (; 551 ;) (type $iv) (param $0 i32)
+ (func $match/MatchCore#sendReward (; 554 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i64)
@@ -31033,7 +31063,7 @@
    )
   )
  )
- (func $match/MatchCore#nextStep (; 552 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#nextStep (; 555 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -31116,7 +31146,7 @@
    (i32.const 15008)
   )
  )
- (func $dragoncore/DragonCore#nextStep (; 553 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#nextStep (; 556 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#whenNotPaused
    (get_local $0)
@@ -31138,7 +31168,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#nextStep (; 554 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#nextStep (; 557 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#nextStep
    (i32.load offset=12
     (get_local $0)
@@ -31146,7 +31176,7 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#getEntryFee (; 555 ;) (type $ii) (param $0 i32) (result i32)
+ (func $match/MatchCore#getEntryFee (; 558 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -31180,7 +31210,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonCore#getEntryFee (; 556 ;) (type $ii) (param $0 i32) (result i32)
+ (func $dragoncore/DragonCore#getEntryFee (; 559 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -31202,7 +31232,7 @@
   )
   (get_local $2)
  )
- (func $index/HyperDragonContract#getEntryFee (; 557 ;) (type $iv) (param $0 i32)
+ (func $index/HyperDragonContract#getEntryFee (; 560 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (set_local $1
    (call $dragoncore/DragonCore#getEntryFee
@@ -31217,7 +31247,7 @@
    )
   )
  )
- (func $dragoncore/DragonAccessControl#onlyOwner (; 558 ;) (type $iv) (param $0 i32)
+ (func $dragoncore/DragonAccessControl#onlyOwner (; 561 ;) (type $iv) (param $0 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
     (call $../../src/action/Action.get:sender)
@@ -31228,13 +31258,13 @@
    (i32.const 2760)
   )
  )
- (func $match/MatchCore#setFightLimit (; 559 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#setFightLimit (; 562 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=24
    (get_local $0)
    (get_local $1)
   )
  )
- (func $dragoncore/DragonCore#setFightLimit (; 560 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#setFightLimit (; 563 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31256,7 +31286,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setFightLimit (; 561 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#setFightLimit (; 564 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#setFightLimit
    (i32.load offset=12
     (get_local $0)
@@ -31264,13 +31294,13 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#setAwardLimit (; 562 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#setAwardLimit (; 565 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=32
    (get_local $0)
    (get_local $1)
   )
  )
- (func $dragoncore/DragonCore#setAwardLimit (; 563 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#setAwardLimit (; 566 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31292,7 +31322,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setAwardLimit (; 564 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#setAwardLimit (; 567 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#setAwardLimit
    (i32.load offset=12
     (get_local $0)
@@ -31300,13 +31330,13 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#setGroupLimit (; 565 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#setGroupLimit (; 568 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store offset=40
    (get_local $0)
    (get_local $1)
   )
  )
- (func $dragoncore/DragonCore#setGroupLimit (; 566 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#setGroupLimit (; 569 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31328,7 +31358,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setGroupLimit (; 567 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#setGroupLimit (; 570 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#setGroupLimit
    (i32.load offset=12
     (get_local $0)
@@ -31336,7 +31366,7 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#setJoinLimit (; 568 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchCore#setJoinLimit (; 571 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i32.eq
@@ -31400,7 +31430,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#setJoinLimit (; 569 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/DragonCore#setJoinLimit (; 572 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31422,7 +31452,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setJoinLimit (; 570 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $index/HyperDragonContract#setJoinLimit (; 573 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $dragoncore/DragonCore#setJoinLimit
    (i32.load offset=12
     (get_local $0)
@@ -31430,7 +31460,7 @@
    (get_local $1)
   )
  )
- (func $~lib/array/Array<Asset>#push (; 571 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Asset>#push (; 574 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -31508,7 +31538,7 @@
   )
   (get_local $5)
  )
- (func $match/MatchCore#setRegfees (; 572 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchCore#setRegfees (; 575 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i32.eq
@@ -31572,7 +31602,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#setRegfees (; 573 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/DragonCore#setRegfees (; 576 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31594,7 +31624,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setRegfees (; 574 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $index/HyperDragonContract#setRegfees (; 577 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $dragoncore/DragonCore#setRegfees
    (i32.load offset=12
     (get_local $0)
@@ -31602,7 +31632,7 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#setRewardMultiple (; 575 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $match/MatchCore#setRewardMultiple (; 578 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i32.eq
@@ -31666,7 +31696,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#setRewardMultiple (; 576 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $dragoncore/DragonCore#setRewardMultiple (; 579 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31688,7 +31718,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#setRewardMultiple (; 577 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $index/HyperDragonContract#setRewardMultiple (; 580 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $dragoncore/DragonCore#setRewardMultiple
    (i32.load offset=12
     (get_local $0)
@@ -31696,7 +31726,7 @@
    (get_local $1)
   )
  )
- (func $match/MatchCore#setGenLimit (; 578 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $match/MatchCore#setGenLimit (; 581 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $../../lib/map/Map<u64_Array<u64>>#set
    (i32.load offset=60
     (get_local $0)
@@ -31705,7 +31735,7 @@
    (get_local $2)
   )
  )
- (func $dragoncore/DragonCore#setGenLimit (; 579 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $dragoncore/DragonCore#setGenLimit (; 582 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (call $dragoncore/DragonAccessControl#onlyOwner
    (get_local $0)
@@ -31728,7 +31758,7 @@
    (get_local $3)
   )
  )
- (func $index/HyperDragonContract#setGenLimit (; 580 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $index/HyperDragonContract#setGenLimit (; 583 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $dragoncore/DragonCore#setGenLimit
    (i32.load offset=12
     (get_local $0)
@@ -31737,7 +31767,7 @@
    (get_local $2)
   )
  )
- (func $match/MatchCore#dissolve (; 581 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $match/MatchCore#dissolve (; 584 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i64)
@@ -31951,7 +31981,7 @@
    (i32.const 0)
   )
  )
- (func $dragoncore/DragonCore#dissolve (; 582 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#dissolve (; 585 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $match/MatchCore#constructor
@@ -31970,7 +32000,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#dissolve (; 583 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#dissolve (; 586 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#dissolve
    (i32.load offset=12
     (get_local $0)
@@ -31978,7 +32008,7 @@
    (get_local $1)
   )
  )
- (func $saleclockauction/ClockAuctionBase#_cancelAuction (; 584 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $saleclockauction/ClockAuctionBase#_cancelAuction (; 587 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (call $saleclockauction/ClockAuctionBase#removeAuction
    (get_local $0)
    (get_local $1)
@@ -32004,7 +32034,7 @@
    )
   )
  )
- (func $saleclockauction/ClockAuction#cancelAuction (; 585 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $saleclockauction/ClockAuction#cancelAuction (; 588 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i64)
   (call $saleclockauction/ClockAuctionBase#isTokenIdOnAuction
@@ -32044,7 +32074,7 @@
    (get_local $3)
   )
  )
- (func $dragoncore/DragonCore#cancelSireAuction (; 586 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#cancelSireAuction (; 589 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $saleclockauction/SireClockAuction#constructor
@@ -32069,7 +32099,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#cancelSireAuction (; 587 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#cancelSireAuction (; 590 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#cancelSireAuction
    (i32.load offset=12
     (get_local $0)
@@ -32077,7 +32107,7 @@
    (get_local $1)
   )
  )
- (func $dragoncore/DragonCore#cancelSaleAuction (; 588 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $dragoncore/DragonCore#cancelSaleAuction (; 591 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (set_local $2
    (call $saleclockauction/SaleClockAuction#constructor
@@ -32102,7 +32132,7 @@
    (get_local $2)
   )
  )
- (func $index/HyperDragonContract#cancelSaleAuction (; 589 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $index/HyperDragonContract#cancelSaleAuction (; 592 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (call $dragoncore/DragonCore#cancelSaleAuction
    (i32.load offset=12
     (get_local $0)
@@ -32110,7 +32140,7 @@
    (get_local $1)
   )
  )
- (func $saleclockauction/SaleClockAuction#bid (; 590 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $saleclockauction/SaleClockAuction#bid (; 593 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i64)
@@ -32180,7 +32210,7 @@
    )
   )
  )
- (func $dragoncore/DragonCore#bid (; 591 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $dragoncore/DragonCore#bid (; 594 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (set_local $3
    (call $saleclockauction/SaleClockAuction#constructor
@@ -32206,7 +32236,7 @@
    (get_local $3)
   )
  )
- (func $index/HyperDragonContract#bid (; 592 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $index/HyperDragonContract#bid (; 595 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (call $dragoncore/DragonCore#bid
    (i32.load offset=12
     (get_local $0)
@@ -32215,7 +32245,7 @@
    (get_local $2)
   )
  )
- (func $index/apply (; 593 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $index/apply (; 596 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i64)
@@ -33361,7 +33391,7 @@
    )
   )
  )
- (func $start (; 594 ;) (type $v)
+ (func $start (; 597 ;) (type $v)
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
@@ -33471,12 +33501,12 @@
    )
   )
  )
- (func $HyperDragonContract#get:_receiver (; 595 ;) (type $iI) (param $0 i32) (result i64)
+ (func $HyperDragonContract#get:_receiver (; 598 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $HyperDragonContract#set:_receiver (; 596 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $HyperDragonContract#set:_receiver (; 599 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
