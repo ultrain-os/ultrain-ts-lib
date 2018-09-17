@@ -1,0 +1,711 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "u8",
+      "type": "uint8"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "Asset",
+      "type": "asset"
+    },
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "i32",
+      "type": "int32"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "minPlayerToStart",
+          "type": "u8"
+        },
+        {
+          "name": "point",
+          "type": "u8"
+        },
+        {
+          "name": "totalRound",
+          "type": "u8"
+        },
+        {
+          "name": "bidWay",
+          "type": "u8"
+        },
+        {
+          "name": "minMoney",
+          "type": "u64"
+        },
+        {
+          "name": "startWay",
+          "type": "u8"
+        },
+        {
+          "name": "checkInNum",
+          "type": "u64"
+        }
+      ],
+      "name": "createRoom",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "quantity",
+          "type": "Asset"
+        },
+        {
+          "name": "checkInNum",
+          "type": "u64"
+        }
+      ],
+      "name": "checkIn",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "start",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "P",
+          "type": "string"
+        },
+        {
+          "name": "Q",
+          "type": "string"
+        }
+      ],
+      "name": "setPQ",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "cards",
+          "type": "string[]"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "shuffleCard",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "cards",
+          "type": "string[]"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "encryptCard",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "enkeys",
+          "type": "string[]"
+        },
+        {
+          "name": "dekeys",
+          "type": "string[]"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "uploadEncryptKey",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "scrambleBanker",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "bets",
+          "type": "u8"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "bet",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "enkeys",
+          "type": "string[]"
+        },
+        {
+          "name": "dekeys",
+          "type": "string[]"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "uploadLastEncryptKey",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "cards",
+          "type": "u8[]"
+        },
+        {
+          "name": "enkeys",
+          "type": "string[]"
+        },
+        {
+          "name": "dekeys",
+          "type": "string[]"
+        },
+        {
+          "name": "flag",
+          "type": "u8"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "discard",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "enkey",
+          "type": "string"
+        },
+        {
+          "name": "dekey",
+          "type": "string"
+        },
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "uploadShuffleKeys",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "points",
+          "type": "string[]"
+        }
+      ],
+      "name": "settle",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "quitRoom",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "proposalDissolveRoom",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        }
+      ],
+      "name": "responseProposal",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        }
+      ],
+      "name": "findCheat",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        }
+      ],
+      "name": "findOverTime",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "checkInNum",
+          "type": "u64"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getRoomMap",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getRoomInfo",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "roundNum",
+          "type": "u8"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getRoundInfo",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getPlayers",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getCheckInNum",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getShuffleCards",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getEncryptCards",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getShuffleEnKeys",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getShuffleDeKeys",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getEncryptKeys",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getDecryptKeys",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "player",
+          "type": "account_name"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getBets4Player",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "round",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "i32"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getPlayCards",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "createRoom",
+      "type": "createRoom"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "checkIn",
+      "type": "checkIn"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "start",
+      "type": "start"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "setPQ",
+      "type": "setPQ"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "shuffleCard",
+      "type": "shuffleCard"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "encryptCard",
+      "type": "encryptCard"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "uploadEncryptKey",
+      "type": "uploadEncryptKey"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "scrambleBanker",
+      "type": "scrambleBanker"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "bet",
+      "type": "bet"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "uploadLastEncryptKey",
+      "type": "uploadLastEncryptKey"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "discard",
+      "type": "discard"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "uploadShuffleKeys",
+      "type": "uploadShuffleKeys"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "settle",
+      "type": "settle"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "quitRoom",
+      "type": "quitRoom"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "proposalDissolveRoom",
+      "type": "proposalDissolveRoom"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "responseProposal",
+      "type": "responseProposal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "findCheat",
+      "type": "findCheat"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "findOverTime",
+      "type": "findOverTime"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getRoomMap",
+      "type": "getRoomMap"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getRoomInfo",
+      "type": "getRoomInfo"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getRoundInfo",
+      "type": "getRoundInfo"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getPlayers",
+      "type": "getPlayers"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getCheckInNum",
+      "type": "getCheckInNum"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getShuffleCards",
+      "type": "getShuffleCards"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getEncryptCards",
+      "type": "getEncryptCards"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getShuffleEnKeys",
+      "type": "getShuffleEnKeys"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getShuffleDeKeys",
+      "type": "getShuffleDeKeys"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getEncryptKeys",
+      "type": "getEncryptKeys"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getDecryptKeys",
+      "type": "getDecryptKeys"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getBets4Player",
+      "type": "getBets4Player"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getPlayCards",
+      "type": "getPlayCards"
+    }
+  ],
+  "tables": []
+}
