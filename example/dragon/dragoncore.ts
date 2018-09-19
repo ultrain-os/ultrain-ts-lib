@@ -434,7 +434,7 @@ class DragonBase extends DragonAccessControl implements Serializable {
         /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a dragon
         ///  ownership is assigned, including births.
         // event Transfer(from: account_name, to: account_name, tokenId: u64);
-        emit("Transfer", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
+        emit("Transfer", EventObject.setString("from", RNAME(from)).setString("to", RNAME(to)).setInt("tokenId", tokenId));
     }
 
     public saveToDBManager(): void {
@@ -507,7 +507,7 @@ class DragonAssetControl extends DragonBase {
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
         ultrain_assert(this._owns(from, tokenId), "you don't own this asset for transfer.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
+        emit("GiveDragon", EventObject.setString("from", RNAME(from)).setString("to", RNAME(to)).setInt("tokenId", tokenId));
 
         this._transfer(from, to, tokenId);
     }
@@ -520,7 +520,7 @@ class DragonAssetControl extends DragonBase {
         ultrain_assert(to != SireAuctionAddress, "can't transfer to sire auction address.");
         ultrain_assert(this._owns(from, tokenId), RNAME(from) + " doesn't own this asset for bid.");
         // event GiveDragon(from: account_name, to: account_name, tokenId: u64);
-        emit("GiveDragon", EventObject.setInt("from", from).setInt("to", to).setInt("tokenId", tokenId));
+        emit("GiveDragon", EventObject.setString("from", RNAME(from)).setString("to", RNAME(to)).setInt("tokenId", tokenId));
 
         this._transfer(from, to, tokenId);
     }
@@ -548,8 +548,8 @@ class DragonAssetControl extends DragonBase {
         this._approve(tokenId, to);
 
         // event Approval(address owner, address approved, uint256 tokenId);
-        emit("Approval", EventObject.setInt("owner", Action.sender)
-            .setInt("to", to).setInt("tokenId", tokenId));
+        emit("Approval", EventObject.setString("owner", RNAME(Action.sender))
+            .setString("to", RNAME(to)).setInt("tokenId", tokenId));
     }
 
     public tokensOfOwner(owner: account_name): u64[] {
@@ -849,7 +849,22 @@ export class InterestDragon {
     extend: u64;
 
     public toString(): string {
-        return "";
+        let jsonstr = '{';
+        jsonstr += '"isReady":' + (this.isReady ? "true" : "false");
+        jsonstr += ',"cooldownIndex":' + intToString(this.cooldownIndex);
+        jsonstr += ',"nextActionAt":' + intToString(this.nextActionAt);
+        jsonstr += ',"siringWithId":' + intToString(this.siringWithId);
+        jsonstr += ',"birthTime":' + intToString(this.birthTime);
+        jsonstr += ',"matronId":' + intToString(this.matronId);
+        jsonstr += ',"sireId":' + intToString(this.sireId);
+        jsonstr += ',"generation":' + intToString(this.generation);
+        jsonstr += ',"titles":' + intToString(this.titles);
+        jsonstr += ',"fightCooldownEndblock":' + intToString(this.fightCooldownEndblock);
+        jsonstr += ',"fightCooldownIndex":' + intToString(this.fightCooldownIndex);
+        jsonstr += ',"extend":' + intToString(this.extend);
+        jsonstr += ',"genes":' + this.genes.toString();
+        jsonstr += '}';
+        return jsonstr;
     }
 }
 

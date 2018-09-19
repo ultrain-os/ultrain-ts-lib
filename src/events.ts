@@ -4,8 +4,9 @@
  * @datetime 14:35:49, 07/09/2018
  * All rights reserved by ultrain.io @2018
  */
-import { ultrain_assert, string2cstr } from "../src/utils";
+import { ultrain_assert, string2cstr, intToString } from "../src/utils";
 import { Map } from "../lib/map";
+import { ArrayMap } from "../lib/arraymap";
 import { env as system } from "../internal/system.d";
 
 const TYPE_STRING: u8 = 0x1;
@@ -20,9 +21,9 @@ class _EventObject implements Serializable {
     private _intmap: Map<string, u64> = new Map<string, u64>();
     private _boolmap: Map<string, u8> = new Map<string, u8>();
 
-    private _str_arr_map: Map<string, string[]> = new Map<string, string[]>();
-    private _int_arr_map: Map<string, u64[]> = new Map<string, u64[]>();
-    private _bool_arr_map: Map<string, u8[]> = new Map<string, u8[]>();
+    private _str_arr_map: ArrayMap<string, string> = new ArrayMap<string, string>();
+    private _int_arr_map: ArrayMap<string, u64> = new ArrayMap<string, u64>();
+    private _bool_arr_map: ArrayMap<string, u8> = new ArrayMap<string, u8>();
 
     constructor() {}
 
@@ -62,29 +63,75 @@ class _EventObject implements Serializable {
         return this;
     }
 
-    // public toString(): string {
-    //     let ret = "{";
+    public toString(): string {
+        let ret = "{";
 
-    //     let strKeys: string[] = this._strmap.keys();
-    //     let strVals: string[] = this._strmap.values();
-    //     for (let i: i32 = 0; i < strKeys.length; i++) {
-    //         ret += "\"" + strKeys[i] + "\":" + "\"" + strVals[i] + "\",";
-    //     }
+        let strKeys: string[] = this._strmap.keys();
+        let strVals: string[] = this._strmap.values();
+        for (let i: i32 = 0; i < strKeys.length; i++) {
+            ret += '"' + strKeys[i] + '":"' + strVals[i] + '",';
+        }
 
-    //     let intKeys: string[] = this._intmap.keys();
-    //     let intVals: u64[] = this._intmap.values();
-    //     for (let i: i32 = 0; i < intKeys.length; i++) {
-    //         ret += "\"" + intKeys[i] + "\":" + intToString(intVals[i]) + ",";
-    //     }
+        let intKeys: string[] = this._intmap.keys();
+        let intVals: u64[] = this._intmap.values();
+        for (let i: i32 = 0; i < intKeys.length; i++) {
+            let v = intToString(intVals[i]);
+            ret += '"' + intKeys[i] + '":' + v + ',';
+        }
 
-    //     ret += "}";
+        let boolKeys: string[] = this._boolmap.keys();
+        let boolVals: u8[] = this._boolmap.values();
+        for (let i: i32 = 0; i < boolKeys.length; i++) {
+            let v = (boolVals[i] == 1) ? 'true' : 'false';
+            ret += '"' + boolKeys[i] + '":' + v + ',';
+        }
 
-    //     // use Global mode, MUST call toString() method at last.
-    //     this._strmap.clear();
-    //     this._intmap.clear();
+        let strArrKeys: string[] = this._str_arr_map.keys();
+        let strArrValues: string[][] = this._str_arr_map.values();
+        for (let i: i32 = 0; i < strArrKeys.length; i++) {
+            ret += '"' + strArrKeys[i] + '": [';
+            let vals: string[] = strArrValues[i];
+            for (let j: i32 = 0; i < vals.length; i++) {
+                ret += '"' + vals[j] +'",'
+            }
+            ret += '],';
+        }
 
-    //     return ret;
-    // }
+        let intArrKeys: string[] = this._int_arr_map.keys();
+        let intArrValues: u64[][] = this._int_arr_map.values();
+        for (let i: i32 = 0; i < intArrKeys.length; i++) {
+            ret += '"' + intArrKeys[i] + '": [';
+            let vals: u64[] = intArrValues[i];
+            for (let j: i32 = 0; i < vals.length; i++) {
+                ret += intToString(vals[j]) +',';
+            }
+            ret += '],';
+        }
+
+        let boolArrKeys: string[] = this._bool_arr_map.keys();
+        let boolArrValues: u8[][] = this._bool_arr_map.values();
+        for (let i: i32 = 0; i < boolArrKeys.length; i++) {
+            ret += '"' + boolArrKeys[i] + '": [';
+            let vals: u8[] = boolArrValues[i];
+            for (let j: i32 = 0; i < vals.length; i++) {
+                let v = vals[j] ? 'true' : 'false';
+                ret += v + ',';
+            }
+            ret += '],';
+        }
+
+        ret += "}";
+
+        // use Global mode, MUST call toString() method at last.
+        this._strmap.clear();
+        this._intmap.clear();
+        this._boolmap.clear();
+        this._str_arr_map.clear();
+        this._int_arr_map.clear();
+        this._bool_arr_map.clear();
+
+        return ret;
+    }
 
     private serializeStringMap(ds: DataStream, mp: Map<string, string>): void {
         let keys: string[] = mp.keys();
@@ -167,10 +214,12 @@ export let EventObject: _EventObject = new _EventObject();
 export function emit(evtname: string, obj: _EventObject): i32 {
     ultrain_assert(evtname.length <= 64, "length of event name must be less than 64.");
 
-    let len = DataStream.measure<_EventObject>(obj);
-    let ds = DSHelper.getDataStreamWithLength(len);
-    obj.serialize(ds);
+    // let len = DataStream.measure<_EventObject>(obj);
+    // let ds = DSHelper.getDataStreamWithLength(len);
+    // obj.serialize(ds);
 
-    let ret = system.emit_event(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
+    // let ret = system.emit_event(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
+    let msg = obj.toString();
+    let ret = system.emit_event(string2cstr(evtname), evtname.length, string2cstr(msg), msg.length);
     return ret;
 }

@@ -7,7 +7,7 @@ declare namespace env{
     function head_block_previous_id(sha256: usize, size: u32): void;
     function head_block_number(): u32;
     function head_block_timestamp(): u32;
-    function head_block_producer(): u64;
+    function head_block_proposer(): u64;
 }
 
 const HexDigital: string = "0123456789abcdef";
@@ -60,6 +60,6 @@ export class HeadBlock {
     }
 
     public static get producer(): u64 {
-        return env.head_block_producer();
+        return env.head_block_proposer();
     }
 }

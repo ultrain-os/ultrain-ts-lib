@@ -32,9 +32,9 @@ export class HyperDragonContract extends Contract {
     public getDragon(id: DragonId): void {
         let draInfo: InterestDragon = this._dragonCore.getDragon(id);
         if (draInfo != null) {
-            Return(draInfo.toString());
+            Return<string>(draInfo.toString());
         } else {
-            Return("null");
+            Return<string>("null");
         }
     }
 
