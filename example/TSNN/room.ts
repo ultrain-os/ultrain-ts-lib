@@ -117,7 +117,7 @@ export class Room implements Serializable{
         Return<string>(",\"stage\":");
         Return<i8>(this.stage);
         Return<string>(",\"startBlock\":");
-        Return<i32>(this.roomInfo.startBlock);
+        Return<u32>(this.roomInfo.startBlock);
         Return<string>("}");
     }
 
@@ -140,6 +140,12 @@ export class Room implements Serializable{
     public setPQ(P:string,Q:string):void{
         ultrain_assert(this.stage>0,"stage.issue: the room is not ready or is end");
         ultrain_assert(changetype<boolean>(this.players.includes(Action.sender)),"player.issue: you are not in room");
+        if(this.stage!=1){
+            let id = this.roomInfo.roomNum*100+this.stage-1;
+            let oldRound = new Round();
+            ultrain_assert(oldRound.getRound(id),"round.issue: round is not exist");
+            ultrain_assert(oldRound.stage==RoundStag.END,"stage.issue: the round is not end, you are not expect to setPQ");
+        }
         let round = new Round();
         let roundBaseInfo = new RoundBaseInfo();
         roundBaseInfo.players = this.players;
@@ -155,15 +161,10 @@ export class Room implements Serializable{
      * @param cards
      */
     public shuffleCard(cards:string[]):void{
-        Log.s("R 1").flush();
         let round = this.getCurrentRound();
-        Log.s("R 2").flush();
         this.insertAction(round);
-        Log.s("R 3").flush();
         this.modifyRoom();
-        Log.s("R 4").flush();
         round.shuffleCard(cards);
-        Log.s("R 5").flush();
     }
 
     /**
@@ -247,10 +248,10 @@ export class Room implements Serializable{
     /**
      * 结算并插入数据库
      */
-    public settle(points:string[]):void{
+    public settle(points:i16[]):void{
         let round = this.getCurrentRound();
         round.settle(points);
-        if(round.stage==-1){
+        if(round.stage==RoundStag.END){
             this.stage++;
             this.modifyRoom();
         }
@@ -313,7 +314,7 @@ export class Room implements Serializable{
         ultrain_assert(round.stage>0,"overtime.issue: you can not do this action before shuffle !");
         ultrain_assert(changetype<boolean>(this.players.includes(Action.sender)),"overtime.issue: you are not in the room !");
         let record:Array<ActionRecord> = this.actionRecord;
-        let now:u64 = now();
+        let current:u64 = now();
         if(round.stage==record[0].action){
             // if(round.stage in [RoundStag.UPLOAD_ENCRYPT_KEY,RoundStag.UPLOAD_LAST_ENCRYPT_KEY,RoundStag.UPLOAD_SHUFFLE_KEY]){
 
@@ -381,20 +382,12 @@ export class Room implements Serializable{
     }
 
     private getCurrentRound():Round{
-        Log.s("G 1").flush();
         ultrain_assert(changetype<boolean>(this.players.includes(Action.sender)),"player.issue: you are not in room!");
-        Log.s("G 2").flush();
         ultrain_assert(this.stage!=-1,"room.issue: room is end !");
-        Log.s("G 3").flush();
         ultrain_assert(this.stage>0,"stage.issue: the room is not already or is end");
-        Log.s("G 4").flush();
-        let id = this.roomInfo.roomNum * 100 + <u64>this.stage;
-        Log.s("G 5").flush();
+        let id = this.roomInfo.roomNum*100+this.stage;
         let round = new Round();
-        Log.s("G 6").flush();
-        let roundExist = round.getRound(id);
-        ultrain_assert(roundExist,"round.issue: round is not exist");
-        Log.s("G 7").flush();
+        ultrain_assert(round.getRound(id),"round.issue: round is not exist");
         return round;
     }
     /**
@@ -456,7 +449,7 @@ export class RoomInfo implements Serializable{
     /**加入房间的密码*/
     checkInNum:u64 = 0;
     /**开局的块高 */
-    startBlock:i32 = 0;
+    startBlock:u32 = 0;
 
     serialize(ds: DataStream): void {
         ds.write<u8>(this.bidWay);
@@ -468,6 +461,7 @@ export class RoomInfo implements Serializable{
         ds.write<u8>(this.startWay);
         ds.write<i8>(this.totalRound);
         ds.write<u64>(this.checkInNum);
+        ds.write<u32>(this.startBlock);
     }
     deserialize(ds: DataStream): void {
         this.bidWay = ds.read<u8>();
@@ -479,6 +473,7 @@ export class RoomInfo implements Serializable{
         this.startWay = ds.read<u8>();
         this.totalRound = ds.read<i8>();
         this.checkInNum = ds.read<u64>();
+        this.startBlock = ds.read<u32>();
     }
 
     primaryKey(): u64 {

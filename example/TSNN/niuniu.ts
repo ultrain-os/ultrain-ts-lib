@@ -10,6 +10,7 @@ import { serializeMap, deserializeMap } from "./util/serialize_util";
 import { env as trx } from "../../internal/transaction.d";
 import { Log } from "../../src/log";
 import { RNAME, NAME } from "../../src/account";
+import { Block } from "../../src/block";
 
 
 /**
@@ -62,6 +63,13 @@ class NiuNiuContract extends Contract implements Serializable{
 	@action
 	public createRoom(minPlayerToStart:u8, point:u8, totalRound:u8, bidWay:u8, minMoney:u64, startWay:u8, checkInNum:u64):void{
 		ultrain_assert(!this.checkInNumMap.has(checkInNum),"createRoom.issue: try another checkInNum.");
+		ultrain_assert(minPlayerToStart>1,"params.issue: minPlayerToStart must >2.");
+		ultrain_assert(point>0,"params.issue: point must > 0.");
+		ultrain_assert(point<30,"params.issue: point must < 30.");
+		ultrain_assert(totalRound<20,"params.issue: totalRound must < 30.");
+		ultrain_assert(totalRound>0,"params.issue: totalRound must > 0.");
+		ultrain_assert(minMoney>0,"params.issue: minMoney must > 0.");
+		ultrain_assert(startWay==0||startWay==1,"params.issue: startWay must in [0,1].");
 		let room:Room = new Room();
 		let info = new RoomInfo();
 		info.minPlayerToStart = minPlayerToStart;
@@ -74,7 +82,7 @@ class NiuNiuContract extends Contract implements Serializable{
 		info.roomNum  = this.roomNum;
 		info.checkInNum = checkInNum;
 		info.minMoney = minMoney;
-		info.startBlock = trx.tapos_block_num();
+		info.startBlock = Block.number;
 		room.roomInfo = info;
 		room.players.push(Action.sender);
 		room.initInsertRoom();
@@ -219,7 +227,7 @@ class NiuNiuContract extends Contract implements Serializable{
 	 * @param roomNum
 	 */
 	@action
-	public settle(roomNum:u64,points:string[]):void{
+	public settle(roomNum:u64,points:i16[]):void{
 		let room = new Room();
 		ultrain_assert(room.getRoom(roomNum), "room.issue: roomNum is not exist !");
 		room.settle(points);
@@ -412,6 +420,15 @@ class NiuNiuContract extends Contract implements Serializable{
 		ultrain_assert(room.getRoom(roomNum),"params.issue: no such roomNum.");
 		let cards:Cards = room.getPlayCards(round,index);
 		Return<string>(cards.toString());
+	}
+
+	@action
+	public getResult(roomNum:u64,roundNum:u64,nonce:u64):void{
+		let id = roomNum*100+roundNum;
+        let round = new Round();
+		ultrain_assert(round.getRound(id),"round.issue: round is not exist");
+		let res:Array<i16> = round.playRecord.getResult();
+		ReturnArray<i16>(res);
 	}
 
 }

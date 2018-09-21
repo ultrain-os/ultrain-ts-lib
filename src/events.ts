@@ -120,15 +120,11 @@ class _EventObject implements Serializable {
             ret += '],';
         }
 
+        let len = ret.length;
+        if (len > 1) {
+            ret = ret.substr(0, len - 1);
+        }
         ret += "}";
-
-        // use Global mode, MUST call toString() method at last.
-        this._strmap.clear();
-        this._intmap.clear();
-        this._boolmap.clear();
-        this._str_arr_map.clear();
-        this._int_arr_map.clear();
-        this._bool_arr_map.clear();
 
         return ret;
     }
@@ -185,7 +181,9 @@ class _EventObject implements Serializable {
         this.serializeStringArrayMap(ds, this._str_arr_map);
         this.serializeArrayMap<u64>(ds, this._int_arr_map, TYPE_U64_ARRAY);
         this.serializeArrayMap<u8>(ds, this._bool_arr_map, TYPE_BOOL_ARRAY);
+    }
 
+    public clearAllArray(): void {
         this._strmap.clear();
         this._intmap.clear();
         this._boolmap.clear();
@@ -221,5 +219,6 @@ export function emit(evtname: string, obj: _EventObject): i32 {
     // let ret = system.emit_event(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
     let msg = obj.toString();
     let ret = system.emit_event(string2cstr(evtname), evtname.length, string2cstr(msg), msg.length);
+    obj.clearAllArray();
     return ret;
 }

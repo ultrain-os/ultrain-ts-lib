@@ -47,6 +47,10 @@ export function N(str: string): u64 {
  * @param name uint64 value
  */
 export function RN(name: u64): string {
+    if (name == 0) {
+        return "0";
+    }
+
     const charmap: string = ".12345abcdefghijklmnopqrstuvwxyz";
     const DOT: u8 = <u8>(0x2e);
     let strcodes: u8[/*13*/] = [DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT];

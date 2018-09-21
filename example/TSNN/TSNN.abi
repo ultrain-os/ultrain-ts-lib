@@ -14,6 +14,10 @@
       "type": "asset"
     },
     {
+      "new_type_name": "i16",
+      "type": "int16"
+    },
+    {
       "new_type_name": "account_name",
       "type": "name"
     },
@@ -239,7 +243,7 @@
         },
         {
           "name": "points",
-          "type": "string[]"
+          "type": "i16[]"
         }
       ],
       "name": "settle",
@@ -548,6 +552,24 @@
       ],
       "name": "getPlayCards",
       "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "roundNum",
+          "type": "u64"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ],
+      "name": "getResult",
+      "base": ""
     }
   ],
   "actions": [
@@ -705,6 +727,11 @@
       "ricardian_contract": "",
       "name": "getPlayCards",
       "type": "getPlayCards"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getResult",
+      "type": "getResult"
     }
   ],
   "tables": []
