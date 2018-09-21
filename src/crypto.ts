@@ -6,8 +6,8 @@ const HexDigital: string = "0123456789abcdef";
 
 function to_hex(buffer: usize, buffersize: u32): string {
     let hash = "";
-    for (let i: i32 = 0; i < this.data.length; i++) {
-        let char = load<u8>(<usize>this.data.buffer + i);
+    for (let i: u32 = 0; i < buffersize; i++) {
+        let char = load<u8>(<usize>buffer + i);
         let idx: u8 = <u8>(char & 0xff);
         hash = hash + HexDigital.charAt(idx >> 4) + HexDigital.charAt(idx & 0x0f);
     }
@@ -16,13 +16,10 @@ function to_hex(buffer: usize, buffersize: u32): string {
 
 class Crypto {
     data: Uint8Array;
-    init(bufferSize: i32): void {
-        this.data = new Uint8Array(bufferSize);
-    }
 
-    // constructor(size: i32) {
-    //     this.data = new Uint8Array(size);
-    // }
+    constructor(size: i32) {
+        this.data = new Uint8Array(size);
+    }
 
     public get buffer(): usize {
         return changetype<usize>(this.data.buffer);
@@ -39,65 +36,64 @@ class Crypto {
 
 export class SHA1 extends Crypto {
     constructor() {
-        // super(20);
-        super();
-        this.init(20);
+        super(20);
     }
 
     public hash(data: string): string {
-        cry.ts_sha1(string2cstr(data), data.length, this.buffer);
+        cry.ts_sha1(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
 
 export class SHA256 extends Crypto {
     constructor() {
-        super();
-        this.init(32);
+        super(32);
     }
 
     public hash(data: string): string {
-        cry.ts_sha256(string2cstr(data), data.length, this.buffer);
+        cry.ts_sha256(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
 
 export class SHA512 extends Crypto {
     constructor() {
-        super();
-        this.init(64);
+        super(64);
     }
 
     public hash(data: string): string {
-        cry.ts_sha512(string2cstr(data), data.length, this.buffer);
+        cry.ts_sha512(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
 
 export class Ripemd160 extends Crypto {
     constructor() {
-        super();
-        this.init(20);
+        super(20);
     }
 
     public hash(data: string): string {
-        cry.ts_ripemd160(string2cstr(data), data.length, this.buffer);
+        cry.ts_ripemd160(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
 
 export function assert_sha1(hash: string, sha1: SHA1): void {
-    cry.ts_assert_sha1(string2cstr(hash), hash.length, sha1.buffer);
+    let src = sha1.toString();
+    cry.ts_assert_sha1(string2cstr(hash), hash.length, string2cstr(src), src.length);
 }
 
 export function assert_sha256(hash: string, sha256: SHA256): void {
-    cry.ts_assert_sha256(string2cstr(hash), hash.length, sha256.buffer);
+    let src = sha256.toString();
+    cry.ts_assert_sha256(string2cstr(hash), hash.length, string2cstr(src), src.length);
 }
 
 export function assert_sha512(hash: string, sha512: SHA512): void {
-    cry.ts_assert_sha512(string2cstr(hash), hash.length, sha512.buffer);
+    let src = sha512.toString();
+    cry.ts_assert_sha512(string2cstr(hash), hash.length, string2cstr(src), src.length);
 }
 
 export function assert_ripemd160(hash: string, ripe: Ripemd160): void {
-    cry.ts_assert_ripemd160(string2cstr(hash), hash.length, ripe.buffer);
+    let src = ripe.toString();
+    cry.ts_assert_ripemd160(string2cstr(hash), hash.length, string2cstr(src), src.length);
 }
