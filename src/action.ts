@@ -152,6 +152,10 @@ export class Action {
         ActionAPI.require_auth(account);
     }
 
+    /**
+     * add account to be notified.
+     * @param account account to be notified.
+     */
     public static requireRecipient(account: account_name): void {
         ActionAPI.require_recipient(account);
     }
@@ -162,12 +166,29 @@ export class Action {
         this._action = new NameEx(h, l);
     }
 
+    /**
+     * get property of action's code, which is an instance of NameEx.
+     */
     public get code(): NameEx {
         return this._action;
     }
 
+    /**
+     * get property of action's name, which is a human readable string.
+     */
     public get name(): string {
         return RNEX(this._action.valueH, this._action.valueL);
+    }
+
+    /**
+     * equal operation of Action.
+     * @param lhs left hand side instance of Action.
+     * @param rhs right hand side instance of Action.
+     * @returns true or false.
+     */
+    @operator("==")
+    private static _eq(lhs: Action, rhs: Action): boolean {
+        return lhs._action == rhs._action;
     }
 }
 

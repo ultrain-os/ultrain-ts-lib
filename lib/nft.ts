@@ -1,9 +1,9 @@
 import "allocator/arena";
-import { ultrain_assert } from "../src/utils";
 import { Action } from "../src/action";
 import { Asset } from "../src/asset";
 import { DBManager } from "../src/dbmanager";
 import { Log } from "../src/log";
+import { ultrain_assert } from "../src/utils";
 import { ACCOUNT, NAME, Account } from "../src/account";
 import { UIP09 } from "../uips/uip09";
 

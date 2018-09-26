@@ -76,6 +76,7 @@ export class Round implements Serializable{
         let res = this.roundInfoDB.get(id,this);
         res = this.roundBaseInfoDB.get(id,this.roundBaseInfo) && res;
         res = this.roundTempDB.get(id,this.temp) && res;
+	res = this.roundTempDB.get(id,this.temp) && res;
         if(res){
             this.playRecord = new PlayRecord(new DBHelper(Action.receiver,NAME("chaole.nn"),NAME("play.record")),this.roundBaseInfo.roomNum,this.roundBaseInfo.round);
         }
@@ -232,12 +233,18 @@ export class Round implements Serializable{
         this.updateTemp();
         //不对牌进行检验，由玩家提出异议后复盘
         //TODO
-        let enKey = this.playRecord.getEncryptKeys().get(Action.sender);
-        let deKey = this.playRecord.getDecryptKeys().get(Action.sender);
+        let enc = this.playRecord.getEncryptKeys();
+        let dec = this.playRecord.getDecryptKeys();
+        let enKey = enc.get(Action.sender);
+        let deKey = dec.get(Action.sender);
         for(let i = 0;i<this.roundBaseInfo.players.length;i++){
             enKey[i*5+4] = enkeys[i];
             deKey[i*5+4] = dekeys[i];
         }
+        enc.set(Action.sender,enKey);
+        dec.set(Action.sender,deKey);
+        this.playRecord.saveEncryptKeys();
+        this.playRecord.saveDecryptKeys();
         if(this.temp.lastKeyMan.length == this.roundBaseInfo.players.length){
             this.stage = RoundStag.DISCARD;
             this.updateRound();
@@ -252,26 +259,24 @@ export class Round implements Serializable{
      */
     public discard(cards:u8[], enkeys:string[],dekeys:string[],flag:u8):void{
         ultrain_assert(this.stage==RoundStag.DISCARD, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
-        ultrain_assert(this.isInturn(Action.sender), "player.issue: you are not expect to action!");
+        //ultrain_assert(this.isInturn(Action.sender), "player.issue: you are not expect to action!");
         let encryptKeys = this.playRecord.getEncryptKeys();
         let diskeys:string[] = encryptKeys.get(Action.sender);
-        let disdekeys:string[] = this.playRecord.getDecryptKeys().get(Action.sender);
+        let decryptKeys =  this.playRecord.getDecryptKeys();
+        let disdekeys:string[] = decryptKeys.get(Action.sender);
         ultrain_assert(this.vaildDiscard(cards, enkeys,dekeys), "cards.issue: your cards are invaild!");
-        for (let i: i32 = 0; i < diskeys.length; i++) {
-            Log.s("diskeys ").i(i).s(": ").s(diskeys[i]).flush();
-        }
-
         for(let i = 0;i<cards.length;i++){
-            Log.s("card: ").i(cards[i]).s(", diskey: ").s(diskeys[i]).flush();
-            ultrain_assert(changetype<i32>(cards[i]) < diskeys.length , "1　cards.issue.length: your cards are invaild!");
-            ultrain_assert(diskeys[cards[i]] == "", "1　cards.issue.contents: your cards are invaild!");
+            ultrain_assert(changetype<i32>(cards[i]) < diskeys.length, "cards.issue: your cards are invaild!");
+            ultrain_assert(diskeys[cards[i]] == "", "cards.issue: your cards are invaild!");
             diskeys[cards[i]] = enkeys[i];
-            ultrain_assert(changetype<i32>(cards[i]) < disdekeys.length, "2　cards.issue.length: your cards are invaild!");
-            ultrain_assert(disdekeys[cards[i]] == "", "2　cards.issue.contents: your cards are invaild!");
+            ultrain_assert(changetype<i32>(cards[i]) < disdekeys.length, "cards.issue: your cards are invaild!");
+            ultrain_assert(disdekeys[cards[i]] == "", "cards.issue: your cards are invaild!");
             disdekeys[cards[i]] = dekeys[i];
         }
         encryptKeys.set(Action.sender, diskeys);
         this.playRecord.saveEncryptKeys();
+        decryptKeys.set(Action.sender,disdekeys);
+        this.playRecord.saveDecryptKeys();
         let cardObject = new Cards();
         cardObject.cards = cards;
         cardObject.flag = flag;
@@ -286,6 +291,7 @@ export class Round implements Serializable{
             this.stage = RoundStag.UPLOAD_SHUFFLE_KEY;
             this.updateRound();
         }
+        this.nextTurn();
 
     }
 
@@ -303,7 +309,7 @@ export class Round implements Serializable{
         this.playRecord.getShuffleDeKeys().set(Action.sender,dekey);
         this.playRecord.saveShuffleDeKeys();
         //emit("UploadShuffleKeys",  EventObject.set<u64>("roomNum",this.roundBaseInfo.roomNum).set<u8>("round",this.roundBaseInfo.round).set<account_name>("player", Action.sender).set<string>("enkey",enkey).set<string>("dekey",dekey));
-        if(this.playRecord.getBets4Player().size==this.roundBaseInfo.players.length){
+        if(shuffleEnKeys.size==this.roundBaseInfo.players.length){
             this.stage = RoundStag.SETTLE;
             this.updateRound();
         }
@@ -312,19 +318,39 @@ export class Round implements Serializable{
     /**
      * 上传结果
      */
-    public settle(points:string[]):i16[]{
+    public settle(point:i16[]):i16[]{
         ultrain_assert(this.stage == RoundStag.SETTLE,"stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action !");
         ultrain_assert(this.isPlayer(Action.sender), "player.issue: you are not in the room !");
         ultrain_assert(!this.playRecord.getPostResult().has(Action.sender), "player.issue: you have already post the result !");
         let temp = this.temp.prePostResultPlayer;
-
-        let res:i16[] = this.calResult();
-        let result:i16[] = this.playRecord.getResult();
-        for(let i = 0;i<res.length;i++){
-            result.push(res[i]);
+        let map = this.playRecord.getPostResult();
+        map.set(Action.sender, point);
+        if(temp==0){
+            this.playRecord.savePostResult();
+            this.temp.prePostResultPlayer = Action.sender;
+            this.updateTemp();
+        }else{
+            if(!this.isArrayTheSame<i16>(point,map.get(temp))){
+                let res:i16[] = this.calResult();
+                let result:i16[] = this.playRecord.getResult();
+                for(let i = 0;i<res.length;i++){
+                    result.push(res[i]);
+                }
+                this.playRecord.saveResult(result);
+                this.stage = RoundStag.END;
+                this.updateRound();
+                return res;
+            }else if(map.size==this.roundBaseInfo.players.length){
+                let result:i16[] = this.playRecord.getResult();
+                for(let i = 0;i<point.length;i++){
+                    result.push(point[i]);
+                }
+                this.playRecord.saveResult(result);
+                this.stage = RoundStag.END;
+                this.updateRound();
+            }
         }
-        this.playRecord.saveResult();
-        return res;
+        return point;
     }
 
     // /**
@@ -1009,7 +1035,7 @@ class PlayRecord{
         }
     }
 
-    public getPlayCards():Cards[]{
+    public getPlayCards():Array<Cards>{
         let id = this.getID(7);
         if(!this.cacheRecord.has(7)){
             if(this.db.exist(id)){
@@ -1076,9 +1102,9 @@ class PlayRecord{
         return this.result;
     }
 
-    public saveResult():void{
+    public saveResult(res:Array<i16>):void{
+        this.result = res;
         let id = this.getID(9);
-        let res = this.result;
         let ins = new DataStream(0, 0);
         ins.writeVector<i16>(res);
         let arr = new Uint8Array(ins.pos);

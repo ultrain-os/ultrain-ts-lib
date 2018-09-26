@@ -5,10 +5,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ultrain-os/TsSDk.git"
+    "url": "https://github.com/ultrain-os/ultrain-ts-lib.git"
   },
   "bugs": {
-    "url": "https://github.com/ultrain-os/TsSDk/issues"
+    "url": "https://github.com/ultrain-os/ultrain-ts-lib/issues"
   },
   "dependencies": {},
   "main": "index.js",

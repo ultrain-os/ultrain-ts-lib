@@ -18,7 +18,6 @@ import { ACCOUNT, Account, NAME, RNAME } from "../../src/account";
     gol.apply(code, action);
 }
 
-
 class HelloContract extends Contract {
 
     dummy: u64;

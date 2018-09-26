@@ -53,11 +53,6 @@
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/utils/PrintableChar i32 (i32.const 1272))
  (global $../../src/log/Log (mut i32) (i32.const 0))
-<<<<<<< HEAD
-=======
- (global $../../src/utils/PrintableChar i32 (i32.const 1272))
->>>>>>> refactor sdk architecture.
- (global $../../lib/datastream/HEADER_SIZE i32 (i32.const 4))
  (global $../../src/asset/CHAR_A i32 (i32.const 65))
  (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
@@ -167,7 +162,7 @@
  (data (i32.const 752) "\01\00\00\00~\00")
  (data (i32.const 760) "|\01\00\00\00\00\00\00\08\00\00\00\10\00\00\00\18\00\00\00 \00\00\00(\00\00\000\00\00\008\00\00\00@\00\00\00H\00\00\00P\00\00\00X\00\00\00`\00\00\00h\00\00\00p\00\00\00x\00\00\00\80\00\00\00\88\00\00\00\90\00\00\00\98\00\00\00\a0\00\00\00\a8\00\00\00\b0\00\00\00\b8\00\00\00\c0\00\00\00\c8\00\00\00\d0\00\00\00\d8\00\00\00\e0\00\00\00\e8\00\00\00\f0\00\00\00\f8\00\00\00\00\01\00\00\08\01\00\00\10\01\00\00\18\01\00\00 \01\00\00(\01\00\000\01\00\008\01\00\00@\01\00\00H\01\00\00P\01\00\00X\01\00\00`\01\00\00h\01\00\00p\01\00\00x\01\00\00\80\01\00\00\88\01\00\00\90\01\00\00\98\01\00\00\98\01\00\00\a0\01\00\00\a8\01\00\00\b0\01\00\00\b8\01\00\00\c0\01\00\00\c8\01\00\00\d0\01\00\00\d8\01\00\00\e0\01\00\00\e8\01\00\00\f0\01\00\00\f8\01\00\00\00\02\00\00\08\02\00\00\10\02\00\00\18\02\00\00 \02\00\00(\02\00\000\02\00\008\02\00\00@\02\00\00H\02\00\00P\02\00\00X\02\00\00`\02\00\00h\02\00\00p\02\00\00x\02\00\00\80\02\00\00\88\02\00\00\90\02\00\00\98\02\00\00\a0\02\00\00\a8\02\00\00\b0\02\00\00\b8\02\00\00\c0\02\00\00\c8\02\00\00\d0\02\00\00\d8\02\00\00\e0\02\00\00\e8\02\00\00\f0\02\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 1272) "\f8\02\00\00_\00\00\00")
- (data (i32.const 1280) "\03\00\00\00S\00Y\00S\00")
+ (data (i32.const 1280) "\03\00\00\00U\00G\00S\00")
  (data (i32.const 1296) "+\00\00\00l\00e\00n\00g\00t\00h\00 \00o\00f\00 \00_\00s\00y\00m\00b\00o\00l\00 \00n\00a\00m\00e\00 \00m\00u\00s\00t\00 \00b\00e\00 \00l\00e\00s\00s\00 \00t\00h\00a\00n\00 \007\00.\00")
  (data (i32.const 1392) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
  (data (i32.const 1424) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
@@ -3743,11 +3738,7 @@
   )
   (get_local $0)
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#constructor (; 38 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#constructor (; 38 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $3 i32)
   (i32.store
    (tee_local $0
@@ -3812,11 +3803,7 @@
    )
   )
   (set_local $2
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $1)
@@ -4176,11 +4163,7 @@
    (get_local $2)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#read<u64> (; 45 ;) (type $iI) (param $0 i32) (result i64)
-=======
- (func $../../lib/datastream/DataStream#read<u64> (; 45 ;) (type $iI) (param $0 i32) (result i64)
->>>>>>> refactor sdk architecture.
   (local $1 i64)
   (set_local $1
    (i64.load
@@ -4243,21 +4226,13 @@
  (func $../../src/asset/Asset#deserialize (; 47 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i64.store
    (get_local $0)
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#read<u64>
-=======
-   (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
     (get_local $1)
    )
   )
   (i64.store offset=8
    (get_local $0)
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#read<u64>
-=======
-   (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
     (get_local $1)
    )
   )
@@ -4728,11 +4703,7 @@
   )
   (i64.store offset=8
    (get_local $0)
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#read<u64>
-=======
-   (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
     (get_local $1)
    )
   )
@@ -4755,11 +4726,7 @@
    )
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -4824,11 +4791,7 @@
    (get_local $1)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#isMesureMode (; 63 ;) (type $ii) (param $0 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#isMesureMode (; 63 ;) (type $ii) (param $0 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4836,17 +4799,10 @@
    (i32.const 0)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#write<u64> (; 64 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
     (call $~lib/datastream/DataStream#isMesureMode
-=======
- (func $../../lib/datastream/DataStream#write<u64> (; 64 ;) (type $iIv) (param $0 i32) (param $1 i64)
-  (if
-   (i32.eqz
-    (call $../../lib/datastream/DataStream#isMesureMode
->>>>>>> refactor sdk architecture.
      (get_local $0)
     )
    )
@@ -4873,21 +4829,13 @@
   )
  )
  (func $../../src/asset/Asset#serialize (; 65 ;) (type $iiv) (param $0 i32) (param $1 i32)
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
@@ -4907,28 +4855,17 @@
    )
    (get_local $1)
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream.measure<CurrencyStats> (; 67 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
-=======
- (func $../../lib/datastream/DataStream.measure<CurrencyStats> (; 67 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -4964,11 +4901,7 @@
    (i32.const 1952)
   )
   (set_local $3
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<CurrencyStats>
-=======
-   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
->>>>>>> refactor sdk architecture.
     (get_local $2)
    )
   )
@@ -4979,11 +4912,7 @@
    )
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5111,11 +5040,7 @@
    (get_local $5)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#read<u8> (; 71 ;) (type $ii) (param $0 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#read<u8> (; 71 ;) (type $ii) (param $0 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -5140,11 +5065,7 @@
   )
   (get_local $1)
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#readVarint32 (; 72 ;) (type $ii) (param $0 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#readVarint32 (; 72 ;) (type $ii) (param $0 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5159,11 +5080,7 @@
    (loop $continue|0
     (block
      (set_local $3
-<<<<<<< HEAD
       (call $~lib/datastream/DataStream#read<u8>
-=======
-      (call $../../lib/datastream/DataStream#read<u8>
->>>>>>> refactor sdk architecture.
        (get_local $0)
       )
      )
@@ -5204,22 +5121,14 @@
   )
   (get_local $1)
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#readString (; 73 ;) (type $ii) (param $0 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#readString (; 73 ;) (type $ii) (param $0 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (set_local $1
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#readVarint32
-=======
-   (call $../../lib/datastream/DataStream#readVarint32
->>>>>>> refactor sdk architecture.
     (get_local $0)
    )
   )
@@ -5236,11 +5145,7 @@
    (block $~lib/memory/memory.allocate|inlined.1 (result i32)
     (set_local $2
      (i32.add
-<<<<<<< HEAD
       (get_global $~lib/datastream/HEADER_SIZE)
-=======
-      (get_global $../../lib/datastream/HEADER_SIZE)
->>>>>>> refactor sdk architecture.
       (i32.shl
        (get_local $1)
        (i32.const 1)
@@ -5274,11 +5179,7 @@
      (block
       (block
        (set_local $5
-<<<<<<< HEAD
         (call $~lib/datastream/DataStream#read<u8>
-=======
-        (call $../../lib/datastream/DataStream#read<u8>
->>>>>>> refactor sdk architecture.
          (get_local $0)
         )
        )
@@ -5365,11 +5266,7 @@
    (i32.const 2704)
   )
   (set_local $4
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<CurrencyStats>
-=======
-   (call $../../lib/datastream/DataStream.measure<CurrencyStats>
->>>>>>> refactor sdk architecture.
     (get_local $2)
    )
   )
@@ -5380,11 +5277,7 @@
    )
   )
   (set_local $6
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -5503,11 +5396,7 @@
    )
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5569,17 +5458,10 @@
    (get_local $1)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream.measure<CurrencyAccount> (; 84 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
-=======
- (func $../../lib/datastream/DataStream.measure<CurrencyAccount> (; 84 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -5615,11 +5497,7 @@
    (i32.const 1952)
   )
   (set_local $3
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<CurrencyAccount>
-=======
-   (call $../../lib/datastream/DataStream.measure<CurrencyAccount>
->>>>>>> refactor sdk architecture.
     (get_local $2)
    )
   )
@@ -5630,11 +5508,7 @@
    )
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $4)
@@ -5718,11 +5592,7 @@
    (i32.const 2704)
   )
   (set_local $4
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<CurrencyAccount>
-=======
-   (call $../../lib/datastream/DataStream.measure<CurrencyAccount>
->>>>>>> refactor sdk architecture.
     (get_local $2)
    )
   )
@@ -5733,11 +5603,7 @@
    )
   )
   (set_local $6
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $5)
@@ -6064,17 +5930,10 @@
   )
   (get_local $5)
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#write<u8> (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (call $~lib/datastream/DataStream#isMesureMode
-=======
- (func $../../lib/datastream/DataStream#write<u8> (; 94 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (if
-   (i32.eqz
-    (call $../../lib/datastream/DataStream#isMesureMode
->>>>>>> refactor sdk architecture.
      (get_local $0)
     )
    )
@@ -6100,11 +5959,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#writeVarint32 (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
-=======
- (func $../../lib/datastream/DataStream#writeVarint32 (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (block $break|0
    (loop $continue|0
@@ -6137,11 +5992,7 @@
        )
       )
      )
-<<<<<<< HEAD
      (call $~lib/datastream/DataStream#write<u8>
-=======
-     (call $../../lib/datastream/DataStream#write<u8>
->>>>>>> refactor sdk architecture.
       (get_local $0)
       (get_local $2)
      )
@@ -6152,7 +6003,6 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/utf8util/toUTF8Array (; 96 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
@@ -6388,9 +6238,6 @@
   (get_local $1)
  )
  (func $~lib/datastream/DataStream#writeString (; 97 ;) (type $iiv) (param $0 i32) (param $1 i32)
-=======
- (func $../../lib/datastream/DataStream#writeString (; 96 ;) (type $iiv) (param $0 i32) (param $1 i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6401,11 +6248,7 @@
     (get_local $1)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeVarint32
-=======
-  (call $../../lib/datastream/DataStream#writeVarint32
->>>>>>> refactor sdk architecture.
    (get_local $0)
    (get_local $2)
   )
@@ -6423,11 +6266,7 @@
   )
   (if
    (i32.eqz
-<<<<<<< HEAD
     (call $~lib/datastream/DataStream#isMesureMode
-=======
-    (call $../../lib/datastream/DataStream#isMesureMode
->>>>>>> refactor sdk architecture.
      (get_local $0)
     )
    )
@@ -6486,23 +6325,14 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $../../src/action/TransferParams#serialize (; 98 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
-=======
- (func $../../src/action/TransferParams#serialize (; 97 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
@@ -6514,28 +6344,17 @@
    )
    (get_local $1)
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeString
-=======
-  (call $../../lib/datastream/DataStream#writeString
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i32.load offset=20
     (get_local $0)
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream.measure<TransferParams> (; 99 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
-=======
- (func $../../lib/datastream/DataStream.measure<TransferParams> (; 98 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -6549,11 +6368,7 @@
    (get_local $1)
   )
  )
-<<<<<<< HEAD
  (func $~lib/array/Array<u8>#__set (; 100 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
-=======
- (func $~lib/array/Array<u8>#__set (; 99 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
->>>>>>> refactor sdk architecture.
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -6623,11 +6438,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#toArray<u8> (; 101 ;) (type $ii) (param $0 i32) (result i32)
-=======
- (func $../../lib/datastream/DataStream#toArray<u8> (; 100 ;) (type $ii) (param $0 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6711,34 +6522,21 @@
   )
   (get_local $2)
  )
-<<<<<<< HEAD
  (func $../../lib/name_ex/NameEx#serialize (; 102 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
-=======
- (func $../../lib/name_ex/NameEx#serialize (; 101 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/array/Array<PermissionLevel>#__get (; 103 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-=======
- (func $~lib/array/Array<PermissionLevel>#__get (; 102 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6769,34 +6567,21 @@
    (unreachable)
   )
  )
-<<<<<<< HEAD
  (func $../../lib/permission-level/PermissionLevel#serialize (; 104 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
-=======
- (func $../../lib/permission-level/PermissionLevel#serialize (; 103 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load
     (get_local $0)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#write<u64>
-=======
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load offset=8
     (get_local $0)
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#writeComplexVector<PermissionLevel> (; 105 ;) (type $iiv) (param $0 i32) (param $1 i32)
-=======
- (func $../../lib/datastream/DataStream#writeComplexVector<PermissionLevel> (; 104 ;) (type $iiv) (param $0 i32) (param $1 i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -6806,11 +6591,7 @@
     )
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeVarint32
-=======
-  (call $../../lib/datastream/DataStream#writeVarint32
->>>>>>> refactor sdk architecture.
    (get_local $0)
    (get_local $2)
   )
@@ -6844,11 +6625,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/array/Array<u8>#__get (; 106 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-=======
- (func $~lib/array/Array<u8>#__get (; 105 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (set_local $2
    (i32.load
@@ -6879,11 +6656,7 @@
    (unreachable)
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream#writeVector<u8> (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
-=======
- (func $../../lib/datastream/DataStream#writeVector<u8> (; 106 ;) (type $iiv) (param $0 i32) (param $1 i32)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (local $3 i32)
   (set_local $2
@@ -6893,11 +6666,7 @@
     )
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeVarint32
-=======
-  (call $../../lib/datastream/DataStream#writeVarint32
->>>>>>> refactor sdk architecture.
    (get_local $0)
    (get_local $2)
   )
@@ -6914,11 +6683,7 @@
       )
      )
     )
-<<<<<<< HEAD
     (call $~lib/datastream/DataStream#write<u8>
-=======
-    (call $../../lib/datastream/DataStream#write<u8>
->>>>>>> refactor sdk architecture.
      (get_local $0)
      (call $~lib/array/Array<u8>#__get
       (get_local $1)
@@ -6935,13 +6700,8 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $../../src/action/ActionImpl#serialize (; 108 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#write<u64>
-=======
- (func $../../src/action/ActionImpl#serialize (; 107 ;) (type $iiv) (param $0 i32) (param $1 i32)
-  (call $../../lib/datastream/DataStream#write<u64>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i64.load
     (get_local $0)
@@ -6953,38 +6713,23 @@
    )
    (get_local $1)
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeComplexVector<PermissionLevel>
-=======
-  (call $../../lib/datastream/DataStream#writeComplexVector<PermissionLevel>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i32.load offset=12
     (get_local $0)
    )
   )
-<<<<<<< HEAD
   (call $~lib/datastream/DataStream#writeVector<u8>
-=======
-  (call $../../lib/datastream/DataStream#writeVector<u8>
->>>>>>> refactor sdk architecture.
    (get_local $1)
    (i32.load offset=16
     (get_local $0)
    )
   )
  )
-<<<<<<< HEAD
  (func $~lib/datastream/DataStream.measure<ActionImpl> (; 109 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
-=======
- (func $../../lib/datastream/DataStream.measure<ActionImpl> (; 108 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (set_local $1
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.const 0)
     (i32.const 0)
@@ -6998,11 +6743,7 @@
    (get_local $1)
   )
  )
-<<<<<<< HEAD
  (func $../../src/action/dispatchInline (; 110 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
-=======
- (func $../../src/action/dispatchInline (; 109 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
->>>>>>> refactor sdk architecture.
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7029,11 +6770,7 @@
    (get_local $2)
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<TransferParams>
-=======
-   (call $../../lib/datastream/DataStream.measure<TransferParams>
->>>>>>> refactor sdk architecture.
     (get_local $3)
    )
   )
@@ -7044,11 +6781,7 @@
    )
   )
   (set_local $7
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $6)
@@ -7062,20 +6795,12 @@
   )
   (i32.store offset=16
    (get_local $4)
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#toArray<u8>
-=======
-   (call $../../lib/datastream/DataStream#toArray<u8>
->>>>>>> refactor sdk architecture.
     (get_local $7)
    )
   )
   (set_local $5
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream.measure<ActionImpl>
-=======
-   (call $../../lib/datastream/DataStream.measure<ActionImpl>
->>>>>>> refactor sdk architecture.
     (get_local $4)
    )
   )
@@ -7086,11 +6811,7 @@
    )
   )
   (set_local $7
-<<<<<<< HEAD
    (call $~lib/datastream/DataStream#constructor
-=======
-   (call $../../lib/datastream/DataStream#constructor
->>>>>>> refactor sdk architecture.
     (i32.const 0)
     (i32.load
      (get_local $6)
@@ -7111,11 +6832,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $token/Token#issue (; 111 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
-=======
- (func $token/Token#issue (; 110 ;) (type $iIiiv) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32)
->>>>>>> refactor sdk architecture.
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7328,11 +7045,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $../../src/dbmanager/DBManager<CurrencyAccount>#erase (; 112 ;) (type $iIv) (param $0 i32) (param $1 i64)
-=======
- (func $../../src/dbmanager/DBManager<CurrencyAccount>#erase (; 111 ;) (type $iIv) (param $0 i32) (param $1 i64)
->>>>>>> refactor sdk architecture.
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -7360,11 +7073,7 @@
    (nop)
   )
  )
-<<<<<<< HEAD
  (func $token/Token#subBalance (; 113 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
-=======
- (func $token/Token#subBalance (; 112 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
->>>>>>> refactor sdk architecture.
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7461,11 +7170,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $token/Token#transfer (; 114 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
-=======
- (func $token/Token#transfer (; 113 ;) (type $iIIiiv) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i32) (param $4 i32)
->>>>>>> refactor sdk architecture.
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -7574,11 +7279,7 @@
    (get_local $1)
   )
  )
-<<<<<<< HEAD
  (func $main/apply (; 115 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
-=======
- (func $main/apply (; 114 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
->>>>>>> refactor sdk architecture.
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -7619,11 +7320,7 @@
      )
      (block
       (set_local $7
-<<<<<<< HEAD
        (call $~lib/datastream/DataStream#read<u64>
-=======
-       (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
         (get_local $5)
        )
       )
@@ -7653,11 +7350,7 @@
       )
       (block
        (set_local $7
-<<<<<<< HEAD
         (call $~lib/datastream/DataStream#read<u64>
-=======
-        (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
          (get_local $5)
         )
        )
@@ -7673,11 +7366,7 @@
         (get_local $5)
        )
        (set_local $9
-<<<<<<< HEAD
         (call $~lib/datastream/DataStream#readString
-=======
-        (call $../../lib/datastream/DataStream#readString
->>>>>>> refactor sdk architecture.
          (get_local $5)
         )
        )
@@ -7697,20 +7386,12 @@
        )
        (block
         (set_local $7
-<<<<<<< HEAD
          (call $~lib/datastream/DataStream#read<u64>
-=======
-         (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
           (get_local $5)
          )
         )
         (set_local $10
-<<<<<<< HEAD
          (call $~lib/datastream/DataStream#read<u64>
-=======
-         (call $../../lib/datastream/DataStream#read<u64>
->>>>>>> refactor sdk architecture.
           (get_local $5)
          )
         )
@@ -7726,11 +7407,7 @@
          (get_local $5)
         )
         (set_local $8
-<<<<<<< HEAD
          (call $~lib/datastream/DataStream#readString
-=======
-         (call $../../lib/datastream/DataStream#readString
->>>>>>> refactor sdk architecture.
           (get_local $5)
          )
         )
@@ -7751,11 +7428,7 @@
    )
   )
  )
-<<<<<<< HEAD
  (func $start (; 116 ;) (type $v)
-=======
- (func $start (; 115 ;) (type $v)
->>>>>>> refactor sdk architecture.
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
@@ -7783,11 +7456,6 @@
     (get_local $0)
    )
   )
-  (nop)
-<<<<<<< HEAD
-=======
-  (nop)
->>>>>>> refactor sdk architecture.
   (set_global $../../src/asset/SYS
    (call $../../src/asset/StringToSymbol
     (i32.const 4)

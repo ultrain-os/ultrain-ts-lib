@@ -1,7 +1,6 @@
 import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
-import { send, queryBalance } from "../../lib/balance";
 import { ultrain_assert } from "../../src/utils";
 
 class BalanceContract extends Contract {
@@ -18,11 +17,11 @@ class BalanceContract extends Contract {
     @action
     transfer(from: account_name, to: account_name, bet: Asset): void {
 
-        let balance = queryBalance(from);
+        let balance = Asset.balanceOf(from);
         ultrain_assert(balance.gte(bet), "your balance is not enough.");
 
         balance.prints("banalce from: ");
 
-        send(from, to, bet, "this is a xxxx test");
+        Asset.transfer(from, to, bet, "this is a transfer test");
     }
 }
