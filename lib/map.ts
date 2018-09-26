@@ -4,9 +4,7 @@
  * @datetime 16:53:10, 07/11/2018
  * All rights reserved by ultrain.io @2018
  */
-import { Log } from "../src/log";
 import { ultrain_assert } from "../src/utils";
-// import { DataStream } from "./datastream";
 
 @ignore
 export class Map<K, V> implements Serializable {

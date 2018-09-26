@@ -3,7 +3,7 @@ import { Asset } from "../src/asset";
 /**
  * A standard interface for tokens
  */
-export interface UIP06{
+export interface UIP06 {
 
 	/**
 	 * Create a non-fungbile token
@@ -41,7 +41,7 @@ export interface UIP06{
 	 * 
 	 * @return  reutrn the supply asset
 	 */
-	getsupply(sym_name: string): Asset;
+	getSupply(sym_name: string): Asset;
 
 	/**
 	 * Get the balance of the owner's symbal name token
@@ -51,5 +51,5 @@ export interface UIP06{
 	 * 
 	 * @return return the balance
 	 */
-	getbalance(owner: account_name, sym_name: string): Asset;
+	getBalance(owner: account_name, sym_name: string): Asset;
 }

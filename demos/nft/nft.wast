@@ -33,6 +33,7 @@
  (type $iIIiv (func (param i32 i64 i64 i32)))
  (type $iII (func (param i32 i64) (result i64)))
  (type $iIiiI (func (param i32 i64 i32 i32) (result i64)))
+ (type $IIIIv (func (param i64 i64 i64 i64)))
  (import "env" "abort" (func $~lib/env/abort))
  (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/env.ts_log_print_s (param i32)))
@@ -49,15 +50,14 @@
  (import "env" "is_account" (func $../../internal/action.d/env.is_account (param i64) (result i32)))
  (import "env" "require_recipient" (func $../../internal/action.d/env.require_recipient (param i64)))
  (import "env" "db_remove_i64" (func $../../internal/db.d/env.db_remove_i64 (param i32)))
+ (global $~lib/internal/allocator/MAX_SIZE_32 i32 (i32.const 1073741824))
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
  (global $~lib/internal/allocator/AL_SIZE i32 (i32.const 8))
  (global $~lib/internal/allocator/AL_MASK i32 (i32.const 7))
- (global $~lib/internal/allocator/MAX_SIZE_32 i32 (i32.const 1073741824))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/log/Log (mut i32) (i32.const 0))
  (global $../../src/utils/PrintableChar i32 (i32.const 1272))
- (global $../../lib/datastream/HEADER_SIZE i32 (i32.const 4))
  (global $../../src/asset/CHAR_A i32 (i32.const 65))
  (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
@@ -220,6 +220,7 @@
  (data (i32.const 4976) "\08\00\00\00t\00r\00a\00n\00s\00f\00e\00r\00")
  (export "memory" (memory $0))
  (export "Nft#constructor" (func $nft/Nft#constructor))
+ (export "Nft#_Contract_super" (func $../../src/contract/Contract#_Contract_super))
  (export "Nft#get:_receiver" (func $Nft#get:_receiver))
  (export "Nft#set:_receiver" (func $Nft#set:_receiver))
  (export "Nft#get:receiver" (func $../../src/contract/Contract#get:receiver))
@@ -228,15 +229,15 @@
  (export "Nft#getDataStream" (func $../../src/contract/Contract#getDataStream))
  (export "Nft#onInit" (func $../../src/contract/Contract#onInit))
  (export "Nft#onStop" (func $../../src/contract/Contract#onStop))
- (export "Nft#_super" (func $nft/Nft#_super))
  (export "Nft#create" (func $nft/Nft#create))
  (export "Nft#issue" (func $nft/Nft#issue))
  (export "Nft#transfer" (func $nft/Nft#transfer))
- (export "Nft#ownerof" (func $nft/Nft#ownerof))
- (export "Nft#uriof" (func $nft/Nft#uriof))
- (export "Nft#tokenbyindex" (func $nft/Nft#tokenbyindex))
- (export "Nft#getsupply" (func $nft/Nft#getsupply))
- (export "Nft#getbalance" (func $nft/Nft#getbalance))
+ (export "Nft#ownerOf" (func $nft/Nft#ownerOf))
+ (export "Nft#uriOf" (func $nft/Nft#uriOf))
+ (export "Nft#tokenByIndex" (func $nft/Nft#tokenByIndex))
+ (export "Nft#getSupply" (func $nft/Nft#getSupply))
+ (export "Nft#getBalance" (func $nft/Nft#getBalance))
+ (export "apply" (func $nft/apply))
  (start $start)
  (func $~lib/allocator/arena/__memory_allocate (; 16 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
@@ -3849,7 +3850,7 @@
    (get_local $0)
   )
  )
- (func $nft/Nft#_super (; 37 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/contract/Contract#_Contract_super (; 37 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
@@ -3857,13 +3858,7 @@
  )
  (func $nft/Nft#constructor (; 38 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
-  (drop
-   (get_local $0)
-  )
-  (drop
-   (get_local $1)
-  )
-  (call $nft/Nft#_super
+  (call $../../src/contract/Contract#_Contract_super
    (tee_local $0
     (if (result i32)
      (get_local $0)
@@ -4577,26 +4572,22 @@
    (i64.const 255)
   )
  )
- (func $../../src/asset/Asset#isAmountWithinRange (; 56 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
+ (func $../../src/asset/Asset#isAmountWithinRange (; 56 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
   (if (result i32)
-   (tee_local $1
+   (tee_local $2
     (i64.le_u
      (i64.extend_u/i32
       (i32.const 0)
      )
-     (i64.load
-      (get_local $0)
-     )
+     (get_local $1)
     )
    )
    (i64.le_u
-    (i64.load
-     (get_local $0)
-    )
+    (get_local $1)
     (get_global $../../src/asset/MAX_AMOUNT)
    )
-   (get_local $1)
+   (get_local $2)
   )
  )
  (func $../../src/asset/Asset#isValid (; 57 ;) (type $ii) (param $0 i32) (result i32)
@@ -4605,6 +4596,9 @@
    (tee_local $1
     (call $../../src/asset/Asset#isAmountWithinRange
      (get_local $0)
+     (i64.load
+      (get_local $0)
+     )
     )
    )
    (call $../../src/asset/Asset#isSymbolValid
@@ -4876,7 +4870,7 @@
    (get_local $1)
   )
  )
- (func $~lib/datastream/DataStream#isMesureMode (; 68 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#isMeasureMode (; 68 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4887,7 +4881,7 @@
  (func $~lib/datastream/DataStream#write<u64> (; 69 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (if
    (i32.eqz
-    (call $~lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMeasureMode
      (get_local $0)
     )
    )
@@ -5776,7 +5770,7 @@
  (func $~lib/datastream/DataStream#write<u8> (; 90 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
-    (call $~lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMeasureMode
      (get_local $0)
     )
    )
@@ -6109,7 +6103,7 @@
   )
   (if
    (i32.eqz
-    (call $~lib/datastream/DataStream#isMesureMode
+    (call $~lib/datastream/DataStream#isMeasureMode
      (get_local $0)
     )
    )
@@ -6330,9 +6324,15 @@
   )
  )
  (func $../../src/asset/Asset#setAmount (; 99 ;) (type $iIv) (param $0 i32) (param $1 i64)
-  (i64.store
-   (get_local $0)
-   (get_local $1)
+  (if
+   (call $../../src/asset/Asset#isAmountWithinRange
+    (get_local $0)
+    (get_local $1)
+   )
+   (i64.store
+    (get_local $0)
+    (get_local $1)
+   )
   )
  )
  (func $../../src/dbmanager/DBManager<CurrencyStats>#find (; 100 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
@@ -7987,7 +7987,7 @@
    (get_local $1)
   )
  )
- (func $nft/Nft#ownerof (; 129 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
+ (func $nft/Nft#ownerOf (; 129 ;) (type $iII) (param $0 i32) (param $1 i64) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8032,7 +8032,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#uriof (; 130 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $nft/Nft#uriOf (; 130 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8077,7 +8077,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#tokenbyindex (; 131 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
+ (func $nft/Nft#tokenByIndex (; 131 ;) (type $iIiiI) (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i32) (result i64)
   (local $4 i64)
   (local $5 i32)
   (local $6 i32)
@@ -8142,7 +8142,7 @@
    (get_local $3)
   )
  )
- (func $nft/Nft#getsupply (; 132 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $nft/Nft#getSupply (; 132 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i64)
   (local $3 i32)
   (local $4 i32)
@@ -8195,7 +8195,7 @@
    (get_local $4)
   )
  )
- (func $nft/Nft#getbalance (; 133 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $nft/Nft#getBalance (; 133 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i64)
   (local $4 i32)
   (local $5 i32)
@@ -8622,7 +8622,6 @@
     (get_local $0)
    )
   )
-  (nop)
   (nop)
   (set_global $../../src/asset/SYS
    (call $../../src/asset/StringToSymbol

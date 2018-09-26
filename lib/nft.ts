@@ -30,7 +30,6 @@ class NftAccount implements Serializable {
 }
 
 
-// TODO add serializable implements
 class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
@@ -43,18 +42,18 @@ class CurrencyStats implements Serializable {
     }
 
     primaryKey(): id_type { return this.supply.symbolName(); }
+ 
+    deserialize(ds: DataStream): void {
+        this.supply.deserialize(ds);
+        this.max_supply.deserialize(ds);
+        this.issuer = ds.read<account_name>();
+    }
 
-    // deserialize(ds: DataStream): void {
-    //     this.supply.deserialize(ds);
-    //     this.max_supply.deserialize(ds);
-    //     this.issuer = ds.read<account_name>();
-    // }
-
-    // serialize(ds: DataStream): void {
-    //     this.supply.serialize(ds);
-    //     this.max_supply.serialize(ds);
-    //     ds.write<account_name>(this.issuer);
-    // }
+    serialize(ds: DataStream): void {
+        this.supply.serialize(ds);
+        this.max_supply.serialize(ds);
+        ds.write<account_name>(this.issuer);
+    }
 }
 
 
@@ -87,24 +86,24 @@ class Token implements Serializable {
         this.name = name;
         this.current_id = <id_type> 0; //default current id value is zero
     }
+    
+    deserialize(ds: DataStream): void {
+        this.id = ds.read<id_type>();
+        this.owner = ds.read<account_name>();
+        this.value.deserialize(ds);
+        this.uri = ds.readString();
+        this.name = ds.readString();
+        this.current_id = ds.read<id_type>();
+    }
 
-    // deserialize(ds: DataStream): void {
-    //     this.id = ds.read<id_type>();
-    //     this.owner = ds.read<account_name>();
-    //     this.value.deserialize(ds);
-    //     this.uri = ds.readString();
-    //     this.name = ds.readString();
-    //     this.current_id = ds.read<id_type>();
-    // }
-
-    // serialize(ds: DataStream): void {
-    //     ds.write<id_type>(this.id);
-    //     ds.write<account_name>(this.owner);
-    //     this.value.serialize(ds);
-    //     ds.writeString(this.uri);
-    //     ds.writeString(this.name);
-    //     ds.write<id_type>(this.current_id);
-    // }
+    serialize(ds: DataStream): void {
+        ds.write<id_type>(this.id);
+        ds.write<account_name>(this.owner);
+        this.value.serialize(ds);
+        ds.writeString(this.uri);
+        ds.writeString(this.name);
+        ds.write<id_type>(this.current_id);
+    }
 }
 
 const STATSTABLE: string = "stat";
@@ -112,17 +111,18 @@ const ACCOUNTTABLE: string = "account";
 const TOKENTABLE: string = "token";
 
 
-export class Nft extends UIP09 {
+export class Nft implements UIP09 {
+
+    private receiver: account_name;
 
     constructor(receiver: account_name) {
-        super(receiver);
+        this.receiver = receiver;
     }
 
     private static token_scope: u64 = NAME("token");
     private static TOKEN_PRIMARY_ID: id_type = 0;
     private static TOKEN_START: id_type = 1;
 
-    @action
     create(issuer: account_name, maximum_supply: Asset): void {
 
         Action.requireAuth(this.receiver);
@@ -143,7 +143,6 @@ export class Nft extends UIP09 {
         statstable.emplace(this.receiver, cs);
     }
 
-    @action
     issue(to: account_name, quantity: Asset, uris: string[], name: string, memo: string): void {
 
         ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
@@ -178,7 +177,6 @@ export class Nft extends UIP09 {
         this.updateMaxPrimaryKey(st.issuer, --token_id_start);
     }
 
-    @action
     transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {
         // tansfer token:id to user
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
@@ -217,7 +215,7 @@ export class Nft extends UIP09 {
         this.addBalance(to, token_ids, oneToken, from);
     }
 
-    ownerof(id: id_type): account_name {
+    ownerOf(id: id_type): account_name {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
@@ -226,7 +224,7 @@ export class Nft extends UIP09 {
         return token.owner;
     }
 
-    uriof(token_id: id_type): string {
+    uriOf(token_id: id_type): string {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
@@ -235,7 +233,7 @@ export class Nft extends UIP09 {
         return token.uri;
     }
 
-    tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type {
+    tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
         let account: NftAccount = new NftAccount(new Asset());
@@ -247,7 +245,7 @@ export class Nft extends UIP09 {
         return account.token_ids[index];
     }
 
-    getsupply(sym_name: string): Asset {
+    getSupply(sym_name: string): Asset {
         let symname = NAME(sym_name);
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0);
@@ -256,7 +254,7 @@ export class Nft extends UIP09 {
         return st.supply;
     }
 
-    getbalance(owner: account_name, sym_name: string): Asset {
+    getBalance(owner: account_name, sym_name: string): Asset {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
         let account = new NftAccount(new Asset());
@@ -267,7 +265,7 @@ export class Nft extends UIP09 {
     }
 
     private availablePrimaryKey(): id_type {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this._receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
         let res =  existing ? token.increaseId() : Nft.TOKEN_START;
