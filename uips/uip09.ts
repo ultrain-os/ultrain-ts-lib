@@ -1,7 +1,7 @@
 import { Asset } from "../src/asset";
 
 
-export interface UIP09{
+export interface UIP09 {
 
 	/**
 	 * Create a non-fungbile token
@@ -40,7 +40,7 @@ export interface UIP09{
 	 * 
 	 * @returns return the token owner account name
 	 */
-	ownerof(token_id: id_type): account_name;
+	ownerOf(token_id: id_type): account_name;
 
 	/**
 	 * Get the owner token id by the index 
@@ -51,7 +51,7 @@ export interface UIP09{
 	 * 
 	 * @returns the token id of the token
 	 */
-	tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type;
+	tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type;
 
 	/**
 	 * Get the token attribute uri by the token_id
@@ -60,7 +60,7 @@ export interface UIP09{
 	 * 
 	 * @returns the uri of the token
 	 */
-	uriof(token_id: id_type): string;
+	uriOf(token_id: id_type): string;
 
 	/**
 	 * Get the total supply of the symbal token
@@ -69,7 +69,7 @@ export interface UIP09{
 	 * 
 	 * @return  reutrn the supply asset
 	 */
-	getsupply(sym_name: string): Asset;
+	getSupply(sym_name: string): Asset;
 
 	/**
 	 * Get the balance of the owner's symbal name token
@@ -79,5 +79,5 @@ export interface UIP09{
 	 * 
 	 * @return return the balance
 	 */
-	getbalance(owner: account_name, sym_name: string): Asset;
+	getBalance(owner: account_name, sym_name: string): Asset;
 }

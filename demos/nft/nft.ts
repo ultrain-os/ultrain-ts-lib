@@ -29,7 +29,6 @@ class NftAccount implements Serializable {
 }
 
 
-// TODO add serializable implements
 class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
@@ -218,7 +217,7 @@ export class Nft extends Contract {
         this.addBalance(to, token_ids, oneToken, from);
     }
 
-    ownerof(id: id_type): account_name {
+    ownerOf(id: id_type): account_name {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
@@ -227,7 +226,7 @@ export class Nft extends Contract {
         return token.owner;
     }
 
-    uriof(token_id: id_type): string {
+    uriOf(token_id: id_type): string {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
@@ -236,7 +235,7 @@ export class Nft extends Contract {
         return token.uri;
     }
 
-    tokenbyindex(owner: account_name, sym_name: string, index: i32): id_type {
+    tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
         let account: NftAccount = new NftAccount(new Asset());
@@ -248,7 +247,7 @@ export class Nft extends Contract {
         return account.token_ids[index];
     }
 
-    getsupply(sym_name: string): Asset {
+    getSupply(sym_name: string): Asset {
         let symname = NAME(sym_name);
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0);
@@ -257,7 +256,7 @@ export class Nft extends Contract {
         return st.supply;
     }
 
-    getbalance(owner: account_name, sym_name: string): Asset {
+    getBalance(owner: account_name, sym_name: string): Asset {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
         let account = new NftAccount(new Asset());
