@@ -22,7 +22,7 @@ do
 done
 
 # deploy DragonCore contract
-$clultrain set contract mima.dragon $HOME/server/sources/ultrain-sdk-ts/example/dragon -p mima.dragon
+$clultrain set contract mima.dragon $HOME/Public/ultrain-ts-lib/example/dragon -p mima.dragon
 
 
 function wait1s {
@@ -46,7 +46,7 @@ function case_createGen0Auction() {
 }
 
 function case_createPromoDragon() {
-    
+
     # 11650 3070657617454920819 1525467138238866350 7627071568795996247
     # 10046 5048059407661920187 7261389236435290723 1015270292202655842
     # 136452 0524496706082148970 5485441238634028305 9292030523207520340
@@ -167,7 +167,7 @@ function case_match() {
     # $clultrain push action mima.dragon guess '[]' -p player1
 }
 
-case_createGen0Auction
-case_createPromoDragon
+# case_createGen0Auction
+# case_createPromoDragon
 
-case_match
+# case_match

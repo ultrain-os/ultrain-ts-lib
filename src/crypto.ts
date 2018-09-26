@@ -109,7 +109,10 @@ export class SHA256 extends Crypto {
     constructor() {
         super(32);
     }
-
+    /**
+     * to calculate hash.
+     * @param data a string to calculate hash.
+     */
     public hash(data: string): string {
         cry.ts_sha256(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
@@ -123,7 +126,10 @@ export class SHA512 extends Crypto {
     constructor() {
         super(64);
     }
-
+    /**
+     * to calculate hash.
+     * @param data a string to calculate hash.
+     */
     public hash(data: string): string {
         cry.ts_sha512(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();
@@ -137,7 +143,10 @@ export class Ripemd160 extends Crypto {
     constructor() {
         super(20);
     }
-
+    /**
+     * to calculate hash.
+     * @param data a string to calculate hash.
+     */
     public hash(data: string): string {
         cry.ts_ripemd160(string2cstr(data), data.length, this.buffer, this.bufferSize);
         return this.toString();

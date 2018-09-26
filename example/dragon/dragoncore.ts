@@ -1136,30 +1136,21 @@ export class DragonCore extends DragonExtend {
     }
 
     public joinMatch(dragonId: DragonId, value: Asset): void {
-        Log.s("JoinMatch 1").flush();
         this.whenNotPaused();
-        Log.s("JoinMatch 2").flush();
         let exists = this.containsDragon(dragonId);
         if (exists) {
             let sender = Action.sender;
             ultrain_assert(this._owns(sender, dragonId), "the dragon does not belong to the sender.");
-            Log.s("JoinMatch 3").flush();
             let dra = this.dragons[<i32>dragonId];
             let count = (dra.titles & 0xFF);
             ultrain_assert(count < 10, "the dragon joins too many matches.");
             ultrain_assert(!this.isPregnant(dragonId), "the dragon is pregnant.");
             ultrain_assert(this._isNotCooldownIng(dra), "the dragon is still cooling down.");
-            Log.s("JoinMatch 4").flush();
             let matchInterface = new MatchCore(this);
-            Log.s("JoinMatch 5").flush();
             matchInterface.loadFromDBManager();
-            Log.s("JoinMatch 6").flush();
             ultrain_assert(matchInterface.isCanJoin(sender), RNAME(sender) + " can not join the match.");
-            Log.s("JoinMatch 7").flush();
             this._approve(dragonId, sender);
-            Log.s("JoinMatch 8").flush();
             matchInterface.joinMatch(sender, dragonId, dra.genes, dra.titles, value);
-            Log.s("JoinMatch 9").flush();
             matchInterface.saveToDBManager();
         } else {
             Log.s("JoinMatch failed, " + intToString(dragonId) + " is not exists.");
