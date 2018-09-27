@@ -134,9 +134,11 @@ class HelloWorld extends Contract{
 * 客户端订阅事件
 客户端可以选择向Ultrain的结点注册监听事件，当ultrain结点中有事件发生时，将会post信息到注册的地址。
 （以下示例中的*localhost*和*8888*分别表示节点的IP和port，在实际使用中需要替换成真实的地址和端口）
+> **IMPORTANT:** 节点post事件消息时，默认启用keep-alive头信息，所以接收事件的服务端，也要支持keep-alive，否则会丢失事件。
+
 **订阅**
-客户端通过post请求向Ultrain的节点注册事件监听：
-订阅url:  `http://localhost:8888/v1/chain/register_event`
+客户端通过post请求向Ultrain的节点注册事件监听:  
+订阅url:  `http://[host]:[port]/v1/chain/register_event`
 post的数据：
 ```
 account: 合约的帐户名
@@ -144,7 +146,7 @@ post_url：　接受事件发生时推送的url
 ```
 **取消订阅**
 客户端通过post请求向Ultrain的节点取消事件监听：
-订阅url:  `http://localhost:8888/v1/chain/unregister_event`
+订阅url:  `http://[host]:[port]/v1/chain/unregister_event`
 post的数据：
 ```
 account: 合约的帐户名
@@ -205,6 +207,8 @@ server = http.createServer( function(req, res) {
 
 port = 3000;
 host = '127.0.0.1';
+server.timeout = 0;
+server.keepAliveTimeout = 0;
 server.listen(port, host);
 console.log('Listening at http://' + host + ':' + port);
 
