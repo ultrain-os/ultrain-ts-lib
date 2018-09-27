@@ -1,5 +1,4 @@
 
-
 export function serializeMap<K, V>(mp: Map<K, V>, ds: DataStream): void {
     let keys = mp.keys();
     let cnt = keys.length;

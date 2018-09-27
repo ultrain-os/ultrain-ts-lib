@@ -1,5 +1,5 @@
 import { Asset } from "../../src/asset";
-import { ultrain_assert, intToString } from "../../src/utils";
+import { ultrain_assert, intToString} from "../../src/utils";
 import { Round, RoundBaseInfo, RoundStag, Cards } from "./round";
 import { SYS } from "../../src/asset";
 import { Action } from "../../src/action";
@@ -8,6 +8,7 @@ import { Log } from "../../src/log";
 import { Return } from "../../src/return";
 import { NAME } from "../../src/account";
 import { now } from "../../src/time";
+
 /**
  * 将打牌操作交给当前进行中的round处理。
  * 注意room在同一时刻只有一个对局，通过stage来表明对局轮次
@@ -29,8 +30,8 @@ export class Room implements Serializable{
     actionRecord:Array<ActionRecord> = new Array<ActionRecord>();
 	/**无参构造方法，否则序列化时无法实例*/
 	public constructor() {
-        this.roomInfoDB = new DBManager<RoomInfo>(NAME("chaole.nn"),Action.receiver,NAME("room.info"));
-        this.roomDB = new DBManager<Room>(NAME("chaole.nn"),Action.receiver,NAME("room"));
+        this.roomInfoDB = new DBManager<RoomInfo>(NAME("chaole.ri"),Action.receiver,NAME("room.info"));
+        this.roomDB = new DBManager<Room>(NAME("chaole.r"),Action.receiver,NAME("room"));
     }
 
     serialize(ds: DataStream): void {
@@ -138,9 +139,11 @@ export class Room implements Serializable{
      * @param Q
      */
     public setPQ(P:string,Q:string):void{
+        //Log.s("setPQ:"+RNAME(Action.sender)).flush();
         ultrain_assert(this.stage>0,"stage.issue: the room is not ready or is end");
         ultrain_assert(changetype<boolean>(this.players.includes(Action.sender)),"player.issue: you are not in room");
         if(this.stage!=1){
+            // Log.s("checkRound:").i(this.stage).flush();
             let id = this.roomInfo.roomNum*100+this.stage-1;
             let oldRound = new Round();
             ultrain_assert(oldRound.getRound(id),"round.issue: round is not exist");
@@ -161,9 +164,14 @@ export class Room implements Serializable{
      * @param cards
      */
     public shuffleCard(cards:string[]):void{
+        // Log.s("shuffleCard:"+RNAME(Action.sender)).flush();
+        Log.s("r.shuff 1").flush();
         let round = this.getCurrentRound();
+        Log.s("r.shuff 2").flush();
         this.insertAction(round);
+        Log.s("r.shuff 3").flush();
         this.modifyRoom();
+        Log.s("r.shuff 4").flush();
         round.shuffleCard(cards);
     }
 
@@ -172,6 +180,7 @@ export class Room implements Serializable{
      * @param cards
      */
     public encryptCard(cards:string[]):void{
+        // Log.s("encryptCard:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -183,6 +192,7 @@ export class Room implements Serializable{
      * @param keys
      */
     public uploadEncryptKey(enkeys:string[],dekeys:string[]):void{
+        // Log.s("uploadEncryptKey:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -193,6 +203,7 @@ export class Room implements Serializable{
      * 抢庄
      */
     public scrambleBanker():void{
+        // Log.s("scrambleBanker:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -204,6 +215,7 @@ export class Room implements Serializable{
      * @param bets
      */
     public bet(bets:u8):void{
+        // Log.s("bet:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -215,6 +227,7 @@ export class Room implements Serializable{
      * @param keys
      */
     public uploadLastEncryptKey(enkeys:string[],dekeys:string[]):void{
+        // Log.s("uploadLastEncryptKey:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -228,6 +241,7 @@ export class Room implements Serializable{
      * @param flag
      */
     public discard(cards:u8[],enkeys:string[],dekeys:string[],flag:u8):void{
+        // Log.s("discard:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -239,6 +253,7 @@ export class Room implements Serializable{
      * @param key
      */
     public uploadShuffleKeys(enkey:string,dekey:string):void{
+        // Log.s("uploadShuffleKeys:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         this.insertAction(round);
         this.modifyRoom();
@@ -249,18 +264,19 @@ export class Room implements Serializable{
      * 结算并插入数据库
      */
     public settle(points:i16[]):void{
+        // Log.s("settle:"+RNAME(Action.sender)).flush();
         let round = this.getCurrentRound();
         round.settle(points);
         if(round.stage==RoundStag.END){
             this.stage++;
+            // Log.s("stage++:").i(this.stage).flush();
             this.modifyRoom();
         }
         if(this.stage>this.roomInfo.totalRound){
             this.stage = -1;
+            // Log.s("stage=-1").flush();
             this.modifyRoom();
         }
-
-
     }
     /**
      * 对局开始前退出房间
@@ -385,9 +401,14 @@ export class Room implements Serializable{
         ultrain_assert(changetype<boolean>(this.players.includes(Action.sender)),"player.issue: you are not in room!");
         ultrain_assert(this.stage!=-1,"room.issue: room is end !");
         ultrain_assert(this.stage>0,"stage.issue: the room is not already or is end");
-        let id = this.roomInfo.roomNum*100+this.stage;
+        Log.s("g.current round 1").flush();
+        let id: u64 = this.roomInfo.roomNum*100+this.stage;
         let round = new Round();
-        ultrain_assert(round.getRound(id),"round.issue: round is not exist");
+        // Log.s("getround：").i(id).flush();
+        Log.s("g.current round 2").flush();
+        let has = round.getRound(id)
+        ultrain_assert(has,"round.issue: round is not exist");
+        Log.s("g.current round 3").flush();
         return round;
     }
     /**
@@ -406,19 +427,19 @@ class ActionRecord implements Serializable{
     player:account_name;
     time:u64;
     action:i32;
-    serialize(ds: DataStream): void {
-        ds.write<account_name>(this.player);
-        ds.write<u64>(this.time);
-        ds.write<i32>(this.action);
-    }
-    deserialize(ds: DataStream): void {
-        this.player = ds.read<account_name>();
-        this.time = ds.read<u64>();
-        this.action = ds.read<i32>();
-    }
-    primaryKey(): u64 {
-        return 0;
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.write<account_name>(this.player);
+    //     ds.write<u64>(this.time);
+    //     ds.write<i32>(this.action);
+    // }
+    // deserialize(ds: DataStream): void {
+    //     this.player = ds.read<account_name>();
+    //     this.time = ds.read<u64>();
+    //     this.action = ds.read<i32>();
+    // }
+    // primaryKey(): u64 {
+    //     return 0;
+    // }
 
     public static defaultAction(actionCode:i32):ActionRecord{
         let action:ActionRecord = new ActionRecord();
@@ -451,30 +472,30 @@ export class RoomInfo implements Serializable{
     /**开局的块高 */
     startBlock:u32 = 0;
 
-    serialize(ds: DataStream): void {
-        ds.write<u8>(this.bidWay);
-        ds.write<account_name>(this.host);
-        ds.write<u64>(this.minMoney);
-        ds.write<u8>(this.minPlayerToStart);
-        ds.write<u8>(this.point);
-        ds.write<u64>(this.roomNum);
-        ds.write<u8>(this.startWay);
-        ds.write<i8>(this.totalRound);
-        ds.write<u64>(this.checkInNum);
-        ds.write<u32>(this.startBlock);
-    }
-    deserialize(ds: DataStream): void {
-        this.bidWay = ds.read<u8>();
-        this.host = ds.read<account_name>();
-        this.minMoney = ds.read<u64>();
-        this.minPlayerToStart = ds.read<u8>();
-        this.point = ds.read<u8>();
-        this.roomNum = ds.read<u64>();
-        this.startWay = ds.read<u8>();
-        this.totalRound = ds.read<i8>();
-        this.checkInNum = ds.read<u64>();
-        this.startBlock = ds.read<u32>();
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.write<u8>(this.bidWay);
+    //     ds.write<account_name>(this.host);
+    //     ds.write<u64>(this.minMoney);
+    //     ds.write<u8>(this.minPlayerToStart);
+    //     ds.write<u8>(this.point);
+    //     ds.write<u64>(this.roomNum);
+    //     ds.write<u8>(this.startWay);
+    //     ds.write<i8>(this.totalRound);
+    //     ds.write<u64>(this.checkInNum);
+    //     ds.write<u32>(this.startBlock);
+    // }
+    // deserialize(ds: DataStream): void {
+    //     this.bidWay = ds.read<u8>();
+    //     this.host = ds.read<account_name>();
+    //     this.minMoney = ds.read<u64>();
+    //     this.minPlayerToStart = ds.read<u8>();
+    //     this.point = ds.read<u8>();
+    //     this.roomNum = ds.read<u64>();
+    //     this.startWay = ds.read<u8>();
+    //     this.totalRound = ds.read<i8>();
+    //     this.checkInNum = ds.read<u64>();
+    //     this.startBlock = ds.read<u32>();
+    // }
 
     primaryKey(): u64 {
         return this.roomNum;

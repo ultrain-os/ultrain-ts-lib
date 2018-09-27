@@ -5,9 +5,8 @@ import { DBManager } from "../../src/dbmanager";
 import { DBHelper } from "./util/DBHelper";
 import { Log } from "../../src/log";
 import { powMod, mul, isProbablyPrime, cmp } from "./util/BigInt";
-import { bytesToString } from "./util/string_util";
 import { Return } from "../../src/return";
-import { NAME } from "../../src/account";
+import { NAME, RNAME } from "../../src/account";
 
 const DEFAULT_CARDS:string[] = ["2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24",
     "25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53"];
@@ -35,9 +34,9 @@ export class Round implements Serializable{
     playRecord:     PlayRecord;
 
     constructor(){
-        this.roundInfoDB = new DBManager<Round>(NAME("chaole.nn"),Action.receiver,NAME("round"));
-        this.roundBaseInfoDB = new DBManager<RoundBaseInfo>(NAME("chaole.nn"),Action.receiver,NAME("round.info"));
-        this.roundTempDB = new DBManager<TempVariable>(NAME("chaole.nn"),Action.receiver,NAME("round.temp"));
+        this.roundInfoDB = new DBManager<Round>(NAME("chaole.r"),Action.receiver,NAME("round"));
+        this.roundBaseInfoDB = new DBManager<RoundBaseInfo>(NAME("chaole.rbi"),Action.receiver,NAME("round.info"));
+        this.roundTempDB = new DBManager<TempVariable>(NAME("chaole.tv"),Action.receiver,NAME("round.temp"));
     }
 
     serialize(ds: DataStream): void {
@@ -57,29 +56,34 @@ export class Round implements Serializable{
     public ReturnString():void{
         Return<string>("{\"stage\":");
         Return<i32>(this.stage);
-        Return<string>(",\"banker\":");
-        Return<account_name>(this.banker);
-        Return<string>(",\"turn\":");
+        Return<string>(",\"banker\":\"");
+        Return<string>(RNAME(this.banker));
+        Return<string>("\",\"turn\":");
         Return<i32>(this.temp.turn);
-        Return<string>(",\"P\":");
+        Return<string>(",\"P\":\"");
         Return<string>(this.roundBaseInfo.P);
-        Return<string>(",\"Q\":");
+        Return<string>("\",\"Q\":\"");
         Return<string>(this.roundBaseInfo.Q);
-        Return<string>("}");
+        Return<string>("\"}");
     }
 
     /**
      * 从数据库获取数据填充本对象，未获取到的话返回false
      * @param id key
      */
-    public getRound(id:u64):boolean{
+    public getRound(id:u64): boolean {
+        Log.s("round.getRound 0").flush();
         let res = this.roundInfoDB.get(id,this);
+        Log.s("round.getRound 01").flush();
         res = this.roundBaseInfoDB.get(id,this.roundBaseInfo) && res;
-        res = this.roundTempDB.get(id,this.temp) && res;
-	res = this.roundTempDB.get(id,this.temp) && res;
+        Log.s("round.getRound 02").flush();
+        res = this.roundTempDB.get(id, this.temp) && res;
+        Log.s("round.getRound 1").flush();
         if(res){
+            Log.s("round.getRound 2").flush();
             this.playRecord = new PlayRecord(new DBHelper(Action.receiver,NAME("chaole.nn"),NAME("play.record")),this.roundBaseInfo.roomNum,this.roundBaseInfo.round);
         }
+        Log.s("round.getRound 3").flush();
         return res;
     }
 
@@ -113,7 +117,7 @@ export class Round implements Serializable{
      * @param Q
      */
     public setPQ(P:string, Q:string):void{
-        ultrain_assert(this.stage==RoundStag.INIT, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.INIT, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.vaildPQ(P,Q), "PQ.issue: P or Q you chose is invaild!");
         this.roundBaseInfo.P = P;
         this.roundBaseInfo.Q = Q;
@@ -131,17 +135,24 @@ export class Round implements Serializable{
      * @param cards 洗牌数据
      */
     public shuffleCard(cards:string[]):void{
-        ultrain_assert(this.stage==RoundStag.SHUFFLE, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        Log.s("shuffCard 1").flush();
+        ultrain_assert(this.stage==RoundStag.SHUFFLE, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isInturn(Action.sender), "player.issue: you are not expect to action!");
         ultrain_assert(this.vaildCards(cards), "cards.issue: your cards are invaild!");
+        Log.s("shuffCard 2").flush();
         this.nextTurn();
+        Log.s("shuffCard 3").flush();
         let shuffle = this.playRecord.getShuffleCards();
+        Log.s("shuffCard 4").flush();
         shuffle.set(Action.sender, cards);
+        Log.s("shuffCard 5").flush();
         if(shuffle.size == this.roundBaseInfo.players.length){
             this.stage = RoundStag.ENCRYPT;
             this.updateRound();
+            Log.s("shuffCard 6").flush();
         }
         this.playRecord.saveShuffleCards();
+        Log.s("shuffCard 7").flush();
         //emit("ShuffleCards",  EventObject.set<u64>("roomNum",this.roundBaseInfo.roomNum).set<u8>("round",this.roundBaseInfo.round).set<account_name>("player", Action.sender).set<string[]>("cards",cards));
     }
 
@@ -150,7 +161,7 @@ export class Round implements Serializable{
      * @param cards 加密牌数据
      */
     public encryptCard(cards:string[]):void{
-        ultrain_assert(this.stage==RoundStag.ENCRYPT, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.ENCRYPT, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isInturn(Action.sender), "player.issue: you are not expect to action!");
         ultrain_assert(this.vaildCards(cards), "cards.issue: your cards are invaild!");
         this.nextTurn();
@@ -169,7 +180,7 @@ export class Round implements Serializable{
      * @param keys  将所有除自己牌以外的秘钥以数组形式上传。当有52张牌时，传52位数字，自己的牌的秘钥以及尚未给出的最后一张牌用""占位。
      */
     public uploadEncryptKey(enkeys:string[],dekeys:string[]):void{
-        ultrain_assert(this.stage==RoundStag.UPLOAD_ENCRYPT_KEY, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.UPLOAD_ENCRYPT_KEY, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isPlayer(Action.sender), "player.issue: you are not in the room !");
         let encryptKeys = this.playRecord.getEncryptKeys();
         let decryptKeys = this.playRecord.getDecryptKeys();
@@ -207,7 +218,7 @@ export class Round implements Serializable{
      * @param bets
      */
     public bet(bets:u8):void{
-        ultrain_assert(this.stage==RoundStag.BET, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.BET, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isPlayer(Action.sender), "player.issue: you are not in the room !");
         ultrain_assert(this.banker!=Action.sender, "player.issue: banker can not bet !");
         let bets4Player = this.playRecord.getBets4Player();
@@ -226,7 +237,7 @@ export class Round implements Serializable{
      * @param key   加密秘钥
      */
     public uploadLastEncryptKey(enkeys:string[],dekeys:string[]):void{
-        ultrain_assert(this.stage==RoundStag.UPLOAD_LAST_ENCRYPT_KEY, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.UPLOAD_LAST_ENCRYPT_KEY, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isPlayer(Action.sender), "player.issue: you are not in the room !");
         ultrain_assert(!this.temp.lastKeyMan.includes(Action.sender), "player.issue: you have already upload the last encrypt keys !");
         this.temp.lastKeyMan.push(Action.sender);
@@ -258,7 +269,7 @@ export class Round implements Serializable{
      * @param keys  对应牌的秘钥
      */
     public discard(cards:u8[], enkeys:string[],dekeys:string[],flag:u8):void{
-        ultrain_assert(this.stage==RoundStag.DISCARD, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.DISCARD, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         //ultrain_assert(this.isInturn(Action.sender), "player.issue: you are not expect to action!");
         let encryptKeys = this.playRecord.getEncryptKeys();
         let diskeys:string[] = encryptKeys.get(Action.sender);
@@ -300,7 +311,7 @@ export class Round implements Serializable{
      * @param key   洗牌秘钥
      */
     public uploadShuffleKeys(enkey:string,dekey:string):void{
-        ultrain_assert(this.stage==RoundStag.UPLOAD_SHUFFLE_KEY, "stage.issue: now round stage is" + intToString(this.stage) + ", and you are not expect to do this action!");
+        ultrain_assert(this.stage==RoundStag.UPLOAD_SHUFFLE_KEY, "stage.issue: now round stage is " + intToString(this.stage) + ", and you are not expect to do this action!");
         ultrain_assert(this.isPlayer(Action.sender), "player.issue: you are not in the room !");
         let shuffleEnKeys = this.playRecord.getShuffleEnKeys();
         ultrain_assert(!shuffleEnKeys.has(Action.sender), "upload.issue: you have already uploaded !");
@@ -366,18 +377,18 @@ export class Round implements Serializable{
     //     this.postResult.set(Action.sender, result);
     //     emit("uploadResult", EventObject.set<account_name>("player", Action.sender).set<i16[]>("result", result));
     //     if(temp!=0){
-    //         if(!this.isArrayTheSame(result,this.postResult.get(temp))){
-    //             this.vaildResult();
-    //             this.stage = RoundStag.END;
-    //             emit("Result", EventObject.set<i16[]>("result", this.result));
-    //             return;
-    //         }
+            // if(!this.isArrayTheSame(result,this.postResult.get(temp))){
+            //     this.vaildResult();
+            //     this.stage = RoundStag.END;
+            //     emit("Result", EventObject.set<i16[]>("result", this.result));
+            //     return;
+            // }
     //     }
-    //     if(this.postResult.size==this.players.length){
-    //         this.result = result;
-    //         emit("Result", EventObject.set<i16[]>("result", this.result));
-    //         this.stage = RoundStag.END;
-    //     }
+        // if(this.postResult.size==this.players.length){
+        //     this.result = result;
+        //     emit("Result", EventObject.set<i16[]>("result", this.result));
+        //     this.stage = RoundStag.END;
+        // }
     // }
 
     /**
@@ -731,19 +742,19 @@ export class Cards implements Serializable{
     /**牌型信息 */
     flag:   u8;
 
-    serialize(ds: DataStream): void {
-        ds.writeVector<u8>(this.cards);
-        ds.write<u8>(this.flag);
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.writeVector<u8>(this.cards);
+    //     ds.write<u8>(this.flag);
+    // }
 
-    deserialize(ds: DataStream): void {
-        this.cards = ds.readVector<u8>();
-        this.flag = ds.read<u8>();
-    }
-    //此处不需要将Cards作为单条数据插入，故未实现primaryKey。
-    primaryKey(): u64 {
-        return 0;
-    }
+    // deserialize(ds: DataStream): void {
+    //     this.cards = ds.readVector<u8>();
+    //     this.flag = ds.read<u8>();
+    // }
+    // //此处不需要将Cards作为单条数据插入，故未实现primaryKey。
+    // primaryKey(): u64 {
+    //     return 0;
+    // }
     public toString():string{
         let res:string = "{\"cards\":[";
         for(let i = 0;i<this.cards.length;i++){
@@ -782,32 +793,32 @@ export class RoundBaseInfo implements Serializable{
     //
     P:              string = "";
     PQSetter:        account_name;
-    serialize(ds: DataStream): void {
-        ds.writeString(this.P);
-        ds.writeString(this.Q);
-        ds.write<u8>(this.round);
-        ds.writeVector<account_name>(this.players);
-        ds.write<u8>(this.bidWay);
-        ds.write<u64>(this.roomNum);
-        ds.write<account_name>(this.PQSetter);
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.writeString(this.P);
+    //     ds.writeString(this.Q);
+    //     ds.write<u8>(this.round);
+    //     ds.writeVector<account_name>(this.players);
+    //     ds.write<u8>(this.bidWay);
+    //     ds.write<u64>(this.roomNum);
+    //     ds.write<account_name>(this.PQSetter);
+    // }
 
-    deserialize(ds: DataStream): void {
-        this.P = ds.readString();
-        this.Q = ds.readString();
-        this.round = ds.read<u8>();
-        this.players = ds.readVector<account_name>();
-        this.bidWay = ds.read<u8>();
-        this.roomNum = ds.read<u64>();
-        this.PQSetter = ds.read<account_name>();
-    }
+    // deserialize(ds: DataStream): void {
+    //     this.P = ds.readString();
+    //     this.Q = ds.readString();
+    //     this.round = ds.read<u8>();
+    //     this.players = ds.readVector<account_name>();
+    //     this.bidWay = ds.read<u8>();
+    //     this.roomNum = ds.read<u64>();
+    //     this.PQSetter = ds.read<account_name>();
+    // }
 
     primaryKey(): u64 {
         return this.roomNum*100 + <u64>this.round;
     }
 }
 
-class TempVariable implements Serializable{
+export class TempVariable implements Serializable{
     id:         u64;
     /**标记当前操作的玩家序号 */
     turn:       i32 = 0;
@@ -818,21 +829,21 @@ class TempVariable implements Serializable{
     /**庄家的牌的标记位 */
     bankerCards:Cards = new Cards();
 
-    serialize(ds: DataStream): void {
-        ds.write<u64>(this.id);
-        ds.write<i32>(this.turn);
-        ds.write<account_name>(this.prePostResultPlayer);
-        ds.writeVector<account_name>(this.lastKeyMan);
-        this.bankerCards.serialize(ds);
-    }
+    // serialize(ds: DataStream): void {
+    //     ds.write<u64>(this.id);
+    //     ds.write<i32>(this.turn);
+    //     ds.write<account_name>(this.prePostResultPlayer);
+    //     ds.writeVector<account_name>(this.lastKeyMan);
+    //     this.bankerCards.serialize(ds);
+    // }
 
-    deserialize(ds: DataStream): void {
-        this.id = ds.read<u64>();
-        this.turn = ds.read<i32>();
-        this.prePostResultPlayer = ds.read<account_name>();
-        this.lastKeyMan = ds.readVector<account_name>();
-        this.bankerCards.serialize(ds);
-    }
+    // deserialize(ds: DataStream): void {
+    //     this.id = ds.read<u64>();
+    //     this.turn = ds.read<i32>();
+    //     this.prePostResultPlayer = ds.read<account_name>();
+    //     this.lastKeyMan = ds.readVector<account_name>();
+    //     this.bankerCards.serialize(ds);
+    // }
 
     primaryKey(): u64 {
         return this.id;

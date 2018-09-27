@@ -22,7 +22,6 @@ const tblname = "humans";
 const scope = "dept.sales";
 
 @database(Person, "humans")
-// @database(SomeMoreRecordStruct, "other_table")
 class PersonContract extends Contract {
 
     db: DBManager<Person>;

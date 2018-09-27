@@ -2,12 +2,12 @@
   "version": "ultraio:1.0",
   "types": [
     {
-      "new_type_name": "u8",
-      "type": "uint8"
-    },
-    {
       "new_type_name": "u64",
       "type": "uint64"
+    },
+    {
+      "new_type_name": "u8",
+      "type": "uint8"
     },
     {
       "new_type_name": "Asset",
@@ -20,13 +20,19 @@
     {
       "new_type_name": "account_name",
       "type": "name"
-    },
-    {
-      "new_type_name": "i32",
-      "type": "int32"
     }
   ],
   "structs": [
+    {
+      "fields": [
+        {
+          "name": "i",
+          "type": "u64"
+        }
+      ],
+      "name": "test",
+      "base": ""
+    },
     {
       "fields": [
         {
@@ -538,28 +544,6 @@
           "type": "u64"
         },
         {
-          "name": "round",
-          "type": "u64"
-        },
-        {
-          "name": "index",
-          "type": "i32"
-        },
-        {
-          "name": "nonce",
-          "type": "u64"
-        }
-      ],
-      "name": "getPlayCards",
-      "base": ""
-    },
-    {
-      "fields": [
-        {
-          "name": "roomNum",
-          "type": "u64"
-        },
-        {
           "name": "roundNum",
           "type": "u64"
         },
@@ -570,9 +554,32 @@
       ],
       "name": "getResult",
       "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "roomNum",
+          "type": "u64"
+        },
+        {
+          "name": "checkInNumKeys",
+          "type": "u64[]"
+        },
+        {
+          "name": "checkInNumValues",
+          "type": "u64[]"
+        }
+      ],
+      "name": "RoomMap",
+      "base": ""
     }
   ],
   "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "test",
+      "type": "test"
+    },
     {
       "ricardian_contract": "",
       "name": "createRoom",
@@ -725,14 +732,21 @@
     },
     {
       "ricardian_contract": "",
-      "name": "getPlayCards",
-      "type": "getPlayCards"
-    },
-    {
-      "ricardian_contract": "",
       "name": "getResult",
       "type": "getResult"
     }
   ],
-  "tables": []
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "chaole.nn",
+      "type": "RoomMap"
+    }
+  ]
 }
