@@ -1,15 +1,25 @@
 import { Asset } from "../src/asset";
 
 /**
- * A standard interface for tokens
+ * A standard interface for fungible tokens, also known as deeds.
+ * 
+ * Every fungible token are same with each other. They have the same value.
+ * And token maybe be divided like money, we can exchange 1 dollar to 100 cent.
+ * For exmaple:
+ *  · Virtual assets - Virtual coin
+ *  · Physical assets - RMB, normal book
+ * 
+ * @reference {@link ../demo/token/Token}
  */
 export interface UIP06 {
 
 	/**
-	 * Create a non-fungbile token
+	 * Create a fungbile token
 	 * 
 	 * @param issuer the tokne issurer
-	 * @param maximum_supply the total token supply amouont
+	 * @param maximum_supply the total token supply amouont.
+	 * eg: "1000.00 UGAS" mean that we create 1000.00 UGAS and it's precision is .00.
+	 * 
 	 */
 	create(issuer: account_name, maximum_supply: Asset): void;
 
