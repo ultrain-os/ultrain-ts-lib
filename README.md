@@ -31,9 +31,9 @@ Block.timestamp
 
 ## Your first Hello world contract
 ```
-import { NAME, RNAME } from "ContractSDK/src/account";
-import { Log } from "ContractSDK/src/log";
-import { Contract } from "ContractSDK/src/contract";
+import { NAME, RNAME } from "ultrain-ts-lib/src/account";
+import { Log } from "ultrain-ts-lib/src/log";
+import { Contract } from "ultrain-ts-lib/src/contract";
 
 class HelloWorld extends Contract {
 
@@ -86,9 +86,9 @@ You can query/transfer the tokens from/to the account utrio.token, which Ultrain
 For more details, refer to demo [balance](https://github.com/ultrain-os/TsSDK/blob/master/example/balance/balance.ts)。
 ```typescript
 import "allocator/arena";
-import { Contract } from "ContractSDK/src/contract";
-import { Asset } from "ContractSDK/src/asset";
-import { ultrain_assert } from "ContractSDK/src/utils";
+import { Contract } from "ultrain-ts-lib/src/contract";
+import { Asset } from "ultrain-ts-lib/src/asset";
+import { ultrain_assert } from "ultrain-ts-lib/src/utils";
 
 class BalanceContract extends Contract {
 
@@ -114,7 +114,7 @@ class BalanceContract extends Contract {
 class HelloWorld extends Contract{
 
     @action
-    hi(name: u64, age: u32, msg: string): void {
+    hi(name: account_name, age: u32, msg: string): void {
         Log.s("hi: name = ").s(RNAME(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
         emit("onHiInvoked", EventObject.setString("name", RNAME(name)));
     }
@@ -324,11 +324,11 @@ With different scope, items can have the same primary keys.
 Here is a demo for manipulate DBManager, refer to  [Person](https://github.com/ultrain-os/ultrain-ts-lib/blob/master/example/person/person.ts) for details.
 ```typescript
 import "allocator/arena";
-import { Contract } from "../../src/contract";
-import { Log } from "../../src/log";
-import { ultrain_assert } from "../../src/utils";
-import { DBManager } from "../../src/dbmanager";
-import { NAME } from "../../src/account";
+import { Contract } from "ultrain-ts-lib/src/contract";
+import { Log } from "ultrain-ts-lib/src/log";
+import { ultrain_assert } from "ultrain-ts-lib/src/utils";
+import { DBManager } from "ultrain-ts-lib/src/dbmanager";
+import { NAME } from "ultrain-ts-lib/src/account";
 
 class Person implements Serializable {
     // name: string;
