@@ -63,7 +63,7 @@ class HelloWorld extends Contract {
 ## 在Action中Return信息
 为了便于在调用方与节点中传递部分执行状态信息，引入Return模块.  
 Return模块返回的数据会附加在http的response中， 调用方可以通过分析response得到Return的信息。  
-需要强调的是， **Return的信息仅仅是在一个节点(host_url )上预执行的结果，并非区块链网络共识的结果。也就是说, Return返回的结果, 并不是最终交易执行的结果.**  ## 标题 ##
+需要强调的是， **Return的信息仅仅是在一个节点(host_url )上预执行的结果，并非区块链网络共识的结果。也就是说, Return返回的结果, 并不是最终交易执行的结果.**  
 **<u>Return的信息只供参考，它可能与区块链网络共识结果不一致</u>。**
 
 要Return信息，可以在action调用中，通过`Return`,`ReturnArray`方法来完成。Return信息有以下需要注意的点：
@@ -112,7 +112,7 @@ class BalanceContract extends Contract {
 }
 ```
 > NOTICE
-使用send命令转移资产时，需要保证`from`的权限已经授权给了`utrio.code`，在使用命令行的情况下，可以通过以下命令来授权:
+使用Asset.transfer命令转移资产时，需要保证`from`的权限已经授权给了`utrio.code`，在使用命令行的情况下，可以通过以下命令来授权:
 `clutrain set account permission $from active '{"threshold": 1, "keys":[{"key":"$PubKey_of_from", "wieght": 1}],  
 "accounts": [{"permission": {"actor": "$from", "permission": "utrio.code"}, "weight": 1]}' owner -p $from`  
 `$from`是需要授权的帐号。
@@ -297,7 +297,7 @@ clas MyContract extends Contract {
   Contract中数据存取要通过DBManager来管理。  
 #### DBManager的定义：
 ```
- export class DBManager<T extends ISerializable> {
+ export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
@@ -307,7 +307,7 @@ clas MyContract extends Contract {
 }   
 ```
 * constructor()方法接收三个参数， `tblname: u64`表示表名；`owner：u64`表示这个表在哪个合约中，一般的，owner和该合约的receiver是一样的。`scope: u64`表示表中的一个上下文。
-* emplace()方法向表中加入一条记录。`payer`表示这个帐号将为数据存储付费，`obj`是一个ISerializable的对象，将数据存入DB。
+* emplace()方法向表中加入一条记录。`payer`表示这个帐号将为数据存储付费，`obj`是一个Serializable的对象，将数据存入DB。
 * modify()方法更新表中的数据。`payer`表示这条记录的创建者、付费方；`newobj`是更新后的数据，newobj的primaryKey对应的对象会被更新。
 * exists()方法判断一个primaryKey是否存在。
 * get()方法从DB中读取primary对应的记录，并反序列化到out中。
