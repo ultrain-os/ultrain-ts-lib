@@ -1,30 +1,43 @@
 import { Asset } from "../src/asset";
 
-
+/**
+ * A standard interface for non-fungible tokens, also known as deeds.
+ * 
+ * Non-fungible tokens can represent ownership over digital or physical assets.
+ * We considered a unique universa of assets. 
+ * So each non-fungible token has a unqiue id or number and can't be divided.
+ * For example:
+ *  · Virtual assets - Unique game equqiment, 
+ *  · Physical assets - A car, a house or artwork 
+ * 
+ * @reference {@link ../demos/nft/Nft}
+ * We also can using the lib {@link ../lib/nft} to create non-fungible tokens.
+ */
 export interface UIP09 {
 
 	/**
 	 * Create a non-fungbile token
 	 * 
-	 * @param issuer the tokne issurer
-	 * @param maximum_supply the total token supply amouont
+	 * @param issuer the tokne issurer who can issue the token
+	 * @param maximum_supply the total token supply amouont, it contain supply amount and symbol
+	 * eg: '1000 UGAS' represent that create token named UGAS and the max supply is 1000.
 	 */
 	create(issuer: account_name, maximum_supply: Asset): void;
 
 	/**
-	 * Issue token to 'to' account
+	 * Issue token to the account 'to'
 	 * 
-	 * @param to the token receiver
-	 * @param quantity the quantity of the token
+	 * @param to the token receiver who will get the token
+	 * @param quantity the quantity of the token, eg: "12 UGAS"
 	 * @param uris the token matadata, using uri to mark a token attribute, reference RFC 3986
-	 * @param name the token name
+	 * @param name the token name, a non-funigble token or a batch non-fungible we can give her name, eg: Creation， CryptoCoin
 	 * @param memo the memo for issue action
 	 */
 	issue(to: account_name, quantity: Asset, uris: Array<string>, name: string, memo: string): void;
 
 
 	/**
-	 * Transfer the token with the token_id form the account 'from' to the account 'to'
+	 * Transfer the token with the token_id from the account 'from' to the account 'to'
 	 * 
 	 * @param from the token sender
 	 * @param to the token recevier
@@ -65,7 +78,7 @@ export interface UIP09 {
 	/**
 	 * Get the total supply of the symbal token
 	 * 
-	 * @param sym_name the token sym name like "UGS"
+	 * @param sym_name the token sym name like "UGAS"
 	 * 
 	 * @return  reutrn the supply asset
 	 */
@@ -75,7 +88,7 @@ export interface UIP09 {
 	 * Get the balance of the owner's symbal name token
 	 * 
 	 * @param owner the owner account 
-	 * @param sym_name the symbal name
+	 * @param sym_name the symbal name like "UGAS"
 	 * 
 	 * @return return the balance
 	 */

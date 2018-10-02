@@ -5,6 +5,7 @@ import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
 import { ultrain_assert } from "../../src/utils";
 import { ACCOUNT, NAME, Account } from "../../src/account";
+import { UIP09 } from "../../uips/uip09";
 
 class NftAccount implements Serializable {
     balance: Asset;
@@ -112,7 +113,7 @@ const TOKENTABLE: string = "token";
 @database(Token, TOKENTABLE)
 @database(CurrencyStats, STATSTABLE)
 @database(NftAccount, ACCOUNTTABLE)
-export class Nft extends Contract {
+export class Nft extends Contract implements UIP09 {
 
     constructor(receiver: account_name) {
         super(receiver);

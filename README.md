@@ -38,7 +38,7 @@ import { Contract } from "ContractSDK/src/contract";
 class HelloWorld extends Contract {
 
     @action
-    hi(name: u64, age: u32, msg: string): void {
+    hi(name: account_name, age: u32, msg: string): void {
         Log.s("hi: name = ").s(RNAME(name)).s(" age = ").i(age, 10).s(" msg = ").s(msg).flush();
     }
 }
@@ -150,7 +150,7 @@ for curl example:
 curl -X POST -d '{"account":"contract.he","post_url":"http://127.0.0.1:3000"}' "http://localhost:8888/v1/chain/unregister_event"
 ```
 **Struct of Event Message**
-When some events emit, the blockchain node ill post message to post_url, the message contains event name and a JSON style string.
+When some events emit, the blockchain node will post message to post_url, the message contains event name and a JSON style string.
 
 ### Start a http server to receive posted event message
 Now start a http server to listen incoming message:
@@ -282,7 +282,7 @@ Be attentation, the classes labeled with @database **must implements interface S
   Ultrain smart contract uses class DBManager to manipulate reading and write database.
 #### Definition of DBManager：
 ```
- export class DBManager<T extends ISerializable> {
+ export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
