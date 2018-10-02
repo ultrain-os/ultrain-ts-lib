@@ -192,5 +192,9 @@ export class BlockTimestamp implements Serializable {
         return slot;
     }
 }
-
+/**
+ * <b><i>import { now } from "ultrain-ts-lib/src/time";</i></b>
+ *
+ * This function return the head block time, it is in seconds since epoch.
+ */
 export function now(): u32 { return <u32>(system.current_time() / 1000000); }

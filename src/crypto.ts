@@ -85,6 +85,8 @@ class Crypto {
     }
 }
 /**
+ * <b><i>import { SHA1 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * Calculate hash of a string with SHA1.
  * @class SHA1
  */
@@ -102,6 +104,8 @@ export class SHA1 extends Crypto {
     }
 }
 /**
+ * <b><i>import { SHA256 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * Calculate hash of a string with SHA256.
  * @class SHA256
  */
@@ -119,6 +123,8 @@ export class SHA256 extends Crypto {
     }
 }
 /**
+ * <b><i>import { SHA512 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * Calculate hash of a string with SHA512.
  * @class SHA512
  */
@@ -136,6 +142,8 @@ export class SHA512 extends Crypto {
     }
 }
 /**
+ * <b><i>import { Ripemd160 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * Calculate hash of a string with Ripemd160.
  * @class Ripemd160
  */
@@ -153,6 +161,8 @@ export class Ripemd160 extends Crypto {
     }
 }
 /**
+ * <b><i>import { assert_sha1 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * to assert if source data is consisted with SHA1.
  * @param data source data to assert.
  * @param sha1 encrypte algorithm.
@@ -162,6 +172,8 @@ export function assert_sha1(data: string, sha1: SHA1): void {
     cry.ts_assert_sha1(string2cstr(data), data.length, string2cstr(src), src.length);
 }
 /**
+ * <b><i>import { assert_sha256 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * to assert if source data is consisted with SHA256.
  * @param data source data to assert.
  * @param sha256 encrypte algorithm.
@@ -171,6 +183,8 @@ export function assert_sha256(data: string, sha256: SHA256): void {
     cry.ts_assert_sha256(string2cstr(data), data.length, string2cstr(src), src.length);
 }
 /**
+ * <b><i>import { assert_sha512 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * to assert if source data is consisted with SHA512.
  * @param data source data to assert.
  * @param sha512 encrypte algorithm.
@@ -180,6 +194,8 @@ export function assert_sha512(data: string, sha512: SHA512): void {
     cry.ts_assert_sha512(string2cstr(data), data.length, string2cstr(src), src.length);
 }
 /**
+ * <b><i>import { assert_ripemd160 } from "ultrain-ts-lib/src/crypto";</i></b>
+ *
  * to assert if source data is consisted with Ripemd160.
  * @param data source data to assert.
  * @param ripe encrypte algorithm.

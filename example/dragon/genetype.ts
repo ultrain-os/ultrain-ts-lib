@@ -47,7 +47,7 @@ export class GenType implements Serializable {
     }
     /* 显性性格 */
     public set schar(crit: u32) {
-        let val = <u64>(crit & 0xFFFF);
+        let val: u64 = (<u64>crit & 0xFFFF);
         let temp = this.lsb2 & 0xFFFFFFFFFFFF0000;
         this.lsb2 = temp | val;
     }
@@ -58,7 +58,7 @@ export class GenType implements Serializable {
     }
 
     public set skillsLevel(lvl: u32) {
-        let temp = <u64>((lvl & 0xFFFFF) << 16);
+        let temp: u64 = ((<u64>lvl & 0xFFFFF) << 16);
         let mask = this.lsb2 & 0xFFFFFFF00000FFFF;
         this.lsb2 = mask | temp;
     }
@@ -69,18 +69,18 @@ export class GenType implements Serializable {
     }
 
     public set blood(bld: u32) {
-        let temp = <u64>((bld & 0xFFF) << 36);
-        let mask = this.lsb2 & 0xFFFF000FFFFFFFFF;
-        this.lsb2 = mask | temp;
+        let temp: u64 = (<u64>bld & 0xFFF) << 36;
+        let mask = (this.lsb2 & 0xFFFF000FFFFFFFFF);
+        this.lsb2 = (mask | temp);
     }
 
     public get type(): u32 {
-        let temp = this.lsb2 >> 60;
+        let temp: u64 = this.lsb2 >> 60;
         return <u32>(temp & 0xF);
     }
 
     public set type(tp: u32) {
-        let temp = <u64>((tp & 0xF) << 60);
+        let temp:u64 = ((<u64>tp & 0xF) << 60);
         let mask = this.lsb2 & 0x0FFFFFFFFFFFFFFF;
         this.lsb2 = mask | temp;
     }
@@ -91,7 +91,7 @@ export class GenType implements Serializable {
     }
 
     public set subtype(t: u32) {
-        let temp = <u64>((t & 0x0FFF) << 48);
+        let temp: u64 = ((<u64>t & 0x0FFF) << 48);
         let mask = this.lsb2 & 0xF000FFFFFFFFFFFF;
         this.lsb2 = mask | temp;
     }
@@ -110,7 +110,7 @@ export class GenType implements Serializable {
     }
     /* 隐性性格 */
     public set hchar(hc: u32) {
-        let temp = <u64>(hc & 0xFFFF);
+        let temp: u64 = (<u64>hc & 0xFFFF);
         let mask = this.hsb2 & 0xFFFFFFFFFFFF0000;
         this.hsb2 = mask | temp;
     }
@@ -142,7 +142,7 @@ export class GenType implements Serializable {
     }
 
     public set skills(sk: u64) {
-        let temp = <u64>((sk & 0xFFFFFFFFFF) << 16);
+        let temp: u64 = ((<u64>sk & 0xFFFFFFFFFF) << 16);
         let mask = this.hsb2 & 0xFF0000000000FFFF;
         this.hsb2 = mask | temp;
     }

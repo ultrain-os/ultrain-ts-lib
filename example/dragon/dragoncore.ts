@@ -1132,6 +1132,9 @@ export class DragonCore extends DragonExtend {
             .setInt("sireId", sireId).setString("gen", genes.toString()));
         this._transfer(0, owner, newDragonId);
 
+        Log.s("before create dragon blood: ").i(genes.blood).flush();
+        genes.blood = 100;
+         Log.s("after create dragon blood: ").i(genes.blood).flush();
         return newDragonId;
     }
 

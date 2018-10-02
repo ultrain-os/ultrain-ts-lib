@@ -10,6 +10,8 @@ namespace env {
     export declare function set_result_int(val: u64): void;
 }
 /**
+ * <b><i>import { Return } from "ultrain-ts-lib/src/return";</i></b>
+ *
  * set value as return value. This value will be printed to console or return within response
  * if you call API by POST method via https. Till now, type T can only be string or integer.
  * NOTE: the return value doesn't mean the transaction is commited by blockchain, but means if the
@@ -27,6 +29,8 @@ export function Return<T> (val: T): void {
 }
 
 /**
+ * <b><i>import { ReturnArray } from "ultrain-ts-lib/src/return";</i></b>
+ *
  * return an array to caller. It behaves like Return.
  * @param val an array of returns value.
  */

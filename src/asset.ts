@@ -12,6 +12,8 @@ const CHAR_A: u8 = 0x41;
 const CHAR_Z: u8 = 0x5A;
 
 /**
+ * <b><i>import { StringToSymbol } from "ultrain-ts-lib/src/asset";</i></b>
+ *
  * Encode a string to uint64 value,
  * for example,
  *    let symbol = StringToSymbol(4, "ABC"); // symbol = 0x43424104
@@ -61,11 +63,15 @@ function SymbolNameLength(symbolName: u64): u32 {
 }
 
 /**
- * Ultrain block system Token, it's precision is 4, and symbol is "UGS".
+ * <b><i>import { SYS } from "ultrain-ts-lib/src/asset";</i></b>
+ *
+ * Ultrain block system Token, it's precision is 4, and symbol is "UGAS".
  */
-export let SYS: u64 = StringToSymbol(4, "SYS");
+export let SYS: u64 = StringToSymbol(4, "UGAS");
 /**
- * Ultrain block system Token name "UGS".
+ * <b><i>import { SYS_NAME } from "ultrain-ts-lib/src/asset";</i></b>
+ *
+ * Ultrain block system Token name "UGAS".
  */
 export let SYS_NAME: u64 = <u64>(SYS >> 8);
 
@@ -74,6 +80,8 @@ export let SYS_NAME: u64 = <u64>(SYS >> 8);
  */
 const MAX_AMOUNT: u64 = ((1 << 62) - 1);
 /**
+ * <b><i>import { Asset } from "ultrain-ts-lib/src/asset";</i></b>
+ *
  * The class Asset manages the digital assets which stored on the chain.
  * A valid asset has two parts: amount and symbol. Different assets have
  * different symbols. for example, "1000 UGS" and "1000 SYS" are both valid
@@ -87,7 +95,7 @@ export class Asset implements Serializable {
     private _amount: u64;
     private _symbol: u64;
 
-    constructor(amt: u64 = 0, sy: u64 = 0x53475504) { // 0x53475504 means "StingToSymbol(4, UGS)"
+    constructor(amt: u64 = 0, sy: u64 = 0x5341475504) { // 0x5341475504 means "StingToSymbol(4, UGAS)"
         this._amount = amt;
         this._symbol = sy;
     }

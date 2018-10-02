@@ -1,6 +1,8 @@
 import { env as console } from "../internal/print.d";
 import { env as system } from "../internal/system.d";
 /**
+ * <b><i>import { PrintableChar } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * printable characters.
  */
 export const PrintableChar: string[/*95*/] = [
@@ -17,6 +19,8 @@ export const PrintableChar: string[/*95*/] = [
     "p", "q", "r", "s", "t", "u", "v", "w",
     "x", "y", "z", "{", "|", "}", "~"];
 /**
+ * <b><i>import { intToString } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * convert an uint64 to string.
  * @param _int uint64 to convert
  * @returns string
@@ -36,6 +40,8 @@ export function intToString(_int: u64): string {
     return val;
 }
 /**
+ * <b><i>import { toUTF8Array } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * convert an utf-16 to utf-8 string array.
  * @param str a typescript string
  *
@@ -73,6 +79,8 @@ export function toUTF8Array(str: string): u8[] {
     return utf8;
 }
 /**
+ * <b><i>import { string2cstr } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * convert string to usize.
  * here, <i>usize</i> likes <i>"const char*"</i> in c/c++.
  * @param str a utf-16 string of typescript.
@@ -85,6 +93,8 @@ export function string2cstr(str: string): u32 {
     return <usize>ptr + sizeof<u64>();
 }
 /**
+ * <b><i>import { printstr } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * print a string to console after wasm vm quit.
  * @param str string to print.
  */
@@ -92,6 +102,8 @@ export function printstr(str: string): void {
     console.prints(string2cstr(str));
 }
 /**
+ * <b><i>import { ultrain_assert } from "ultrain-ts-lib/src/utils";</i></b>
+ *
  * assert an condition.
  * if condition is false, vm throws an exception and quit executing.
  * @param condition condition to check.

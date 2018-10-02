@@ -3,6 +3,8 @@
  */
 import { ultrain_assert } from "./utils";
 /**
+ * <b><i>import { SafeMath } from "ultrain-ts-lib/src/safemath";</i></b>
+ *
  *  Math operations with safety checks that throw on error
  */
 export namespace SafeMath {

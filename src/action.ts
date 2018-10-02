@@ -7,6 +7,7 @@ import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
 
 /**
+ * <b><i>import { requirePermissionLevel } from "ultrain-ts-lib/src/action";</i></b>
  * to check if permission is authored or not.
  * @param pl PermissionLevel to check
  *
@@ -16,6 +17,8 @@ export function requirePermissionLevel(pl: PermissionLevel): void {
     ActionAPI.require_auth2(pl.actor, pl.permission);
 }
 /**
+ * <b><i>import { TransferParams } from "ultrain-ts-lib/src/action";</i></b>
+ *
  * class TransferParams is applied to transfer Tokens from an account to another.
  *
  * @class TransferParams
@@ -51,6 +54,8 @@ export class TransferParams implements Serializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 /**
+ * <b><i>import { ActionImpl } from "ultrain-ts-lib/src/action";</i></b>
+ *
  * class ActionImpl is an internal class, for method {@link <i><em>dispatchInline</em></i>}.
  *
  * @class ActionImpl
@@ -85,6 +90,7 @@ export class ActionImpl implements Serializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 /**
+ * <b><i>import { dispatchInline } from "ultrain-ts-lib/src/action";</i></b>
  *
  * @param pl the permission level instance. @see {@link PermissionLevel}
  * @param code the account name of contract which you will send request to.
@@ -113,6 +119,8 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name,
 }
 
 /**
+ * <b><i>import { Action } from "ultrain-ts-lib/src/action";</i></b>
+ *
  * class Action is applied to access an action's context information.
  * This class is static.
  *
@@ -193,6 +201,8 @@ export class Action {
 }
 
 /**
+ * <b><i>import { ACTION } from "ultrain-ts-lib/src/action";</i></b>
+ *
  * convert a string to {@link Action}.
  * @param str an readable string of action name. It can only include: _0-9a-zA-Z
  */

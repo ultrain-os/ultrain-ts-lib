@@ -15,7 +15,10 @@ const TYPE_U64: u8 = 0x4;
 const TYPE_STRING_ARRAY: u8 = 0x8;
 const TYPE_BOOL_ARRAY: u8 = 0x10;
 const TYPE_U64_ARRAY: u8 = 0x11;
-
+/**
+ * This class is applied to set messages for an event.
+ * @class _EventObject
+ */
 class _EventObject implements Serializable {
     private _strmap: Map<string, string> = new Map<string, string>();
     private _intmap: Map<string, u64> = new Map<string, u64>();
@@ -199,10 +202,17 @@ class _EventObject implements Serializable {
 // declare namespace env {
 //    declare function emit_event(name: usize, name_size: u64, param: usize, param_size: u64): void;
 // }
-
+/**
+ * <b><i>import { EventObject } from "ultrain-ts-lib/src/events";</i></b>
+ *
+ * Set message for an event.
+ * It is a singletone instance of {@class _EventObject}.
+ */
 export let EventObject: _EventObject = new _EventObject();
 
 /**
+ * <b><i>import { emit } from "ultrain-ts-lib/src/events";</i></b>
+ *
  * to emit an event.
  * @param evtname the name of event to be emitted, its length MUST be less than 64 characters.
  * @param obj EventObject contains message. The contents's serialized length must be less than your configed <i>contract_event_string_length</i>,

@@ -37,9 +37,6 @@ class PersonContract extends Contract {
 
     constructor(code: u64) {
         super(code);
-        this._receiver = code;
-
-        this.onInit();
     }
 
     @action

@@ -2,6 +2,8 @@
  * @author fanliangqin@ultrain.io
  */
 /**
+ * <b><i>import { DBManager } from "ultrain-ts-lib/src/dbmanager";</i></b>
+ *
  * class DBManager is used to manager reading or writing to system db.
  * the type T must be implements interface Serializable,
  * reference {@link Account} or {@link CurrencyStats}

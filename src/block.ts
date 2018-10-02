@@ -1,6 +1,8 @@
 import { HeadBlock } from "../lib/headblock";
 
 /**
+ * <b><i>import { Block } from "ultrain-ts-lib/src/block";</i></b>
+ *
  * Retrieve head block inforamtions.
  */
 export class Block {

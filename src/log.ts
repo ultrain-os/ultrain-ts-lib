@@ -43,6 +43,9 @@ class Logger {
     }
 }
 /**
+ * <b><i>import { Log } from "ultrain-ts-lib/src/log";</i></b>
+ *
  * A global variable of Logger. There is only one Log object at the same time.
+ * This is a global instance of {@class Logger}.
  */
 export let Log = new Logger();
