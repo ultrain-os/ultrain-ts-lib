@@ -14,7 +14,7 @@ import { N, RN } from "../lib/name";
  *  ceo.transfer(employ.code, "1000.000 UGS", "your annual award.");
  */
 export function ACCOUNT(str: string): Account {
-    return new Account(str);
+    return new Account(N(str));
 }
 /**
  * <b><i>import { NAME } from "ultrain-ts-lib/src/account";</i></b>
