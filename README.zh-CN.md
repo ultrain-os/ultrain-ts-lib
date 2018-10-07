@@ -34,9 +34,9 @@ Block.timestamp
 
 ## 编写第一个合约Hello world
 ```
-import { NAME, RNAME } from "ContractSDK/src/account";
-import { Log } from "ContractSDK/src/log";
-import { Contract } from "ContractSDK/lib/contract";
+import { NAME, RNAME } from "ultrain-ts-lib/src/account";
+import { Log } from "ultrain-ts-lib/src/log";
+import { Contract } from "ultrain-ts-lib/lib/contract";
 
 class HelloWorld extends Contract {
 
@@ -90,12 +90,12 @@ class HelloContract extends Contract {
 在合约中，可以查询一个帐号在ultrainio.token合约中的资产，即ultrain平台资产。查询资产使用`Asset.balanceOf(who: account_name): Asset`方法。
 转移ultrain平台资产，可以使用`Asset.transfer(from: account_name, to: account_name, val: Asset, memo: string): void`方法。
 
-使用详情请参考[示例balance](https://github.com/ultrain-os/TsSDK/blob/master/example/balance/balance.ts)。
+使用详情请参考[示例balance](https://github.com/ultrain-os/ultrain-ts-lib/blob/master/example/balance/balance.ts)。
 ```typescript
 import "allocator/arena";
-import { Contract } from "../../src/contract";
-import { Asset } from "../../src/asset";
-import { ultrain_assert } from "../../src/utils";
+import { Contract } from "ultrain-ts-lib/src/contract";
+import { Asset } from "ultrain-ts-lib/src/asset";
+import { ultrain_assert } from "ultrain-ts-lib/src/utils";
 
 class BalanceContract extends Contract {
 
@@ -220,7 +220,7 @@ console.log('Listening at http://' + host + ':' + port);
 Serializable是一个Interface， 定义以下三个方法：
 
 ```typescript
-import {DataStream} from "../src/datastream";
+import {DataStream} from "ultrain-ts-lib/src/datastream";
 
 export interface Serializable {
     deserialize(ds: DataStream): void;
@@ -336,14 +336,14 @@ table中的数据，可以按scope来分类，也可以通过primary key来分�
 在不同的scope下面，primary key可以取相同的值。
 
 #### 使用示例
-DB的读写操作，请参考[示例Person](https://github.com/ultrain-os/TsSDK/blob/master/example/person/person.ts)。
+DB的读写操作，请参考[示例Person](https://github.com/ultrain-os/ultrain-ts-lib/blob/master/example/person/person.ts)。
 ```typescript
 import "allocator/arena";
-import { Contract } from "../../src/contract";
-import { Log } from "../../src/log";
-import { ultrain_assert } from "../../src/utils";
-import { DBManager } from "../../src/dbmanager";
-import { NAME } from "../../src/account";
+import { Contract } from "ultrain-ts-lib/src/contract";
+import { Log } from "ultrain-ts-lib/src/log";
+import { ultrain_assert } from "ultrain-ts-lib/src/utils";
+import { DBManager } from "ultrain-ts-lib/src/dbmanager";
+import { NAME } from "ultrain-ts-lib/src/account";
 
 class Person implements Serializable {
     // name: string;
