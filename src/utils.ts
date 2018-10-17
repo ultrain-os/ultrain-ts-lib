@@ -23,9 +23,10 @@ export const PrintableChar: string[/*95*/] = [
  *
  * convert an uint64 to string.
  * @param _int uint64 to convert
+ * @param leftPadWith0 width of integer, if length of integer is less than it, pad with 0 on left.
  * @returns string
  */
-export function intToString(_int: u64): string {
+export function intToString(_int: u64, leftPadWith0: u32 = 0): string {
     let remainder: i32 = <i32>(_int % 10);
     let rest: u64 = _int / 10;
     let val: string = PrintableChar[16 + remainder];
@@ -37,6 +38,11 @@ export function intToString(_int: u64): string {
         val = PrintableChar[16 + remainder] + val;
     }
 
+    if (leftPadWith0 != 0 && val.length < <i32>leftPadWith0) {
+        let pad = "0";
+        pad.repeat(leftPadWith0 - val.length);
+        val = pad + val;
+    }
     return val;
 }
 /**

@@ -313,11 +313,11 @@ export class GeneScience {
     public isGeneScience(): boolean { return true; }
 
     public gen0Genes(genes: GenType): GenType {
-        let seed = SafeMath.random(0);
-
+        let seed = SafeMath.random(20);
+        genes.blood = <u32>this.baseBlood;
         genes.blood += <u32>(seed % 21);
-        genes.type += 2;
-
+        genes.type = 2;
+        genes.subtype = 0;
         let skillCount: u64 = 0;
         let t: u64 = 0;
         let scores: u64[] = [];

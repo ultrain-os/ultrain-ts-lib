@@ -24,8 +24,8 @@ export class GenType implements Serializable {
 
     hsb2: u64 = 0; /*193 ~ 256 bit*/
     hsb1: u64 = 0; /*129 ~ 192 bit*/
-    lsb1: u64 = 0; /*1 ~ 64 bit*/
     lsb2: u64 = 0; /*65 ~ 128 bit*/
+    lsb1: u64 = 0; /*1 ~ 64 bit*/
 
     constructor(hsb2: u64 = 0, hsb1: u64 = 0, lsb2: u64 = 0, lsb1: u64 = 0) {
         this.hsb2 = hsb2;
@@ -86,13 +86,13 @@ export class GenType implements Serializable {
     }
 
     public get subtype(): u32 {
-        let temp = this.lsb2 >> 48;
-        return <u32>(temp & 0x0FFF);
+        let temp = this.lsb2 >> 52;
+        return <u32>(temp & 0x0FF);
     }
 
     public set subtype(t: u32) {
-        let temp: u64 = ((<u64>t & 0x0FFF) << 48);
-        let mask = this.lsb2 & 0xF000FFFFFFFFFFFF;
+        let temp: u64 = ((<u64>t & 0x0FF) << 52);
+        let mask = this.lsb2 & 0xF00FFFFFFFFFFFFF;
         this.lsb2 = mask | temp;
     }
 
@@ -167,9 +167,9 @@ export class GenType implements Serializable {
 
     public toString(): string {
         let str = intToString(this.hsb2);
-        str += intToString(this.hsb1);
-        str += intToString(this.lsb2);
-        str += intToString(this.lsb1);
+        str += '.'+intToString(this.hsb1);
+        str += '.'+intToString(this.lsb2);
+        str += '.'+intToString(this.lsb1);
 
         return str;
     }

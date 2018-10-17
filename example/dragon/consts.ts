@@ -2,7 +2,7 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { NAME } from "../../src/account";
+import { NAME,RNAME } from "../../src/account";
 
 // type GenType    = u64;
 type DragonGene = u64;
@@ -21,4 +21,14 @@ export let SireAuctionAddress = NAME("mm.sireauc");
 
 export let MatchAddress = NAME("mm.match");
 
-export const DEBUG: boolean = false;
+// export let HyperDragonContract = NAME("mmdragon");
+// export let CEO = NAME("mmceo");
+// export let CFO = NAME("mmcfo");
+// export let API = NAME("mmapi");
+
+// export let SaleAuctionAddress = NAME("mmsaleauc");
+// export let SireAuctionAddress = NAME("mmsireauc");
+
+// export let MatchAddress = NAME("mmmatch");
+
+export const DEBUG: boolean = true;

@@ -18,7 +18,7 @@ done
 # call utr.token issue
 for account in ${user_acc_arr[@]}
 do
-    $clultrain push action utrio.token issue '[ "'${account}'", "1000000000.0000 SYS", "memo" ]' -p ultrainio
+    $clultrain push action utrio.token issue '[ "'${account}'", "1000000000.0000 UGAS", "memo" ]' -p ultrainio
 done
 
 # deploy DragonCore contract
@@ -78,7 +78,7 @@ function case_breedWithAuto_giveBirth() {
     # matronId = 2, sireId = 3
     $clultrain push action mima.dragon approveSiring '["player1", 3]' -p player1
     sleep 1
-    $clultrain push action mima.dragon breedWithAuto '[2, 3, "80.0000 UGS"]' -p player1
+    $clultrain push action mima.dragon breedWithAuto '[2, 3, "80.0000 UGAS"]' -p player1
     # give birth, 只有mima.api有权限调用
     sleep 1
     $clultrain push action mima.dragon giveBirth '[2, 3]' -p player1
@@ -94,10 +94,10 @@ function case_transfer() {
 
 function case_giveBirth_with_SiringAuc() {
     # 　将自己的龙挂到出租市场
-    $clultrain push action mima.dragon createSiringAuction '[3, "10.0000 UGS", "100.0000 UGS", 600]' -p player2
+    $clultrain push action mima.dragon createSiringAuction '[3, "10.0000 UGAS", "100.0000 UGAS", 600]' -p player2
     sleep 1
     # 　租别人的龙繁殖
-    $clultrain push action mima.dragon bidOnSiringAuction '[3, 2, "180.0000 UGS"]' -p player1
+    $clultrain push action mima.dragon bidOnSiringAuction '[3, 2, "180.0000 UGAS"]' -p player1
     sleep 1
     $clultrain push action mima.dragon giveBirth '[2, 3]' -p player1
     sleep 1
@@ -105,31 +105,31 @@ function case_giveBirth_with_SiringAuc() {
 
 function case_saleAuction() {
     # 　将自己的龙挂到拍卖市场
-    $clultrain push action mima.dragon createSaleAuction '[2, "10.0000 UGS", "100.0000 UGS", 600 ]' -p player1
+    $clultrain push action mima.dragon createSaleAuction '[2, "10.0000 UGAS", "100.0000 UGAS", 600 ]' -p player1
     sleep 1
     # 购买拍卖市场的龙, player2购买player1挂到拍卖市场的龙
-    $clultrain push action mima.dragon bid '[2, "180.0000 UGS"]' -p player2
+    $clultrain push action mima.dragon bid '[2, "180.0000 UGAS"]' -p player2
     sleep 1
 }
 
 function case_cancelSaleAuction() {
     # 取消拍卖
-    $clultrain push action mima.dragon createSaleAuction '[2, "10.0000 UGS", "100.0000 UGS", 600 ]' -p player2
+    $clultrain push action mima.dragon createSaleAuction '[2, "10.0000 UGAS", "100.0000 UGAS", 600 ]' -p player2
     sleep 1
     $clultrain push action mima.dragon cancelSaleAuction '[2]' -p player2
     sleep 1
             #再次尝试对tokenId 2出价，这时候应该失败
-    $clultrain push action mima.dragon bid '[2, "180.0000 UGS"]' -p player1
+    $clultrain push action mima.dragon bid '[2, "180.0000 UGAS"]' -p player1
     sleep 1
 }
 
 function case_cancelSiringAuction() {
     # 取消出租
-    $clultrain push action mima.dragon createSiringAuction '[2, "10.0000 UGS", "100.0000 UGS", 600]' -p player2
+    $clultrain push action mima.dragon createSiringAuction '[2, "10.0000 UGAS", "100.0000 UGAS", 600]' -p player2
     sleep 1
     $clultrain push action mima.dragon cancelSireAuction '[2]' -p player2
     sleep 1
-    $clultrain push action mima.dragon bidOnSiringAuction '[2, 3, "180.0000 UGS"]' -p player1 #应该失败
+    $clultrain push action mima.dragon bidOnSiringAuction '[2, 3, "180.0000 UGAS"]' -p player1 #应该失败
 }
 
 function case_match() {
@@ -147,13 +147,13 @@ function case_match() {
     $clultrain push action mima.dragon startMatch '[1, 1, 1]' -p mima.api
     wait1s
     # # 　报名参加比赛
-    $clultrain push action mima.dragon joinMatch '[4, "100.0000 UGS"]' -p player1
+    $clultrain push action mima.dragon joinMatch '[4, "100.0000 UGAS"]' -p player1
     wait1s
-    $clultrain push action mima.dragon joinMatch '[5, "100.0000 UGS"]' -p player2
+    $clultrain push action mima.dragon joinMatch '[5, "100.0000 UGAS"]' -p player2
     wait1s
-    $clultrain push action mima.dragon joinMatch '[6, "100.0000 UGS"]' -p player3
+    $clultrain push action mima.dragon joinMatch '[6, "100.0000 UGAS"]' -p player3
     wait1s
-    $clultrain push action mima.dragon joinMatch '[7, "100.0000 UGS"]' -p player4
+    $clultrain push action mima.dragon joinMatch '[7, "100.0000 UGAS"]' -p player4
     wait1s
     # 　驱动比赛进行（分组、战斗、发奖）
     for loop in 0 1 2 3

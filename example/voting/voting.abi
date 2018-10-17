@@ -1,0 +1,99 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "candidate",
+          "type": "account_name"
+        }
+      ],
+      "name": "setCandidates",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "canidate",
+          "type": "account_name"
+        }
+      ],
+      "name": "vote",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "account_name"
+        },
+        {
+          "name": "count",
+          "type": "u32"
+        },
+        {
+          "name": "who_voted",
+          "type": "string[]"
+        }
+      ],
+      "name": "VotingStatus",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "candidates",
+          "type": "account_name[]"
+        }
+      ],
+      "name": "Candidates",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "setCandidates",
+      "type": "setCandidates"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "vote",
+      "type": "vote"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "voting",
+      "type": "VotingStatus"
+    },
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "candis",
+      "type": "Candidates"
+    }
+  ]
+}

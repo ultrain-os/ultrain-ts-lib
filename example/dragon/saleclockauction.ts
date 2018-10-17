@@ -129,7 +129,7 @@ class ClockAuctionBase {
 
     // Adds an auction to the list of open auctions. Also fires the
     // AuctionCreated event.
-    protected addAuction(tokenId: u64, auction: Auction): void {
+    protected addAuction(tokenId: u64, auction: Auction, from :string): void {
         // Require that all auctions have a duration of
         // at least one nimute. (keeps our math from getting hairy!)
         Log.s("addAuction start").flush();
@@ -138,8 +138,14 @@ class ClockAuctionBase {
 
         // event AuctionCreated(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64);
         Log.s("start emitting event for add Auction").flush();
-        emit("AuctionCreated", EventObject.setInt("tokenId", tokenId).setInt("startingPrice", auction.startingPrice.amount)
+        if(from == "sale"){
+            emit("AuctionCreated", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId).setInt("startingPrice", auction.startingPrice.amount)
             .setInt("endingPrice", auction.endingPrice.amount).setInt("duration", auction.duration));
+        }else{
+            emit("SireAuctionCreated", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId).setInt("startingPrice", auction.startingPrice.amount)
+            .setInt("endingPrice", auction.endingPrice.amount).setInt("duration", auction.duration));
+        }
+
     }
 
     /// @dev Removes an auction from the list of open auctions.
@@ -149,12 +155,17 @@ class ClockAuctionBase {
     }
 
     // Cancels an auction unconditionally.
-    protected _cancelAuction(tokenId: u64, seller: account_name): void {
+    protected _cancelAuction(tokenId: u64, seller: account_name, from :string): void {
         this.removeAuction(tokenId);
         this.master.transferByBid(this.originator, seller, tokenId);
         // this.transfer(seller, tokenId);
         // event AuctionCancelled(tokenId: u64);
-        emit("AuctionCancelled", EventObject.setInt("tokenId", tokenId));
+        if(from == "sale"){
+            emit("AuctionCancelled", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId));
+        }else{
+            emit("SireAuctionCancelled", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId));
+        }
+
     }
 
     protected isOnAuction(auction: Auction): boolean {
@@ -230,14 +241,16 @@ class ClockAuctionBase {
 
     // Computes the price and transfers winnings
     // Does NOT transfer ownership of token.
-    protected _bid(tokenId: u64, bidAmount: Asset): Asset {
+    protected _bid(tokenId: u64, bidAmount: Asset, from :string): Asset {
         this.isTokenIdOnAuction(tokenId);
 
         let auction: Auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token id is not on auction.");
 
         let price: Asset = this.currentPrice(auction);
-        ultrain_assert(bidAmount.gte(price), "bid amount is lower than current price.");
+        price.prints("curPrice:");
+        bidAmount.prints("bidPrice:");
+        ultrain_assert(bidAmount.gte(price), "234 bid amount is lower than current price.");
 
         let seller: account_name = auction.seller;
 
@@ -253,7 +266,7 @@ class ClockAuctionBase {
             sellerProceeds.sub(auctioneerCut);
 
             // 从发起人帐户上转入到卖家帐户
-            Asset.transfer(this.originator, seller, sellerProceeds, "seller proceeds");
+            // Asset.transfer(this.originator, seller, sellerProceeds, "seller proceeds");
         }
 
         let bidExcess = bidAmount.clone();
@@ -262,11 +275,16 @@ class ClockAuctionBase {
         // Return the funds. Similar to the previous transfer, this is
         // not susceptible to a re-entry attack because the auction is
         // removed before any transfers occur.
-        Asset.transfer(this.originator, Action.sender, bidExcess, "bid excess");
+        // Asset.transfer(this.originator, Action.sender, bidExcess, "bid excess");
         // Tell the world!
         // evnet AuctionSuccessful(tokenId: u64, totalPrice: Asset, winner: account_name, seller: account_name);
-        emit("AuctionSuccessful", EventObject.setInt("tokenId", tokenId).setInt("totalPrice", price.amount)
+        if(from == "sale"){
+            emit("AuctionSuccessful", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId).setInt("totalPrice", price.amount)
             .setInt("winner", Action.sender).setInt("seller", seller));
+        }else{
+            emit("SireAuctionSuccessful", EventObject.setInt("transactionIndex", this.master.transactionIndex).setInt("tokenId", tokenId).setInt("totalPrice", price.amount)
+            .setInt("winner", Action.sender).setInt("seller", seller));
+        }
 
         return price;
     }
@@ -308,13 +326,13 @@ export class ClockAuction extends ClockAuctionBase {
     //     this.transfer(Action.current_sender(), tokenId);
     // }
 
-    public cancelAuction(tokenId: u64): void {
+    public cancelAuction(tokenId: u64, from: string): void {
         this.isTokenIdOnAuction(tokenId);
         let auction = this.tokenIdToAuction.get(tokenId);
         ultrain_assert(this.isOnAuction(auction), "this token is not on auction.");
         let seller: account_name = auction.seller;
         ultrain_assert(Action.sender == seller, "transaction sender is not the sender of auction ");
-        this._cancelAuction(tokenId, seller);
+        this._cancelAuction(tokenId, seller, from);
     }
 
     public cancelAuctionWhenPaused(tokenId: u64): void {
@@ -379,18 +397,20 @@ export class SaleClockAuction extends ClockAuction implements Serializable {
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
         this.escrow(seller, tokenId);
         let auction = new Auction();
+        let from :string = "sale";
         auction.seller = seller;
         auction.startingPrice = startingPrice;
         auction.endingPrice = endingPrice;
         auction.duration = duration;
         auction.startedAt = now();
 
-        this.addAuction(tokenId, auction);
+        this.addAuction(tokenId, auction, from);
     }
 
     public bid(tokenId: u64, val: Asset): void {
         let bidder = Action.sender;
-        let price = this._bid(tokenId, val);
+        let from :string = "sale";
+        let price = this._bid(tokenId, val, from);
         // createAuction时，tokenId已经转移到this.originator了。
         // 所以现在直接从this.originator转移到bidder
         this.master.transferByBid(this.originator, bidder, tokenId);
@@ -448,6 +468,7 @@ export class SireClockAuction extends ClockAuction implements Serializable {
 
     public createAuction(tokenId: u64, startingPrice: Asset, endingPrice: Asset, duration: u64, seller: account_name): void {
         this.escrow(seller, tokenId);
+        let from :string = "sire";
         let auction = new Auction();
         auction.seller = seller;
         auction.startingPrice = startingPrice;
@@ -455,12 +476,13 @@ export class SireClockAuction extends ClockAuction implements Serializable {
         auction.duration = duration;
         auction.startedAt = now();
 
-        this.addAuction(tokenId, auction);
+        this.addAuction(tokenId, auction, from);
     }
 
     public bid(tokenId: u64, val: Asset): void {
         let seller = this.tokenIdToAuction[tokenId].seller;
-        this._bid(tokenId, val);
+        let from :string = "sire";
+        this._bid(tokenId, val, from);
         Log.s("ClockAuction.bid seller = ").s(RNAME(seller)).s(" current_sender = ").s(RNAME(Action.sender)).flush();
         /*
          * CAUTION: from地址使用SireAuctionAddress的原因在于， createSiringAuction时，这个token已经被SireAcutionAddress托管了。
