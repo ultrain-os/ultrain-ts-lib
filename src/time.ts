@@ -298,33 +298,13 @@ export class LocalTime {
         return yday;
     }
 
-    private split(str: string, token: string): string[] {
-        var tokens = new Array<string>();
-        if (str.length <= token.length) {
-            tokens.push(changetype<string>(""));
-        } else {
-            let idx: i32 = str.indexOf(token, 0);
-            let start: i32 = 0;
-            while (idx > 0) {
-              let seg = str.substring(start, idx);
-              tokens.push(seg);
-
-              start = idx + token.length;
-              idx = str.indexOf(token, start);
-            }
-            let lastseg = str.substring(start, str.length);
-            tokens.push(lastseg);
-        }
-        return tokens;
-      }
-
-    private splitUTCString(utcstr: string): string[] {
+    private parseUtcString(utcstr: string): string[] {
         let result = new Array<string>();
-        let dt = this.split(utcstr, "T");
+        let dt = utcstr.split("T");
 
         ultrain_assert(dt.length == 2, "utc string '" + utcstr + "' is invalid.");
 
-        let ds = this.split(dt[0], "-");
+        let ds = dt[0].split("-");
         ultrain_assert(ds.length == 3, "date of utc string '" + dt[0] + "' is invalid.");
         result.push(ds[0]); // year
         result.push(ds[1]); // month
@@ -333,12 +313,12 @@ export class LocalTime {
         let hmsstr = dt[1];
         let tz     = "";
         if (dt[1].includes("Z")) {// 设置了timezone信息
-            let tzs    = this.split(dt[1], "Z");
+            let tzs    = dt[1].split("Z");
             hmsstr = tzs[0];
             tz     = tzs[1];
         }
 
-        let hms = this.split(hmsstr, ":");
+        let hms = hmsstr.split(":");
         ultrain_assert(hms.length == 3, "time of utc string '" + dt[1] + "' is invalid.");
         result.push(hms[0]); // hour
         result.push(hms[1]); // minutes
@@ -360,7 +340,7 @@ export class LocalTime {
      * @param str a readable UTC date-time string, such as '1989-06-04T10:30:00Z+08:00'
      */
     fromUtcString(str: string): boolean {
-        let infos = this.splitUTCString(str);
+        let infos = this.parseUtcString(str);
         ultrain_assert(infos.length == 6, "utc string is invalid.");
         let year = parseI32(infos[0]);
         ultrain_assert(!isNaN(year), "year of utc string is invalid.");
