@@ -2,9 +2,10 @@ import { env as action } from "../internal/action.d";
 import { NameEx, NEX } from "../lib/name_ex";
 
 /**
- * <b><i>import { DataStreamFromCurrentAction } from "ultrain-ts-lib/src/contract";</i></b>
- *
  * To get a DataStream of current action.
+ *
+ * @example
+ * import { DataStreamFromCurrentAction } from "ultrain-ts-lib/src/contract";
  */
 export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
@@ -14,10 +15,11 @@ export function DataStreamFromCurrentAction(): DataStream {
     return ds;
 }
 /**
- * <b><i>import { Contract } from "ultrain-ts-lib/src/contract";</i></b>
- *
  * It is the base class of any executable contract,
  * each concrete contract should extend class Contract.
+ *
+ * @example
+ * import { Contract } from "ultrain-ts-lib/src/contract";
  */
 export class Contract {
 

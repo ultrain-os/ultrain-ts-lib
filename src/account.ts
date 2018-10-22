@@ -4,41 +4,45 @@ import { Asset } from "./asset";
 import { queryBalance, send } from "../lib/balance";
 import { N, RN } from "../lib/name";
 /**
- * <b><i>import { ACCOUNT } from "ultrain-ts-lib/src/account";</i></b>
- *
  * Convert a string to class Account.
  * @param str the account string to be converted.
  * @example
  *  let ceo = ACCOUNT("jack.ma");
  *  let employ = ACCOUNT("miny");
  *  ceo.transfer(employ.code, "1000.000 UGS", "your annual award.");
+ *
+ * @example
+ * import { ACCOUNT } from "ultrain-ts-lib/src/account";
  */
 export function ACCOUNT(str: string): Account {
     return new Account(N(str));
 }
 /**
- * <b><i>import { NAME } from "ultrain-ts-lib/src/account";</i></b>
- *
  * convert a string to account_name, a.k.a u64.
  * @param str the account string to be converted.
+ *
+ * @example
+ * import { NAME } from "ultrain-ts-lib/src/account";
  */
 export function NAME(str: string): account_name {
     return N(str);
 }
 /**
- * <b><i>import { RNAME } from "ultrain-ts-lib/src/account";</i></b>
- *
  * convert an account name to string.
  * @param code the value of account_name to be converted to string.
+ *
+ * @example
+ * import { RNAME } from "ultrain-ts-lib/src/account";
  */
 export function RNAME(code: account_name): string {
     return RN(code);
 }
 /**
- * <b><i>import { Account } from "ultrain-ts-lib/src/account";</i></b>
- *
  * class Account stands for an account name,
  * it wraps methods which operating the balance.
+ *
+ * @example
+ * import { Account } from "ultrain-ts-lib/src/account";
  */
 export class Account {
     /**

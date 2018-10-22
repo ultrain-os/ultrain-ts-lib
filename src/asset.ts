@@ -12,8 +12,6 @@ const CHAR_A: u8 = 0x41;
 const CHAR_Z: u8 = 0x5A;
 
 /**
- * <b><i>import { StringToSymbol } from "ultrain-ts-lib/src/asset";</i></b>
- *
  * Encode a string to uint64 value,
  * for example,
  *    let symbol = StringToSymbol(4, "ABC"); // symbol = 0x43424104
@@ -25,6 +23,9 @@ const CHAR_Z: u8 = 0x5A;
  * @returns uint64 value.
  *
  * @function StringToSymbol
+ *
+ * @example
+ * import { StringToSymbol } from "ultrain-ts-lib/src/asset";
  */
 export function StringToSymbol(precision: u8, str: string): u64 {
     // CAUTION(fanliangqin): str.length must be less than 7
@@ -63,15 +64,17 @@ function SymbolNameLength(symbolName: u64): u32 {
 }
 
 /**
- * <b><i>import { SYS } from "ultrain-ts-lib/src/asset";</i></b>
- *
  * Ultrain block system Token, it's precision is 4, and symbol is "UGAS".
+ *
+ * @example
+ * import { SYS } from "ultrain-ts-lib/src/asset";
  */
 export let SYS: u64 = StringToSymbol(4, "UGAS");
 /**
- * <b><i>import { SYS_NAME } from "ultrain-ts-lib/src/asset";</i></b>
- *
  * Ultrain block system Token name "UGAS".
+ *
+ * @example
+ * import { SYS_NAME } from "ultrain-ts-lib/src/asset";
  */
 export let SYS_NAME: u64 = <u64>(SYS >> 8);
 
@@ -80,8 +83,6 @@ export let SYS_NAME: u64 = <u64>(SYS >> 8);
  */
 const MAX_AMOUNT: u64 = ((1 << 62) - 1);
 /**
- * <b><i>import { Asset } from "ultrain-ts-lib/src/asset";</i></b>
- *
  * The class Asset manages the digital assets which stored on the chain.
  * A valid asset has two parts: amount and symbol. Different assets have
  * different symbols. for example, "1000 UGS" and "1000 SYS" are both valid
@@ -89,6 +90,9 @@ const MAX_AMOUNT: u64 = ((1 << 62) - 1);
  * You can do +,-,*, / and logic compare such as ==,!=, <=, >= on assets with same symbol.
  *
  * @class Asset
+ *
+ * @example
+ * import { Asset } from "ultrain-ts-lib/src/asset";
  */
 export class Asset implements Serializable {
 

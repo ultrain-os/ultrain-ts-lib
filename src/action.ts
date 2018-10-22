@@ -7,21 +7,24 @@ import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
 
 /**
- * <b><i>import { requirePermissionLevel } from "ultrain-ts-lib/src/action";</i></b>
  * to check if permission is authored or not.
  * @param pl PermissionLevel to check
  *
  * @function requirePermissionLevel
+ *
+ * @example
+ * import { requirePermissionLevel } from "ultrain-ts-lib/src/action";
  */
 export function requirePermissionLevel(pl: PermissionLevel): void {
     ActionAPI.require_auth2(pl.actor, pl.permission);
 }
 /**
- * <b><i>import { TransferParams } from "ultrain-ts-lib/src/action";</i></b>
- *
  * class TransferParams is applied to transfer Tokens from an account to another.
  *
  * @class TransferParams
+ *
+ * @example
+ * import { TransferParams } from "ultrain-ts-lib/src/action";
  */
 export class TransferParams implements Serializable {
     public from: u64;
@@ -54,11 +57,12 @@ export class TransferParams implements Serializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 /**
- * <b><i>import { ActionImpl } from "ultrain-ts-lib/src/action";</i></b>
- *
  * class ActionImpl is an internal class, for method {@link <i><em>dispatchInline</em></i>}.
  *
  * @class ActionImpl
+ *
+ * @example
+ * import { ActionImpl } from "ultrain-ts-lib/src/action";
  */
 export class ActionImpl implements Serializable {
     public account: account_name;
@@ -90,14 +94,15 @@ export class ActionImpl implements Serializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 /**
- * <b><i>import { dispatchInline } from "ultrain-ts-lib/src/action";</i></b>
- *
  * @param pl the permission level instance. @see {@link PermissionLevel}
  * @param code the account name of contract which you will send request to.
  * @param act the action/method name which you will invoke of contract.
  * @param params the TransferParams instance. @see {@link TransferParams}
  *
  * @function dispatchInline
+ *
+ * @example
+ * import { dispatchInline } from "ultrain-ts-lib/src/action";
  */
 export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name, params: TransferParams): void {
     let actimpl: ActionImpl = new ActionImpl();
@@ -119,12 +124,13 @@ export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name,
 }
 
 /**
- * <b><i>import { Action } from "ultrain-ts-lib/src/action";</i></b>
- *
  * class Action is applied to access an action's context information.
  * This class is static.
  *
  * @class Action
+ *
+ * @example
+ * import { Action } from "ultrain-ts-lib/src/action";
  */
 export class Action {
     /**
@@ -201,10 +207,11 @@ export class Action {
 }
 
 /**
- * <b><i>import { ACTION } from "ultrain-ts-lib/src/action";</i></b>
- *
  * convert a string to {@link Action}.
  * @param str an readable string of action name. It can only include: _0-9a-zA-Z
+ *
+ * @example
+ * import { ACTION } from "ultrain-ts-lib/src/action";
  */
 export function ACTION(str: string): Action {
     let nex = NEX(str);

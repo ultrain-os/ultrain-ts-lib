@@ -1,9 +1,10 @@
 import { env as console } from "../internal/print.d";
 import { env as system } from "../internal/system.d";
 /**
- * <b><i>import { PrintableChar } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * printable characters.
+ *
+ * @example
+ * import { PrintableChar } from "ultrain-ts-lib/src/utils";
  */
 export const PrintableChar: string[/*95*/] = [
     " ", "!", "\"", "#", "$", "%", "&", "'",
@@ -19,12 +20,13 @@ export const PrintableChar: string[/*95*/] = [
     "p", "q", "r", "s", "t", "u", "v", "w",
     "x", "y", "z", "{", "|", "}", "~"];
 /**
- * <b><i>import { intToString } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * convert an uint64 to string.
  * @param _int uint64 to convert
  * @param leftPadWith0 width of integer, if length of integer is less than it, pad with 0 on left.
  * @returns string
+ *
+ * @example
+ * import { intToString } from "ultrain-ts-lib/src/utils";
  */
 export function intToString(_int: u64, leftPadWith0: u32 = 0): string {
     let remainder: i32 = <i32>(_int % 10);
@@ -46,12 +48,13 @@ export function intToString(_int: u64, leftPadWith0: u32 = 0): string {
     return val;
 }
 /**
- * <b><i>import { toUTF8Array } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * convert an utf-16 to utf-8 string array.
  * @param str a typescript string
  *
  * @returns an array of uint8
+ *
+ * @example
+ * import { toUTF8Array } from "ultrain-ts-lib/src/utils";
  */
 export function toUTF8Array(str: string): u8[] {
     var utf8: u8[] = new Array<u8>();
@@ -85,13 +88,14 @@ export function toUTF8Array(str: string): u8[] {
     return utf8;
 }
 /**
- * <b><i>import { string2cstr } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * convert string to usize.
  * here, <i>usize</i> likes <i>"const char*"</i> in c/c++.
  * @param str a utf-16 string of typescript.
  *
  * @returns usize
+ *
+ * @example
+ * import { string2cstr } from "ultrain-ts-lib/src/utils";
  */
 export function string2cstr(str: string): u32 {
     let cstr = toUTF8Array(str);
@@ -99,21 +103,23 @@ export function string2cstr(str: string): u32 {
     return <usize>ptr + sizeof<u64>();
 }
 /**
- * <b><i>import { printstr } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * print a string to console after wasm vm quit.
  * @param str string to print.
+ *
+ * @example
+ * import { printstr } from "ultrain-ts-lib/src/utils";
  */
 export function printstr(str: string): void {
     console.prints(string2cstr(str));
 }
 /**
- * <b><i>import { ultrain_assert } from "ultrain-ts-lib/src/utils";</i></b>
- *
  * assert an condition.
  * if condition is false, vm throws an exception and quit executing.
  * @param condition condition to check.
  * @param msg help message
+ *
+ * @example
+ * import { ultrain_assert } from "ultrain-ts-lib/src/utils";
  */
 export function ultrain_assert(condition: boolean, msg: string): void {
     if (condition == false) {

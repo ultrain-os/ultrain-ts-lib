@@ -1,9 +1,11 @@
+import { string2cstr } from "./utils";
+
 /**
  * @author fanliangqin@ultrain.io
  */
 
 export declare namespace env{
-    function ts_log_print_s(ch: i32): void;
+    function ts_log_print_s(cstr: usize): void;
     function ts_log_print_i(i: i64, fmt: u32): void;
     function ts_log_done(): void;
 }
@@ -17,9 +19,7 @@ class Logger {
      * @param msg message to print.
      */
     s(msg: string): Logger {
-        for (let idx = 0; idx < msg.length; ++idx) {
-            env.ts_log_print_s(msg.charCodeAt(idx));
-        }
+        env.ts_log_print_s(string2cstr(msg));
         return this;
     }
 
@@ -43,9 +43,10 @@ class Logger {
     }
 }
 /**
- * <b><i>import { Log } from "ultrain-ts-lib/src/log";</i></b>
- *
  * A global variable of Logger. There is only one Log object at the same time.
  * This is a global instance of {@class Logger}.
+ *
+ * @example
+ * import { Log } from "ultrain-ts-lib/src/log";
  */
 export let Log = new Logger();

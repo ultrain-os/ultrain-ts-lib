@@ -1,9 +1,10 @@
 import { HeadBlock } from "../lib/headblock";
 
 /**
- * <b><i>import { Block } from "ultrain-ts-lib/src/block";</i></b>
- *
  * Retrieve head block inforamtions.
+ *
+ * @example
+ * import { Block } from "ultrain-ts-lib/src/block";
  */
 export class Block {
     /**
@@ -28,7 +29,7 @@ export class Block {
     }
     /**
      * Get the producer of head block.
-     * It returns an account name of u64.
+     * It returns an account name as u64.
      */
     public static get producer(): account_name {
         return HeadBlock.producer;

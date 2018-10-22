@@ -194,9 +194,10 @@ export class BlockTimestamp implements Serializable {
     }
 }
 /**
- * <b><i>import { now } from "ultrain-ts-lib/src/time";</i></b>
- *
  * This function return the head block time, it is in seconds since epoch.
+ *
+ * @example
+ * import { now } from "ultrain-ts-lib/src/time";
  */
 export function now(): u32 { return <u32>(system.current_time() / 1000000); }
 
@@ -255,7 +256,6 @@ function getDaysOfMonth(year: u32) : u32[] {
  * @class LocalTime
  *
  * @example
- *
  * import { LocalTime } from "ultrain-ts-lib/src/time;"
  */
 export class LocalTime {
@@ -448,7 +448,6 @@ export class LocalTime {
  * @class GmtTime
  *
  * @example
- *
  * import { GmtTime } from "ultrain-ts-lib/src/time;"
  */
 export class GmtTime {
@@ -539,7 +538,6 @@ export class GmtTime {
  * @class TimeUtil
  *
  * @example
- *
  * import { TimeUtil } from "ultrain-ts-lib/src/time;"
  */
 export class TimeUtil {

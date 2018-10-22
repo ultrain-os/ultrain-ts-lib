@@ -203,21 +203,23 @@ class _EventObject implements Serializable {
 //    declare function emit_event(name: usize, name_size: u64, param: usize, param_size: u64): void;
 // }
 /**
- * <b><i>import { EventObject } from "ultrain-ts-lib/src/events";</i></b>
- *
  * Set message for an event.
  * It is a singletone instance of {@class _EventObject}.
+ *
+ * @example
+ * import { EventObject } from "ultrain-ts-lib/src/events";
  */
 export let EventObject: _EventObject = new _EventObject();
 
 /**
- * <b><i>import { emit } from "ultrain-ts-lib/src/events";</i></b>
- *
  * to emit an event.
  * @param evtname the name of event to be emitted, its length MUST be less than 64 characters.
  * @param obj EventObject contains message. The contents's serialized length must be less than your configed <i>contract_event_string_length</i>,
  *   the default serialized contents length is 128.
  * @returns i32 value. 0: successed;  -1: event name is too long; -2: event message is too long.
+ *
+ * @example
+ * import { emit } from "ultrain-ts-lib/src/events";
  */
 export function emit(evtname: string, obj: _EventObject): i32 {
     ultrain_assert(evtname.length <= 64, "length of event name must be less than 64.");
