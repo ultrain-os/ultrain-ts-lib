@@ -1,78 +1,281 @@
 {
-   "version": "ultrainio::abi/1.0",
-   "types": [{
+  "version": "ultraio:1.0",
+  "types": [
+    {
       "new_type_name": "account_name",
       "type": "name"
-   }],
-  "structs": [{
-      "name": "transfer",
-      "base": "",
-      "fields": [
-        {"name":"from", "type":"account_name"},
-        {"name":"to", "type":"account_name"},
-        {"name":"quantity", "type":"asset"},
-        {"name":"memo", "type":"string"}
-      ]
-    },{
-     "name": "create",
-     "base": "",
-     "fields": [
-        {"name":"issuer", "type":"account_name"},
-        {"name":"maximum_supply", "type":"asset"}
-     ]
-  },{
-     "name": "issue",
-     "base": "",
-     "fields": [
-        {"name":"to", "type":"account_name"},
-        {"name":"quantity", "type":"asset"},
-        {"name":"memo", "type":"string"}
-     ]
-  },{
-      "name": "account",
-      "base": "",
-      "fields": [
-        {"name":"balance", "type":"asset"}
-      ]
-    },{
-      "name": "currency_stats",
-      "base": "",
-      "fields": [
-        {"name":"supply", "type":"asset"},
-        {"name":"max_supply", "type":"asset"},
-        {"name":"issuer", "type":"account_name"}
-      ]
+    },
+    {
+      "new_type_name": "Asset",
+      "type": "asset"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    },
+    {
+      "new_type_name": "symbol_name",
+      "type": "uint64"
     }
   ],
-  "actions": [{
-      "name": "transfer",
-      "type": "transfer",
-      "ricardian_contract": ""
-    },{
-      "name": "issue",
-      "type": "issue",
-      "ricardian_contract": ""
-    }, {
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "issuer",
+          "type": "account_name"
+        },
+        {
+          "name": "maximum_supply",
+          "type": "Asset"
+        }
+      ],
       "name": "create",
-      "type": "create",
-      "ricardian_contract": ""
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "to",
+          "type": "account_name"
+        },
+        {
+          "name": "quantity",
+          "type": "Asset"
+        },
+        {
+          "name": "memo",
+          "type": "string"
+        }
+      ],
+      "name": "issue",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "from",
+          "type": "u64"
+        },
+        {
+          "name": "to",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "Asset"
+        },
+        {
+          "name": "memo",
+          "type": "string"
+        }
+      ],
+      "name": "transfer",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "to",
+          "type": "account_name"
+        },
+        {
+          "name": "amount",
+          "type": "Asset"
+        },
+        {
+          "name": "deadline",
+          "type": "u32"
+        },
+        {
+          "name": "note",
+          "type": "string"
+        }
+      ],
+      "name": "freeze",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "from",
+          "type": "account_name"
+        },
+        {
+          "name": "amount",
+          "type": "Asset"
+        }
+      ],
+      "name": "retrieval",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "symname",
+          "type": "symbol_name"
+        }
+      ],
+      "name": "getSupply",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "owner",
+          "type": "account_name"
+        },
+        {
+          "name": "symname",
+          "type": "symbol_name"
+        }
+      ],
+      "name": "getBalance",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "supply",
+          "type": "Asset"
+        },
+        {
+          "name": "max_supply",
+          "type": "Asset"
+        },
+        {
+          "name": "issuer",
+          "type": "account_name"
+        },
+        {
+          "name": "timestamp",
+          "type": "u64"
+        }
+      ],
+      "name": "CurrencyStats",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "balance",
+          "type": "Asset"
+        }
+      ],
+      "name": "CurrencyAccount",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "from",
+          "type": "account_name"
+        },
+        {
+          "name": "amount",
+          "type": "Asset"
+        },
+        {
+          "name": "until",
+          "type": "u32"
+        },
+        {
+          "name": "note",
+          "type": "string"
+        }
+      ],
+      "name": "FrozenItem",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "to",
+          "type": "account_name"
+        },
+        {
+          "name": "treasure",
+          "type": "FrozenItem[]"
+        }
+      ],
+      "name": "FrozenToken",
+      "base": ""
     }
-
   ],
-  "tables": [{
-      "name": "accounts",
-      "type": "account",
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "create",
+      "type": "create"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "issue",
+      "type": "issue"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "transfer",
+      "type": "transfer"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "freeze",
+      "type": "freeze"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "retrieval",
+      "type": "retrieval"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getSupply",
+      "type": "getSupply"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getBalance",
+      "type": "getBalance"
+    }
+  ],
+  "tables": [
+    {
       "index_type": "i64",
-      "key_names" : ["currency"],
-      "key_types" : ["uint64"]
-    },{
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
       "name": "stat",
-      "type": "currency_stats",
+      "type": "CurrencyStats"
+    },
+    {
       "index_type": "i64",
-      "key_names" : ["currency"],
-      "key_types" : ["uint64"]
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "accounts",
+      "type": "CurrencyAccount"
+    },
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "frozen.tbl",
+      "type": "FrozenToken"
     }
-  ],
-  "ricardian_clauses": [],
-  "abi_extensions": []
+  ]
 }

@@ -41,11 +41,13 @@ export class CurrencyStats implements Serializable {
     supply: Asset;
     max_supply: Asset;
     issuer: account_name;
+    timestamp: u64;
 
-    constructor(supply: Asset, max_supply: Asset, issuer: account_name) {
+    constructor(supply: Asset, max_supply: Asset, issuer: account_name, time: u64 = 0) {
         this.max_supply = max_supply;
         this.supply = supply;
         this.issuer = issuer;
+        this.timestamp = time;
     }
 
     primaryKey(): u64 { return this.supply.symbolName(); }
@@ -54,12 +56,14 @@ export class CurrencyStats implements Serializable {
         this.supply.deserialize(ds);
         this.max_supply.deserialize(ds);
         this.issuer = ds.read<account_name>();
+        this.timestamp = ds.read<u64>();
     }
 
     serialize(ds: DataStream): void {
         this.supply.serialize(ds);
         this.max_supply.serialize(ds);
         ds.write<account_name>(this.issuer);
+        ds.write<u64>(this.timestamp);
     }
 }
 
