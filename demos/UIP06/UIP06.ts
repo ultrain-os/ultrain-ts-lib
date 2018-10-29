@@ -12,6 +12,7 @@ import { now } from "../../src/time";
 import { Return } from "../../src/return";
 import { NEX } from "../../lib/name_ex";
 import { Action } from "../../src/action";
+import { UIP06 } from "../../uips/uip06";
 
 class FrozenItem implements Serializable {
     from  : account_name;
@@ -74,7 +75,7 @@ let FrezonAccount = NAME("utrio.freeze");
 @database(CurrencyStats, StatsTable)
 @database(CurrencyAccount, AccountTable)
 @database(FrozenToken, FrozenTable)
-export class Token extends Contract {
+export class UIP06Impl extends Contract implements UIP06{
 
     @action
     public create(issuer: account_name, maximum_supply: Asset): void {

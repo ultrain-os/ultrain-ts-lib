@@ -16,7 +16,7 @@ echo "using clutrain: ${clultrain}"
 # ${clultrain} get table token tom accounts
 # ${clultrain} get table token jack accounts
 p=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-${clultrain} set contract jack $p/../token/ -p jack
+${clultrain} set contract jack $p/../UIP06/ -p jack
 $clultrain push action jack create '["rose", "100000.0000 BENZ"]' -p jack
 $clultrain push action jack issue '["rose", "9000.0000 BENZ", "xxoo"]' -p rose
 $clultrain push action jack freeze '["tony", "100.0000 BENZ", 1540263045, "a freeze test"]' -p rose

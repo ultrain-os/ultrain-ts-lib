@@ -13,7 +13,7 @@ fi
 
 echo 'Deploy the nft contract'
 
-${clultrain} set contract nft ../nft -p nft
+${clultrain} set contract nft ../UIP09 -p nft
 
 ${clultrain} push action nft create '["rose", "1000 XRT"]' -p nft
 ${clultrain} push action nft issue '["tom", "2 XRT", ["Wu", "Kong"], "2018", "First issue"]' -p rose

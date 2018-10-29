@@ -111,7 +111,7 @@ const TOKENTABLE: string = "token";
 @database(Token, TOKENTABLE)
 @database(CurrencyStats, STATSTABLE)
 @database(NftAccount, ACCOUNTTABLE)
-export class Nft extends Contract implements UIP09 {
+export class UIP09Impl extends Contract implements UIP09 {
 
     constructor(receiver: account_name) {
         super(receiver);
