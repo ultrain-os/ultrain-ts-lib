@@ -148,7 +148,7 @@ export class Action {
      * 'kobe' is the receiver's account name.
      */
     public static get receiver(): account_name {
-        return ActionAPI.current_receiver();
+        return current_receiver();
     }
     /**
      * to check if an account name has been authored.

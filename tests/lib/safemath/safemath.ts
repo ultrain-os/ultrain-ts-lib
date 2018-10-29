@@ -1,6 +1,5 @@
 import "allocator/arena";
 
-import { printstr, N, ultrain_assert, RN } from "../../../src/utils";
 import { Contract } from "../../../src/contract";
 import { SafeMath } from "../../../src/safemath";
 

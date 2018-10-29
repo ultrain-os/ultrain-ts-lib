@@ -4,7 +4,6 @@ import { Contract } from "../../../src/contract";
 import { RNAME, NAME } from "../../../src/account";
 import { ultrain_assert } from "../../../src/utils";
 import { Map } from "../../../lib/map";
-import { DBManager } from "../../../src/dbmanager";
 import { ArrayMap } from "../../../lib/arraymap";
 
 class Obj implements Serializable {

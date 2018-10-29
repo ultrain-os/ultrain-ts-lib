@@ -3,7 +3,6 @@ import { BlockTimestamp } from "../../src/time";
 import { PublicKey } from "../../internal/types";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Native } from "./native";
-import { DBManager } from "../../src/dbmanager";
 import { ExchangeState } from "./exchangestate";
 
 

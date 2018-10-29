@@ -1,9 +1,7 @@
 import "allocator/arena";
 
-import { printstr, N, ultrain_assert, RN } from "../../../src/utils";
 import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
-import { NameEx, RNEX ,NEX} from "../../../lib/name_ex";
 
 class TestTrack extends Contract {
 

@@ -4,8 +4,7 @@
  * All rights reserved by ultrain.io @2018
  */
 
-import { Asset, StringToSymbol, SYS_NAME, SYS } from "../src/asset";
-import { DBManager } from "../src/dbmanager";
+import { Asset, SYS_NAME, SYS } from "../src/asset";
 import { PermissionLevel } from "./permission-level";
 import { TransferParams, dispatchInline } from "../src/action";
 import { NEX } from "./name_ex";

@@ -1,7 +1,6 @@
 import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
-import { ultrain_assert } from "../../src/utils";
 
 class BalanceContract extends Contract {
 

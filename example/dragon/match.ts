@@ -1,5 +1,5 @@
 import { Action } from "../../src/action";
-import { ultrain_assert, intToString} from "../../src/utils";
+import { intToString} from "../../src/utils";
 import { Asset } from "../../src/asset";
 import { Map } from "../../lib/map";
 import { DragonCore } from "./dragoncore";
@@ -7,7 +7,6 @@ import { FightCore } from "./fightcore";
 import { Titles } from "./titles";
 import { BetId } from "./betid";
 import { GenType } from "./genetype";
-import { DBManager } from "../../src/dbmanager";
 import { emit, EventObject } from "../../src/events";
 import { SYS } from "../../src/asset";
 import { MatchAddress, HyperDragonContract, DEBUG } from "./consts";

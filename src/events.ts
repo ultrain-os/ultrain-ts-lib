@@ -4,7 +4,7 @@
  * @datetime 14:35:49, 07/09/2018
  * All rights reserved by ultrain.io @2018
  */
-import { ultrain_assert, string2cstr, intToString } from "../src/utils";
+import { string2cstr, intToString } from "../src/utils";
 import { Map } from "../lib/map";
 import { ArrayMap } from "../lib/arraymap";
 import { env as system } from "../internal/system.d";

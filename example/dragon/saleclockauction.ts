@@ -7,14 +7,13 @@
 import { Action } from "../../src/action";
 import { Asset } from "../../src/asset";
 import { DragonCore, DragonAuction } from "./dragoncore";
-import { ultrain_assert, intToString } from "../../src/utils";
+import { intToString } from "../../src/utils";
 import { Map } from "../../lib/map";
 import { emit, EventObject } from "../../src/events";
 import { HyperDragonContract, SireAuctionAddress } from "./consts";
 import { now } from "../../src/time";
 import { Log } from "../../src/log";
 import { SYS } from "../../src/asset";
-import { DBManager } from "../../src/dbmanager";
 import { NAME, ACCOUNT, RNAME, Account } from "../../src/account";
 
 class Auction implements Serializable {

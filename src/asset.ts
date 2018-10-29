@@ -1,5 +1,4 @@
 import { Log } from "./log";
-import { ultrain_assert } from "./utils";
 import { queryBalance, send } from "../lib/balance";
 
 /**

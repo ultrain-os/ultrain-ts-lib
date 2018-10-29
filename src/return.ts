@@ -3,7 +3,7 @@
  * @datetime 16:36:37, 07/05/2018
  * All rights reserved by ultrain.io @2018
  */
-import { string2cstr, ultrain_assert } from "./utils";
+import { string2cstr } from "./utils";
 
 namespace env {
     export declare function set_result_str(cstr: usize): void;

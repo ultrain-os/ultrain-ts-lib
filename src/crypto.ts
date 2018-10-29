@@ -1,6 +1,6 @@
 import "allocator/arena";
 import { env as cry } from "../internal/crypto.d";
-import { string2cstr, ultrain_assert } from "./utils";
+import { string2cstr } from "./utils";
 
 const HexDigital: string = "0123456789abcdef";
 const CHAR0 = 0x30;

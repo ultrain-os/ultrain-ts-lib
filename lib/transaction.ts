@@ -1,6 +1,5 @@
 import { DataStreamFromCurrentAction } from "../src/contract";
 import { Action, ActionImpl } from "../src/action";
-import { ultrain_assert } from "../src/utils";
 import { env as system } from "../internal/system.d";
 import { env as transaction } from "../internal/transaction.d";
 import { now } from "../src/time";

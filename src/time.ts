@@ -1,4 +1,4 @@
-import { ultrain_assert, intToString } from "./utils";
+import { intToString } from "./utils";
 import { env as system } from "../internal/system.d";
 import { Log } from "./log";
 

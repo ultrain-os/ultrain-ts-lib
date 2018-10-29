@@ -3,16 +3,15 @@
  */
 import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
-import { ultrain_assert} from "../../src/utils";
-import { DBManager } from "../../src/dbmanager";
-import { Action, TransferParams, dispatchInline } from "../../src/action";
+import { TransferParams, dispatchInline } from "../../src/action";
+import { PermissionLevel } from "../../lib/permission-level";
+import { env as action } from "../../internal/action.d";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account, RNAME } from "../../src/account";
 import { now } from "../../src/time";
 import { Return } from "../../src/return";
-import { PermissionLevel } from "../../lib/permission-level";
 import { NEX } from "../../lib/name_ex";
-import { Log } from "../../src/log";
+import { Action } from "../../src/action";
 
 class FrozenItem implements Serializable {
     from  : account_name;

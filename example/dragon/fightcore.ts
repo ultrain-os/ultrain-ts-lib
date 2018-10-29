@@ -2,9 +2,6 @@
  * @author fanliangqin@ultrain.io
  */
 import { SafeMath } from "../../src/safemath";
-import { ultrain_assert } from "../../src/utils";
-import { MatchCore } from "./match";
-import { Pausable } from "./pausable";
 import { GenType } from "./genetype";
 import { Log } from "../../src/log";
 

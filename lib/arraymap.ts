@@ -5,7 +5,6 @@
  * All rights reserved by ultrain.io @2018
  */
 import { Log } from "../src/log";
-import { ultrain_assert } from "../src/utils";
 
 @ignore
 export class ArrayMap<K, V> implements Serializable {

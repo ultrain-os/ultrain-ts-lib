@@ -3,7 +3,6 @@
  */
 
 export declare namespace env {
-     function ultrainio_assert(condition: u32, cstr: u32): void;
      function ultrainio_assert_message(test: u32, msg: usize, len: u32): void;
      function ultrainio_assert_code(test: u32, code: u64): void;
      function ultrainio_exit(code: i32): void;
@@ -17,3 +16,4 @@ export declare namespace env {
      // function now(): u32 { return <u32>(current_time() / 1000000); }
 
 }
+

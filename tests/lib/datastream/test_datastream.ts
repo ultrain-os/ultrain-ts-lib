@@ -1,8 +1,5 @@
 import { Contract } from "../../../src/contract";
-import { DBManager } from "../../../src/dbmanager";
-import { N } from "../../../src/utils";
 import { Log } from "../../../src/log";
-import { NameEx, RNEX ,NEX} from "../../../lib/name_ex";
 import "allocator/arena";
 
 class A {

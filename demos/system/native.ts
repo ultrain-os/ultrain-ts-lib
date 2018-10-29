@@ -4,10 +4,8 @@
 
 import { Contract } from "../../src/contract";
 import { PermissionLevel } from "../../lib/permission-level";
-import { PublicKey, Checksum256 } from "../../internal/types";
-import { DBManager } from "../../src/dbmanager";
+import { PublicKey } from "../../internal/types";
 import { UserResources } from "./delegatebandwidth";
-import { ultrain_assert } from "../../src/utils";
 import { env as privileged } from "../../internal/privileged.d";
 import { NAME } from "../../src/account";
 

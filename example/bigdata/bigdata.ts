@@ -1,7 +1,7 @@
 import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
-import { ultrain_assert, string2cstr } from "../../src/utils";
+import { string2cstr } from "../../src/utils";
 
 declare namespace env {
     function big_int_cmp(p: usize, q: usize): u32;

@@ -1,7 +1,7 @@
 
 import "allocator/arena";
 
-import { ultrain_assert, intToString } from "../../src/utils";
+import { intToString } from "../../src/utils";
 import { Action } from "../../src/action";
 import { GenType } from "./genetype";
 import { minutes, hours, days, seconds, now } from "../../src/time";
@@ -18,7 +18,6 @@ import { HyperDragonContract, CEO, CFO, API, SaleAuctionAddress, SireAuctionAddr
 import { SYS } from "../../src/asset";
 import { Return } from "../../src/return";
 import { Log } from "../../src/log";
-import { DBManager } from "../../src/dbmanager";
 import { NAME, RNAME } from "../../src/account";
 import { Account } from "../../src/account";
 

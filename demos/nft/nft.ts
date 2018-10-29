@@ -1,9 +1,7 @@
 import { Action } from "../../src/action";
 import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
-import { DBManager } from "../../src/dbmanager";
 import { Log } from "../../src/log";
-import { ultrain_assert } from "../../src/utils";
 import { ACCOUNT, NAME, Account } from "../../src/account";
 import { UIP09 } from "../../uips/uip09";
 

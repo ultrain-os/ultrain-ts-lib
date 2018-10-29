@@ -4,8 +4,6 @@
  * @datetime 16:53:10, 07/11/2018
  * All rights reserved by ultrain.io @2018
  */
-import { ultrain_assert } from "../src/utils";
-
 @ignore
 export class Map<K, V> implements Serializable {
     private _keys: K[] = [];

@@ -1,7 +1,6 @@
 import "allocator/arena";
 import {Contract} from "../../../src/contract";
-import { Log } from "../../../src/log";
-import { ultrain_assert, intToString } from "../../../src/utils";
+import { intToString } from "../../../src/utils";
 import { TimeUtil, LocalTime, GmtTime } from "../../../src/time";
 import { Return } from "../../../src/return";
 

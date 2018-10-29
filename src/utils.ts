@@ -112,17 +112,3 @@ export function string2cstr(str: string): u32 {
 export function printstr(str: string): void {
     console.prints(string2cstr(str));
 }
-/**
- * assert an condition.
- * if condition is false, vm throws an exception and quit executing.
- * @param condition condition to check.
- * @param msg help message
- *
- * @example
- * import { ultrain_assert } from "ultrain-ts-lib/src/utils";
- */
-export function ultrain_assert(condition: boolean, msg: string): void {
-    if (condition == false) {
-        system.ultrainio_assert(0, string2cstr(msg));
-    }
-}

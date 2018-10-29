@@ -2,7 +2,6 @@
 /**
  * @author fanliangqin@ultrain.io
  */
-import { ultrain_assert } from "../../src/utils";
 import { Action } from "../../src/action";
 import { emit, EventObject } from "../../src/events";
 import { Account } from "../../src/account";

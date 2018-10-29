@@ -1,9 +1,7 @@
 import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
-import { ultrain_assert } from "../../src/utils";
 import { NAME } from "../../src/account";
-import { DBManager } from "../../src/dbmanager";
 
 class Person implements Serializable {
     // name: string;

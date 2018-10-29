@@ -1,8 +1,6 @@
 import "allocator/arena";
 import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160 } from "../../../src/crypto";
 import {Contract} from "../../../src/contract";
-import { Log } from "../../../src/log";
-import { ultrain_assert } from "../../../src/utils";
 
 const target: string = "what a wonderful world!";
 
