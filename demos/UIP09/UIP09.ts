@@ -180,7 +180,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     @action
     transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {
         // tansfer token:id to user
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let tokenExisting = tokens.get(token_id, token);
 
@@ -217,7 +217,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     ownerOf(id: id_type): account_name {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
 
@@ -226,7 +226,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     uriOf(token_id: id_type): string {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
 
@@ -266,21 +266,21 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private availablePrimaryKey(): id_type {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this._receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this._receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
-        let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
-        let res =  existing ? token.increaseId() : Nft.TOKEN_START;
+        let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);
+        let res =  existing ? token.increaseId() : UIP09Impl.TOKEN_START;
         return res;
     }
 
     private updateMaxPrimaryKey(ram_payer: u64, max_token_id: id_type): void {
 
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
-        let existing = tokens.get(Nft.TOKEN_PRIMARY_ID, token);
+        let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);
 
         if (!existing) {
-            let to = new Token(Nft.TOKEN_PRIMARY_ID, 0, new Asset(), "", "");
+            let to = new Token(UIP09Impl.TOKEN_PRIMARY_ID, 0, new Asset(), "", "");
             to.current_id = max_token_id;
             tokens.emplace(ram_payer, to);
         } else {
@@ -292,7 +292,7 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
 
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, Nft.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
         tokens.emplace(ram_payer, token);
