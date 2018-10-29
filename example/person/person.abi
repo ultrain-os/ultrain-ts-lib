@@ -50,6 +50,11 @@
       "base": ""
     },
     {
+      "fields": [],
+      "name": "enumrate",
+      "base": ""
+    },
+    {
       "fields": [
         {
           "name": "name",
@@ -83,6 +88,11 @@
       "ricardian_contract": "",
       "name": "remove",
       "type": "remove"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "enumrate",
+      "type": "enumrate"
     }
   ],
   "tables": [

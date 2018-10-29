@@ -2,8 +2,8 @@ import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
 import { ultrain_assert } from "../../src/utils";
-import { DBManager } from "../../src/dbmanager";
 import { NAME } from "../../src/account";
+import { DBManager } from "../../src/dbmanager";
 
 class Person implements Serializable {
     // name: string;
@@ -67,5 +67,17 @@ class PersonContract extends Contract {
     remove(name: string): void {
         Log.s("start to remove: ").s(name).flush();
         this.db.erase(NAME(name));
+    }
+
+    @action
+    enumrate(): void {
+        let cursor = this.db.cursor();
+        Log.s("cursor.count =").i(cursor.count).flush();
+
+        while(cursor.hasNext()) {
+            let p = cursor.get();
+            p.prints();
+            cursor.next();
+        }
     }
 }

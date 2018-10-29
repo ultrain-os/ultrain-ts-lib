@@ -12,4 +12,5 @@ export declare namespace env {
     function db_next_i64(iterator: i32, primary: i32): i32;
     function db_get_i64(iterator: i32, data: u32, len: u32): i32;
     function db_update_i64(iterator: i32, payer: u64, data: u32, len: u32): void;
+    function db_iterator_i64(code: u64, scope: u64, table: u64): u64;
 }

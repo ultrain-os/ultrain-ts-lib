@@ -1,10 +1,10 @@
-import { Contract } from '../../src/contract';
-import { Log } from '../../src/log';
-import { NAME, RNAME} from '../../src/account';
-import { DBManager } from '../../src/dbmanager';
-import { ultrain_assert } from '../../src/utils';
-import { Action } from '../../src/action';
-import { SHA256 } from '../../src/crypto';
+import { Contract } from 'ultrain-ts-lib/src/contract';
+import { Log } from 'ultrain-ts-lib/src/log';
+import { NAME, RNAME} from 'ultrain-ts-lib/src/account';
+import { DBManager } from 'ultrain-ts-lib/src/dbmanager';
+import { ultrain_assert } from 'ultrain-ts-lib/src/utils';
+import { Action } from 'ultrain-ts-lib/src/action';
+import { SHA256 } from 'ultrain-ts-lib/src/crypto';
 
 class VotingStatus implements Serializable {
   @primaryid

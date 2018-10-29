@@ -23,6 +23,7 @@
  (type $I (func (result i64)))
  (type $IIIIiii (func (param i64 i64 i64 i64 i32 i32) (result i32)))
  (type $iIiiv (func (param i32 i64 i32 i32)))
+ (type $IIII (func (param i64 i64 i64) (result i64)))
  (import "env" "abort" (func $~lib/env/abort))
  (import "env" "ultrainio_assert" (func $../../internal/system.d/env.ultrainio_assert (param i32 i32)))
  (import "env" "ts_log_print_s" (func $../../src/log/env.ts_log_print_s (param i32)))
@@ -36,6 +37,7 @@
  (import "env" "db_get_i64" (func $../../internal/db.d/env.db_get_i64 (param i32 i32 i32) (result i32)))
  (import "env" "db_update_i64" (func $../../internal/db.d/env.db_update_i64 (param i32 i64 i32 i32)))
  (import "env" "db_remove_i64" (func $../../internal/db.d/env.db_remove_i64 (param i32)))
+ (import "env" "db_iterator_i64" (func $../../internal/db.d/env.db_iterator_i64 (param i64 i64 i64) (result i64)))
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
  (global $~lib/internal/allocator/AL_SIZE i32 (i32.const 8))
  (global $~lib/internal/allocator/AL_MASK i32 (i32.const 7))
@@ -55,7 +57,7 @@
  (global $person/tblname i32 (i32.const 1624))
  (global $person/scope i32 (i32.const 1640))
  (global $~lib/datastream/HEADER_SIZE i32 (i32.const 4))
- (global $HEAP_BASE i32 (i32.const 2484))
+ (global $HEAP_BASE i32 (i32.const 2600))
  (memory $0 1)
  (data (i32.const 8) "\01\00\00\00 \00")
  (data (i32.const 16) "\01\00\00\00!\00")
@@ -176,10 +178,13 @@
  (data (i32.const 2320) "\06\00\00\00r\00e\00m\00o\00v\00e\00")
  (data (i32.const 2336) "\11\00\00\00s\00t\00a\00r\00t\00 \00t\00o\00 \00r\00e\00m\00o\00v\00e\00:\00 \00")
  (data (i32.const 2376) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00e\00r\00a\00s\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 2488) "\08\00\00\00e\00n\00u\00m\00r\00a\00t\00e\00")
+ (data (i32.const 2512) "\0e\00\00\00c\00u\00r\00s\00o\00r\00.\00c\00o\00u\00n\00t\00 \00=\00")
+ (data (i32.const 2544) "\1a\00\00\00c\00u\00r\00s\00o\00r\00 \00i\00n\00d\00e\00x\00 \00o\00u\00t\00 \00o\00f\00 \00r\00a\00n\00g\00e\00.\00")
  (export "memory" (memory $0))
  (export "apply" (func $person/apply))
  (start $start)
- (func $~lib/allocator/arena/__memory_allocate (; 13 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/arena/__memory_allocate (; 14 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -290,14 +295,14 @@
   )
   (get_local $1)
  )
- (func $~lib/memory/memory.allocate (; 14 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/memory/memory.allocate (; 15 ;) (type $ii) (param $0 i32) (result i32)
   (return
    (call $~lib/allocator/arena/__memory_allocate
     (get_local $0)
    )
   )
  )
- (func $~lib/internal/arraybuffer/computeSize (; 15 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 16 ;) (type $ii) (param $0 i32) (result i32)
   (i32.shl
    (i32.const 1)
    (i32.sub
@@ -314,7 +319,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/allocateUnsafe (; 16 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 17 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (if
@@ -349,7 +354,7 @@
   )
   (get_local $1)
  )
- (func $~lib/internal/memory/memset (; 17 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memset (; 18 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -701,7 +706,7 @@
    )
   )
  )
- (func $~lib/array/Array<u8>#constructor (; 18 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#constructor (; 19 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -776,7 +781,7 @@
   )
   (get_local $0)
  )
- (func $~lib/string/String#charCodeAt (; 19 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 20 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (if
    (i32.eqz
     (i32.ne
@@ -810,7 +815,7 @@
    )
   )
  )
- (func $~lib/internal/memory/memcpy (; 20 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memcpy (; 21 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2612,7 +2617,7 @@
    )
   )
  )
- (func $~lib/internal/memory/memmove (; 21 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memmove (; 22 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (if
    (i32.eq
@@ -2930,7 +2935,7 @@
    )
   )
  )
- (func $~lib/internal/arraybuffer/reallocateUnsafe (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocateUnsafe (; 23 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3083,7 +3088,7 @@
   )
   (get_local $0)
  )
- (func $~lib/array/Array<u8>#push (; 23 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#push (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3161,7 +3166,7 @@
   )
   (get_local $5)
  )
- (func $../../src/utils/toUTF8Array (; 24 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/utils/toUTF8Array (; 25 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3395,7 +3400,7 @@
   )
   (get_local $1)
  )
- (func $../../src/utils/string2cstr (; 25 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/utils/string2cstr (; 26 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (set_local $1
@@ -3413,7 +3418,7 @@
    (i32.const 8)
   )
  )
- (func $../../src/utils/ultrain_assert (; 26 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../src/utils/ultrain_assert (; 27 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eq
     (i32.and
@@ -3430,7 +3435,7 @@
    )
   )
  )
- (func $../../src/log/Logger#s (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/log/Logger#s (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (call $../../src/log/env.ts_log_print_s
    (call $../../src/utils/string2cstr
     (get_local $1)
@@ -3438,17 +3443,17 @@
   )
   (get_local $0)
  )
- (func $../../src/log/Logger#i (; 28 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/log/Logger#i (; 29 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (call $../../src/log/env.ts_log_print_i
    (get_local $1)
    (get_local $2)
   )
   (get_local $0)
  )
- (func $../../src/log/Logger#flush (; 29 ;) (type $iv) (param $0 i32)
+ (func $../../src/log/Logger#flush (; 30 ;) (type $iv) (param $0 i32)
   (call $../../src/log/env.ts_log_done)
  )
- (func $../../src/asset/StringToSymbol (; 30 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+ (func $../../src/asset/StringToSymbol (; 31 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -3573,13 +3578,13 @@
   )
   (get_local $3)
  )
- (func $../../src/contract/Contract#_Contract_super (; 31 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/contract/Contract#_Contract_super (; 32 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (i64.store
    (get_local $0)
    (get_local $1)
   )
  )
- (func $person/PersonContract#constructor (; 32 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $person/PersonContract#constructor (; 33 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (call $../../src/contract/Contract#_Contract_super
    (tee_local $0
@@ -3614,7 +3619,7 @@
   )
   (get_local $0)
  )
- (func $../../lib/name_ex/NameEx#constructor (; 33 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $../../lib/name_ex/NameEx#constructor (; 34 ;) (type $iIIi) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   (local $3 i32)
   (i64.store
    (tee_local $0
@@ -3649,7 +3654,7 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/Contract#setActionName (; 34 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
+ (func $../../src/contract/Contract#setActionName (; 35 ;) (type $iIIv) (param $0 i32) (param $1 i64) (param $2 i64)
   (i32.store offset=8
    (get_local $0)
    (call $../../lib/name_ex/NameEx#constructor
@@ -3659,7 +3664,7 @@
    )
   )
  )
- (func $../../lib/name/char_to_symbol (; 35 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/char_to_symbol (; 36 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (if (result i32)
@@ -3733,7 +3738,7 @@
   )
   (i64.const 0)
  )
- (func $../../lib/name/N (; 36 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name/N (; 37 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -3845,17 +3850,17 @@
   )
   (get_local $2)
  )
- (func $../../src/account/NAME (; 37 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/account/NAME (; 38 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../lib/name/N
    (get_local $0)
   )
  )
- (func $../../src/contract/Contract#get:receiver (; 38 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../src/contract/Contract#get:receiver (; 39 ;) (type $iI) (param $0 i32) (result i64)
   (i64.load
    (get_local $0)
   )
  )
- (func $../../src/dbmanager/DBManager<Person>#constructor (; 39 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Person>#constructor (; 40 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   (i64.store
    (tee_local $0
@@ -3898,7 +3903,7 @@
   )
   (get_local $0)
  )
- (func $person/PersonContract#onInit (; 40 ;) (type $iv) (param $0 i32)
+ (func $person/PersonContract#onInit (; 41 ;) (type $iv) (param $0 i32)
   (i32.store offset=12
    (get_local $0)
    (call $../../src/dbmanager/DBManager<Person>#constructor
@@ -3915,7 +3920,7 @@
    )
   )
  )
- (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 41 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<u8_u32>#constructor (; 42 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3998,7 +4003,7 @@
   )
   (get_local $0)
  )
- (func $~lib/datastream/DataStream#constructor (; 42 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/datastream/DataStream#constructor (; 43 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (i32.store
    (tee_local $0
@@ -4041,7 +4046,7 @@
   )
   (get_local $0)
  )
- (func $../../src/contract/DataStreamFromCurrentAction (; 43 ;) (type $i) (result i32)
+ (func $../../src/contract/DataStreamFromCurrentAction (; 44 ;) (type $i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -4073,10 +4078,10 @@
   )
   (get_local $2)
  )
- (func $../../src/contract/Contract#getDataStream (; 44 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../src/contract/Contract#getDataStream (; 45 ;) (type $ii) (param $0 i32) (result i32)
   (call $../../src/contract/DataStreamFromCurrentAction)
  )
- (func $../../lib/name_ex/char_to_symbol_ex (; 45 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../lib/name_ex/char_to_symbol_ex (; 46 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (if
    (i32.eq
@@ -4209,7 +4214,7 @@
   )
   (i64.const 255)
  )
- (func $../../lib/name_ex/NEX (; 46 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../lib/name_ex/NEX (; 47 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -4364,7 +4369,7 @@
   )
   (get_local $1)
  )
- (func $../../lib/name_ex/NameEx._eq (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../lib/name_ex/NameEx._eq (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (if (result i32)
    (tee_local $2
@@ -4388,7 +4393,7 @@
    (get_local $2)
   )
  )
- (func $../../src/contract/Contract#isAction (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../src/contract/Contract#isAction (; 49 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (call $../../lib/name_ex/NameEx._eq
    (i32.load offset=8
     (get_local $0)
@@ -4398,7 +4403,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#read<u8> (; 49 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#read<u8> (; 50 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load8_u
@@ -4423,7 +4428,7 @@
   )
   (get_local $1)
  )
- (func $~lib/datastream/DataStream#readVarint32 (; 50 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readVarint32 (; 51 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4479,7 +4484,7 @@
   )
   (get_local $1)
  )
- (func $~lib/datastream/DataStream#readString (; 51 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readString (; 52 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4565,7 +4570,7 @@
   )
   (get_local $2)
  )
- (func $~lib/datastream/DataStream#read<u32> (; 52 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#read<u32> (; 53 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (i32.load
@@ -4590,7 +4595,7 @@
   )
   (get_local $1)
  )
- (func $../../src/dbmanager/DBManager<Person>#find (; 53 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Person>#find (; 54 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../internal/db.d/env.db_find_i64
@@ -4608,7 +4613,7 @@
   )
   (get_local $2)
  )
- (func $../../src/dbmanager/DBManager<Person>#exists (; 54 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $../../src/dbmanager/DBManager<Person>#exists (; 55 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (set_local $2
    (call $../../src/dbmanager/DBManager<Person>#find
@@ -4625,7 +4630,7 @@
    (i32.const 1)
   )
  )
- (func $person/Person#prints (; 55 ;) (type $iv) (param $0 i32)
+ (func $person/Person#prints (; 56 ;) (type $iv) (param $0 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#i
     (call $../../src/log/Logger#s
@@ -4660,7 +4665,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#isMeasureMode (; 56 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#isMeasureMode (; 57 ;) (type $ii) (param $0 i32) (result i32)
   (i32.eq
    (i32.load
     (get_local $0)
@@ -4668,7 +4673,7 @@
    (i32.const 0)
   )
  )
- (func $~lib/datastream/DataStream#write<u8> (; 57 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#write<u8> (; 58 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (call $~lib/datastream/DataStream#isMeasureMode
@@ -4697,7 +4702,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#writeVarint32 (; 58 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVarint32 (; 59 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (block $break|0
    (loop $continue|0
@@ -4741,7 +4746,7 @@
    )
   )
  )
- (func $~lib/utf8util/toUTF8Array (; 59 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/utf8util/toUTF8Array (; 60 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4975,7 +4980,7 @@
   )
   (get_local $1)
  )
- (func $~lib/datastream/DataStream#writeString (; 60 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeString (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5063,7 +5068,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream#write<u32> (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#write<u32> (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (if
    (i32.eqz
     (call $~lib/datastream/DataStream#isMeasureMode
@@ -5092,7 +5097,7 @@
    )
   )
  )
- (func $person/Person#serialize (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $person/Person#serialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $~lib/datastream/DataStream#writeString
    (get_local $1)
    (i32.load
@@ -5112,7 +5117,7 @@
    )
   )
  )
- (func $~lib/datastream/DataStream.measure<Person> (; 63 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<Person> (; 64 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (set_local $1
    (call $~lib/datastream/DataStream#constructor
@@ -5129,14 +5134,14 @@
    (get_local $1)
   )
  )
- (func $person/Person#primaryKey (; 64 ;) (type $iI) (param $0 i32) (result i64)
+ (func $person/Person#primaryKey (; 65 ;) (type $iI) (param $0 i32) (result i64)
   (call $../../src/account/NAME
    (i32.load
     (get_local $0)
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Person>#emplace (; 65 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Person>#emplace (; 66 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5198,7 +5203,7 @@
    )
   )
  )
- (func $person/PersonContract#add (; 66 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $person/PersonContract#add (; 67 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (set_local $4
@@ -5264,7 +5269,7 @@
    (get_local $4)
   )
  )
- (func $person/Person#deserialize (; 67 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $person/Person#deserialize (; 68 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (i32.store
    (get_local $0)
    (call $~lib/datastream/DataStream#readString
@@ -5284,7 +5289,7 @@
    )
   )
  )
- (func $../../src/dbmanager/DBManager<Person>#loadObjectByPrimaryIterator (; 68 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Person>#loadObjectByPrimaryIterator (; 69 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5324,7 +5329,7 @@
    (get_local $5)
   )
  )
- (func $../../src/dbmanager/DBManager<Person>#get (; 69 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $../../src/dbmanager/DBManager<Person>#get (; 70 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   (set_local $3
    (call $../../internal/db.d/env.db_find_i64
@@ -5356,7 +5361,7 @@
   )
   (i32.const 1)
  )
- (func $../../src/dbmanager/DBManager<Person>#modify (; 70 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../src/dbmanager/DBManager<Person>#modify (; 71 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5420,7 +5425,7 @@
    )
   )
  )
- (func $person/PersonContract#modify (; 71 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $person/PersonContract#modify (; 72 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (set_local $3
@@ -5474,7 +5479,7 @@
    (get_local $3)
   )
  )
- (func $../../src/dbmanager/DBManager<Person>#erase (; 72 ;) (type $iIv) (param $0 i32) (param $1 i64)
+ (func $../../src/dbmanager/DBManager<Person>#erase (; 73 ;) (type $iIv) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (call $../../src/utils/ultrain_assert
    (i64.eq
@@ -5502,7 +5507,7 @@
    (nop)
   )
  )
- (func $person/PersonContract#remove (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $person/PersonContract#remove (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (call $../../src/log/Logger#flush
    (call $../../src/log/Logger#s
     (call $../../src/log/Logger#s
@@ -5521,10 +5526,271 @@
    )
   )
  )
- (func $person/PersonContract#onStop (; 74 ;) (type $iv) (param $0 i32)
+ (func $../../src/dbmanager/Cursor<Person>#constructor (; 75 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+  (local $4 i64)
+  (local $5 i32)
+  (set_local $4
+   (call $../../internal/db.d/env.db_iterator_i64
+    (get_local $1)
+    (get_local $3)
+    (get_local $2)
+   )
+  )
+  (i32.store
+   (tee_local $0
+    (if (result i32)
+     (get_local $0)
+     (get_local $0)
+     (tee_local $0
+      (block (result i32)
+       (set_local $5
+        (call $~lib/memory/memory.allocate
+         (i32.const 12)
+        )
+       )
+       (i32.store
+        (get_local $5)
+        (i32.const 0)
+       )
+       (i32.store offset=4
+        (get_local $5)
+        (i32.const 0)
+       )
+       (i32.store offset=8
+        (get_local $5)
+        (i32.const 0)
+       )
+       (get_local $5)
+      )
+     )
+    )
+   )
+   (i32.wrap/i64
+    (i64.and
+     (get_local $4)
+     (i64.const 4294967295)
+    )
+   )
+  )
+  (i32.store offset=8
+   (get_local $0)
+   (i32.wrap/i64
+    (i64.shr_u
+     (get_local $4)
+     (i64.const 32)
+    )
+   )
+  )
+  (i32.store offset=4
+   (get_local $0)
+   (i32.load
+    (get_local $0)
+   )
+  )
+  (get_local $0)
+ )
+ (func $../../src/dbmanager/DBManager<Person>#cursor (; 76 ;) (type $ii) (param $0 i32) (result i32)
+  (call $../../src/dbmanager/Cursor<Person>#constructor
+   (i32.const 0)
+   (i64.load offset=8
+    (get_local $0)
+   )
+   (i64.load
+    (get_local $0)
+   )
+   (i64.load offset=16
+    (get_local $0)
+   )
+  )
+ )
+ (func $../../src/dbmanager/Cursor<Person>#get:count (; 77 ;) (type $ii) (param $0 i32) (result i32)
+  (i32.load offset=8
+   (get_local $0)
+  )
+ )
+ (func $../../src/dbmanager/Cursor<Person>#upper_bound (; 78 ;) (type $ii) (param $0 i32) (result i32)
+  (i32.sub
+   (i32.add
+    (i32.load
+     (get_local $0)
+    )
+    (i32.load offset=8
+     (get_local $0)
+    )
+   )
+   (i32.const 1)
+  )
+ )
+ (func $../../src/dbmanager/Cursor<Person>#hasNext (; 79 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (if (result i32)
+   (tee_local $1
+    (i32.le_s
+     (i32.load
+      (get_local $0)
+     )
+     (i32.load offset=4
+      (get_local $0)
+     )
+    )
+   )
+   (i32.le_s
+    (i32.load offset=4
+     (get_local $0)
+    )
+    (call $../../src/dbmanager/Cursor<Person>#upper_bound
+     (get_local $0)
+    )
+   )
+   (get_local $1)
+  )
+ )
+ (func $../../src/dbmanager/Cursor<Person>#get (; 80 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (call $../../src/utils/ultrain_assert
+   (if (result i32)
+    (tee_local $1
+     (i32.ge_s
+      (i32.load offset=4
+       (get_local $0)
+      )
+      (i32.load
+       (get_local $0)
+      )
+     )
+    )
+    (i32.le_s
+     (i32.load offset=4
+      (get_local $0)
+     )
+     (call $../../src/dbmanager/Cursor<Person>#upper_bound
+      (get_local $0)
+     )
+    )
+    (get_local $1)
+   )
+   (i32.const 2544)
+  )
+  (set_local $2
+   (block (result i32)
+    (set_local $1
+     (call $~lib/memory/memory.allocate
+      (i32.const 12)
+     )
+    )
+    (get_local $1)
+   )
+  )
+  (set_local $3
+   (call $../../internal/db.d/env.db_get_i64
+    (i32.load offset=4
+     (get_local $0)
+    )
+    (i32.const 0)
+    (i32.const 0)
+   )
+  )
+  (set_local $4
+   (call $~lib/internal/typedarray/TypedArray<u8_u32>#constructor
+    (i32.const 0)
+    (get_local $3)
+   )
+  )
+  (set_local $5
+   (call $~lib/datastream/DataStream#constructor
+    (i32.const 0)
+    (i32.load
+     (get_local $4)
+    )
+    (get_local $3)
+   )
+  )
+  (drop
+   (call $../../internal/db.d/env.db_get_i64
+    (i32.load offset=4
+     (get_local $0)
+    )
+    (i32.load
+     (get_local $4)
+    )
+    (get_local $3)
+   )
+  )
+  (call $person/Person#deserialize
+   (get_local $2)
+   (get_local $5)
+  )
+  (get_local $2)
+ )
+ (func $../../src/dbmanager/Cursor<Person>#next (; 81 ;) (type $iv) (param $0 i32)
+  (i32.store offset=4
+   (get_local $0)
+   (i32.add
+    (i32.load offset=4
+     (get_local $0)
+    )
+    (i32.const 1)
+   )
+  )
+ )
+ (func $person/PersonContract#enumrate (; 82 ;) (type $iv) (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (set_local $1
+   (call $../../src/dbmanager/DBManager<Person>#cursor
+    (i32.load offset=12
+     (get_local $0)
+    )
+   )
+  )
+  (call $../../src/log/Logger#flush
+   (call $../../src/log/Logger#i
+    (call $../../src/log/Logger#s
+     (get_global $../../src/log/Log)
+     (i32.const 2512)
+    )
+    (i64.extend_s/i32
+     (call $../../src/dbmanager/Cursor<Person>#get:count
+      (get_local $1)
+     )
+    )
+    (i32.const 10)
+   )
+  )
+  (block $break|0
+   (loop $continue|0
+    (if
+     (call $../../src/dbmanager/Cursor<Person>#hasNext
+      (get_local $1)
+     )
+     (block
+      (block
+       (set_local $2
+        (call $../../src/dbmanager/Cursor<Person>#get
+         (get_local $1)
+        )
+       )
+       (call $person/Person#prints
+        (get_local $2)
+       )
+       (call $../../src/dbmanager/Cursor<Person>#next
+        (get_local $1)
+       )
+      )
+      (br $continue|0)
+     )
+    )
+   )
+  )
+ )
+ (func $person/PersonContract#onStop (; 83 ;) (type $iv) (param $0 i32)
   (nop)
  )
- (func $person/apply (; 75 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $person/apply (; 84 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -5624,13 +5890,22 @@
       )
      )
     )
+    (if
+     (call $../../src/contract/Contract#isAction
+      (get_local $4)
+      (i32.const 2488)
+     )
+     (call $person/PersonContract#enumrate
+      (get_local $4)
+     )
+    )
     (call $person/PersonContract#onStop
      (get_local $4)
     )
    )
   )
  )
- (func $start (; 76 ;) (type $v)
+ (func $start (; 85 ;) (type $v)
   (local $0 i32)
   (set_global $~lib/allocator/arena/startOffset
    (i32.and
