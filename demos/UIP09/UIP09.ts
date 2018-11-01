@@ -1,6 +1,6 @@
 import { Action } from "../../src/action";
 import { Contract } from "../../src/contract";
-import { Asset } from "../../src/asset";
+import { Asset, StringToSymbol } from "../../src/asset";
 import { Log } from "../../src/log";
 import { ACCOUNT, NAME, Account } from "../../src/account";
 import { UIP09 } from "../../uips/uip09";
@@ -216,6 +216,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         this.addBalance(to, token_ids, oneToken, from);
     }
 
+    @action
     ownerOf(id: id_type): account_name {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
@@ -225,6 +226,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         return token.owner;
     }
 
+    @action
     uriOf(token_id: id_type): string {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
@@ -234,6 +236,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         return token.uri;
     }
 
+    @action
     tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
@@ -246,8 +249,9 @@ export class UIP09Impl extends Contract implements UIP09 {
         return account.token_ids[index];
     }
 
+    @action
     getSupply(sym_name: string): Asset {
-        let symname = NAME(sym_name);
+        let symname = StringToSymbol(0, sym_name) >> 8;
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0);
         let existing = statstable.get(symname, st);
@@ -255,8 +259,9 @@ export class UIP09Impl extends Contract implements UIP09 {
         return st.supply;
     }
 
+    @action
     getBalance(owner: account_name, sym_name: string): Asset {
-        let symname = NAME(sym_name);
+        let symname = StringToSymbol(0, sym_name) >> 8;
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
@@ -327,7 +332,6 @@ export class UIP09Impl extends Contract implements UIP09 {
         ultrain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
 
         if (from.balance.getAmount() == value.getAmount()) {
-            Log.s("sub Balance erase").flush();
             ats.erase(from.primaryKey());
         } else {
             let amount = from.balance.getAmount() - value.getAmount();

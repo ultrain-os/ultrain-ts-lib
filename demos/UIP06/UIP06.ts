@@ -2,7 +2,7 @@
  * @author fanliangqin@ultrain.io
  */
 import { Contract } from "../../src/contract";
-import { Asset } from "../../src/asset";
+import { Asset, StringToSymbol } from "../../src/asset";
 import { TransferParams, dispatchInline } from "../../src/action";
 import { PermissionLevel } from "../../lib/permission-level";
 import { env as action } from "../../internal/action.d";
@@ -229,7 +229,8 @@ export class UIP06Impl extends Contract implements UIP06{
     }
 
     @action
-    public getSupply(symname: symbol_name): Asset {
+    public getSupply(sym_name: string): Asset {
+        let symname = StringToSymbol(0, sym_name) >> 8;
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0, 0);
         let existing = statstable.get(symname, st);
@@ -238,7 +239,8 @@ export class UIP06Impl extends Contract implements UIP06{
     }
 
     @action
-    public getBalance(owner: account_name, symname: symbol_name): Asset {
+    public getBalance(owner: account_name, sym_name: string): Asset {
+        let symname = StringToSymbol(0, sym_name) >> 8;
         let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner, symname);
         let account = new CurrencyAccount(new Asset());
         let existing = accounts.get(symname, account);
@@ -246,7 +248,6 @@ export class UIP06Impl extends Contract implements UIP06{
 
         return account.balance;
     }
-
 
     private subBalance(owner: u64, value: Asset): void {
         let ats: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);

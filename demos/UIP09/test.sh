@@ -19,6 +19,8 @@ ${clultrain} push action nft create '["rose", "1000 XRT"]' -p nft
 ${clultrain} push action nft issue '["tom", "2 XRT", ["Wu", "Kong"], "2018", "First issue"]' -p rose
 ${clultrain} push action nft transfer '["tom", "jerry", 1, "transfer"]' -p tom
 ${clultrain} push action nft transfer '["tom", "jerry", 2, "transfer"]' -p tom
+${clultrain} push action nft getSupply '["XRT"]' -p nft
+
 
 echo "Get the table info:"
 ${clultrain} get table nft token token

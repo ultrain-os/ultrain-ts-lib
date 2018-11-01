@@ -79,7 +79,7 @@ class TestTrack extends Contract {
     /**
      * Check the break condition
      */
-    private testBreak():void{
+    private testBreak(): void {
         var item:i32 =0;
 
         for (let idx:i32=0; idx < 32; ++idx) {
