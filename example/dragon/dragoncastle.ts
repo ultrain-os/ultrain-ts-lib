@@ -5,7 +5,6 @@
  * All rights reserved by ultrain.io @2018
  */
 import { DragonCore } from "./dragoncore";
-import { ultrain_assert } from "../../src/utils";
 import { Action } from "../../src/action";
 
 export class DragonCastle {

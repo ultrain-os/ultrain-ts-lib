@@ -1,9 +1,5 @@
 /**
  *  Math operations with safety checks that throw on error
- */
-import { ultrain_assert } from "./utils";
-/**
- *  Math operations with safety checks that throw on error
  *
  * @example
  * import { SafeMath } from "ultrain-ts-lib/src/safemath";

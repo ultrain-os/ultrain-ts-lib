@@ -17,10 +17,6 @@
     {
       "new_type_name": "u32",
       "type": "uint32"
-    },
-    {
-      "new_type_name": "symbol_name",
-      "type": "uint64"
     }
   ],
   "structs": [
@@ -117,8 +113,8 @@
     {
       "fields": [
         {
-          "name": "symname",
-          "type": "symbol_name"
+          "name": "sym_name",
+          "type": "string"
         }
       ],
       "name": "getSupply",
@@ -131,8 +127,8 @@
           "type": "account_name"
         },
         {
-          "name": "symname",
-          "type": "symbol_name"
+          "name": "sym_name",
+          "type": "string"
         }
       ],
       "name": "getBalance",
