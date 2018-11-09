@@ -1,8 +1,7 @@
 import "allocator/arena";
 import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
-import { RNAME, NAME } from "../../../src/account";
-import { ultrain_assert } from "../../../src/utils";
+import { NAME } from "../../../src/account";
 import { Map } from "../../../lib/map";
 import { ArrayMap } from "../../../lib/arraymap";
 
