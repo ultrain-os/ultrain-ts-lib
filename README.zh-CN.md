@@ -299,6 +299,7 @@ clas MyContract extends Contract {
 ```
  export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
+    public cursor(): Cursor<T> {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
     public exists(primary: u64): boolean {}
@@ -307,6 +308,7 @@ clas MyContract extends Contract {
 }   
 ```
 * constructor()方法接收三个参数， `tblname: u64`表示表名；`owner：u64`表示这个表在哪个合约中，一般的，owner和该合约的receiver是一样的。`scope: u64`表示表中的一个上下文。
+* cursor()方法读取数据表中的所有记录。
 * emplace()方法向表中加入一条记录。`payer`表示这个帐号将为数据存储付费，`obj`是一个Serializable的对象，将数据存入DB。
 * modify()方法更新表中的数据。`payer`表示这条记录的创建者、付费方；`newobj`是更新后的数据，newobj的primaryKey对应的对象会被更新。
 * exists()方法判断一个primaryKey是否存在。
