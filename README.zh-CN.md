@@ -315,6 +315,19 @@ clas MyContract extends Contract {
 > NOTICE
 table没有方法可以显式删除，只有当table中的记录都删掉时，table会自动被删除。
   
+#### 使用Cursor遍历所有记录
+我们提供了cursor来遍历所有的记录，但是必须明白，这个操作非常非常低效，因为在当调用cursor()方法时，会将所有的表中的数据都加载到内存里面。如果表中的数据很多的话，那这个交易将会被cursor方法阻塞，从而导致交易超时失败。
+如下示例演示了怎样使用cursor：
+```javascript
+let cursor = this.db.cursor();
+Log.s("cursor.count =").i(cursor.count).flush();
+
+while(cursor.hasNext()) {
+    let p: Person = cursor.get();
+    p.prints();
+    cursor.next();
+}
+```
 
 #### table里面scope和primary key的关系
 

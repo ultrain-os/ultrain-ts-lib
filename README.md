@@ -300,6 +300,19 @@ Be attentation, the classes labeled with @database **must implements interface S
 > NOTICE
 You can not drop a table manually, if all of its items eliminated, the table is dropped.
 
+#### Use cursor to iterate table rows
+We provide a method *cursor()* to retrieve all of the table rows. But you must bear in mind that it is a very very low performance operation. It loads all the rows to memory while you invoke cursor(), so if there are too many records, your action will be stucked for a while, and it will fail your action.
+Here is a snippet to show how to use cursor:
+```javascript
+let cursor = this.db.cursor();
+Log.s("cursor.count =").i(cursor.count).flush();
+cursor.first();
+while(cursor.hasNext()) {
+    let p: Person = cursor.get();
+    p.prints();
+    cursor.next();
+}
+```
 
 #### Relationship between *scope* and *primary key* in a table
 
