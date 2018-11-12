@@ -284,6 +284,7 @@ Be attentation, the classes labeled with @database **must implements interface S
 ```
  export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
+    public cursor(): Cursor<T> {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
     public exists(primary: u64): boolean {}
@@ -292,6 +293,7 @@ Be attentation, the classes labeled with @database **must implements interface S
 }
 ```
 * constructor() has three parameters， `tblname: u64` means table name. `owner：u64` is always the account which this contract deployed to. `scope: u64` is a context.
+* cursor() retrieve table rows.
 * emplace() insert an item to database. `payer` will pay for the storage，`obj` is an serializable object.
 * modify() update an item.
 * exists() judges if an primary key exists in DB or not.
