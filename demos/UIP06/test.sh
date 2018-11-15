@@ -3,7 +3,7 @@ echo 'Deploy and test the token contract '
 echo 'Precondition:'
 echo '1. Accounts: token, tom, jack, rose are exist'
 
-clultrain="$1/programs/clultrain/clultrain"
+clultrain="$1/build/programs/clultrain/clultrain"
 echo "using clutrain: ${clultrain}"
 
 # ${clultrain} set contract token ../token/ -p token
