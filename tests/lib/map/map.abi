@@ -1,0 +1,64 @@
+{
+  "version": "ultraio:1.0",
+  "types": [],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "key",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "name": "testInsert",
+      "base": ""
+    },
+    {
+      "fields": [],
+      "name": "printMap",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "arr",
+          "type": "string[]"
+        },
+        {
+          "name": "smap",
+          "type": "map_string_string"
+        }
+      ],
+      "name": "A",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "testInsert",
+      "type": "testInsert"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "printMap",
+      "type": "printMap"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "a",
+      "type": "A"
+    }
+  ]
+}
