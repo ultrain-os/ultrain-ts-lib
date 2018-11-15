@@ -2,33 +2,32 @@
   "version": "ultraio:1.0",
   "types": [
     {
-      "new_type_name": "u64",
-      "type": "uint64"
+      "new_type_name": "i32",
+      "type": "int32"
     }
   ],
   "structs": [
     {
       "fields": [
         {
-          "name": "a",
-          "type": "u64"
+          "name": "index",
+          "type": "i32"
         }
       ],
-      "name": "teststore",
+      "name": "testArr",
       "base": ""
     },
     {
       "fields": [
         {
-          "name": "b",
-          "type": "u64"
+          "name": "int_array",
+          "type": "i32[]"
+        },
+        {
+          "name": "str_array",
+          "type": "string[]"
         }
       ],
-      "name": "testrestore",
-      "base": ""
-    },
-    {
-      "fields": [],
       "name": "A",
       "base": ""
     }
@@ -36,13 +35,8 @@
   "actions": [
     {
       "ricardian_contract": "",
-      "name": "teststore",
-      "type": "teststore"
-    },
-    {
-      "ricardian_contract": "",
-      "name": "testrestore",
-      "type": "testrestore"
+      "name": "testArr",
+      "type": "testArr"
     }
   ],
   "tables": [
@@ -54,7 +48,7 @@
       "keys_types": [
         "uint64"
       ],
-      "name": "aaaaa",
+      "name": "a",
       "type": "A"
     }
   ]
