@@ -15,11 +15,13 @@
  (type $i (func (result i32)))
  (type $iiii (func (param i32 i32 i32) (result i32)))
  (type $iI (func (param i32) (result i64)))
+ (type $iiiiv (func (param i32 i32 i32 i32)))
  (type $iIIIi (func (param i32 i64 i64 i64) (result i32)))
  (type $IIIIi (func (param i64 i64 i64 i64) (result i32)))
  (type $iiiiii (func (param i32 i32 i32 i32 i32) (result i32)))
  (type $iIiv (func (param i32 i64 i32)))
  (type $I (func (result i64)))
+ (type $iIv (func (param i32 i64)))
  (type $iIiiv (func (param i32 i64 i32 i32)))
  (type $IIIIiii (func (param i64 i64 i64 i64 i32 i32) (result i32)))
  (import "env" "abort" (func $~lib/env/abort))
@@ -144,35 +146,85 @@
  (data (i32.const 1728) "\b8\06\00\00\00\00\00\00")
  (data (i32.const 1736) "\00\00\00\00\00\00\00\00")
  (data (i32.const 1744) "\c8\06\00\00\00\00\00\00")
- (data (i32.const 1752) "\13\00\00\00t\00e\00s\00t\00I\00n\00s\00e\00r\00t\00 \00m\00o\00d\00i\00f\00y\00:\00 \00")
- (data (i32.const 1800) "7\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
- (data (i32.const 1920) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
- (data (i32.const 2032) "\00\00\00\00\00\00\00\00")
- (data (i32.const 2040) "\f0\07\00\00\00\00\00\00")
- (data (i32.const 2048) "\00\00\00\00\00\00\00\00")
- (data (i32.const 2056) "\00\08\00\00\00\00\00\00")
- (data (i32.const 2064) "\14\00\00\00t\00e\00s\00t\00I\00n\00s\00e\00r\00t\00 \00e\00m\00p\00l\00a\00c\00e\00:\00 \00")
- (data (i32.const 2112) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00")
- (data (i32.const 2224) "\08\00\00\00p\00r\00i\00n\00t\00M\00a\00p\00")
- (data (i32.const 2248) "\00\00\00\00\00\00\00\00")
- (data (i32.const 2256) "\c8\08\00\00\00\00\00\00")
- (data (i32.const 2264) "\00\00\00\00\00\00\00\00")
- (data (i32.const 2272) "\d8\08\00\00\00\00\00\00")
- (data (i32.const 2280) "\14\00\00\00p\00r\00i\00n\00t\00 \00m\00a\00p\00 \00e\00x\00i\00s\00t\00i\00n\00g\00:\00 \00")
- (data (i32.const 2328) "\1b\00\00\00D\00a\00t\00a\00b\00a\00s\00e\00 \00d\00a\00t\00a\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00i\00n\00g\00!\00")
- (data (i32.const 2392) "\t\00\00\00m\00a\00p\00 \00s\00i\00z\00e\00:\00")
- (data (i32.const 2416) "\05\00\00\00k\00e\00y\00:\00 \00")
- (data (i32.const 2432) "\t\00\00\00.\00 \00v\00a\00l\00u\00e\00:\00 \00")
- (data (i32.const 2456) "\0b\00\00\00a\00r\00r\00 \00v\00a\00l\00u\00e\00:\00 \00")
+ (data (i32.const 1752) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1760) "\d8\06\00\00\00\00\00\00")
+ (data (i32.const 1768) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1776) "\e8\06\00\00\00\00\00\00")
+ (data (i32.const 1784) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1792) "\f8\06\00\00\00\00\00\00")
+ (data (i32.const 1800) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1808) "\08\07\00\00\00\00\00\00")
+ (data (i32.const 1816) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1824) "\18\07\00\00\00\00\00\00")
+ (data (i32.const 1832) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1840) "(\07\00\00\00\00\00\00")
+ (data (i32.const 1848) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1856) "8\07\00\00\00\00\00\00")
+ (data (i32.const 1864) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1872) "H\07\00\00\00\00\00\00")
+ (data (i32.const 1880) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1888) "X\07\00\00\00\00\00\00")
+ (data (i32.const 1896) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 1904) "h\07\00\00\00\00\00\00")
+ (data (i32.const 1912) "\13\00\00\00t\00e\00s\00t\00I\00n\00s\00e\00r\00t\00 \00m\00o\00d\00i\00f\00y\00:\00 \00")
+ (data (i32.const 1960) "7\00\00\00o\00b\00j\00e\00c\00t\00 \00p\00a\00s\00s\00e\00d\00 \00t\00o\00 \00m\00o\00d\00i\00f\00y\00 \00i\00s\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00 \00i\00n\00 \00t\00h\00i\00s\00 \00D\00B\00M\00a\00n\00a\00g\00e\00r\00.\00")
+ (data (i32.const 2080) "4\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00m\00o\00d\00i\00f\00y\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00.\00")
+ (data (i32.const 2192) "\04\00\00\00\00\00\00\00\00\01\02\03\00\00\00\00")
+ (data (i32.const 2208) "\90\08\00\00\04\00\00\00")
+ (data (i32.const 2216) "\04\00\00\00\00\00\00\00\04\05\06\07\00\00\00\00")
+ (data (i32.const 2232) "\a8\08\00\00\04\00\00\00")
+ (data (i32.const 2240) "\03\00\00\00a\00a\00a\00")
+ (data (i32.const 2256) "\03\00\00\00b\00b\00b\00")
+ (data (i32.const 2272) "\03\00\00\00c\00c\00c\00")
+ (data (i32.const 2288) "\0c\00\00\00\00\00\00\00\c0\08\00\00\d0\08\00\00\e0\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 2320) "\f0\08\00\00\03\00\00\00")
+ (data (i32.const 2328) "\03\00\00\00d\00d\00d\00")
+ (data (i32.const 2344) "\03\00\00\00e\00e\00e\00")
+ (data (i32.const 2360) "\03\00\00\00f\00f\00f\00")
+ (data (i32.const 2376) "\0c\00\00\00\00\00\00\00\18\t\00\00(\t\00\008\t\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 2408) "H\t\00\00\03\00\00\00")
+ (data (i32.const 2416) "\14\00\00\00t\00e\00s\00t\00I\00n\00s\00e\00r\00t\00 \00e\00m\00p\00l\00a\00c\00e\00:\00 \00")
+ (data (i32.const 2464) "3\00\00\00c\00a\00n\00 \00n\00o\00t\00 \00c\00r\00e\00a\00t\00e\00 \00o\00b\00j\00e\00c\00t\00s\00 \00i\00n\00 \00t\00a\00b\00l\00e\00 \00o\00f\00 \00a\00n\00o\00t\00h\00e\00r\00 \00c\00o\00n\00t\00r\00a\00c\00t\00")
+ (data (i32.const 2576) "\08\00\00\00p\00r\00i\00n\00t\00M\00a\00p\00")
+ (data (i32.const 2600) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2608) "(\n\00\00\00\00\00\00")
+ (data (i32.const 2616) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2624) "8\n\00\00\00\00\00\00")
+ (data (i32.const 2632) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2640) "H\n\00\00\00\00\00\00")
+ (data (i32.const 2648) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2656) "X\n\00\00\00\00\00\00")
+ (data (i32.const 2664) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2672) "h\n\00\00\00\00\00\00")
+ (data (i32.const 2680) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2688) "x\n\00\00\00\00\00\00")
+ (data (i32.const 2696) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2704) "\88\n\00\00\00\00\00\00")
+ (data (i32.const 2712) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2720) "\98\n\00\00\00\00\00\00")
+ (data (i32.const 2728) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2736) "\a8\n\00\00\00\00\00\00")
+ (data (i32.const 2744) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2752) "\b8\n\00\00\00\00\00\00")
+ (data (i32.const 2760) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2768) "\c8\n\00\00\00\00\00\00")
+ (data (i32.const 2776) "\00\00\00\00\00\00\00\00")
+ (data (i32.const 2784) "\d8\n\00\00\00\00\00\00")
+ (data (i32.const 2792) "\14\00\00\00p\00r\00i\00n\00t\00 \00m\00a\00p\00 \00e\00x\00i\00s\00t\00i\00n\00g\00:\00 \00")
+ (data (i32.const 2840) "\1b\00\00\00D\00a\00t\00a\00b\00a\00s\00e\00 \00d\00a\00t\00a\00 \00n\00o\00t\00 \00e\00x\00i\00s\00t\00i\00n\00g\00!\00")
+ (data (i32.const 2904) "\t\00\00\00m\00a\00p\00 \00s\00i\00z\00e\00:\00")
+ (data (i32.const 2928) "\t\00\00\00s\00t\00r\00 \00k\00e\00y\00:\00 \00")
+ (data (i32.const 2952) "\t\00\00\00.\00 \00v\00a\00l\00u\00e\00:\00 \00")
+ (data (i32.const 2976) "\0b\00\00\00a\00r\00r\00 \00v\00a\00l\00u\00e\00:\00 \00")
  (table $0 1 anyfunc)
  (elem (i32.const 0) $null)
+ (global $../../../src/utils/PrintableChar i32 (i32.const 1272))
+ (global $~lib/internal/allocator/MAX_SIZE_32 i32 (i32.const 1073741824))
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
  (global $~lib/internal/allocator/AL_SIZE i32 (i32.const 8))
  (global $~lib/internal/allocator/AL_MASK i32 (i32.const 7))
- (global $~lib/internal/allocator/MAX_SIZE_32 i32 (i32.const 1073741824))
  (global $~lib/allocator/arena/startOffset (mut i32) (i32.const 0))
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
- (global $../../../src/utils/PrintableChar i32 (i32.const 1272))
  (global $../../../src/log/Log (mut i32) (i32.const 0))
  (global $../../../src/asset/CHAR_A i32 (i32.const 65))
  (global $../../../src/asset/CHAR_Z i32 (i32.const 90))
@@ -183,7 +235,7 @@
  (global $../../../src/asset/SYS_NAME (mut i64) (i64.const 0))
  (global $../../../src/asset/MAX_AMOUNT i64 (i64.const 4611686018427387903))
  (global $~lib/datastream/HEADER_SIZE i32 (i32.const 4))
- (global $HEAP_BASE i32 (i32.const 2484))
+ (global $HEAP_BASE i32 (i32.const 3004))
  (export "memory" (memory $0))
  (export "table" (table $0))
  (export "apply" (func $test_map_db/apply))
@@ -3262,7 +3314,24 @@
   end
   get_local $2
  )
- (func $~lib/array/Array<String>#constructor (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/datastream/DataStream#read<u32> (; 47 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  get_local $0
+  i32.load
+  get_local $0
+  i32.load offset=8
+  i32.add
+  i32.load
+  set_local $1
+  get_local $0
+  get_local $0
+  i32.load offset=8
+  i32.const 4
+  i32.add
+  i32.store offset=8
+  get_local $1
+ )
+ (func $~lib/array/Array<String>#constructor (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3319,7 +3388,185 @@
   end
   get_local $0
  )
- (func $../../../lib/name/char_to_symbol (; 48 ;) (type $iI) (param $0 i32) (result i64)
+ (func $~lib/array/Array<Array<u8>>#constructor (; 49 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  block $~lib/memory/memory.fill|inlined.5
+   get_local $3
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   set_local $4
+   i32.const 0
+   set_local $5
+   get_local $4
+   get_local $5
+   get_local $2
+   call $~lib/internal/memory/memset
+  end
+  get_local $0
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#constructor (; 50 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 0
+    i32.store
+    get_local $2
+    i32.const 0
+    i32.store offset=4
+    get_local $2
+   end
+   tee_local $0
+  end
+  tee_local $0
+  i32.const 0
+  get_local $1
+  call $~lib/array/Array<u8>#constructor
+  i32.store
+  get_local $0
+  i32.const 0
+  get_local $1
+  call $~lib/array/Array<Array<u8>>#constructor
+  i32.store offset=4
+  get_local $0
+ )
+ (func $~lib/array/Array<Array<String>>#constructor (; 51 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  block $~lib/memory/memory.fill|inlined.6
+   get_local $3
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   set_local $4
+   i32.const 0
+   set_local $5
+   get_local $4
+   get_local $5
+   get_local $2
+   call $~lib/internal/memory/memset
+  end
+  get_local $0
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#constructor (; 52 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 0
+    i32.store
+    get_local $2
+    i32.const 0
+    i32.store offset=4
+    get_local $2
+   end
+   tee_local $0
+  end
+  tee_local $0
+  i32.const 0
+  get_local $1
+  call $~lib/array/Array<u8>#constructor
+  i32.store
+  get_local $0
+  i32.const 0
+  get_local $1
+  call $~lib/array/Array<Array<String>>#constructor
+  i32.store offset=4
+  get_local $0
+ )
+ (func $../../../lib/name/char_to_symbol (; 53 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   get_local $0
   i32.const 255
@@ -3375,7 +3622,7 @@
   end
   i64.const 0
  )
- (func $../../../lib/name/N (; 49 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../../lib/name/N (; 54 ;) (type $iI) (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i64)
   (local $3 i32)
@@ -3459,15 +3706,15 @@
   end
   get_local $2
  )
- (func $../../../src/account/NAME (; 50 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../../src/account/NAME (; 55 ;) (type $iI) (param $0 i32) (result i64)
   get_local $0
   call $../../../lib/name/N
  )
- (func $../../../src/contract/Contract#get:receiver (; 51 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../../src/contract/Contract#get:receiver (; 56 ;) (type $iI) (param $0 i32) (result i64)
   get_local $0
   i64.load
  )
- (func $~lib/dbmanager/DBManager<A>#constructor (; 52 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
+ (func $~lib/dbmanager/DBManager<A>#constructor (; 57 ;) (type $iIIIi) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (result i32)
   (local $4 i32)
   get_local $0
   if (result i32)
@@ -3501,7 +3748,7 @@
   i64.store offset=16
   get_local $0
  )
- (func $~lib/dbmanager/DBManager<A>#find (; 53 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/dbmanager/DBManager<A>#find (; 58 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   get_local $0
   i64.load offset=8
@@ -3514,7 +3761,7 @@
   set_local $2
   get_local $2
  )
- (func $~lib/dbmanager/DBManager<A>#exists (; 54 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/dbmanager/DBManager<A>#exists (; 59 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   get_local $0
   get_local $1
@@ -3529,7 +3776,7 @@
    i32.const 1
   end
  )
- (func $~lib/array/Array<String>#__set (; 55 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<String>#__set (; 60 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   get_local $0
@@ -3578,7 +3825,7 @@
    i32.store offset=8
   end
  )
- (func $~lib/datastream/DataStream#readStringVector (; 56 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#readStringVector (; 61 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3623,24 +3870,7 @@
   end
   get_local $2
  )
- (func $~lib/datastream/DataStream#read<u32> (; 57 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  get_local $0
-  i32.load
-  get_local $0
-  i32.load offset=8
-  i32.add
-  i32.load
-  set_local $1
-  get_local $0
-  get_local $0
-  i32.load offset=8
-  i32.const 4
-  i32.add
-  i32.store offset=8
-  get_local $1
- )
- (func $~lib/array/Array<String>#__get (; 58 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 62 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   i32.load
@@ -3662,7 +3892,7 @@
    unreachable
   end
  )
- (func $~lib/array/Array<String>#push (; 59 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 63 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3717,7 +3947,7 @@
   end
   get_local $5
  )
- (func $../../../lib/map/Map<String_String>#readKey<String> (; 60 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_String>#readKey<String> (; 64 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3738,7 +3968,7 @@
   call $~lib/array/Array<String>#push
   drop
  )
- (func $../../../lib/map/Map<String_String>#readValue<String> (; 61 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_String>#readValue<String> (; 65 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3759,7 +3989,7 @@
   call $~lib/array/Array<String>#push
   drop
  )
- (func $../../../lib/map/Map<String_String>#deserialize (; 62 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_String>#deserialize (; 66 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   get_local $1
@@ -3792,7 +4022,1120 @@
    unreachable
   end
  )
- (func $test_map_db/A#deserialize (; 63 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_u32>#readKey<String> (; 67 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<String>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<String>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#readString
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<String>#push
+  drop
+ )
+ (func $~lib/array/Array<u32>#constructor (; 68 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  block $~lib/memory/memory.fill|inlined.7
+   get_local $3
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   set_local $4
+   i32.const 0
+   set_local $5
+   get_local $4
+   get_local $5
+   get_local $2
+   call $~lib/internal/memory/memset
+  end
+  get_local $0
+ )
+ (func $~lib/array/Array<u32>#__get (; 69 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 2
+  i32.shr_u
+  i32.lt_u
+  if (result i32)
+   get_local $2
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   i32.load offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $~lib/array/Array<u32>#push (; 70 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $2
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $2
+  i32.const 1
+  i32.add
+  set_local $5
+  get_local $2
+  get_local $4
+  i32.ge_u
+  if
+   get_local $2
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $5
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+  end
+  get_local $0
+  get_local $5
+  i32.store offset=4
+  block $~lib/internal/arraybuffer/storeUnsafe<u32_u32>|inlined.0
+   get_local $3
+   get_local $2
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $1
+   i32.store offset=8
+  end
+  get_local $5
+ )
+ (func $../../../lib/map/Map<String_u32>#readValue<u32> (; 71 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u32>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u32>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $4
+  get_local $0
+  i32.load offset=4
+  get_local $4
+  call $~lib/array/Array<u32>#push
+  drop
+ )
+ (func $../../../lib/map/Map<String_u32>#deserialize (; 72 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<String_u32>#readKey<String>
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<String_u32>#readValue<u32>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/map/Map<u32_String>#readKey<u32> (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u32>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u32>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<u32>#push
+  drop
+ )
+ (func $../../../lib/map/Map<u32_String>#readValue<String> (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<String>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<String>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#readString
+  set_local $4
+  get_local $0
+  i32.load offset=4
+  get_local $4
+  call $~lib/array/Array<String>#push
+  drop
+ )
+ (func $../../../lib/map/Map<u32_String>#deserialize (; 75 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u32_String>#readKey<u32>
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u32_String>#readValue<String>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $~lib/array/Array<u64>#constructor (; 76 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 134217727
+  i32.gt_u
+  if
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 3
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  block $~lib/memory/memory.fill|inlined.8
+   get_local $3
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   set_local $4
+   i32.const 0
+   set_local $5
+   get_local $4
+   get_local $5
+   get_local $2
+   call $~lib/internal/memory/memset
+  end
+  get_local $0
+ )
+ (func $~lib/array/Array<u64>#__get (; 77 ;) (type $iiI) (param $0 i32) (param $1 i32) (result i64)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 3
+  i32.shr_u
+  i32.lt_u
+  if (result i64)
+   get_local $2
+   get_local $1
+   i32.const 3
+   i32.shl
+   i32.add
+   i64.load offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $~lib/datastream/DataStream#read<u64> (; 78 ;) (type $iI) (param $0 i32) (result i64)
+  (local $1 i64)
+  get_local $0
+  i32.load
+  get_local $0
+  i32.load offset=8
+  i32.add
+  i64.load
+  set_local $1
+  get_local $0
+  get_local $0
+  i32.load offset=8
+  i32.const 8
+  i32.add
+  i32.store offset=8
+  get_local $1
+ )
+ (func $~lib/array/Array<u64>#push (; 79 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $2
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 3
+  i32.shr_u
+  set_local $4
+  get_local $2
+  i32.const 1
+  i32.add
+  set_local $5
+  get_local $2
+  get_local $4
+  i32.ge_u
+  if
+   get_local $2
+   i32.const 134217727
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $5
+   i32.const 3
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+  end
+  get_local $0
+  get_local $5
+  i32.store offset=4
+  block $~lib/internal/arraybuffer/storeUnsafe<u64_u64>|inlined.0
+   get_local $3
+   get_local $2
+   i32.const 3
+   i32.shl
+   i32.add
+   get_local $1
+   i64.store offset=8
+  end
+  get_local $5
+ )
+ (func $../../../lib/map/Map<u64_String>#readKey<u64> (; 80 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i64)
+  (local $4 i64)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u64>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u64>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u64>
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<u64>#push
+  drop
+ )
+ (func $../../../lib/map/Map<u64_String>#readValue<String> (; 81 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<String>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<String>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#readString
+  set_local $4
+  get_local $0
+  i32.load offset=4
+  get_local $4
+  call $~lib/array/Array<String>#push
+  drop
+ )
+ (func $../../../lib/map/Map<u64_String>#deserialize (; 82 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u64_String>#readKey<u64>
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u64_String>#readValue<String>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/map/Map<u64_Obj>#readKey<u64> (; 83 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i64)
+  (local $4 i64)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u64>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u64>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u64>
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<u64>#push
+  drop
+ )
+ (func $~lib/array/Array<Obj>#constructor (; 84 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  block $~lib/memory/memory.fill|inlined.9
+   get_local $3
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   set_local $4
+   i32.const 0
+   set_local $5
+   get_local $4
+   get_local $5
+   get_local $2
+   call $~lib/internal/memory/memset
+  end
+  get_local $0
+ )
+ (func $~lib/array/Array<Obj>#__get (; 85 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 2
+  i32.shr_u
+  i32.lt_u
+  if (result i32)
+   get_local $2
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   i32.load offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $test_map_db/Obj#deserialize (; 86 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  get_local $0
+  get_local $1
+  call $~lib/datastream/DataStream#read<u8>
+  i32.store8
+  get_local $0
+  get_local $1
+  call $~lib/datastream/DataStream#read<u8>
+  i32.store8 offset=1
+ )
+ (func $~lib/array/Array<Obj>#push (; 87 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $2
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $2
+  i32.const 1
+  i32.add
+  set_local $5
+  get_local $2
+  get_local $4
+  i32.ge_u
+  if
+   get_local $2
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $5
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+  end
+  get_local $0
+  get_local $5
+  i32.store offset=4
+  block $~lib/internal/arraybuffer/storeUnsafe<Obj_Obj>|inlined.0
+   get_local $3
+   get_local $2
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $1
+   i32.store offset=8
+  end
+  get_local $5
+ )
+ (func $../../../lib/map/Map<u64_Obj>#readValue<Obj> (; 88 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<Obj>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<Obj>#__get
+  set_local $3
+  block (result i32)
+   i32.const 2
+   call $~lib/memory/memory.allocate
+   set_local $4
+   get_local $4
+  end
+  set_local $5
+  get_local $5
+  get_local $1
+  call $test_map_db/Obj#deserialize
+  get_local $0
+  i32.load offset=4
+  get_local $5
+  call $~lib/array/Array<Obj>#push
+  drop
+ )
+ (func $../../../lib/map/Map<u64_Obj>#deserialize (; 89 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u64_Obj>#readKey<u64>
+     get_local $0
+     get_local $1
+     call $../../../lib/map/Map<u64_Obj>#readValue<Obj>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $~lib/array/Array<u8>#__get (; 90 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 0
+  i32.shr_u
+  i32.lt_u
+  if (result i32)
+   get_local $2
+   get_local $1
+   i32.const 0
+   i32.shl
+   i32.add
+   i32.load8_u offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#readKey (; 91 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u8>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u8>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u8>
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<u8>#push
+  drop
+ )
+ (func $~lib/array/Array<u8>#__set (; 92 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 0
+  i32.shr_u
+  set_local $4
+  get_local $1
+  get_local $4
+  i32.ge_u
+  if
+   get_local $1
+   i32.const 1073741816
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.const 0
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+   get_local $0
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.store offset=4
+  end
+  block $~lib/internal/arraybuffer/storeUnsafe<u8_u8>|inlined.1
+   get_local $3
+   get_local $1
+   i32.const 0
+   i32.shl
+   i32.add
+   get_local $2
+   i32.store8 offset=8
+  end
+ )
+ (func $~lib/datastream/DataStream#readVector<u8> (; 93 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $0
+  call $~lib/datastream/DataStream#readVarint32
+  set_local $1
+  get_local $1
+  i32.const 0
+  i32.eq
+  if
+   i32.const 0
+   i32.const 0
+   call $~lib/array/Array<u8>#constructor
+   return
+  end
+  i32.const 0
+  get_local $1
+  call $~lib/array/Array<u8>#constructor
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $1
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    get_local $2
+    get_local $3
+    get_local $0
+    call $~lib/datastream/DataStream#read<u8>
+    call $~lib/array/Array<u8>#__set
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  get_local $2
+ )
+ (func $~lib/array/Array<Array<u8>>#push (; 94 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $2
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $2
+  i32.const 1
+  i32.add
+  set_local $5
+  get_local $2
+  get_local $4
+  i32.ge_u
+  if
+   get_local $2
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $5
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+  end
+  get_local $0
+  get_local $5
+  i32.store offset=4
+  block $~lib/internal/arraybuffer/storeUnsafe<Array<u8>_Array<u8>>|inlined.0
+   get_local $3
+   get_local $2
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $1
+   i32.store offset=8
+  end
+  get_local $5
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#readValue (; 95 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u8>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u8>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#readVector<u8>
+  set_local $4
+  get_local $0
+  i32.load offset=4
+  get_local $4
+  call $~lib/array/Array<Array<u8>>#push
+  drop
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#deserialize (; 96 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_u8>#readKey
+     get_local $0
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_u8>#readValue
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#readKey (; 97 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<u8>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<u8>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#read<u8>
+  set_local $4
+  get_local $0
+  i32.load
+  get_local $4
+  call $~lib/array/Array<u8>#push
+  drop
+ )
+ (func $~lib/array/Array<Array<String>>#push (; 98 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $2
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $2
+  i32.const 1
+  i32.add
+  set_local $5
+  get_local $2
+  get_local $4
+  i32.ge_u
+  if
+   get_local $2
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $5
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+  end
+  get_local $0
+  get_local $5
+  i32.store offset=4
+  block $~lib/internal/arraybuffer/storeUnsafe<Array<String>_Array<String>>|inlined.0
+   get_local $3
+   get_local $2
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $1
+   i32.store offset=8
+  end
+  get_local $5
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#readValue (; 99 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  i32.const 0
+  i32.const 1
+  call $~lib/array/Array<String>#constructor
+  set_local $2
+  get_local $2
+  i32.const 0
+  call $~lib/array/Array<String>#__get
+  set_local $3
+  get_local $1
+  call $~lib/datastream/DataStream#readStringVector
+  set_local $4
+  get_local $0
+  i32.load offset=4
+  get_local $4
+  call $~lib/array/Array<Array<String>>#push
+  drop
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#deserialize (; 100 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $1
+  call $~lib/datastream/DataStream#read<u32>
+  set_local $2
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_String>#readKey
+     get_local $0
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_String>#readValue
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $test_map_db/A#deserialize (; 101 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $0
   get_local $1
   call $~lib/datastream/DataStream#readStringVector
@@ -3801,8 +5144,36 @@
   i32.load offset=4
   get_local $1
   call $../../../lib/map/Map<String_String>#deserialize
+  get_local $0
+  i32.load offset=8
+  get_local $1
+  call $../../../lib/map/Map<String_u32>#deserialize
+  get_local $0
+  i32.load offset=12
+  get_local $1
+  call $../../../lib/map/Map<u32_String>#deserialize
+  get_local $0
+  i32.load offset=16
+  get_local $1
+  call $../../../lib/map/Map<u64_String>#deserialize
+  get_local $0
+  i32.load offset=20
+  get_local $1
+  call $../../../lib/map/Map<u64_String>#deserialize
+  get_local $0
+  i32.load offset=24
+  get_local $1
+  call $../../../lib/map/Map<u64_Obj>#deserialize
+  get_local $0
+  i32.load offset=28
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_u8>#deserialize
+  get_local $0
+  i32.load offset=32
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_String>#deserialize
  )
- (func $~lib/dbmanager/DBManager<A>#loadObjectByPrimaryIterator (; 64 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/dbmanager/DBManager<A>#loadObjectByPrimaryIterator (; 102 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3831,7 +5202,7 @@
   get_local $5
   call $test_map_db/A#deserialize
  )
- (func $~lib/dbmanager/DBManager<A>#get (; 65 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
+ (func $~lib/dbmanager/DBManager<A>#get (; 103 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
   get_local $0
   i64.load offset=8
@@ -3855,7 +5226,7 @@
   call $~lib/dbmanager/DBManager<A>#loadObjectByPrimaryIterator
   i32.const 1
  )
- (func $~lib/internal/string/compareUnsafe (; 66 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/internal/string/compareUnsafe (; 104 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -3908,7 +5279,7 @@
   end
   get_local $5
  )
- (func $~lib/string/String.__eq (; 67 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 105 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -3952,7 +5323,7 @@
   call $~lib/internal/string/compareUnsafe
   i32.eqz
  )
- (func $../../../lib/map/Map<String_String>#find (; 68 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $../../../lib/map/Map<String_String>#find (; 106 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $break|0
@@ -3991,7 +5362,7 @@
   end
   i32.const -1
  )
- (func $../../../lib/map/Map<String_String>#set (; 69 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../../lib/map/Map<String_String>#set (; 107 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   get_local $0
   get_local $1
@@ -4019,16 +5390,132 @@
    call $~lib/array/Array<String>#__set
   end
  )
- (func $test_map_db/A#primaryKey (; 70 ;) (type $iI) (param $0 i32) (result i64)
+ (func $../../../lib/map/Map<String_u32>#find (; 108 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $break|0
+   i32.const 0
+   set_local $2
+   loop $repeat|0
+    get_local $2
+    block $~lib/array/Array<String>#get:length|inlined.3 (result i32)
+     get_local $0
+     i32.load
+     set_local $3
+     get_local $3
+     i32.load offset=4
+    end
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    i32.load
+    get_local $2
+    call $~lib/array/Array<String>#__get
+    get_local $1
+    call $~lib/string/String.__eq
+    if
+     get_local $2
+     return
+    end
+    get_local $2
+    i32.const 1
+    i32.add
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  i32.const -1
+ )
+ (func $~lib/array/Array<u32>#__set (; 109 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $1
+  get_local $4
+  i32.ge_u
+  if
+   get_local $1
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+   get_local $0
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.store offset=4
+  end
+  block $~lib/internal/arraybuffer/storeUnsafe<u32_u32>|inlined.1
+   get_local $3
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $2
+   i32.store offset=8
+  end
+ )
+ (func $../../../lib/map/Map<String_u32>#set (; 110 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  get_local $0
+  get_local $1
+  call $../../../lib/map/Map<String_u32>#find
+  set_local $3
+  get_local $3
+  i32.const -1
+  i32.eq
+  if
+   get_local $0
+   i32.load
+   get_local $1
+   call $~lib/array/Array<String>#push
+   drop
+   get_local $0
+   i32.load offset=4
+   get_local $2
+   call $~lib/array/Array<u32>#push
+   drop
+  else   
+   get_local $0
+   i32.load offset=4
+   get_local $3
+   get_local $2
+   call $~lib/array/Array<u32>#__set
+  end
+ )
+ (func $test_map_db/A#primaryKey (; 111 ;) (type $iI) (param $0 i32) (result i64)
   i64.const 0
  )
- (func $~lib/datastream/DataStream#isMeasureMode (; 71 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#isMeasureMode (; 112 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load
   i32.const 0
   i32.eq
  )
- (func $~lib/datastream/DataStream#write<u8> (; 72 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#write<u8> (; 113 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $0
   call $~lib/datastream/DataStream#isMeasureMode
   i32.eqz
@@ -4048,7 +5535,7 @@
   i32.add
   i32.store offset=8
  )
- (func $~lib/datastream/DataStream#writeVarint32 (; 73 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeVarint32 (; 114 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   loop $continue|0
    block
@@ -4081,7 +5568,7 @@
    br_if $continue|0
   end
  )
- (func $~lib/datastream/DataStream#writeString (; 74 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeString (; 115 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4143,10 +5630,10 @@
   i32.add
   i32.store offset=8
  )
- (func $~lib/datastream/DataStream#writeStringVector (; 75 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#writeStringVector (; 116 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
-  block $~lib/array/Array<String>#get:length|inlined.2 (result i32)
+  block $~lib/array/Array<String>#get:length|inlined.4 (result i32)
    get_local $1
    i32.load offset=4
   end
@@ -4178,7 +5665,7 @@
    unreachable
   end
  )
- (func $~lib/datastream/DataStream#write<u32> (; 76 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/datastream/DataStream#write<u32> (; 117 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $0
   call $~lib/datastream/DataStream#isMeasureMode
   i32.eqz
@@ -4198,15 +5685,15 @@
   i32.add
   i32.store offset=8
  )
- (func $../../../lib/map/Map<String_String>#store<String> (; 77 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $../../../lib/map/Map<String_String>#store<String> (; 118 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $2
   get_local $1
   call $~lib/datastream/DataStream#writeString
  )
- (func $../../../lib/map/Map<String_String>#serialize (; 78 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_String>#serialize (; 119 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
-  block $~lib/array/Array<String>#get:length|inlined.3 (result i32)
+  block $~lib/array/Array<String>#get:length|inlined.5 (result i32)
    get_local $0
    i32.load
    set_local $2
@@ -4252,7 +5739,510 @@
    unreachable
   end
  )
- (func $test_map_db/A#serialize (; 79 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $../../../lib/map/Map<String_u32>#store<String> (; 120 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#writeString
+ )
+ (func $../../../lib/map/Map<String_u32>#store<u32> (; 121 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u32>
+ )
+ (func $../../../lib/map/Map<String_u32>#serialize (; 122 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<String>#get:length|inlined.6 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<String>#__get
+     get_local $1
+     call $../../../lib/map/Map<String_u32>#store<String>
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<u32>#__get
+     get_local $1
+     call $../../../lib/map/Map<String_u32>#store<u32>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/map/Map<u32_String>#store<u32> (; 123 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u32>
+ )
+ (func $../../../lib/map/Map<u32_String>#store<String> (; 124 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#writeString
+ )
+ (func $../../../lib/map/Map<u32_String>#serialize (; 125 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u32>#get:length|inlined.0 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<u32>#__get
+     get_local $1
+     call $../../../lib/map/Map<u32_String>#store<u32>
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<String>#__get
+     get_local $1
+     call $../../../lib/map/Map<u32_String>#store<String>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $~lib/datastream/DataStream#write<u64> (; 126 ;) (type $iIv) (param $0 i32) (param $1 i64)
+  get_local $0
+  call $~lib/datastream/DataStream#isMeasureMode
+  i32.eqz
+  if
+   get_local $0
+   i32.load
+   get_local $0
+   i32.load offset=8
+   i32.add
+   get_local $1
+   i64.store
+  end
+  get_local $0
+  get_local $0
+  i32.load offset=8
+  i32.const 8
+  i32.add
+  i32.store offset=8
+ )
+ (func $../../../lib/map/Map<u64_String>#store<u64> (; 127 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u64>
+ )
+ (func $../../../lib/map/Map<u64_String>#store<String> (; 128 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#writeString
+ )
+ (func $../../../lib/map/Map<u64_String>#serialize (; 129 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u64>#get:length|inlined.0 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<u64>#__get
+     get_local $1
+     call $../../../lib/map/Map<u64_String>#store<u64>
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<String>#__get
+     get_local $1
+     call $../../../lib/map/Map<u64_String>#store<String>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/map/Map<u64_Obj>#store<u64> (; 130 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u64>
+ )
+ (func $test_map_db/Obj#serialize (; 131 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  get_local $1
+  get_local $0
+  i32.load8_u
+  call $~lib/datastream/DataStream#write<u8>
+  get_local $1
+  get_local $0
+  i32.load8_u offset=1
+  call $~lib/datastream/DataStream#write<u8>
+ )
+ (func $../../../lib/map/Map<u64_Obj>#store<Obj> (; 132 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $1
+  get_local $2
+  call $test_map_db/Obj#serialize
+ )
+ (func $../../../lib/map/Map<u64_Obj>#serialize (; 133 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u64>#get:length|inlined.1 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<u64>#__get
+     get_local $1
+     call $../../../lib/map/Map<u64_Obj>#store<u64>
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<Obj>#__get
+     get_local $1
+     call $../../../lib/map/Map<u64_Obj>#store<Obj>
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#storeKey (; 134 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u8>
+ )
+ (func $~lib/array/Array<Array<u8>>#__get (; 135 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 2
+  i32.shr_u
+  i32.lt_u
+  if (result i32)
+   get_local $2
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   i32.load offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $~lib/datastream/DataStream#writeVector<u8> (; 136 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u8>#get:length|inlined.4 (result i32)
+   get_local $1
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $0
+  get_local $2
+  call $~lib/datastream/DataStream#writeVarint32
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_u
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    get_local $1
+    get_local $3
+    call $~lib/array/Array<u8>#__get
+    call $~lib/datastream/DataStream#write<u8>
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#storeValue (; 137 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  block $~lib/array/Array<u8>#get:length|inlined.3 (result i32)
+   get_local $1
+   i32.load offset=4
+  end
+  set_local $3
+  get_local $3
+  i32.const 0
+  i32.eq
+  if
+   get_local $2
+   i32.const 0
+   call $~lib/datastream/DataStream#writeVarint32
+  else   
+   get_local $1
+   i32.const 0
+   call $~lib/array/Array<u8>#__get
+   set_local $4
+   get_local $2
+   get_local $1
+   call $~lib/datastream/DataStream#writeVector<u8>
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#serialize (; 138 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u8>#get:length|inlined.2 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<u8>#__get
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_u8>#storeKey
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<Array<u8>>#__get
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_u8>#storeValue
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#storeKey (; 139 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  get_local $2
+  get_local $1
+  call $~lib/datastream/DataStream#write<u8>
+ )
+ (func $~lib/array/Array<Array<String>>#__get (; 140 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  get_local $0
+  i32.load
+  set_local $2
+  get_local $1
+  get_local $2
+  i32.load
+  i32.const 2
+  i32.shr_u
+  i32.lt_u
+  if (result i32)
+   get_local $2
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   i32.load offset=8
+  else   
+   unreachable
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#storeValue (; 141 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  block $~lib/array/Array<String>#get:length|inlined.7 (result i32)
+   get_local $1
+   i32.load offset=4
+  end
+  set_local $3
+  get_local $3
+  i32.const 0
+  i32.eq
+  if
+   get_local $2
+   i32.const 0
+   call $~lib/datastream/DataStream#writeVarint32
+  else   
+   get_local $1
+   i32.const 0
+   call $~lib/array/Array<String>#__get
+   set_local $4
+   get_local $2
+   get_local $1
+   call $~lib/datastream/DataStream#writeStringVector
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#serialize (; 142 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $~lib/array/Array<u8>#get:length|inlined.5 (result i32)
+   get_local $0
+   i32.load
+   set_local $2
+   get_local $2
+   i32.load offset=4
+  end
+  set_local $2
+  get_local $1
+  get_local $2
+  call $~lib/datastream/DataStream#write<u32>
+  block $break|0
+   i32.const 0
+   set_local $3
+   loop $repeat|0
+    get_local $3
+    get_local $2
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    block
+     get_local $0
+     get_local $0
+     i32.load
+     get_local $3
+     call $~lib/array/Array<u8>#__get
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_String>#storeKey
+     get_local $0
+     get_local $0
+     i32.load offset=4
+     get_local $3
+     call $~lib/array/Array<Array<String>>#__get
+     get_local $1
+     call $../../../lib/arraymap/ArrayMap<u8_String>#storeValue
+    end
+    get_local $3
+    i32.const 1
+    i32.add
+    set_local $3
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+ )
+ (func $test_map_db/A#serialize (; 143 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $1
   get_local $0
   i32.load
@@ -4261,8 +6251,36 @@
   i32.load offset=4
   get_local $1
   call $../../../lib/map/Map<String_String>#serialize
+  get_local $0
+  i32.load offset=8
+  get_local $1
+  call $../../../lib/map/Map<String_u32>#serialize
+  get_local $0
+  i32.load offset=12
+  get_local $1
+  call $../../../lib/map/Map<u32_String>#serialize
+  get_local $0
+  i32.load offset=16
+  get_local $1
+  call $../../../lib/map/Map<u64_String>#serialize
+  get_local $0
+  i32.load offset=20
+  get_local $1
+  call $../../../lib/map/Map<u64_String>#serialize
+  get_local $0
+  i32.load offset=24
+  get_local $1
+  call $../../../lib/map/Map<u64_Obj>#serialize
+  get_local $0
+  i32.load offset=28
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_u8>#serialize
+  get_local $0
+  i32.load offset=32
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_String>#serialize
  )
- (func $~lib/datastream/DataStream.measure<A> (; 80 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream.measure<A> (; 144 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   i32.const 0
   i32.const 0
@@ -4275,7 +6293,7 @@
   get_local $1
   i32.load offset=8
  )
- (func $~lib/dbmanager/DBManager<A>#modify (; 81 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $~lib/dbmanager/DBManager<A>#modify (; 145 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4288,13 +6306,13 @@
   get_local $3
   i32.const 0
   i32.ge_s
-  i32.const 1800
+  i32.const 1960
   call $~lib/env/ultrain_assert
   get_local $0
   i64.load offset=8
   call $~lib/env/current_receiver
   i64.eq
-  i32.const 1920
+  i32.const 2080
   call $~lib/env/ultrain_assert
   get_local $2
   call $~lib/datastream/DataStream.measure<A>
@@ -4320,7 +6338,458 @@
   i32.load offset=8
   call $~lib/env/db_update_i64
  )
- (func $~lib/dbmanager/DBManager<A>#emplace (; 82 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $../../../lib/map/Map<u32_String>#find (; 146 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $break|0
+   i32.const 0
+   set_local $2
+   loop $repeat|0
+    get_local $2
+    block $~lib/array/Array<u32>#get:length|inlined.2 (result i32)
+     get_local $0
+     i32.load
+     set_local $3
+     get_local $3
+     i32.load offset=4
+    end
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    i32.load
+    get_local $2
+    call $~lib/array/Array<u32>#__get
+    get_local $1
+    i32.eq
+    if
+     get_local $2
+     return
+    end
+    get_local $2
+    i32.const 1
+    i32.add
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  i32.const -1
+ )
+ (func $../../../lib/map/Map<u32_String>#set (; 147 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  get_local $0
+  get_local $1
+  call $../../../lib/map/Map<u32_String>#find
+  set_local $3
+  get_local $3
+  i32.const -1
+  i32.eq
+  if
+   get_local $0
+   i32.load
+   get_local $1
+   call $~lib/array/Array<u32>#push
+   drop
+   get_local $0
+   i32.load offset=4
+   get_local $2
+   call $~lib/array/Array<String>#push
+   drop
+  else   
+   get_local $0
+   i32.load offset=4
+   get_local $3
+   get_local $2
+   call $~lib/array/Array<String>#__set
+  end
+ )
+ (func $test_map_db/Obj#constructor (; 148 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+  (local $3 i32)
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 2
+    call $~lib/memory/memory.allocate
+    set_local $3
+    get_local $3
+    i32.const 0
+    i32.store8
+    get_local $3
+    i32.const 0
+    i32.store8 offset=1
+    get_local $3
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $1
+  i32.store8
+  get_local $0
+  get_local $2
+  i32.store8 offset=1
+  get_local $0
+ )
+ (func $../../../lib/map/Map<u64_Obj>#find (; 149 ;) (type $iIi) (param $0 i32) (param $1 i64) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $break|0
+   i32.const 0
+   set_local $2
+   loop $repeat|0
+    get_local $2
+    block $~lib/array/Array<u64>#get:length|inlined.3 (result i32)
+     get_local $0
+     i32.load
+     set_local $3
+     get_local $3
+     i32.load offset=4
+    end
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    i32.load
+    get_local $2
+    call $~lib/array/Array<u64>#__get
+    get_local $1
+    i64.eq
+    if
+     get_local $2
+     return
+    end
+    get_local $2
+    i32.const 1
+    i32.add
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  i32.const -1
+ )
+ (func $~lib/array/Array<Obj>#__set (; 150 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $1
+  get_local $4
+  i32.ge_u
+  if
+   get_local $1
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+   get_local $0
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.store offset=4
+  end
+  block $~lib/internal/arraybuffer/storeUnsafe<Obj_Obj>|inlined.1
+   get_local $3
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $2
+   i32.store offset=8
+  end
+ )
+ (func $../../../lib/map/Map<u64_Obj>#set (; 151 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
+  (local $3 i32)
+  get_local $0
+  get_local $1
+  call $../../../lib/map/Map<u64_Obj>#find
+  set_local $3
+  get_local $3
+  i32.const -1
+  i32.eq
+  if
+   get_local $0
+   i32.load
+   get_local $1
+   call $~lib/array/Array<u64>#push
+   drop
+   get_local $0
+   i32.load offset=4
+   get_local $2
+   call $~lib/array/Array<Obj>#push
+   drop
+  else   
+   get_local $0
+   i32.load offset=4
+   get_local $3
+   get_local $2
+   call $~lib/array/Array<Obj>#__set
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#find (; 152 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $break|0
+   i32.const 0
+   set_local $2
+   loop $repeat|0
+    get_local $2
+    block $~lib/array/Array<u8>#get:length|inlined.7 (result i32)
+     get_local $0
+     i32.load
+     set_local $3
+     get_local $3
+     i32.load offset=4
+    end
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    i32.load
+    get_local $2
+    call $~lib/array/Array<u8>#__get
+    i32.const 255
+    i32.and
+    get_local $1
+    i32.const 255
+    i32.and
+    i32.eq
+    if
+     get_local $2
+     return
+    end
+    get_local $2
+    i32.const 1
+    i32.add
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  i32.const -1
+ )
+ (func $~lib/array/Array<Array<u8>>#__set (; 153 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $1
+  get_local $4
+  i32.ge_u
+  if
+   get_local $1
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+   get_local $0
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.store offset=4
+  end
+  block $~lib/internal/arraybuffer/storeUnsafe<Array<u8>_Array<u8>>|inlined.1
+   get_local $3
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $2
+   i32.store offset=8
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_u8>#set (; 154 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  get_local $0
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_u8>#find
+  set_local $3
+  get_local $3
+  i32.const -1
+  i32.eq
+  if
+   get_local $0
+   i32.load
+   get_local $1
+   call $~lib/array/Array<u8>#push
+   drop
+   get_local $0
+   i32.load offset=4
+   get_local $2
+   call $~lib/array/Array<Array<u8>>#push
+   drop
+  else   
+   get_local $0
+   i32.load offset=4
+   get_local $3
+   get_local $2
+   call $~lib/array/Array<Array<u8>>#__set
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#find (; 155 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  block $break|0
+   i32.const 0
+   set_local $2
+   loop $repeat|0
+    get_local $2
+    block $~lib/array/Array<u8>#get:length|inlined.9 (result i32)
+     get_local $0
+     i32.load
+     set_local $3
+     get_local $3
+     i32.load offset=4
+    end
+    i32.lt_s
+    i32.eqz
+    br_if $break|0
+    get_local $0
+    i32.load
+    get_local $2
+    call $~lib/array/Array<u8>#__get
+    i32.const 255
+    i32.and
+    get_local $1
+    i32.const 255
+    i32.and
+    i32.eq
+    if
+     get_local $2
+     return
+    end
+    get_local $2
+    i32.const 1
+    i32.add
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  i32.const -1
+ )
+ (func $~lib/array/Array<Array<String>>#__set (; 156 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  get_local $0
+  i32.load
+  set_local $3
+  get_local $3
+  i32.load
+  i32.const 2
+  i32.shr_u
+  set_local $4
+  get_local $1
+  get_local $4
+  i32.ge_u
+  if
+   get_local $1
+   i32.const 268435454
+   i32.ge_u
+   if
+    call $~lib/env/abort
+    unreachable
+   end
+   get_local $3
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.const 2
+   i32.shl
+   call $~lib/internal/arraybuffer/reallocateUnsafe
+   set_local $3
+   get_local $0
+   get_local $3
+   i32.store
+   get_local $0
+   get_local $1
+   i32.const 1
+   i32.add
+   i32.store offset=4
+  end
+  block $~lib/internal/arraybuffer/storeUnsafe<Array<String>_Array<String>>|inlined.1
+   get_local $3
+   get_local $1
+   i32.const 2
+   i32.shl
+   i32.add
+   get_local $2
+   i32.store offset=8
+  end
+ )
+ (func $../../../lib/arraymap/ArrayMap<u8_String>#set (; 157 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  get_local $0
+  get_local $1
+  call $../../../lib/arraymap/ArrayMap<u8_String>#find
+  set_local $3
+  get_local $3
+  i32.const -1
+  i32.eq
+  if
+   get_local $0
+   i32.load
+   get_local $1
+   call $~lib/array/Array<u8>#push
+   drop
+   get_local $0
+   i32.load offset=4
+   get_local $2
+   call $~lib/array/Array<Array<String>>#push
+   drop
+  else   
+   get_local $0
+   i32.load offset=4
+   get_local $3
+   get_local $2
+   call $~lib/array/Array<Array<String>>#__set
+  end
+ )
+ (func $~lib/dbmanager/DBManager<A>#emplace (; 158 ;) (type $iIiv) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4329,7 +6798,7 @@
   i64.load offset=8
   call $~lib/env/current_receiver
   i64.eq
-  i32.const 2112
+  i32.const 2464
   call $~lib/env/ultrain_assert
   get_local $2
   call $~lib/datastream/DataStream.measure<A>
@@ -4363,37 +6832,116 @@
   call $~lib/env/db_store_i64
   drop
  )
- (func $test_map_db/TestMap#testInsert (; 83 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
+ (func $test_map_db/TestMap#testInsert (; 159 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   block (result i32)
-   i32.const 8
+   i32.const 36
    call $~lib/memory/memory.allocate
-   set_local $3
-   get_local $3
+   set_local $4
+   get_local $4
    i32.const 0
    i32.const 0
    call $~lib/array/Array<String>#constructor
    i32.store
-   get_local $3
+   get_local $4
    block (result i32)
     i32.const 8
     call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
+    set_local $5
+    get_local $5
     i32.const 1728
     i32.store
-    get_local $4
+    get_local $5
     i32.const 1744
     i32.store offset=4
-    get_local $4
+    get_local $5
    end
    i32.store offset=4
-   get_local $3
+   get_local $4
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 1760
+    i32.store
+    get_local $5
+    i32.const 1776
+    i32.store offset=4
+    get_local $5
+   end
+   i32.store offset=8
+   get_local $4
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 1792
+    i32.store
+    get_local $5
+    i32.const 1808
+    i32.store offset=4
+    get_local $5
+   end
+   i32.store offset=12
+   get_local $4
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 1824
+    i32.store
+    get_local $5
+    i32.const 1840
+    i32.store offset=4
+    get_local $5
+   end
+   i32.store offset=16
+   get_local $4
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 1856
+    i32.store
+    get_local $5
+    i32.const 1872
+    i32.store offset=4
+    get_local $5
+   end
+   i32.store offset=20
+   get_local $4
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 1888
+    i32.store
+    get_local $5
+    i32.const 1904
+    i32.store offset=4
+    get_local $5
+   end
+   i32.store offset=24
+   get_local $4
+   i32.const 0
+   i32.const 0
+   call $../../../lib/arraymap/ArrayMap<u8_u8>#constructor
+   i32.store offset=28
+   get_local $4
+   i32.const 0
+   i32.const 0
+   call $../../../lib/arraymap/ArrayMap<u8_String>#constructor
+   i32.store offset=32
+   get_local $4
   end
-  set_local $5
+  set_local $6
   i32.const 0
   i32.const 520
   call $../../../src/account/NAME
@@ -4402,104 +6950,140 @@
   i32.const 520
   call $../../../src/account/NAME
   call $~lib/dbmanager/DBManager<A>#constructor
-  set_local $3
-  get_local $3
-  i64.const 0
-  call $~lib/dbmanager/DBManager<A>#exists
   set_local $4
   get_local $4
+  i64.const 0
+  call $~lib/dbmanager/DBManager<A>#exists
+  set_local $5
+  get_local $5
   if
-   get_local $3
+   get_local $4
    i64.const 0
-   get_local $5
+   get_local $6
    call $~lib/dbmanager/DBManager<A>#get
    drop
-   get_local $5
+   get_local $6
    i32.load
    get_local $1
    call $~lib/array/Array<String>#push
    drop
-   get_local $5
+   get_local $6
    i32.load
    get_local $2
    call $~lib/array/Array<String>#push
    drop
-   get_local $5
+   get_local $6
    i32.load offset=4
    get_local $1
    get_local $2
    call $../../../lib/map/Map<String_String>#set
+   get_local $6
+   i32.load offset=8
+   get_local $1
+   get_local $3
+   call $../../../lib/map/Map<String_u32>#set
    get_global $../../../src/log/Log
-   i32.const 1752
+   i32.const 1912
    call $../../../src/log/Logger#s
-   get_local $4
+   get_local $5
    i64.extend_u/i32
    i32.const 10
    call $../../../src/log/Logger#i
    call $../../../src/log/Logger#flush
-   get_local $3
+   get_local $4
    i64.const 0
-   get_local $5
+   get_local $6
    call $~lib/dbmanager/DBManager<A>#modify
   else   
-   get_local $5
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<String>#constructor
-   i32.store
-   get_local $5
+   get_local $6
    i32.load
    get_local $1
    call $~lib/array/Array<String>#push
    drop
-   get_local $5
+   get_local $6
    i32.load
    get_local $2
    call $~lib/array/Array<String>#push
    drop
-   get_local $5
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $6
-    get_local $6
-    i32.const 2040
-    i32.store
-    get_local $6
-    i32.const 2056
-    i32.store offset=4
-    get_local $6
-   end
-   i32.store offset=4
-   get_local $5
+   get_local $6
    i32.load offset=4
    get_local $1
    get_local $2
    call $../../../lib/map/Map<String_String>#set
+   get_local $6
+   i32.load offset=8
+   get_local $1
+   get_local $3
+   call $../../../lib/map/Map<String_u32>#set
+   get_local $6
+   i32.load offset=12
+   get_local $3
+   get_local $1
+   call $../../../lib/map/Map<u32_String>#set
+   get_local $6
+   i32.load offset=24
+   i64.const 4
+   i32.const 0
+   i32.const 6
+   i32.const 8
+   call $test_map_db/Obj#constructor
+   call $../../../lib/map/Map<u64_Obj>#set
+   get_local $6
+   i32.load offset=24
+   i64.const 44
+   i32.const 0
+   i32.const 100
+   i32.const 200
+   call $test_map_db/Obj#constructor
+   call $../../../lib/map/Map<u64_Obj>#set
+   get_local $6
+   i32.load offset=28
+   i32.const 2
+   i32.const 2208
+   call $../../../lib/arraymap/ArrayMap<u8_u8>#set
+   get_local $6
+   i32.load offset=28
+   i32.const 22
+   i32.const 2232
+   call $../../../lib/arraymap/ArrayMap<u8_u8>#set
+   get_local $6
+   i32.load offset=32
+   i32.const 3
+   i32.const 2320
+   call $../../../lib/arraymap/ArrayMap<u8_String>#set
+   get_local $6
+   i32.load offset=32
+   i32.const 33
+   i32.const 2408
+   call $../../../lib/arraymap/ArrayMap<u8_String>#set
    get_global $../../../src/log/Log
-   i32.const 2064
+   i32.const 2416
    call $../../../src/log/Logger#s
-   get_local $4
+   get_local $5
    i64.extend_u/i32
    i32.const 10
    call $../../../src/log/Logger#i
    call $../../../src/log/Logger#flush
-   get_local $3
+   get_local $4
    get_local $0
    call $../../../src/contract/Contract#get:receiver
-   get_local $5
+   get_local $6
    call $~lib/dbmanager/DBManager<A>#emplace
   end
  )
- (func $../../../lib/map/Map<String_String>#keys (; 84 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../../lib/map/Map<String_String>#keys (; 160 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load
  )
- (func $../../../lib/map/Map<String_String>#values (; 85 ;) (type $ii) (param $0 i32) (result i32)
+ (func $../../../lib/map/Map<String_String>#values (; 161 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=4
  )
- (func $test_map_db/TestMap#printMap (; 86 ;) (type $iv) (param $0 i32)
+ (func $../../../lib/map/Map<String_u32>#values (; 162 ;) (type $ii) (param $0 i32) (result i32)
+  get_local $0
+  i32.load offset=4
+ )
+ (func $test_map_db/TestMap#printMap (; 163 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4508,8 +7092,9 @@
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
+  (local $9 i32)
   block (result i32)
-   i32.const 8
+   i32.const 36
    call $~lib/memory/memory.allocate
    set_local $1
    get_local $1
@@ -4523,14 +7108,94 @@
     call $~lib/memory/memory.allocate
     set_local $2
     get_local $2
-    i32.const 2256
+    i32.const 2608
     i32.store
     get_local $2
-    i32.const 2272
+    i32.const 2624
     i32.store offset=4
     get_local $2
    end
    i32.store offset=4
+   get_local $1
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 2640
+    i32.store
+    get_local $2
+    i32.const 2656
+    i32.store offset=4
+    get_local $2
+   end
+   i32.store offset=8
+   get_local $1
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 2672
+    i32.store
+    get_local $2
+    i32.const 2688
+    i32.store offset=4
+    get_local $2
+   end
+   i32.store offset=12
+   get_local $1
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 2704
+    i32.store
+    get_local $2
+    i32.const 2720
+    i32.store offset=4
+    get_local $2
+   end
+   i32.store offset=16
+   get_local $1
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 2736
+    i32.store
+    get_local $2
+    i32.const 2752
+    i32.store offset=4
+    get_local $2
+   end
+   i32.store offset=20
+   get_local $1
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 2768
+    i32.store
+    get_local $2
+    i32.const 2784
+    i32.store offset=4
+    get_local $2
+   end
+   i32.store offset=24
+   get_local $1
+   i32.const 0
+   i32.const 0
+   call $../../../lib/arraymap/ArrayMap<u8_u8>#constructor
+   i32.store offset=28
+   get_local $1
+   i32.const 0
+   i32.const 0
+   call $../../../lib/arraymap/ArrayMap<u8_String>#constructor
+   i32.store offset=32
    get_local $1
   end
   set_local $3
@@ -4549,7 +7214,7 @@
   call $~lib/dbmanager/DBManager<A>#get
   set_local $2
   get_global $../../../src/log/Log
-  i32.const 2280
+  i32.const 2792
   call $../../../src/log/Logger#s
   get_local $2
   i64.extend_u/i32
@@ -4557,7 +7222,7 @@
   call $../../../src/log/Logger#i
   call $../../../src/log/Logger#flush
   get_local $2
-  i32.const 2328
+  i32.const 2840
   call $~lib/env/ultrain_assert
   get_local $2
   if
@@ -4570,10 +7235,14 @@
    get_local $4
    call $../../../lib/map/Map<String_String>#values
    set_local $6
+   get_local $3
+   i32.load offset=8
+   call $../../../lib/map/Map<String_u32>#values
+   set_local $7
    get_global $../../../src/log/Log
-   i32.const 2392
+   i32.const 2904
    call $../../../src/log/Logger#s
-   block $~lib/array/Array<String>#get:length|inlined.4 (result i32)
+   block $~lib/array/Array<String>#get:length|inlined.8 (result i32)
     get_local $5
     i32.load offset=4
    end
@@ -4583,34 +7252,52 @@
    call $../../../src/log/Logger#flush
    block $break|0
     i32.const 0
-    set_local $7
+    set_local $8
     loop $repeat|0
-     get_local $7
-     block $~lib/array/Array<String>#get:length|inlined.6 (result i32)
+     get_local $8
+     block $~lib/array/Array<String>#get:length|inlined.10 (result i32)
       get_local $5
       i32.load offset=4
      end
      i32.lt_s
      i32.eqz
      br_if $break|0
-     get_global $../../../src/log/Log
-     i32.const 2416
-     call $../../../src/log/Logger#s
-     get_local $5
-     get_local $7
-     call $~lib/array/Array<String>#__get
-     call $../../../src/log/Logger#s
-     i32.const 2432
-     call $../../../src/log/Logger#s
-     get_local $6
-     get_local $7
-     call $~lib/array/Array<String>#__get
-     call $../../../src/log/Logger#s
-     call $../../../src/log/Logger#flush
-     get_local $7
+     block
+      get_global $../../../src/log/Log
+      i32.const 2928
+      call $../../../src/log/Logger#s
+      get_local $5
+      get_local $8
+      call $~lib/array/Array<String>#__get
+      call $../../../src/log/Logger#s
+      i32.const 2952
+      call $../../../src/log/Logger#s
+      get_local $6
+      get_local $8
+      call $~lib/array/Array<String>#__get
+      call $../../../src/log/Logger#s
+      call $../../../src/log/Logger#flush
+      get_global $../../../src/log/Log
+      i32.const 2928
+      call $../../../src/log/Logger#s
+      get_local $5
+      get_local $8
+      call $~lib/array/Array<String>#__get
+      call $../../../src/log/Logger#s
+      i32.const 2952
+      call $../../../src/log/Logger#s
+      get_local $7
+      get_local $8
+      call $~lib/array/Array<u32>#__get
+      i64.extend_u/i32
+      i32.const 10
+      call $../../../src/log/Logger#i
+      call $../../../src/log/Logger#flush
+     end
+     get_local $8
      i32.const 1
      i32.add
-     set_local $7
+     set_local $8
      br $repeat|0
      unreachable
     end
@@ -4618,31 +7305,31 @@
    end
    get_local $3
    i32.load
-   set_local $7
+   set_local $8
    block $break|1
     i32.const 0
-    set_local $8
+    set_local $9
     loop $repeat|1
-     get_local $8
-     block $~lib/array/Array<String>#get:length|inlined.8 (result i32)
-      get_local $7
+     get_local $9
+     block $~lib/array/Array<String>#get:length|inlined.12 (result i32)
+      get_local $8
       i32.load offset=4
      end
      i32.lt_s
      i32.eqz
      br_if $break|1
      get_global $../../../src/log/Log
-     i32.const 2456
+     i32.const 2976
      call $../../../src/log/Logger#s
-     get_local $7
      get_local $8
+     get_local $9
      call $~lib/array/Array<String>#__get
      call $../../../src/log/Logger#s
      call $../../../src/log/Logger#flush
-     get_local $8
+     get_local $9
      i32.const 1
      i32.add
-     set_local $8
+     set_local $9
      br $repeat|1
      unreachable
     end
@@ -4650,14 +7337,15 @@
    end
   end
  )
- (func $../../../src/contract/Contract#onStop (; 87 ;) (type $iv) (param $0 i32)
+ (func $../../../src/contract/Contract#onStop (; 164 ;) (type $iv) (param $0 i32)
   nop
  )
- (func $test_map_db/apply (; 88 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $test_map_db/apply (; 165 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
+  (local $8 i32)
   get_local $0
   get_local $1
   i64.eq
@@ -4685,13 +7373,17 @@
     get_local $5
     call $~lib/datastream/DataStream#readString
     set_local $7
+    get_local $5
+    call $~lib/datastream/DataStream#read<u32>
+    set_local $8
     get_local $4
     get_local $6
     get_local $7
+    get_local $8
     call $test_map_db/TestMap#testInsert
    end
    get_local $4
-   i32.const 2224
+   i32.const 2576
    call $../../../src/contract/Contract#isAction
    if
     get_local $4
@@ -4701,7 +7393,7 @@
    call $../../../src/contract/Contract#onStop
   end
  )
- (func $start (; 89 ;) (type $v)
+ (func $start (; 166 ;) (type $v)
   (local $0 i32)
   get_global $HEAP_BASE
   get_global $~lib/internal/allocator/AL_MASK
@@ -4713,7 +7405,6 @@
   set_global $~lib/allocator/arena/startOffset
   get_global $~lib/allocator/arena/startOffset
   set_global $~lib/allocator/arena/offset
-  nop
   block (result i32)
    i32.const 0
    call $~lib/memory/memory.allocate
@@ -4721,6 +7412,7 @@
    get_local $0
   end
   set_global $../../../src/log/Log
+  nop
   i32.const 4
   i32.const 1280
   call $../../../src/asset/StringToSymbol
@@ -4730,6 +7422,6 @@
   i64.shr_u
   set_global $../../../src/asset/SYS_NAME
  )
- (func $null (; 90 ;) (type $v)
+ (func $null (; 167 ;) (type $v)
  )
 )

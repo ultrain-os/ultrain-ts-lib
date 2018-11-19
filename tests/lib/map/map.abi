@@ -1,7 +1,38 @@
 {
   "version": "ultraio:1.0",
-  "types": [],
+  "types": [
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    },
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "u8",
+      "type": "uint8"
+    }
+  ],
   "structs": [
+    {
+      "fields": [
+        {
+          "name": "x",
+          "type": "u8"
+        },
+        {
+          "name": "y",
+          "type": "u8"
+        }
+      ],
+      "name": "Obj",
+      "base": ""
+    },
     {
       "fields": [
         {
@@ -11,6 +42,10 @@
         {
           "name": "value",
           "type": "string"
+        },
+        {
+          "name": "_int",
+          "type": "u32"
         }
       ],
       "name": "testInsert",
@@ -28,8 +63,36 @@
           "type": "string[]"
         },
         {
-          "name": "smap",
-          "type": "map_string_string"
+          "name": "str_str_map",
+          "type": "string,string{}"
+        },
+        {
+          "name": "str_int_map",
+          "type": "string,u32{}"
+        },
+        {
+          "name": "int_str_map",
+          "type": "u32,string{}"
+        },
+        {
+          "name": "account_str_map",
+          "type": "account_name,string{}"
+        },
+        {
+          "name": "u64_str_map",
+          "type": "u64,string{}"
+        },
+        {
+          "name": "int_object_map",
+          "type": "u64,Obj{}"
+        },
+        {
+          "name": "int_int_array_map",
+          "type": "u8,u8[]{}"
+        },
+        {
+          "name": "int_string_array_map",
+          "type": "u8,string[]{}"
         }
       ],
       "name": "A",

@@ -8,7 +8,8 @@ else
 fi
 
 echo "Deploy the contract ${clultrain}"
-account=acm1
+account=acm3
 ${clultrain} set contract ${account} ../map -p ${account}
-${clultrain} push action ${account} testInsert '["key", "value"]' -p ${account}
+${clultrain} push action ${account} testInsert '["key1", "value1", 1]' -p ${account}
+${clultrain} push action ${account} testInsert '["key2", "value2", 2]' -p ${account}
 ${clultrain} get table ${account} a a
