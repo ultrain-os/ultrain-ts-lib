@@ -36,6 +36,7 @@ class A implements Serializable {
     int_boolean_map: Map<u32, boolean> = new Map<u32, boolean>();
     int_object_map: Map<u64, Obj> = new Map<u64, Obj>();
 
+
     int_int_array_map: ArrayMap<u8, u8> = new ArrayMap<u8, u8>();
     int_string_array_map: ArrayMap<u8, string> = new ArrayMap<u8, string>();
     int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
