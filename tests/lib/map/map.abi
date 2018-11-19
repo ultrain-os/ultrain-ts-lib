@@ -22,20 +22,6 @@
     {
       "fields": [
         {
-          "name": "x",
-          "type": "u8"
-        },
-        {
-          "name": "y",
-          "type": "u8"
-        }
-      ],
-      "name": "Obj",
-      "base": ""
-    },
-    {
-      "fields": [
-        {
           "name": "key",
           "type": "string"
         },
@@ -54,6 +40,20 @@
     {
       "fields": [],
       "name": "printMap",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "x",
+          "type": "u8"
+        },
+        {
+          "name": "y",
+          "type": "u8"
+        }
+      ],
+      "name": "Obj",
       "base": ""
     },
     {

@@ -4,7 +4,6 @@
  * @datetime 16:53:10, 07/11/2018
  * All rights reserved by ultrain.io @2018
  */
-@ignore
 export class Map<K, V> implements Serializable {
     private _keys: K[] = [];
     private _values: V[] =[];
