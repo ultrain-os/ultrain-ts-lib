@@ -4,6 +4,7 @@
  * @datetime 16:53:10, 07/11/2018
  * All rights reserved by ultrain.io @2018
  */
+@ignore
 export class ArrayMap<K, V> implements Serializable {
     private _keys: Array<K>;// = [];
     private _values: Array<Array<V>>;// =[[]];

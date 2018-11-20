@@ -27,33 +27,16 @@ class A implements Serializable {
     account_str_map: Map<account_name, string> = new Map<account_name, string>();
     u64_str_map: Map<u64, string> = new Map<u64, string>();
     int_object_map: Map<u64, Obj> = new Map<u64, Obj>();
+    object_int_map: Map<Obj, u64> = new Map<Obj, u64>();
 
     int_int_array_map: ArrayMap<u8, u8> = new ArrayMap<u8, u8>();
     int_string_array_map: ArrayMap<u8, string> = new ArrayMap<u8, string>();
-    // int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
+    int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
 
 
     primaryKey(): id_type {
         return 0;
     }
-
-    // deserialize(ds: DataStream): void {
-    //     this.arr = ds.readStringVector();
-    //     this.str_str_map.deserialize(ds);
-    //     this.str_int_map.deserialize(ds);
-    //     this.int_str_map.deserialize(ds);
-    //     this.account_str_map.deserialize(ds);
-    //     this.u64_str_map.deserialize(ds);
-    // }
-    
-    // serialize(ds: DataStream): void {
-    //     ds.writeStringVector(this.arr);
-    //     this.str_str_map.serialize(ds);
-    //     this.str_int_map.serialize(ds);
-    //     this.int_str_map.serialize(ds);
-    //     this.account_str_map.serialize(ds);
-    //     this.u64_str_map.serialize(ds);
-    // }
 }
 @database(A, "a")
 class TestMap extends Contract {
@@ -83,6 +66,9 @@ class TestMap extends Contract {
 
           a.int_object_map.set(4, new Obj());
           a.int_object_map.set(44, new Obj(100, 200));
+
+          a.object_int_map.set(new Obj(100, 200), 1);
+          a.object_int_map.set(new Obj(10, 20), 2);
   
           a.int_int_array_map.set(2, [0, 1, 2, 3]);
           a.int_int_array_map.set(22, [4, 5, 6, 7]);
@@ -90,7 +76,8 @@ class TestMap extends Contract {
           a.int_string_array_map.set(3, ["aaa", "bbb", "ccc"]);
           a.int_string_array_map.set(33, ["ddd", "eee", "fff"]);
   
-        //   a.int_object_array_map.set(4, [new Obj(), new Obj(18, 36), new Obj()]);
+          a.int_object_array_map.set(4, [new Obj(), new Obj(18, 36), new Obj()]);
+
 
           Log.s("testInsert emplace: ").i(existing).flush(); 
           aDbManager.emplace(this.receiver, a);

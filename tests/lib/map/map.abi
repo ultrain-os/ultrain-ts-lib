@@ -87,12 +87,20 @@
           "type": "u64,Obj{}"
         },
         {
+          "name": "object_int_map",
+          "type": "Obj,u64{}"
+        },
+        {
           "name": "int_int_array_map",
           "type": "u8,u8[]{}"
         },
         {
           "name": "int_string_array_map",
           "type": "u8,string[]{}"
+        },
+        {
+          "name": "int_object_array_map",
+          "type": "u8,Obj[]{}"
         }
       ],
       "name": "A",
