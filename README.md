@@ -284,6 +284,7 @@ Be attentation, the classes labeled with @database **must implements interface S
 ```
  export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
+    public cursor(): Cursor<T> {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
     public exists(primary: u64): boolean {}
@@ -292,6 +293,7 @@ Be attentation, the classes labeled with @database **must implements interface S
 }
 ```
 * constructor() has three parameters， `tblname: u64` means table name. `owner：u64` is always the account which this contract deployed to. `scope: u64` is a context.
+* cursor() retrieve table rows.
 * emplace() insert an item to database. `payer` will pay for the storage，`obj` is an serializable object.
 * modify() update an item.
 * exists() judges if an primary key exists in DB or not.
@@ -300,6 +302,19 @@ Be attentation, the classes labeled with @database **must implements interface S
 > NOTICE
 You can not drop a table manually, if all of its items eliminated, the table is dropped.
 
+#### Use cursor to iterate table rows
+We provide a method *cursor()* to retrieve all of the table rows. But you must bear in mind that it is a very very low performance operation. It loads all the rows to memory while you invoke cursor(), so if there are too many records, your action will be stucked for a while, and it will fail your action.
+Here is a snippet to show how to use cursor:
+```javascript
+let cursor = this.db.cursor();
+Log.s("cursor.count =").i(cursor.count).flush();
+cursor.first();
+while(cursor.hasNext()) {
+    let p: Person = cursor.get();
+    p.prints();
+    cursor.next();
+}
+```
 
 #### Relationship between *scope* and *primary key* in a table
 

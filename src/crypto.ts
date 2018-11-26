@@ -212,3 +212,15 @@ export function assert_ripemd160(data: string, ripe: Ripemd160): void {
     let src = ripe.toString();
     cry.ts_assert_ripemd160(string2cstr(data), data.length, string2cstr(src), src.length);
 }
+
+/**
+ * to verity pk and proof.
+ * @param pk_str string of pk
+ * @param pk_proof string of proof
+ * @param message a message
+ */
+export function verify_with_pk(pk_str: string, pk_proof: string, message: string): boolean {
+    let status = cry.ts_verify_with_pk(string2cstr(pk_str), string2cstr(pk_proof), string2cstr(message));
+
+    return status == 1 ? true : false;
+}

@@ -299,6 +299,7 @@ clas MyContract extends Contract {
 ```
  export class DBManager<T extends Serializable> {
     constructor(tblname: u64, owner: u64, scope: u64) {}
+    public cursor(): Cursor<T> {}
     public emplace(payer: u64, obj: T): void {}
     public modify(payer: u64, newobj: T): void {}
     public exists(primary: u64): boolean {}
@@ -307,6 +308,7 @@ clas MyContract extends Contract {
 }   
 ```
 * constructor()方法接收三个参数， `tblname: u64`表示表名；`owner：u64`表示这个表在哪个合约中，一般的，owner和该合约的receiver是一样的。`scope: u64`表示表中的一个上下文。
+* cursor()方法读取数据表中的所有记录。
 * emplace()方法向表中加入一条记录。`payer`表示这个帐号将为数据存储付费，`obj`是一个Serializable的对象，将数据存入DB。
 * modify()方法更新表中的数据。`payer`表示这条记录的创建者、付费方；`newobj`是更新后的数据，newobj的primaryKey对应的对象会被更新。
 * exists()方法判断一个primaryKey是否存在。
@@ -315,6 +317,19 @@ clas MyContract extends Contract {
 > NOTICE
 table没有方法可以显式删除，只有当table中的记录都删掉时，table会自动被删除。
   
+#### 使用Cursor遍历所有记录
+我们提供了cursor来遍历所有的记录，但是必须明白，这个操作非常非常低效，因为在当调用cursor()方法时，会将所有的表中的数据都加载到内存里面。如果表中的数据很多的话，那这个交易将会被cursor方法阻塞，从而导致交易超时失败。
+如下示例演示了怎样使用cursor：
+```javascript
+let cursor = this.db.cursor();
+Log.s("cursor.count =").i(cursor.count).flush();
+
+while(cursor.hasNext()) {
+    let p: Person = cursor.get();
+    p.prints();
+    cursor.next();
+}
+```
 
 #### table里面scope和primary key的关系
 
