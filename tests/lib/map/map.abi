@@ -6,6 +6,10 @@
       "type": "uint32"
     },
     {
+      "new_type_name": "i32",
+      "type": "int32"
+    },
+    {
       "new_type_name": "account_name",
       "type": "name"
     },
@@ -40,6 +44,24 @@
     {
       "fields": [],
       "name": "printMap",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "aa",
+          "type": "i32"
+        },
+        {
+          "name": "b",
+          "type": "i32"
+        },
+        {
+          "name": "having",
+          "type": "bool"
+        }
+      ],
+      "name": "testAnd",
       "base": ""
     },
     {
@@ -117,6 +139,11 @@
       "ricardian_contract": "",
       "name": "printMap",
       "type": "printMap"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testAnd",
+      "type": "testAnd"
     }
   ],
   "tables": [

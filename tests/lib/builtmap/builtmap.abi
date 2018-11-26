@@ -3,7 +3,12 @@
   "types": [],
   "structs": [
     {
-      "fields": [],
+      "fields": [
+        {
+          "name": "arr",
+          "type": "string[]"
+        }
+      ],
       "name": "test",
       "base": ""
     }
