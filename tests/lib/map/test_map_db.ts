@@ -1,5 +1,5 @@
-import { Map } from "../../../lib/map";
-import { ArrayMap } from "../../../lib/arraymap";
+// import { Map } from "../../../lib/map";
+// import { ArrayMap } from "../../../lib/arraymap";
 import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
 import { Log } from "../../../src/log";
@@ -108,5 +108,21 @@ class TestMap extends Contract {
                 Log.s("arr value: ").s(arr[index]).flush();
             }
         }
-    } 
+    }
+
+
+    @action
+    public testAnd(aa:i32, b: i32, having: bool): void {
+        let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a"));
+        var a = new A();
+        let existing = aDbManager.exists(0);
+        if (existing) {
+            aDbManager.get( 0 , a);
+            Log.s("test and size: ").i(<bool>a.str_str_map.size).flush();
+            Log.s("test and having: ").i(having).flush();
+            Log.s("test and existing: ").i(aDbManager.exists(0) && having  && <bool>a.str_str_map.size).flush();
+            let v = aa != 0 && b != aa && b != 1
+            Log.s("boolean value: ").i(v).flush();
+        } 
+    }
 }

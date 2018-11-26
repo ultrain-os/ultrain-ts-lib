@@ -117,6 +117,5 @@ class TestTrack extends Contract {
         assert(res == -1);
         res = this.indexOf([1, 2, 4], 0);
         assert(res == 1);
-
     }
 }
