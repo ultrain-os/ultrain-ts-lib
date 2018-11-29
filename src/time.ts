@@ -1,6 +1,5 @@
 import { intToString } from "./utils";
 import { env as system } from "../internal/system.d";
-import { Log } from "./log";
 
 export class Microseconds implements Serializable {
     _count: u64;
