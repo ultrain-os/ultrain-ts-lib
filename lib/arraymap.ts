@@ -4,8 +4,6 @@
  * @datetime 16:53:10, 07/11/2018
  * All rights reserved by ultrain.io @2018
  */
-import { Log } from "../src/log";
-
 @ignore
 export class ArrayMap<K, V> implements Serializable {
     private _keys: Array<K>;// = [];
@@ -111,7 +109,7 @@ export class ArrayMap<K, V> implements Serializable {
 
     serialize(ds: DataStream): void {
         let len = this._keys.length;
-        ds.writeVarint32(len);
+        ds.write<u32>(len);
 
         for (let i: i32 = 0; i < len; i++) {
             this.storeKey(this._keys[i], ds);
@@ -155,7 +153,7 @@ export class ArrayMap<K, V> implements Serializable {
     }
 
     deserialize(ds: DataStream): void {
-        let len = ds.readVarint32();
+        let len = ds.read<u32>();
 
         for (let i: u32 = 0; i < len; i++) {
             this.readKey(ds);

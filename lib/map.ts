@@ -98,7 +98,7 @@ export class Map<K, V> implements Serializable {
 
     serialize(ds: DataStream): void {
         let len = this._keys.length;
-        ds.writeVarint32(len);
+        ds.write<u32>(<u32>len);
 
         for (let i: i32 = 0; i < len; i++) {
             this.store<K>(this._keys[i], ds);
@@ -140,8 +140,9 @@ export class Map<K, V> implements Serializable {
         }
     }
 
+    
     deserialize(ds: DataStream): void {
-        let len = ds.readVarint32();
+        let len = ds.read<u32>();
 
         for (let i: u32 = 0; i < len; i++) {
             this.readKey<K>(ds);
