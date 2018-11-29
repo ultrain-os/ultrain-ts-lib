@@ -12,4 +12,6 @@ export declare namespace env {
     function ts_assert_recover_key(digest: usize, checksumlen: u32, sig: usize, siglen: u32, pub: usize, publen: u32): void;
 
     function ts_verify_with_pk(pk_str: usize, pk_proof: usize, message: usize): i32;
+    function ts_public_key_of_account(account: account_name, pubkey_buffer: usize, pubkey_len: u32, key_type: usize): i32;
+
 }

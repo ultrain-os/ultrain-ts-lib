@@ -1,8 +1,11 @@
 import "allocator/arena";
 import { env as AccountAPI } from "../internal/action.d";
+import { env as CryptoAPI} from "../internal/crypto.d";
+
 import { Asset } from "./asset";
 import { queryBalance, send } from "../lib/balance";
 import { N, RN } from "../lib/name";
+import { string2cstr } from "./utils";
 /**
  * Convert a string to class Account.
  * @param str the account string to be converted.
@@ -52,6 +55,25 @@ export class Account {
      */
     public static isValid(account: account_name): boolean {
         return AccountAPI.is_account(account);
+    }
+
+    /**
+     *get the public key of an account
+     *
+     * @static
+     * @param {account_name} account whose public key you are interested.
+     * @param {string} type return value type, you can choose 'wif', or 'hex', default is 'wif'
+     * @returns {string} public key of this account, the MAX length is 128, if the length of public key oversized, return an empty string.
+     * @memberof Account
+     */
+    public static publicKeyOf(account: account_name, type: string = 'wif'): string {
+        let data = new Uint8Array(128);
+        let len = CryptoAPI.ts_public_key_of_account(account, changetype<usize>(data.buffer), data.length, string2cstr(type));
+        if (len > 0) {
+            return String.fromUTF8(changetype<usize>(data.buffer), len);
+        } else {
+            return "";
+        }
     }
 
     private _value: u64;

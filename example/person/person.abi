@@ -2,13 +2,25 @@
   "version": "ultraio:1.0",
   "types": [
     {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
       "new_type_name": "u32",
       "type": "uint32"
+    },
+    {
+      "new_type_name": "account_name",
+      "type": "name"
     }
   ],
   "structs": [
     {
       "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
         {
           "name": "name",
           "type": "string"
@@ -18,15 +30,65 @@
           "type": "u32"
         },
         {
+          "name": "sex",
+          "type": "string"
+        },
+        {
+          "name": "street",
+          "type": "string"
+        },
+        {
+          "name": "post",
+          "type": "string"
+        },
+        {
           "name": "salary",
           "type": "u32"
         }
       ],
-      "name": "add",
+      "name": "addSales",
       "base": ""
     },
     {
       "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "u32"
+        },
+        {
+          "name": "sex",
+          "type": "string"
+        },
+        {
+          "name": "street",
+          "type": "string"
+        },
+        {
+          "name": "post",
+          "type": "string"
+        },
+        {
+          "name": "salary",
+          "type": "u32"
+        }
+      ],
+      "name": "addMarketing",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
         {
           "name": "name",
           "type": "string"
@@ -42,20 +104,63 @@
     {
       "fields": [
         {
-          "name": "name",
-          "type": "string"
+          "name": "id",
+          "type": "u64"
         }
       ],
       "name": "remove",
       "base": ""
     },
     {
-      "fields": [],
+      "fields": [
+        {
+          "name": "dbname",
+          "type": "string"
+        }
+      ],
       "name": "enumrate",
       "base": ""
     },
     {
       "fields": [
+        {
+          "name": "dbname",
+          "type": "string"
+        }
+      ],
+      "name": "drop",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "account",
+          "type": "account_name"
+        }
+      ],
+      "name": "pubkeyOf",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "street",
+          "type": "string"
+        },
+        {
+          "name": "post",
+          "type": "string"
+        }
+      ],
+      "name": "Address",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
         {
           "name": "name",
           "type": "string"
@@ -65,8 +170,12 @@
           "type": "u32"
         },
         {
-          "name": "salary",
-          "type": "u32"
+          "name": "sex",
+          "type": "string"
+        },
+        {
+          "name": "address",
+          "type": "Address"
         }
       ],
       "name": "Person",
@@ -76,8 +185,13 @@
   "actions": [
     {
       "ricardian_contract": "",
-      "name": "add",
-      "type": "add"
+      "name": "addSales",
+      "type": "addSales"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "addMarketing",
+      "type": "addMarketing"
     },
     {
       "ricardian_contract": "",
@@ -93,6 +207,16 @@
       "ricardian_contract": "",
       "name": "enumrate",
       "type": "enumrate"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "drop",
+      "type": "drop"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "pubkeyOf",
+      "type": "pubkeyOf"
     }
   ],
   "tables": [
@@ -104,7 +228,18 @@
       "keys_types": [
         "uint64"
       ],
-      "name": "humans",
+      "name": "tb.sales",
+      "type": "Person"
+    },
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "tb.marketing",
       "type": "Person"
     }
   ]
