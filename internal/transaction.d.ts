@@ -14,4 +14,7 @@ export declare namespace env {
      function expiration(): u32;
      function get_action(type: u32, index: u32, buffer: usize, size: u32): i32;
      function get_context_free_data(index: u32, buffer: usize, size: u32): i32;
+
+     function get_transaction_id(buffer: usize, len: u32): i32;
+     function get_transaction_published_time(): u32;
 }

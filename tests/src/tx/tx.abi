@@ -1,0 +1,19 @@
+{
+  "version": "ultraio:1.0",
+  "types": [],
+  "structs": [
+    {
+      "fields": [],
+      "name": "showIdAndTime",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "showIdAndTime",
+      "type": "showIdAndTime"
+    }
+  ],
+  "tables": []
+}

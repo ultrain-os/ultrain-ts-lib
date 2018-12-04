@@ -148,3 +148,16 @@ export function getAction(type: u32, index: u32): ActionImpl {
     action.deserialize(ds);
     return action;
 }
+
+export function getTransactionId(): string {
+    const CheckSumLength: u32 = 64;
+    let arr = new Uint8Array(CheckSumLength);
+    let size = transaction.get_transaction_id(changetype<usize>(arr.buffer), CheckSumLength);
+    ultrain_assert(size == CheckSumLength, "read id of this transaction failed. Its length is not 64 bits.");
+
+    return String.fromUTF8(changetype<usize>(arr.buffer), CheckSumLength);
+}
+
+export function getTransactionPublishedTime(): u32 {
+    return transaction.get_transaction_published_time();
+}

@@ -209,16 +209,15 @@ class TimeZone {
     minutes: u32 = 0;
     isEast: boolean = true;
 
-    parse(timezon: string): boolean {
-        let tzlabel = timezon.charCodeAt(0);
-        ultrain_assert(tzlabel == 0x2b || tzlabel == 0x2d, "timezone of utc string '" + timezon + "' is invalid.");
+    parse(timezone: string): boolean {
+        let tzlabel = timezone.charCodeAt(0);
+        ultrain_assert(tzlabel == 0x2b || tzlabel == 0x2d, "timezone of utc string '" + timezone + "' is invalid.");
         this.isEast = (tzlabel == 0x2b);
-        let a = timezon.substring(1, timezon.length);
+        let a = timezone.substring(1, timezone.length);
         let tzhm = a.split(":");
-        ultrain_assert(tzhm.length == 2, "timezone of utc string '" + timezon + "' is invalid.");
+        ultrain_assert(tzhm.length == 2, "timezone of utc string '" + timezone + "' is invalid.");
         this.hours = <u32>parseI32(tzhm[0]);
         this.minutes = <u32>parseI32(tzhm[1]);
-
         return !isNaN(this.hours) && !isNaN(this.minutes);
     }
 
@@ -386,6 +385,7 @@ export class LocalTime {
         this.seconds = secs % 60;
         this.minutes = (secs % 3600) / 60;
         this.hours = (secs % SecondsPerDay) / 3600;
+        this.timezone = tz;
 
         let days = secs/SecondsPerDay;
         let year = 1970;
