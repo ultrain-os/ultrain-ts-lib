@@ -130,7 +130,7 @@ export class UIP06Impl extends Contract implements UIP06{
     }
 
     @action
-    public transfer(from: u64, to: u64, quantity: Asset, memo: string): void {
+    public transfer(from: account_name, to: account_name, quantity: Asset, memo: string): void {
         ultrain_assert(from != FrezonAccount, "token.transfer: can not transfer from account utrio.freeze.");
         ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
         Action.requireAuth(from);
