@@ -35,7 +35,7 @@ export class TransferParams implements Serializable {
     constructor(from: u64, to: u64, quantity: Asset, memo: string) {
         this.from = from;
         this.to = to;
-        this.quantity = new Asset();
+        this.quantity = quantity;
         this.memo = memo;
     }
 
