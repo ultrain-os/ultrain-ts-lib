@@ -210,42 +210,50 @@
     {
       "ricardian_contract": "",
       "name": "create",
-      "type": "create"
+      "type": "create",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "issue",
-      "type": "issue"
+      "type": "issue",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer"
+      "type": "transfer",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "ownerOf",
-      "type": "ownerOf"
+      "type": "ownerOf",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "uriOf",
-      "type": "uriOf"
+      "type": "uriOf",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "tokenByIndex",
-      "type": "tokenByIndex"
+      "type": "tokenByIndex",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
       "name": "getSupply",
-      "type": "getSupply"
+      "type": "getSupply",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
       "name": "getBalance",
-      "type": "getBalance"
+      "type": "getBalance",
+      "ability": "normal"
     }
   ],
   "tables": [

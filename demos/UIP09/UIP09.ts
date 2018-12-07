@@ -236,7 +236,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         return token.uri;
     }
 
-    @action
+    @action("pureview")
     tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = NAME(sym_name);
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
@@ -249,7 +249,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         return account.token_ids[index];
     }
 
-    @action
+    @action("pureview")
     getSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
@@ -359,5 +359,4 @@ export class UIP09Impl extends Contract implements UIP09 {
         st.supply.setAmount(amount);
         statstable.modify(ram_payer, st);
     }
-
 }
