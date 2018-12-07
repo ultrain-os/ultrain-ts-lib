@@ -240,8 +240,8 @@ export class UIP06Impl extends Contract implements UIP06{
 
     @action
     public getBalance(owner: account_name, sym_name: string): Asset {
-        let symname = StringToSymbol(0, sym_name) >> 8;
-        let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner, symname);
+        let symname: u64 = StringToSymbol(0, sym_name) >> 8;
+        let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);
         let account = new CurrencyAccount(new Asset());
         let existing = accounts.get(symname, account);
         ultrain_assert(existing, "getBalance failed, account is not existed.")
