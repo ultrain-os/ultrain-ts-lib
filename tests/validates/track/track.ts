@@ -1,13 +1,20 @@
-import "allocator/arena";
-
 import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
+import { NAME } from "../../../src/account";
 
+class TypeZoo implements Serializable {
+    account: account_name;
+    name: string;
+    _64: u64;
+    _i32: i32;
+    _bool: bool;
+}
+
+@database(TypeZoo, "types")
 class TestTrack extends Contract {
 
     constructor(receiver: account_name){
         super(receiver);
-        this._receiver = receiver;
     }
 
     @action
@@ -20,10 +27,29 @@ class TestTrack extends Contract {
         Log.s("Break running successful!").flush();
         this.testTernary();
         Log.s("Ternary running successful!").flush();
-
         Log.s("Successful!!!").flush();
-
         this.toCheckList();
+    }
+
+    @action
+    testType(account: account_name, user_name: string, age: i32, yes: bool, _u64: u64): void {
+        var aDbManager: DBManager<TypeZoo> = new DBManager<TypeZoo>(NAME("types"), this.receiver, NAME("types"));
+        var types: TypeZoo = new TypeZoo();
+        types.account = account;
+        types.name = user_name;
+        types._i32 = age;
+        types._bool = yes;
+        types._64 = _u64;
+
+        if (!aDbManager.exists(0)){
+            aDbManager.emplace(this.receiver, types);
+        }
+        if (yes) {
+            Log.s("yes is true. ").flush();
+        } else {
+            Log.s("yes is false. ").flush();
+        }
+        Log.s("account:").i(account).s(". user name:").s(user_name).s(". age:").i(age).s(". yes:").i(yes).flush();
     }
 
     private toCheckList(): void {

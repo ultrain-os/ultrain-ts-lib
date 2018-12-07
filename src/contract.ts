@@ -1,5 +1,6 @@
 import { env as action } from "../internal/action.d";
 import { NameEx, NEX } from "../lib/name_ex";
+import { Return, ReturnArray } from "../src/return";
 
 /**
  * To get a DataStream of current action.
@@ -26,7 +27,6 @@ export class Contract {
     protected _receiver: account_name;
     private currentActionName: NameEx;
 
-
     constructor(receiver: account_name) {
         this._receiver = receiver;
     }
@@ -37,17 +37,26 @@ export class Contract {
         return this._receiver;
     }
 
-    public setActionName(actH: u64, actL: u64): void {
+    setActionName(actH: u64, actL: u64): void {
         this.currentActionName = new NameEx(actH, actL);
     }
 
-    public isAction(actionName: string): bool {
+    isAction(actionName: string): bool {
         return this.currentActionName == NEX(actionName);
     }
 
-    public getDataStream(): DataStream {
+    getDataStream(): DataStream {
         return DataStreamFromCurrentAction();
     }
+
+    returnVal<T>(val: T): void {
+        Return<T>(val);
+    }
+
+    returnArray<T>(arr: T[]): void {
+        ReturnArray<T>(arr);
+    }
+
     /**
      * Before execute any action, onInit() will be invoked at first.
      * In this method, you can do some initialize operations.
@@ -59,6 +68,5 @@ export class Contract {
      * You can do persistent operations in this method.
      */
     public onStop(): void {}
-
-
+    
 }

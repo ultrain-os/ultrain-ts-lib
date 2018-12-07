@@ -25,8 +25,13 @@ export function Return<T> (val: T): void {
     } else if (isInteger(val)) {
         env.set_result_int(<u64>val);
     } else {
-        ultrain_assert(false, "Return only support string and int.");
+        returnObj(val);
+        // ultrain_assert(false, "Return only support string and int.");
     }
+}
+
+function returnObj<T extends Returnable>(val: T): void {
+    env.set_result_str(string2cstr(val.toString()));
 }
 
 /**

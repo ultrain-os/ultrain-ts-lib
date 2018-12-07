@@ -6,15 +6,19 @@ echo '1. Accounts: token, tom, jack, rose are exist'
 clultrain="$1/build/programs/clultrain/clultrain"
 echo "using clutrain: ${clultrain}"
 
-# ${clultrain} set contract token ../token/ -p token
-# ${clultrain} push action token create '["rose", "100.00 ETA"]' -p token
-# ${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
-# ${clultrain} push action token transfer '["jack", "tom" "10.00 ETA", "transfer"]' -p jack
+${clultrain} set contract token ../UIP06/ -p token
+${clultrain} push action token create '["rose", "100.00 ETA"]' -p token
+${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
+${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
+${clultrain} push action token transfer '["jack", "tom" "10.00 ETA", "transfer"]' -p jack
+${clultrain} push action token getBalance '["jack", "ETA"]' -p token
+${clultrain} push action token getSupply '["ETA"]' -p token
 
-# #Get table info
-# ${clultrain} get table token ETA stat
-# ${clultrain} get table token tom accounts
-# ${clultrain} get table token jack accounts
+#Get table info
+${clultrain} get table token ETA stat
+${clultrain} get table token tom accounts
+${clultrain} get table token jack accounts
+
 p=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ${clultrain} set contract jack $p/../UIP06/ -p jack
 $clultrain push action jack create '["rose", "100000.0000 BENZ"]' -p jack
