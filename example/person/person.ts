@@ -15,7 +15,7 @@ class Person implements Serializable {
     name: string;
     age: u32;
     sex: string;
-    address: Address;
+    address: Address = new Address();
     @ignore
     salary: u32;
 
@@ -74,7 +74,7 @@ class HumanResource extends Contract {
         this.marketingdb.emplace(this.receiver, p);
     }
 
-    @action
+    @action("pureview")
     modify(id: u64, name: string, salary: u32): void {
         let p = new Person();
         let existing = this.salesdb.get(id, p);

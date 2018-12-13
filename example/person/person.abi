@@ -186,37 +186,44 @@
     {
       "ricardian_contract": "",
       "name": "addSales",
-      "type": "addSales"
+      "type": "addSales",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "addMarketing",
-      "type": "addMarketing"
+      "type": "addMarketing",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "modify",
-      "type": "modify"
+      "type": "modify",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
       "name": "remove",
-      "type": "remove"
+      "type": "remove",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "enumrate",
-      "type": "enumrate"
+      "type": "enumrate",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "drop",
-      "type": "drop"
+      "type": "drop",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "pubkeyOf",
-      "type": "pubkeyOf"
+      "type": "pubkeyOf",
+      "ability": "normal"
     }
   ],
   "tables": [

@@ -189,18 +189,26 @@
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../src/utils/PrintableChar i32 (i32.const 1272))
  (global $../../src/log/Log (mut i32) (i32.const 0))
- (global $../../src/asset/CHAR_A i32 (i32.const 65))
- (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
  (global $~lib/internal/arraybuffer/MAX_BLENGTH i32 (i32.const 1073741816))
  (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
+ (global $~lib/internal/string/MAX_LENGTH i32 (i32.const 536870910))
+ (global $~lib/internal/number/MAX_DOUBLE_LENGTH i32 (i32.const 28))
+ (global $~lib/internal/number/_K (mut i32) (i32.const 0))
+ (global $~lib/internal/number/_frc (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_exp (mut i32) (i32.const 0))
+ (global $~lib/internal/number/_frc_minus (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_frc_plus (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_frc_pow (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_exp_pow (mut i32) (i32.const 0))
+ (global $../../src/asset/CHAR_A i32 (i32.const 65))
+ (global $../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $../../src/asset/SYS (mut i64) (i64.const 0))
  (global $../../src/asset/SYS_NAME (mut i64) (i64.const 0))
  (global $../../src/asset/MAX_AMOUNT i64 (i64.const 4611686018427387903))
  (global $person/salestable i32 (i32.const 1624))
  (global $person/marketingtable i32 (i32.const 1648))
  (global $~lib/datastream/HEADER_SIZE i32 (i32.const 4))
- (global $~lib/internal/string/MAX_LENGTH i32 (i32.const 536870910))
  (global $HEAP_BASE i32 (i32.const 3008))
  (export "memory" (memory $0))
  (export "table" (table $0))
@@ -624,18 +632,16 @@
   get_local $0
   get_local $1
   i32.store offset=4
-  block $~lib/memory/memory.fill|inlined.0
-   get_local $3
-   get_global $~lib/internal/arraybuffer/HEADER_SIZE
-   i32.add
-   set_local $4
-   i32.const 0
-   set_local $5
-   get_local $4
-   get_local $5
-   get_local $2
-   call $~lib/internal/memory/memset
-  end
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
   get_local $0
  )
  (func $~lib/string/String#charCodeAt (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
@@ -2121,60 +2127,54 @@
     get_local $0
     get_local $1
     i32.store
-    block $~lib/memory/memory.fill|inlined.1
-     get_local $0
-     get_global $~lib/internal/arraybuffer/HEADER_SIZE
-     i32.add
-     get_local $2
-     i32.add
-     set_local $3
-     i32.const 0
-     set_local $4
-     get_local $1
-     get_local $2
-     i32.sub
-     set_local $5
-     get_local $3
-     get_local $4
-     get_local $5
-     call $~lib/internal/memory/memset
-    end
+    get_local $0
+    get_global $~lib/internal/arraybuffer/HEADER_SIZE
+    i32.add
+    get_local $2
+    i32.add
+    set_local $3
+    i32.const 0
+    set_local $4
+    get_local $1
+    get_local $2
+    i32.sub
+    set_local $5
+    get_local $3
+    get_local $4
+    get_local $5
+    call $~lib/internal/memory/memset
    else    
     get_local $1
     call $~lib/internal/arraybuffer/allocateUnsafe
     set_local $5
-    block $~lib/memory/memory.copy|inlined.0
-     get_local $5
-     get_global $~lib/internal/arraybuffer/HEADER_SIZE
-     i32.add
-     set_local $4
-     get_local $0
-     get_global $~lib/internal/arraybuffer/HEADER_SIZE
-     i32.add
-     set_local $3
-     get_local $4
-     get_local $3
-     get_local $2
-     call $~lib/internal/memory/memmove
-    end
-    block $~lib/memory/memory.fill|inlined.2
-     get_local $5
-     get_global $~lib/internal/arraybuffer/HEADER_SIZE
-     i32.add
-     get_local $2
-     i32.add
-     set_local $3
-     i32.const 0
-     set_local $4
-     get_local $1
-     get_local $2
-     i32.sub
-     set_local $6
-     get_local $3
-     get_local $4
-     get_local $6
-     call $~lib/internal/memory/memset
-    end
+    get_local $5
+    get_global $~lib/internal/arraybuffer/HEADER_SIZE
+    i32.add
+    set_local $4
+    get_local $0
+    get_global $~lib/internal/arraybuffer/HEADER_SIZE
+    i32.add
+    set_local $3
+    get_local $4
+    get_local $3
+    get_local $2
+    call $~lib/internal/memory/memmove
+    get_local $5
+    get_global $~lib/internal/arraybuffer/HEADER_SIZE
+    i32.add
+    get_local $2
+    i32.add
+    set_local $3
+    i32.const 0
+    set_local $4
+    get_local $1
+    get_local $2
+    i32.sub
+    set_local $6
+    get_local $3
+    get_local $4
+    get_local $6
+    call $~lib/internal/memory/memset
     get_local $5
     return
    end
@@ -2242,15 +2242,13 @@
   get_local $0
   get_local $5
   i32.store offset=4
-  block $~lib/internal/arraybuffer/storeUnsafe<u8_u8>|inlined.0
-   get_local $3
-   get_local $2
-   i32.const 0
-   i32.shl
-   i32.add
-   get_local $1
-   i32.store8 offset=8
-  end
+  get_local $3
+  get_local $2
+  i32.const 0
+  i32.shl
+  i32.add
+  get_local $1
+  i32.store8 offset=8
   get_local $5
  )
  (func $~lib/utf8util/toUTF8Array (; 27 ;) (type $ii) (param $0 i32) (result i32)
@@ -2434,8 +2432,8 @@
  )
  (func $~lib/env/ultrain_assert (; 29 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $0
-  i32.const 1
-  i32.and
+  i32.const 0
+  i32.ne
   i32.const 0
   i32.eq
   if
@@ -3032,18 +3030,16 @@
   get_local $2
   call $~lib/internal/arraybuffer/allocateUnsafe
   set_local $3
-  block $~lib/memory/memory.fill|inlined.3
-   get_local $3
-   get_global $~lib/internal/arraybuffer/HEADER_SIZE
-   i32.add
-   set_local $4
-   i32.const 0
-   set_local $5
-   get_local $4
-   get_local $5
-   get_local $2
-   call $~lib/internal/memory/memset
-  end
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
   get_local $0
   if (result i32)
    get_local $0
@@ -3533,6 +3529,7 @@
  )
  (func $person/Person#constructor (; 59 ;) (type $iIii) (param $0 i32) (param $1 i64) (param $2 i32) (result i32)
   (local $3 i32)
+  (local $4 i32)
   get_local $0
   if (result i32)
    get_local $0
@@ -3554,7 +3551,18 @@
     i32.const 0
     i32.store offset=16
     get_local $3
-    i32.const 0
+    block (result i32)
+     i32.const 8
+     call $~lib/memory/memory.allocate
+     set_local $4
+     get_local $4
+     i32.const 0
+     i32.store
+     get_local $4
+     i32.const 0
+     i32.store offset=4
+     get_local $4
+    end
     i32.store offset=20
     get_local $3
     i32.const 0
@@ -3702,25 +3710,23 @@
    i32.const 8
    i32.add
    set_local $4
-   block $~lib/memory/memory.copy|inlined.1
-    get_local $0
-    i32.load
-    get_local $0
-    i32.load offset=8
-    i32.add
-    set_local $5
-    block $~lib/array/Array<u8>#get:length|inlined.0 (result i32)
-     get_local $3
-     i32.load offset=4
-    end
-    i32.const 1
-    i32.sub
-    set_local $6
-    get_local $5
-    get_local $4
-    get_local $6
-    call $~lib/internal/memory/memmove
+   get_local $0
+   i32.load
+   get_local $0
+   i32.load offset=8
+   i32.add
+   set_local $5
+   block $~lib/array/Array<u8>#get:length|inlined.0 (result i32)
+    get_local $3
+    i32.load offset=4
    end
+   i32.const 1
+   i32.sub
+   set_local $6
+   get_local $5
+   get_local $4
+   get_local $6
+   call $~lib/internal/memory/memmove
   end
   get_local $0
   get_local $0
@@ -3765,6 +3771,7 @@
   call $~lib/datastream/DataStream#writeString
  )
  (func $person/Person#serialize (; 69 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
   get_local $1
   get_local $0
   i64.load
@@ -3781,6 +3788,19 @@
   get_local $0
   i32.load offset=16
   call $~lib/datastream/DataStream#writeString
+  get_local $0
+  i32.load offset=20
+  i32.eqz
+  if
+   get_local $0
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+   end
+   i32.store offset=20
+  end
   get_local $0
   i32.load offset=20
   get_local $1
@@ -3945,6 +3965,7 @@
   i32.store offset=4
  )
  (func $person/Person#deserialize (; 76 ;) (type $iiv) (param $0 i32) (param $1 i32)
+  (local $2 i32)
   get_local $0
   get_local $1
   call $~lib/datastream/DataStream#read<u64>
@@ -3961,6 +3982,19 @@
   get_local $1
   call $~lib/datastream/DataStream#readString
   i32.store offset=16
+  get_local $0
+  i32.load offset=20
+  i32.eqz
+  if
+   get_local $0
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+   end
+   i32.store offset=20
+  end
   get_local $0
   i32.load offset=20
   get_local $1
@@ -4819,16 +4853,14 @@
   i32.shr_u
   call $~lib/internal/string/allocateUnsafe
   set_local $7
-  block $~lib/memory/memory.copy|inlined.2
-   get_local $7
-   get_global $~lib/internal/string/HEADER_SIZE
-   i32.add
-   set_local $3
-   get_local $3
-   get_local $4
-   get_local $5
-   call $~lib/internal/memory/memmove
-  end
+  get_local $7
+  get_global $~lib/internal/string/HEADER_SIZE
+  i32.add
+  set_local $3
+  get_local $3
+  get_local $4
+  get_local $5
+  call $~lib/internal/memory/memmove
   block $~lib/memory/memory.free|inlined.0
    block
     get_local $4
@@ -4853,11 +4885,8 @@
   block $~lib/internal/typedarray/TypedArray<u8_u32>#get:length|inlined.0 (result i32)
    get_local $2
    i32.load offset=8
-   get_local $2
-   i32.load offset=4
-   i32.sub
    i32.const 0
-   i32.shr_s
+   i32.shr_u
   end
   get_local $1
   call $../../src/utils/string2cstr

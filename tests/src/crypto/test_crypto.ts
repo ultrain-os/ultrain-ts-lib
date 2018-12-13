@@ -1,6 +1,8 @@
 import "allocator/arena";
-import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk } from "../../../src/crypto";
+import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number } from "../../../src/crypto";
 import {Contract} from "../../../src/contract";
+import { NAME } from "../../../src/account";
+import { Log } from "../../../src/log";
 
 const target: string = "what a wonderful world!";
 
@@ -50,7 +52,11 @@ export　class CryptoTest extends Contract {
         rimp.fromString(RIMPTARGET);
         assert_ripemd160(target, rimp);
 
-        let status = verify_with_pk(pk_str, pk_proof, pk_message);
-        ultrain_assert(status, "verify_with_pk failed.");
+        // let status = verify_with_pk(pk_str, pk_proof, pk_message);
+        // ultrain_assert(status, "verify_with_pk failed.");
+
+        let ran = get_random_number(NAME("jack"), NAME("tb.sales"), NAME("tb.sales"), 159);
+        Log.s("get random number: ").i(ran).flush();
+        ultrain_assert(ran == 159, "read random number failed.");
     }
 }

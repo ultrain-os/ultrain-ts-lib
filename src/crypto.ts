@@ -224,3 +224,24 @@ export function verify_with_pk(pk_str: string, pk_proof: string, message: string
 
     return status == 1 ? true : false;
 }
+
+/**
+ * Get a random number from system service.
+ * This number will be kept the same during a consensus period,
+ * so, if you invoke this function multi times in an action,
+ * the random number wouldn't change.
+ *
+ * @export
+ * @param {account_name} code system service account.
+ * @param {u64} table table name of the random number.
+ * @param {u64} scope scope of the random number.
+ * @param {u64} primary primary of the random number.
+ */
+export function get_random_number(code: account_name, table: u64, scope: u64, primary: u64): u64 {
+    let value = new Uint8Array(512);
+    let readLength = cry.ts_read_db_record(code, table, scope, primary, changetype<usize>(value.buffer), value.length);
+    if (readLength < 0) return 0;
+    let ds = new DataStream(changetype<usize>(value.buffer), readLength);
+    let rnum = ds.read<u64>();
+    return rnum;
+}

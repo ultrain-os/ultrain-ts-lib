@@ -13,5 +13,6 @@ export declare namespace env {
 
     function ts_verify_with_pk(pk_str: usize, pk_proof: usize, message: usize): i32;
     function ts_public_key_of_account(account: account_name, pubkey_buffer: usize, pubkey_len: u32, key_type: usize): i32;
+    function ts_read_db_record(code: account_name, table_name: u64, scope: u64, primary: u64, value_buffer: usize, value_len: u32): i32;
 
 }
