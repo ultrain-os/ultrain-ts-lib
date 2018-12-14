@@ -186,11 +186,20 @@
  (global $~lib/allocator/arena/offset (mut i32) (i32.const 0))
  (global $../../../src/utils/PrintableChar i32 (i32.const 1272))
  (global $../../../src/log/Log (mut i32) (i32.const 0))
- (global $../../../src/asset/CHAR_A i32 (i32.const 65))
- (global $../../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
  (global $~lib/internal/arraybuffer/MAX_BLENGTH i32 (i32.const 1073741816))
  (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
+ (global $~lib/internal/string/MAX_LENGTH i32 (i32.const 536870910))
+ (global $~lib/internal/number/MAX_DOUBLE_LENGTH i32 (i32.const 28))
+ (global $~lib/internal/number/_K (mut i32) (i32.const 0))
+ (global $~lib/internal/number/_frc (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_exp (mut i32) (i32.const 0))
+ (global $~lib/internal/number/_frc_minus (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_frc_plus (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_frc_pow (mut i64) (i64.const 0))
+ (global $~lib/internal/number/_exp_pow (mut i32) (i32.const 0))
+ (global $../../../src/asset/CHAR_A i32 (i32.const 65))
+ (global $../../../src/asset/CHAR_Z i32 (i32.const 90))
  (global $../../../src/asset/SYS (mut i64) (i64.const 0))
  (global $../../../src/asset/SYS_NAME (mut i64) (i64.const 0))
  (global $../../../src/asset/MAX_AMOUNT i64 (i64.const 4611686018427387903))
@@ -10825,11 +10834,28 @@
   i32.store offset=8
   get_local $1
  )
- (func $~lib/map/Map<String_String>#get:size (; 223 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/datastream/DataStream#read<bool> (; 223 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  get_local $0
+  i32.load
+  get_local $0
+  i32.load offset=8
+  i32.add
+  i32.load8_u
+  set_local $1
+  get_local $0
+  get_local $0
+  i32.load offset=8
+  i32.const 1
+  i32.add
+  i32.store offset=8
+  get_local $1
+ )
+ (func $~lib/map/Map<String_String>#get:size (; 224 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=20
  )
- (func $test_map_db/TestMap#testAnd (; 224 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $test_map_db/TestMap#testAnd (; 225 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -10991,10 +11017,10 @@
    call $../../../src/log/Logger#flush
   end
  )
- (func $../../../src/contract/Contract#onStop (; 225 ;) (type $iv) (param $0 i32)
+ (func $../../../src/contract/Contract#onStop (; 226 ;) (type $iv) (param $0 i32)
   nop
  )
- (func $test_map_db/apply (; 226 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
+ (func $test_map_db/apply (; 227 ;) (type $IIIIv) (param $0 i64) (param $1 i64) (param $2 i64) (param $3 i64)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -11054,9 +11080,7 @@
     call $~lib/datastream/DataStream#read<i32>
     set_local $7
     get_local $5
-    call $~lib/datastream/DataStream#read<u8>
-    i32.const 0
-    i32.ne
+    call $~lib/datastream/DataStream#read<bool>
     set_local $6
     get_local $4
     get_local $8
@@ -11068,7 +11092,7 @@
    call $../../../src/contract/Contract#onStop
   end
  )
- (func $start (; 227 ;) (type $v)
+ (func $start (; 228 ;) (type $v)
   (local $0 i32)
   get_global $HEAP_BASE
   get_global $~lib/internal/allocator/AL_MASK
@@ -11097,6 +11121,6 @@
   i64.shr_u
   set_global $../../../src/asset/SYS_NAME
  )
- (func $null (; 228 ;) (type $v)
+ (func $null (; 229 ;) (type $v)
  )
 )

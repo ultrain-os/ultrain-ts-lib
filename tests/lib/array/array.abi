@@ -4,18 +4,50 @@
     {
       "new_type_name": "i32",
       "type": "int32"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
     }
   ],
   "structs": [
     {
       "fields": [
         {
-          "name": "index",
+          "name": "id",
           "type": "i32"
+        },
+        {
+          "name": "name",
+          "type": "string"
         }
       ],
-      "name": "testArr",
-      "base": ""
+      "base": "",
+      "name": "testAdd"
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "Car"
+    },
+    {
+      "fields": [
+        {
+          "name": "cars",
+          "type": "Car[]"
+        }
+      ],
+      "base": "",
+      "name": "testArrObj"
     },
     {
       "fields": [
@@ -28,15 +60,22 @@
           "type": "string[]"
         }
       ],
-      "name": "A",
-      "base": ""
+      "base": "",
+      "name": "ArrayFactory"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
-      "name": "testArr",
-      "type": "testArr"
+      "name": "testAdd",
+      "type": "testAdd",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testArrObj",
+      "type": "testArrObj",
+      "ability": "normal"
     }
   ],
   "tables": [
@@ -49,7 +88,7 @@
         "uint64"
       ],
       "name": "a",
-      "type": "A"
+      "type": "ArrayFactory"
     }
   ]
 }

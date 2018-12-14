@@ -30,8 +30,8 @@
           "type": "Asset"
         }
       ],
-      "name": "create",
-      "base": ""
+      "base": "",
+      "name": "create"
     },
     {
       "fields": [
@@ -48,8 +48,8 @@
           "type": "string"
         }
       ],
-      "name": "issue",
-      "base": ""
+      "base": "",
+      "name": "issue"
     },
     {
       "fields": [
@@ -70,8 +70,8 @@
           "type": "string"
         }
       ],
-      "name": "transfer",
-      "base": ""
+      "base": "",
+      "name": "transfer"
     },
     {
       "fields": [
@@ -92,8 +92,8 @@
           "type": "string"
         }
       ],
-      "name": "freeze",
-      "base": ""
+      "base": "",
+      "name": "freeze"
     },
     {
       "fields": [
@@ -106,8 +106,8 @@
           "type": "Asset"
         }
       ],
-      "name": "retrieval",
-      "base": ""
+      "base": "",
+      "name": "retrieval"
     },
     {
       "fields": [
@@ -116,8 +116,8 @@
           "type": "string"
         }
       ],
-      "name": "getSupply",
-      "base": ""
+      "base": "",
+      "name": "getSupply"
     },
     {
       "fields": [
@@ -130,8 +130,8 @@
           "type": "string"
         }
       ],
-      "name": "getBalance",
-      "base": ""
+      "base": "",
+      "name": "getBalance"
     },
     {
       "fields": [
@@ -152,8 +152,8 @@
           "type": "u64"
         }
       ],
-      "name": "CurrencyStats",
-      "base": ""
+      "base": "",
+      "name": "CurrencyStats"
     },
     {
       "fields": [
@@ -162,8 +162,8 @@
           "type": "Asset"
         }
       ],
-      "name": "CurrencyAccount",
-      "base": ""
+      "base": "",
+      "name": "CurrencyAccount"
     },
     {
       "fields": [
@@ -184,8 +184,8 @@
           "type": "string"
         }
       ],
-      "name": "FrozenItem",
-      "base": ""
+      "base": "",
+      "name": "FrozenItem"
     },
     {
       "fields": [
@@ -198,45 +198,52 @@
           "type": "FrozenItem[]"
         }
       ],
-      "name": "FrozenToken",
-      "base": ""
+      "base": "",
+      "name": "FrozenToken"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "create",
-      "type": "create"
+      "type": "create",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "issue",
-      "type": "issue"
+      "type": "issue",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer"
+      "type": "transfer",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "freeze",
-      "type": "freeze"
+      "type": "freeze",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "retrieval",
-      "type": "retrieval"
+      "type": "retrieval",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "getSupply",
-      "type": "getSupply"
+      "type": "getSupply",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "getBalance",
-      "type": "getBalance"
+      "type": "getBalance",
+      "ability": "normal"
     }
   ],
   "tables": [

@@ -1,27 +1,50 @@
 import { Contract } from "../../../src/contract";
-import { Log } from "../../../src/log";
 import { NAME } from "../../../src/account";
+import { Log } from "../../../src/log";
 
-class A implements Serializable {
+class ArrayFactory implements Serializable {
     int_array: Array<i32> = new Array<i32>();
     str_array: Array<string> = new Array<string>();
 }
 
-@database(A, "a")
+class Car implements Serializable {
+    id: u64;
+    name: string;
+}
+
+@database(ArrayFactory, "a")
 class TestMap extends Contract {
 
+    /**
+     * Test the array index
+     * @param index index of array
+     */
     @action
-    public testArr(index: i32): void {
-        var a = new A();
-        for (let i = 0; i < index; i++) {        
-            a.int_array.push(i);
-            a.str_array.push("jack");
-        }
-
-        var aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a") );
+    testAdd(id: i32, name: string): void {
+        var factory = new ArrayFactory();
+        var aDbManager: DBManager<ArrayFactory> = new DBManager<ArrayFactory>(NAME("a"), this.receiver, NAME("a") );
         var existing = aDbManager.exists(0);
         if (!existing) {
-            aDbManager.emplace(this.receiver, a);
+            factory.int_array.push(id);
+            factory.str_array.push(name);
+            aDbManager.emplace(this.receiver, factory);
+        } else {
+            aDbManager.get(0, factory);
+            factory.int_array.push(id);
+            factory.str_array.push(name);
+            aDbManager.modify(0, factory);
         }
     }
+
+    /**
+     * Test the action array arguments.
+     * @param cars the cars
+     */
+    @action
+    public testArrObj(cars: Car[]): void {
+        for (let index = 0; index < cars.length; index ++) {
+            let car = cars[index];
+            Log.s("Car Name:").s(car.name).s(". id:").i(car.id).flush();
+        }
+    } 
 }
