@@ -113,7 +113,7 @@ export class Account {
      * @param quantity how much Asset to transfer.
      * @param memo a memo note.
      */
-    public transfer(to: u64, quantity: Asset, memo: string): void {
+    public transfer(to: account_name, quantity: Asset, memo: string): void {
         send(this.code, to, quantity, memo);
     }
 }

@@ -249,7 +249,7 @@ export class UIP06Impl extends Contract implements UIP06{
         return account.balance;
     }
 
-    private subBalance(owner: u64, value: Asset): void {
+    private subBalance(owner: account_name, value: Asset): void {
         let ats: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);
         let from: CurrencyAccount = new CurrencyAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);

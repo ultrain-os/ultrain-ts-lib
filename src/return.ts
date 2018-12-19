@@ -30,7 +30,7 @@ export function Return<T> (val: T): void {
     }
 }
 
-function returnObj<T extends returnable>(val: T): void {
+function returnObj<T extends Returnable>(val: T): void {
     env.set_result_str(string2cstr(val.toString()));
 }
 

@@ -12,6 +12,14 @@
     {
       "new_type_name": "u64",
       "type": "uint64"
+    },
+    {
+      "new_type_name": "f32",
+      "type": "float32"
+    },
+    {
+      "new_type_name": "f64",
+      "type": "float64"
     }
   ],
   "structs": [
@@ -45,6 +53,20 @@
       ],
       "base": "",
       "name": "testType"
+    },
+    {
+      "fields": [
+        {
+          "name": "_float",
+          "type": "f32"
+        },
+        {
+          "name": "_double",
+          "type": "f64"
+        }
+      ],
+      "base": "",
+      "name": "testToAddType"
     },
     {
       "fields": [
@@ -84,6 +106,12 @@
       "ricardian_contract": "",
       "name": "testType",
       "type": "testType",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testToAddType",
+      "type": "testToAddType",
       "ability": "normal"
     }
   ],
