@@ -1,5 +1,6 @@
 import { Log } from "./log";
 import { queryBalance, send } from "../lib/balance";
+import { itoa64 } from "internal/number";
 
 /**
  * ASCII code of character A.
@@ -37,7 +38,7 @@ export function StringToSymbol(precision: u8, str: string): u64 {
             Log.s("string_to__symbol failed for not supoort code : ").i(charCode, 16).flush();
         } else {
             result |= ((<u64>charCode) << ((8 * (i + 1))));
-        }
+        } 
     }
 
     result |= <u64>precision;
@@ -93,7 +94,7 @@ const MAX_AMOUNT: u64 = ((1 << 62) - 1);
  * @example
  * import { Asset } from "ultrain-ts-lib/src/asset";
  */
-export class Asset implements Serializable {
+export class Asset implements Serializable, Returnable {
 
     private _amount: u64;
     private _symbol: u64;
@@ -276,6 +277,45 @@ export class Asset implements Serializable {
     prints(tag: string): void {
         Log.s(tag).s(" [ Asset:  _amount = ").i(this._amount, 10).s(" _symbol = ").i(this._symbol, 16).s(" ]").flush();
     }
+
+    /**
+     * Format the amount, example
+     * formatAmount(10000, 4) == "1.0000" 
+     * @param amount the amount
+     * @param precision the precision
+     */
+    private formatAmount(amount: u64, precision: u8): string {
+        var digit: u64 = <u64>Math.pow(10, <i32>precision);
+        var integer: u64 = amount / digit;
+        var amountstr = itoa64(integer);
+      
+        if (precision != 0) {
+            var decimal: string = itoa64(amount % digit);
+            if (decimal.length != <i32>precision) {
+                let zero = "0";
+                return amountstr.concat(".").concat(zero.repeat(precision - decimal.length)).concat(decimal);
+            } else {
+            return amountstr.concat(".").concat(decimal);
+          }
+        }
+        return amountstr;
+    }
+
+    toString(): string {
+        var _symbol = this._symbol;
+        var precision: u8 = <u8>(_symbol & 0xFF);
+        var symbol: string = "";
+        var charCode: u8 = 0;
+        for (let i = 0; i < 7; i++) {
+            _symbol =  _symbol >> 8;
+            charCode = <u8>(_symbol & 0xFF);
+            if (charCode >= CHAR_A && charCode <= CHAR_Z) {
+                symbol = symbol.concat(String.fromCharCode(<i32>charCode));
+            }
+        }
+        return this.formatAmount(this.amount, precision).concat(" ").concat(symbol);
+    }
+
     /**
      * query the balance of specific account.
      * @param account account name for querying balance from.

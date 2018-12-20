@@ -8,6 +8,9 @@ else
 fi
 
 echo "Deploy the contract ${clultrain}"
-account=acm2
+account=rose
 ${clultrain} set contract ${account} ../array -p ${account}
-# ${clultrain} push action ${account} testInsert '["key", "value"]' -p ${account}
+${clultrain} push action ${account} testAdd '[1, "spring"]' -p ${account}
+${clultrain} push action ${account} testAdd '[4, "summer"]' -p ${account}
+${clultrain} push action ${account} testArrObj '[[{"id":12, "name":"Audi"}]]' -p ${account}
+${clultrain} get table ${account} a a

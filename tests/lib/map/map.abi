@@ -11,7 +11,7 @@
     },
     {
       "new_type_name": "account_name",
-      "type": "name"
+      "type": "uint64"
     },
     {
       "new_type_name": "u64",
@@ -38,13 +38,13 @@
           "type": "u32"
         }
       ],
-      "name": "testInsert",
-      "base": ""
+      "base": "",
+      "name": "testInsert"
     },
     {
       "fields": [],
-      "name": "printMap",
-      "base": ""
+      "base": "",
+      "name": "printMap"
     },
     {
       "fields": [
@@ -61,8 +61,8 @@
           "type": "bool"
         }
       ],
-      "name": "testAnd",
-      "base": ""
+      "base": "",
+      "name": "testAnd"
     },
     {
       "fields": [
@@ -75,8 +75,8 @@
           "type": "u8"
         }
       ],
-      "name": "Obj",
-      "base": ""
+      "base": "",
+      "name": "Obj"
     },
     {
       "fields": [
@@ -125,25 +125,28 @@
           "type": "u8,Obj[]{}"
         }
       ],
-      "name": "A",
-      "base": ""
+      "base": "",
+      "name": "A"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "testInsert",
-      "type": "testInsert"
+      "type": "testInsert",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "printMap",
-      "type": "printMap"
+      "type": "printMap",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "testAnd",
-      "type": "testAnd"
+      "type": "testAnd",
+      "ability": "normal"
     }
   ],
   "tables": [

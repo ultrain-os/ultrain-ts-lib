@@ -1,6 +1,7 @@
 import { env as action } from "../internal/action.d";
 import { NameEx, NEX } from "../lib/name_ex";
 import { NAME } from "./account";
+import { Return, ReturnArray } from "../src/return";
 
 /**
  * To get a DataStream of current action.
@@ -27,7 +28,6 @@ export class Contract {
     protected _receiver: account_name;
     private _currentActionName: NameEx;
 
-
     constructor(receiver: account_name) {
         this._receiver = receiver;
     }
@@ -50,7 +50,7 @@ export class Contract {
         return this._currentActionName == NEX(actionName);
     }
 
-    public getDataStream(): DataStream {
+    getDataStream(): DataStream {
         return DataStreamFromCurrentAction();
     }
 
@@ -64,6 +64,14 @@ export class Contract {
      */
     public filterAction(originalReceiver: u64): boolean {
         return this.receiver == originalReceiver;
+    }
+
+    returnVal<T>(val: T): void {
+        Return<T>(val);
+    }
+
+    returnArray<T>(arr: T[]): void {
+        ReturnArray<T>(arr);
     }
     /**
      * Before execute any action, onInit() will be invoked at first.
@@ -91,5 +99,4 @@ export class Contract {
     public static filterAcceptTransferTokenAction(receiver: u64, originalReceiver: u64, action: NameEx): boolean {
         return (originalReceiver == receiver && action != NEX("transfer")) || (originalReceiver == NAME("utrio.token") && action == NEX("transfer"));
     }
-
 }

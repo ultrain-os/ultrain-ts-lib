@@ -30,8 +30,8 @@
           "type": "Asset"
         }
       ],
-      "name": "create",
-      "base": ""
+      "base": "",
+      "name": "create"
     },
     {
       "fields": [
@@ -56,8 +56,8 @@
           "type": "string"
         }
       ],
-      "name": "issue",
-      "base": ""
+      "base": "",
+      "name": "issue"
     },
     {
       "fields": [
@@ -78,8 +78,8 @@
           "type": "string"
         }
       ],
-      "name": "transfer",
-      "base": ""
+      "base": "",
+      "name": "transfer"
     },
     {
       "fields": [
@@ -88,8 +88,8 @@
           "type": "id_type"
         }
       ],
-      "name": "ownerOf",
-      "base": ""
+      "base": "",
+      "name": "ownerOf"
     },
     {
       "fields": [
@@ -98,8 +98,8 @@
           "type": "id_type"
         }
       ],
-      "name": "uriOf",
-      "base": ""
+      "base": "",
+      "name": "uriOf"
     },
     {
       "fields": [
@@ -116,8 +116,8 @@
           "type": "i32"
         }
       ],
-      "name": "tokenByIndex",
-      "base": ""
+      "base": "",
+      "name": "tokenByIndex"
     },
     {
       "fields": [
@@ -126,8 +126,8 @@
           "type": "string"
         }
       ],
-      "name": "getSupply",
-      "base": ""
+      "base": "",
+      "name": "getSupply"
     },
     {
       "fields": [
@@ -140,8 +140,8 @@
           "type": "string"
         }
       ],
-      "name": "getBalance",
-      "base": ""
+      "base": "",
+      "name": "getBalance"
     },
     {
       "fields": [
@@ -170,8 +170,8 @@
           "type": "id_type"
         }
       ],
-      "name": "Token",
-      "base": ""
+      "base": "",
+      "name": "Token"
     },
     {
       "fields": [
@@ -188,8 +188,8 @@
           "type": "account_name"
         }
       ],
-      "name": "CurrencyStats",
-      "base": ""
+      "base": "",
+      "name": "CurrencyStats"
     },
     {
       "fields": [
@@ -202,50 +202,58 @@
           "type": "id_type[]"
         }
       ],
-      "name": "NftAccount",
-      "base": ""
+      "base": "",
+      "name": "NftAccount"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "create",
-      "type": "create"
+      "type": "create",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "issue",
-      "type": "issue"
+      "type": "issue",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer"
+      "type": "transfer",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "ownerOf",
-      "type": "ownerOf"
+      "type": "ownerOf",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "uriOf",
-      "type": "uriOf"
+      "type": "uriOf",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "tokenByIndex",
-      "type": "tokenByIndex"
+      "type": "tokenByIndex",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
       "name": "getSupply",
-      "type": "getSupply"
+      "type": "getSupply",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
       "name": "getBalance",
-      "type": "getBalance"
+      "type": "getBalance",
+      "ability": "normal"
     }
   ],
   "tables": [
