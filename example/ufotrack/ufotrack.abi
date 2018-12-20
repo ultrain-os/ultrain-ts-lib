@@ -1,0 +1,140 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "product_url",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "string"
+        },
+        {
+          "name": "goods_no",
+          "type": "string"
+        },
+        {
+          "name": "source",
+          "type": "string"
+        },
+        {
+          "name": "owner",
+          "type": "string"
+        },
+        {
+          "name": "transaction_time",
+          "type": "string"
+        },
+        {
+          "name": "tagid",
+          "type": "string"
+        },
+        {
+          "name": "sign",
+          "type": "string"
+        }
+      ],
+      "name": "authenticate",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        }
+      ],
+      "name": "erase",
+      "base": ""
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "product_url",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "string"
+        },
+        {
+          "name": "goods_no",
+          "type": "string"
+        },
+        {
+          "name": "source",
+          "type": "string"
+        },
+        {
+          "name": "owner",
+          "type": "string"
+        },
+        {
+          "name": "transaction_time",
+          "type": "string"
+        },
+        {
+          "name": "tagid",
+          "type": "string"
+        },
+        {
+          "name": "sign",
+          "type": "string"
+        }
+      ],
+      "name": "Shoes",
+      "base": ""
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "authenticate",
+      "type": "authenticate",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "erase",
+      "type": "erase",
+      "ability": "normal"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "track.shoes",
+      "type": "Shoes"
+    }
+  ]
+}

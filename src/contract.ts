@@ -1,5 +1,6 @@
 import { env as action } from "../internal/action.d";
 import { NameEx, NEX } from "../lib/name_ex";
+import { NAME } from "./account";
 
 /**
  * To get a DataStream of current action.
@@ -24,7 +25,7 @@ export function DataStreamFromCurrentAction(): DataStream {
 export class Contract {
 
     protected _receiver: account_name;
-    private currentActionName: NameEx;
+    private _currentActionName: NameEx;
 
 
     constructor(receiver: account_name) {
@@ -37,16 +38,32 @@ export class Contract {
         return this._receiver;
     }
 
+    public get action(): NameEx {
+        return this._currentActionName;
+    }
+
     public setActionName(actH: u64, actL: u64): void {
-        this.currentActionName = new NameEx(actH, actL);
+        this._currentActionName = new NameEx(actH, actL);
     }
 
     public isAction(actionName: string): bool {
-        return this.currentActionName == NEX(actionName);
+        return this._currentActionName == NEX(actionName);
     }
 
     public getDataStream(): DataStream {
         return DataStreamFromCurrentAction();
+    }
+
+    /**
+     *To determine which action can will be accepted.
+     *
+     * @param {u64} originalReceiver the original receiver of this action.
+     * @param {NameEx} action the action name
+     * @returns {boolean} return true means this action can be accepted, otherwise it would be rejected.
+     * @memberof Contract
+     */
+    public filterAction(originalReceiver: u64): boolean {
+        return this.receiver == originalReceiver;
     }
     /**
      * Before execute any action, onInit() will be invoked at first.
@@ -60,5 +77,19 @@ export class Contract {
      */
     public onStop(): void {}
 
+    /**
+     * This a safe filter for your contract if you accept the recepient from utrio.token while someone transfer UGAS to you.
+     * It will reject the fake UGAS attack, fake transfer notification and reject calling your "transfer" action directly
+     *
+     * @static
+     * @param {u64} receiver action receiver.
+     * @param {u64} originalReceiver the original account who accept this action.
+     * @param {NameEx} action the action name.
+     * @returns {boolean} return true means this action can be accepted, otherwise it would be rejected.
+     * @memberof Contract
+     */
+    public static filterAcceptTransferTokenAction(receiver: u64, originalReceiver: u64, action: NameEx): boolean {
+        return (originalReceiver == receiver && action != NEX("transfer")) || (originalReceiver == NAME("utrio.token") && action == NEX("transfer"));
+    }
 
 }

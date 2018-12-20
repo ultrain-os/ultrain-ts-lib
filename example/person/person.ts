@@ -83,7 +83,7 @@ class HumanResource extends Contract {
         p.name   = name;
         p.salary = salary;
 
-        this.salesdb.modify(this.receiver, p);
+        // this.salesdb.modify(this.receiver, p);
     }
 
     @action
