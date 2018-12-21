@@ -3,7 +3,7 @@
  */
 import "allocator/arena";
 import { MultiSig } from "./msig";
-import { PermissionLevel } from "../../lib/permission-level";
+import { PermissionLevel } from "../../src/permission-level";
 import { env as system } from "../../internal/system.d";
 import { Action, ACTION } from "../../src/action";
 

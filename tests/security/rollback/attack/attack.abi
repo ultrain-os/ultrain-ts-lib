@@ -1,0 +1,45 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "Asset",
+      "type": "asset"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "from",
+          "type": "account_name"
+        },
+        {
+          "name": "to",
+          "type": "account_name"
+        },
+        {
+          "name": "money",
+          "type": "Asset"
+        },
+        {
+          "name": "memo",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "transfer"
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "transfer",
+      "type": "transfer"
+    }
+  ],
+  "tables": []
+}

@@ -34,8 +34,8 @@
           "type": "string"
         }
       ],
-      "name": "transfer",
-      "base": ""
+      "base": "",
+      "name": "transfer"
     },
     {
       "fields": [
@@ -44,8 +44,8 @@
           "type": "account_name"
         }
       ],
-      "name": "show",
-      "base": ""
+      "base": "",
+      "name": "show"
     },
     {
       "fields": [
@@ -70,22 +70,20 @@
           "type": "string"
         }
       ],
-      "name": "Gamer",
-      "base": ""
+      "base": "",
+      "name": "Gamer"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer",
-      "ability": "normal"
+      "type": "transfer"
     },
     {
       "ricardian_contract": "",
       "name": "show",
-      "type": "show",
-      "ability": "normal"
+      "type": "show"
     }
   ],
   "tables": [

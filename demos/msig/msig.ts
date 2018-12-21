@@ -4,7 +4,7 @@
 
 import { Contract } from "../../src/contract";
 import { DSHelper } from "../../lib/datastream";
-import { PermissionLevel } from "../../lib/permission-level";
+import { PermissionLevel } from "../../src/permission-level";
 import { TransactionHeader, Transaction } from "../../lib/transaction";
 import { requirePermissionLevel } from "../../src/action";
 import { env as action } from "../../internal/action.d";

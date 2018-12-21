@@ -2,7 +2,7 @@
  * @author fanliangqin@ultrain.io
  */
 import { Asset } from "./asset";
-import { PermissionLevel } from "../lib/permission-level";
+import { PermissionLevel } from "./permission-level";
 import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
 
@@ -57,7 +57,7 @@ export class TransferParams implements Serializable {
     public primaryKey(): u64 { return <u64>0; }
 }
 /**
- * class ActionImpl is an internal class, for method {@link <i><em>dispatchInline</em></i>}.
+ * class ActionImpl stands for a real action struct.
  *
  * @class ActionImpl
  *
@@ -69,12 +69,14 @@ export class ActionImpl implements Serializable {
     public name: action_name;
     public authorization: PermissionLevel[];
     public data: u8[];
+    // public ability: u8;
 
     constructor() {
         this.account = 0;
         this.name = new NameEx(0, 0);
         this.authorization = [];
         this.data = [];
+        // this.ability = 0;
     }
 
     public serialize(ds: DataStream): void {
@@ -82,6 +84,7 @@ export class ActionImpl implements Serializable {
         this.name.serialize(ds);
         ds.writeComplexVector<PermissionLevel>(this.authorization);
         ds.writeVector<u8>(this.data);
+        // ds.write<u8>(this.ability);
     }
 
     public deserialize(ds: DataStream): void {
@@ -89,38 +92,10 @@ export class ActionImpl implements Serializable {
         this.name.deserialize(ds);
         this.authorization = ds.readComplexVector<PermissionLevel>();
         this.data = ds.readVector<u8>();
+        // this.ability = ds.read<u8>();
     }
 
     public primaryKey(): u64 { return <u64>0; }
-}
-/**
- * @param pl the permission level instance. @see {@link PermissionLevel}
- * @param code the account name of contract which you will send request to.
- * @param act the action/method name which you will invoke of contract.
- * @param params the TransferParams instance. @see {@link TransferParams}
- *
- * @function dispatchInline
- *
- * @example
- * import { dispatchInline } from "ultrain-ts-lib/src/action";
- */
-export function dispatchInline(pl: PermissionLevel, code: u64, act: action_name, params: TransferParams): void {
-    let actimpl: ActionImpl = new ActionImpl();
-    actimpl.authorization.push(pl);
-    actimpl.account = code;
-    actimpl.name = act;
-
-    let len = DataStream.measure<TransferParams>(params);
-    let arr = new Uint8Array(len);
-    let ds = new DataStream(<usize>arr.buffer, len);
-    params.serialize(ds);
-    actimpl.data = ds.toArray<u8>();
-
-    len = DataStream.measure<ActionImpl>(actimpl);
-    arr = new Uint8Array(len);
-    ds = new DataStream(<usize>arr.buffer, len);
-    actimpl.serialize(ds);
-    ActionAPI.send_inline(<usize>ds.buffer, ds.pos);
 }
 
 /**
@@ -204,8 +179,48 @@ export class Action {
     private static _eq(lhs: Action, rhs: Action): boolean {
         return lhs._action == rhs._action;
     }
+
+    /**
+     * send an inline action.
+     *
+     * @static
+     * @template T an object which implements interface Serializable.
+     * @param {PermissionLevel} pl an instance of Permission_Level.
+     * @param {account_name} receiver the contract which receive this action.
+     * @param {NameEx} action the name of this action.
+     * @param {T} data parameter of this action, which must be type of T.
+     * @memberof Action
+     */
+    public static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
+        let ds = composeActionData(pl, receiver, action, data);
+        ActionAPI.send_inline(<usize>ds.buffer, ds.pos);
+    }
+
+    public static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
+        ultrain_assert(pl.length == 0, "context free action need nothing permission info.");
+        let ds = composeActionData(pl, receiver, action, data);
+        ActionAPI.send_context_free_inline(<usize>ds.buffer, ds.pos);
+    }
 }
 
+function composeActionData<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): DataStream {
+    let actimpl: ActionImpl = new ActionImpl();
+    actimpl.authorization = pl;
+    actimpl.account = receiver;
+    actimpl.name = action;
+
+    let len = DataStream.measure<T>(data);
+    let arr = new Uint8Array(len);
+    let ds = new DataStream(<usize>arr.buffer, len);
+    data.serialize(ds);
+    actimpl.data = ds.toArray<u8>();
+
+    len = DataStream.measure<ActionImpl>(actimpl);
+    arr = new Uint8Array(len);
+    ds = new DataStream(<usize>arr.buffer, len);
+    actimpl.serialize(ds);
+    return ds;
+}
 /**
  * convert a string to {@link Action}.
  * @param str an readable string of action name. It can only include: _0-9a-zA-Z

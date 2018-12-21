@@ -3,7 +3,7 @@
  */
 
 import { Contract } from "../../src/contract";
-import { PermissionLevel } from "../../lib/permission-level";
+import { PermissionLevel } from "../../src/permission-level";
 import { PublicKey } from "../../internal/types";
 import { UserResources } from "./delegatebandwidth";
 import { env as privileged } from "../../internal/privileged.d";

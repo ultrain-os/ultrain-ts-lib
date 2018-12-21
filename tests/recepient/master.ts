@@ -4,13 +4,13 @@ import { Log } from "../../src/log";
 import { RNAME, NAME } from "../../src/account";
 import { Asset } from "../../src/asset";
 class Gamer implements Serializable{
-    @primaryid
     account: account_name;
     welcome: string;
     info: string[];
     count: u32;
     nor: string;
 
+    primaryKey(): u64 { return this.account; }
 
     printme(): void {
         Log.s("Gamer: ").s(RNAME(this.account)).s(", welcome: " + this.welcome).s(", count = ").i(this.count).s(", nor = ").s(this.nor).flush();

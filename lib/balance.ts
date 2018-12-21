@@ -5,9 +5,6 @@
  */
 
 import { Asset, SYS_NAME, SYS } from "../src/asset";
-import { PermissionLevel } from "./permission-level";
-import { TransferParams, dispatchInline } from "../src/action";
-import { NEX } from "./name_ex";
 import { NAME } from "../src/account";
 /**
  * class CurrencyAccount for Token system.
@@ -80,23 +77,4 @@ export function queryBalance(owner: account_name): Asset {
     let existing = accounts.get(SYS_NAME, act);
 
     return existing ? act.balance : new Asset(0, SYS);
-}
-/**
- * to send Token of UGS from an account to another.
- * @param from from account
- * @param to to account
- * @param quantity Asset to send.
- * @param memo a string message
- *
- * @function send
- */
-export function send(from: account_name, to: account_name, quantity: Asset, memo: string): void {
-
-    // Action.requireAuth(from);
-    let pl: PermissionLevel = new PermissionLevel();
-    pl.actor = from;
-    pl.permission = NAME("active");
-    let params = new TransferParams(from, to, quantity, memo);
-    // params.quantity.prints("before dispatchInline");
-    dispatchInline(pl, NAME("utrio.token"), NEX("transfer"), params);
 }

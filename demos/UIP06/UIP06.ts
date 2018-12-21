@@ -3,8 +3,8 @@
  */
 import { Contract } from "../../src/contract";
 import { Asset, StringToSymbol } from "../../src/asset";
-import { TransferParams, dispatchInline } from "../../src/action";
-import { PermissionLevel } from "../../lib/permission-level";
+import { TransferParams } from "../../src/action";
+import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account, RNAME } from "../../src/account";
@@ -125,7 +125,7 @@ export class UIP06Impl extends Contract implements UIP06{
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-            dispatchInline(pl, this.receiver, NEX("transfer"), params);
+            Action.sendInline([pl], this.receiver, NEX("transfer"), params);
         }
     }
 

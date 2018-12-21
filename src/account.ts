@@ -3,7 +3,7 @@ import { env as AccountAPI } from "../internal/action.d";
 import { env as CryptoAPI} from "../internal/crypto.d";
 
 import { Asset } from "./asset";
-import { queryBalance, send } from "../lib/balance";
+import { queryBalance } from "../lib/balance";
 import { N, RN } from "../lib/name";
 import { string2cstr } from "./utils";
 /**
@@ -114,6 +114,6 @@ export class Account {
      * @param memo a memo note.
      */
     public transfer(to: account_name, quantity: Asset, memo: string): void {
-        send(this.code, to, quantity, memo);
+        Asset.transfer(this.code, to, quantity, memo);
     }
 }

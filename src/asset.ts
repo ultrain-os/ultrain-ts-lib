@@ -1,6 +1,9 @@
 import { Log } from "./log";
-import { queryBalance, send } from "../lib/balance";
+import { queryBalance } from "../lib/balance";
 import { itoa64 } from "internal/number";
+import { PermissionLevel } from "./permission-level";
+import { NAME } from "./account";
+import { Action, ACTION, TransferParams } from "./action";
 
 /**
  * ASCII code of character A.
@@ -38,7 +41,7 @@ export function StringToSymbol(precision: u8, str: string): u64 {
             Log.s("string_to__symbol failed for not supoort code : ").i(charCode, 16).flush();
         } else {
             result |= ((<u64>charCode) << ((8 * (i + 1))));
-        } 
+        }
     }
 
     result |= <u64>precision;
@@ -280,7 +283,7 @@ export class Asset implements Serializable, Returnable {
 
     /**
      * Format the amount, example
-     * formatAmount(10000, 4) == "1.0000" 
+     * formatAmount(10000, 4) == "1.0000"
      * @param amount the amount
      * @param precision the precision
      */
@@ -288,7 +291,7 @@ export class Asset implements Serializable, Returnable {
         var digit: u64 = <u64>Math.pow(10, <i32>precision);
         var integer: u64 = amount / digit;
         var amountstr = itoa64(integer);
-      
+
         if (precision != 0) {
             var decimal: string = itoa64(amount % digit);
             if (decimal.length != <i32>precision) {
@@ -335,6 +338,10 @@ export class Asset implements Serializable, Returnable {
      * @param memo a memo tip for this transaction.
      */
     public static transfer(from: account_name, to: account_name, value: Asset, memo: string): void {
-        send(from, to, value, memo);
+        let pl: PermissionLevel = new PermissionLevel();
+        pl.actor = from;
+        pl.permission = NAME("active");
+        let params = new TransferParams(from, to, value, memo);
+        Action.sendInline([pl], NAME("utrio.token"), ACTION("transfer").code, params);
     }
 }
