@@ -7,18 +7,6 @@ import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
 
 /**
- * to check if permission is authored or not.
- * @param pl PermissionLevel to check
- *
- * @function requirePermissionLevel
- *
- * @example
- * import { requirePermissionLevel } from "ultrain-ts-lib/src/action";
- */
-export function requirePermissionLevel(pl: PermissionLevel): void {
-    ActionAPI.require_auth2(pl.actor, pl.permission);
-}
-/**
  * class TransferParams is applied to transfer Tokens from an account to another.
  *
  * @class TransferParams
@@ -32,7 +20,7 @@ export class TransferParams implements Serializable {
     public quantity: Asset;
     public memo: string;
 
-    constructor(from: u64, to: u64, quantity: Asset, memo: string) {
+    constructor(from: u64 = 0, to: u64 = 0, quantity: Asset = new Asset(), memo: string = "") {
         this.from = from;
         this.to = to;
         this.quantity = quantity;
@@ -142,6 +130,18 @@ export class Action {
     }
 
     /**
+     * Check the account and permission.
+     *
+     * @static
+     * @param {account_name} account The account name.
+     * @param {u64} perm The permission name.
+     * @memberof Action
+     */
+    public static requireAuth2(account:account_name, perm: u64): void {
+        ActionAPI.require_auth2(account, perm);
+    }
+
+    /**
      * add account to be notified.
      * @param account account to be notified.
      */
@@ -202,22 +202,25 @@ export class Action {
         ActionAPI.send_context_free_inline(<usize>ds.buffer, ds.pos);
     }
 }
+export function SerializableToArray<T extends Serializable>(dt: T): u8[] {
+    let len = DataStream.measure<T>(dt);
+    let arr = new Uint8Array(len);
+    let ds = new DataStream(<usize>arr.buffer, len);
+    dt.serialize(ds);
+    return ds.toArray<u8>();
+}
 
 function composeActionData<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): DataStream {
     let actimpl: ActionImpl = new ActionImpl();
     actimpl.authorization = pl;
     actimpl.account = receiver;
     actimpl.name = action;
+    actimpl.data = SerializableToArray(data);
 
-    let len = DataStream.measure<T>(data);
+
+    let len = DataStream.measure<ActionImpl>(actimpl);
     let arr = new Uint8Array(len);
     let ds = new DataStream(<usize>arr.buffer, len);
-    data.serialize(ds);
-    actimpl.data = ds.toArray<u8>();
-
-    len = DataStream.measure<ActionImpl>(actimpl);
-    arr = new Uint8Array(len);
-    ds = new DataStream(<usize>arr.buffer, len);
     actimpl.serialize(ds);
     return ds;
 }

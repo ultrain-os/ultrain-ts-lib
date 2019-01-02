@@ -5,7 +5,7 @@
  */
 
 export declare namespace env {
-     function send_deferred(sender_id: u64, payer: u64, data: usize, len: i32, replace_existing: u32): void;
+     function ts_send_deferred(sender_id: u64, payer: u64, data: usize, len: i32, replace_existing: u32): void;
      function cancel_defferred(sender_id: u64): void;
      function read_transaction(buffer: usize, len: u32): u32;
      function transaction_size(): u32;

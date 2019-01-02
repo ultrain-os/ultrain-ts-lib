@@ -63,7 +63,7 @@ export class Contract {
      * @memberof Contract
      */
     public filterAction(originalReceiver: u64): boolean {
-        return this.receiver == originalReceiver;
+        return this.receiver == originalReceiver || this.action == NEX("onerror");
     }
 
     returnVal<T>(val: T): void {
@@ -84,6 +84,11 @@ export class Contract {
      * You can do persistent operations in this method.
      */
     public onStop(): void {}
+
+    /**
+     * If this contract filter 'onerror' event, then this function will be invoked.
+     */
+    public onError(): void {}
 
     /**
      * This a safe filter for your contract if you accept the recepient from utrio.token while someone transfer UGAS to you.

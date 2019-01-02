@@ -10,9 +10,8 @@ import { Asset } from "../../src/asset";
 
 class HelloContract extends Contract {
     @action
-    hi(name: account_name, ast: Asset): void {
-        Log.s("hi ").s(RNAME(name)).flush();
-        ast.prints("Hello: ");
+    hello(name: string, age: u32): void {
+        Log.s("XXXX: hi ").s(name).s(", age = ").i(age).flush();
     }
 
 }

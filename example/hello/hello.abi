@@ -2,8 +2,8 @@
   "version": "ultraio:1.0",
   "types": [
     {
-      "new_type_name": "account_name",
-      "type": "name"
+      "new_type_name": "u32",
+      "type": "uint32"
     }
   ],
   "structs": [
@@ -11,18 +11,22 @@
       "fields": [
         {
           "name": "name",
-          "type": "account_name"
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "u32"
         }
       ],
-      "name": "hi",
-      "base": ""
+      "base": "",
+      "name": "hello"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
-      "name": "hi",
-      "type": "hi"
+      "name": "hello",
+      "type": "hello"
     }
   ],
   "tables": []
