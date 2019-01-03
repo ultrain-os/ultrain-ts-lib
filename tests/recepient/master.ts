@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
 import { RNAME, NAME } from "../../src/account";
@@ -8,7 +7,6 @@ import { NEX } from "../../lib/name_ex";
 const Reward_None: u8 = 0;
 const Reward_waiting: u8 = 1;
 const Reward_done: u8 = 2;
-
 class Gamer implements Serializable{
     account: account_name;
     reward_status: u8;
@@ -37,6 +35,11 @@ class MasterContract extends Contract {
     }
 
     // 接收utrio.token的transfer信息，无论自己是作为from还是to。
+    @action
+    printstr(memo:string): void {
+        Log.s("memo").s(memo).flush();
+    }
+
     @action
     transfer(from: account_name, to: account_name, val: Asset, memo: string): void {
         // from通过向this.receiver转帐的方式，申请加入了游戏
