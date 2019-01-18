@@ -57,14 +57,14 @@ export class ActionImpl implements Serializable {
     public name: action_name;
     public authorization: PermissionLevel[];
     public data: u8[];
-    // public ability: u8;
+    public ability: u8;
 
     constructor() {
         this.account = 0;
         this.name = new NameEx(0, 0);
         this.authorization = [];
         this.data = [];
-        // this.ability = 0;
+        this.ability = 0;
     }
 
     public serialize(ds: DataStream): void {
@@ -72,7 +72,7 @@ export class ActionImpl implements Serializable {
         this.name.serialize(ds);
         ds.writeComplexVector<PermissionLevel>(this.authorization);
         ds.writeVector<u8>(this.data);
-        // ds.write<u8>(this.ability);
+        ds.write<u8>(this.ability);
     }
 
     public deserialize(ds: DataStream): void {
@@ -80,7 +80,7 @@ export class ActionImpl implements Serializable {
         this.name.deserialize(ds);
         this.authorization = ds.readComplexVector<PermissionLevel>();
         this.data = ds.readVector<u8>();
-        // this.ability = ds.read<u8>();
+        this.ability = ds.read<u8>();
     }
 
     public primaryKey(): u64 { return <u64>0; }
