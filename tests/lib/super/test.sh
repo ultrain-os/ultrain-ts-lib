@@ -11,6 +11,6 @@ else
 fi
 
 echo "Deploy the contract ${clultrain}"
-account=rose
+account=super
 ${clultrain} set contract ${account} ../super -p ${account}
 ${clultrain} push action ${account} addTiger '{"tiger":{"kind":12, "name":"Tiger", "region":"China"}}' -p ${account}

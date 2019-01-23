@@ -6,6 +6,14 @@ echo '1. Accounts: token, tom, jack, rose are exist'
 clultrain="$1/build/programs/clultrain/clultrain"
 echo "using clutrain: ${clultrain}"
 
+if hash usc>/dev/null; then
+   usc UIP06.ts -g UIP06.abi -b UIP06.wasm -l
+   echo "Compiler the contract ……"
+else
+   echo "Command usc not exist."
+   exist
+fi
+
 ${clultrain} set contract token ../UIP06/ -p token
 ${clultrain} push action token create '["rose", "100.00 ETA"]' -p token
 ${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
@@ -28,3 +36,5 @@ $clultrain push action jack retrieval '["rose", "100.0000 BENZ"]' -p tony
 
 $clultrain push action jack freeze '["tony", "200.0000 BENZ", 1540283045, "another freeze test"]' -p rose
 $clultrain push action jack retrieval '["rose", "200.0000 BENZ"]' -p tony
+
+rm UIP06.wasm UIP06.wast
