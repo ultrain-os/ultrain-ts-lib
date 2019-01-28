@@ -14,7 +14,7 @@ import { Asset } from "../src/asset";
 export interface UIP06 {
 
 	/**
-	 * Create a fungbile token
+	 * Create a fungible token
 	 * 
 	 * @param issuer the tokne issurer
 	 * @param maximum_supply the total token supply amouont.

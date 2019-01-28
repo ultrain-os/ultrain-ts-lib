@@ -142,4 +142,3 @@ class HumanResource extends Contract {
         Log.s("onError action account: ").s(RNAME(tx.actions[0].account)).flush();
     }
 }
-

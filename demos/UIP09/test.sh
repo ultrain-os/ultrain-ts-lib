@@ -4,15 +4,22 @@ echo 'Precondition:'
 echo '1. Accounts: nft, tom, jerry, rose are exist'
 
 clultrain=clultrain
-if [! -n '$1']; then
+if [ ! -n '$1' ]; then
     echo "using default clutrain"
 else 
     clultrain="$1/build/programs/clultrain/clultrain"
     echo "using clutrain: ${clultrain}"
 fi
 
-echo 'Deploy the nft contract'
+if hash usc>/dev/null; then
+   usc UIP09.ts -g UIP09.abi -b UIP09.wasm -l
+   echo "Compiler the contract ……"
+else
+   echo "Command usc not exist"
+   exit
+fi
 
+echo 'Deploy the nft contract'
 ${clultrain} set contract nft ../UIP09 -p nft
 
 ${clultrain} push action nft create '["rose", "1000 XRT"]' -p nft
@@ -26,3 +33,5 @@ echo "Get the table info:"
 ${clultrain} get table nft token token
 ${clultrain} get table nft XRT stat
 ${clultrain} get table nft jerry account
+
+rm UIP09.wast UIP09.wasm
