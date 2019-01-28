@@ -100,6 +100,14 @@ export class Transaction implements Serializable {
     }
 
     primaryKey(): u64 { return <u64>0; }
+
+    public get delaySecs(): u32 {
+        return this.header.delay_sec;
+    }
+
+    public set delaySecs(secs: u32) {
+        this.header.delay_sec = secs;
+    }
 }
 
 function getTransactionId(): string {
