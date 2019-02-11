@@ -18,4 +18,5 @@ export declare namespace env {
      function publication_time(): i32;
      function current_sender(): u64;
      function random_uint64(seed: u64): u64;
+     function ts_is_account_with_code(account: account_name): i32;
 }

@@ -53,8 +53,8 @@ class HumanResource extends Contract {
     }
 
     @action("pureview")
-    pv(): void {
-        Log.s("pureview: pv CALLED.").flush();
+    pv(msg: string): void {
+        Log.s("pureview: pv CALLED : ").s(msg).flush();
     }
 
     @action
@@ -142,3 +142,4 @@ class HumanResource extends Contract {
         Log.s("onError action account: ").s(RNAME(tx.actions[0].account)).flush();
     }
 }
+

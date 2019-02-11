@@ -58,6 +58,18 @@ export class Account {
     }
 
     /**
+     * to check if an account is deployed to a smart contract.
+     *
+     * @static
+     * @param {account_name} account account name to test
+     * @returns {i32} return value : -1 means invalid account name; 0 means without deployed to smart contract; 1 means deployed to smart contract.
+     * @memberof Account
+     */
+    public static codeStatus(account: account_name): i32 {
+        return AccountAPI.ts_is_account_with_code(account);
+    }
+
+    /**
      *get the public key of an account
      *
      * @static
