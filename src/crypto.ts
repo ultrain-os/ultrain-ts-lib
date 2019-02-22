@@ -1,6 +1,7 @@
 import "allocator/arena";
 import { env as cry } from "../internal/crypto.d";
-import { string2cstr } from "./utils";
+import { string2cstr, toUTF8Array, intToString } from "./utils";
+import { Log } from "./log";
 
 const HexDigital: string = "0123456789abcdef";
 const CHAR0 = 0x30;
@@ -244,4 +245,41 @@ export function get_random_number(code: account_name, table: u64, scope: u64, pr
     let ds = new DataStream(changetype<usize>(value.buffer), readLength);
     let rnum = ds.read<u64>();
     return rnum;
+}
+
+export class MerkleProof {
+    proofs: string[] = [];
+    txBytes: u8[]= [];
+
+    private  verify_merkle_proof(transaction_mroot: string, merkle_proof: string[], tx_bytes: u8[]): i32 {
+        var ds = new DataStream(0, 0);
+        ds.writeStringVector(merkle_proof);
+        var mplen = ds.size();
+        var mpds = DSHelper.getDataStreamWithLength(mplen);
+        mpds.writeStringVector(merkle_proof);
+
+        var txds = DataStream.fromArray<u8>(tx_bytes);
+
+        return cry.ts_verify_merkle_proof(string2cstr(transaction_mroot), mpds.pointer(), mpds.size(), txds.pointer(), txds.size());
+    }
+
+    verify(transaction_mroot: string): boolean {
+        return this.verify_merkle_proof(transaction_mroot, this.proofs, this.txBytes) != 0;
+    }
+
+    static getMerkleProof(block_number: u32, trx_id: string): MerkleProof {
+        var ds = DSHelper.getDataStreamWithLength(2048); // try with 2048
+        var ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.pointer(), ds.size());
+        if (ret != 0) {
+            ds = DSHelper.getDataStreamWithLength(ret);
+            ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.pointer(), ds.size());
+            ultrain_assert(ret == 0, "Read MerkleProof failed: block_number =  " + intToString(block_number) +", trx_id = " + trx_id);
+        }
+
+        var mklp = new MerkleProof();
+        mklp.proofs = ds.readStringVector();
+        mklp.txBytes = ds.readVector<u8>();
+
+        return mklp;
+    }
 }

@@ -1,5 +1,5 @@
 import "allocator/arena";
-import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number } from "../../../src/crypto";
+import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number, MerkleProof } from "../../../src/crypto";
 import {Contract} from "../../../src/contract";
 import { NAME } from "../../../src/account";
 import { Log } from "../../../src/log";
@@ -58,5 +58,33 @@ export　class CryptoTest extends Contract {
         let ran = get_random_number(NAME("jack"), NAME("tb.sales"), NAME("tb.sales"), 159);
         Log.s("get random number: ").i(ran).flush();
         ultrain_assert(ran == 159, "read random number failed.");
+    }
+
+    @action
+    verifyMerkleProof(mroot: string, merkle_proof: string[], tx_bytes: u8[]): void {
+        var mklp = new MerkleProof();
+        mklp.proofs = merkle_proof;
+        mklp.txBytes = tx_bytes;
+
+        var r = mklp.verify(mroot);
+        Log.s("verifyMerkleProof result: ").s(r ? "true" : "false").flush();
+    }
+
+    @action
+    verifyMerkleProof2(mroot: string, block_number: u32, tx_id: string): void {
+        var mklp = MerkleProof.getMerkleProof(block_number, tx_id);
+        Log.s("verifyMerkleProof2: proofs").flush();
+        for (let i = 0; i < mklp.proofs.length; i++) {
+            Log.s(mklp.proofs[i]).flush();
+        }
+
+        Log.s("verifyMerkleProof2.txBytes:").flush();
+        for (let i = 0; i < mklp.txBytes.length; i++) {
+            Log.i(mklp.txBytes[i]).s(',');
+        }
+        Log.flush();
+
+        var r = mklp.verify(mroot);
+        Log.s("verify result: ").s(r ? "true": "false").flush();
     }
 }
