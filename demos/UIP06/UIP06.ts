@@ -193,7 +193,7 @@ export class UIP06Impl extends Contract implements UIP06{
      * @param {Asset} amount the whole token 'from' froze.
      * @memberof Token
      */
-    @action
+    @action("pureview")
     public retrieval(from: account_name, amount: Asset): void {
         let owner = Action.sender;
         let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), this.receiver, 0);
@@ -234,8 +234,8 @@ export class UIP06Impl extends Contract implements UIP06{
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, symname);
         let st = new CurrencyStats(new Asset(), new Asset(), 0, 0);
         let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "getSupply failed, states is not existed.");
-        return st.supply;
+        ultrain_assert(existing, "getSupply failed, stats is not existed.");
+        return st.max_supply;
     }
 
     @action

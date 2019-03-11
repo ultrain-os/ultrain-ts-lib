@@ -6,7 +6,6 @@ import { NameEx } from "../lib/name_ex";
 declare type token_name = u64;
 declare type region_id = u16;
 declare type id_type = u64;
-// declare type u64 = u64;
 
 declare type asset_symbol = u64;
 declare type share_type = i16;

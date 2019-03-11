@@ -31,7 +31,7 @@ ${clultrain} push action nft getSupply '["XRT"]' -p nft
 
 echo "Get the table info:"
 ${clultrain} get table nft token token
-${clultrain} get table nft XRT stat
-${clultrain} get table nft jerry account
+${clultrain} get table nft stat stat
+${clultrain} get table nft jerry accounts
 
 rm UIP09.wast UIP09.wasm

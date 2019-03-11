@@ -10,7 +10,7 @@ import { Asset } from "../src/asset";
  *  · Virtual assets - Unique game equqiment, 
  *  · Physical assets - A car, a house or artwork 
  * 
- * @reference {@link ../demos/nft/Nft}
+ * @reference {@link ../demos/UIP09/UIP09}
  * We also can using the lib {@link ../lib/nft} to create non-fungible tokens.
  */
 export interface UIP09 {
@@ -25,7 +25,7 @@ export interface UIP09 {
 	create(issuer: account_name, maximum_supply: Asset): void;
 
 	/**
-	 * Issue token to the account 'to'
+	 * Issue token to the account 'to'.
 	 * 
 	 * @param to the token receiver who will get the token
 	 * @param quantity the quantity of the token, eg: "12 UGAS"
@@ -37,7 +37,7 @@ export interface UIP09 {
 
 
 	/**
-	 * Transfer the token with the token_id from the account 'from' to the account 'to'
+	 * Transfer the token with the token_id from the account 'from' to the account 'to'.
 	 * 
 	 * @param from the token sender
 	 * @param to the token recevier
@@ -47,7 +47,7 @@ export interface UIP09 {
 	transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void;
 
 	/**
-	 * Get the owner account by the token_id
+	 * Get the owner account by the token_id.
 	 * 
 	 * @param token_id the identity token_id
 	 * 
@@ -56,10 +56,10 @@ export interface UIP09 {
 	ownerOf(token_id: id_type): account_name;
 
 	/**
-	 * Get the owner token id by the index 
+	 * Get the owner token id by the index
 	 * 
 	 * @param owner the owner account name
-	 * @param sym_name the token symbal name 
+	 * @param sym_name the token symbol name 
 	 * @param index the owner token index
 	 * 
 	 * @returns the token id of the token
@@ -67,7 +67,7 @@ export interface UIP09 {
 	tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type;
 
 	/**
-	 * Get the token attribute uri by the token_id
+	 * Get the token attribute uri by the token_id.
 	 * 
 	 * @param token_id the token id
 	 * 
@@ -76,21 +76,28 @@ export interface UIP09 {
 	uriOf(token_id: id_type): string;
 
 	/**
-	 * Get the total supply of the symbal token
+	 * Get the total supply of the symbol token
 	 * 
 	 * @param sym_name the token sym name like "UGAS"
 	 * 
-	 * @return  reutrn the supply asset
+	 * @return  reutrn the total supply asset by symbol name
 	 */
-	getSupply(sym_name: string): Asset;
+	totalSupply(sym_name: string): Asset;
 
 	/**
-	 * Get the balance of the owner's symbal name token
+	 * Get the total supply of the token that created.
+	 * 
+	 * @return return the all total supply asset
+	 */
+	totalSupplies(): Asset[];
+
+	/**
+	 * Get the balance of the owner's symbol name token.
 	 * 
 	 * @param owner the owner account 
-	 * @param sym_name the symbal name like "UGAS"
+	 * @param sym_name the symbol name like "UGAS"
 	 * 
 	 * @return return the balance
 	 */
-	getBalance(owner: account_name, sym_name: string): Asset;
+	balanceOf(owner: account_name, sym_name: string): Asset;
 }

@@ -45,21 +45,28 @@ export interface UIP06 {
 
 	
 	/**
-	 * Get the total supply of the symbal token
+	 * Get the total supply of the symbol token.
 	 * 
-	 * @param sym_name the token sym name like "UGS"
+	 * @param sym_name the token sym name like "UGAS"
 	 * 
-	 * @return  reutrn the supply asset
+	 * @return  reutrn the total supply asset
 	 */
-	getSupply(sym_name: string): Asset;
+	totalSupply(sym_name: string): Asset;
 
 	/**
-	 * Get the balance of the owner's symbal name token
+	 * Get the total supply the token that created.
+	 * 
+	 * @return return all total supply asset
+	 */
+	totalSupplies(): Asset[];
+
+	/**
+	 * Get the balance of the owner's symbol name token
 	 * 
 	 * @param owner the owner account 
-	 * @param sym_name the symbal name
+	 * @param sym_name the symbol name
 	 * 
 	 * @return return the balance
 	 */
-	getBalance(owner: account_name, sym_name: string): Asset;
+	balanceOf(owner: account_name, sym_name: string): Asset;
 }

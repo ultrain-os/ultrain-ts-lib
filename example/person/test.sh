@@ -1,11 +1,11 @@
 #! /bin/bash
 
-cmd=$1
+cmd="$1/build/programs/clultrain/clultrain"
 
 mypath=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 echo $mypath
-#$cmd set contract jack $mypath -p jack
+$cmd set contract jack $mypath -p jack
 $cmd push action jack add '["zhao", 100, 60]' -p jack
 $cmd push action jack add '["qian", 100, 60]' -p jack
 $cmd push action jack add '["sun", 100, 60]' -p jack

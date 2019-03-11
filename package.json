@@ -10,8 +10,8 @@
   "bugs": {
     "url": "https://github.com/ultrain-os/ultrain-ts-lib/issues"
   },
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "typings": "index.d.ts",
+  "module": "index.js",
   "scripts": {
     "info": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",

@@ -16,15 +16,6 @@ class NftAccount implements Serializable {
 
     primaryKey(): id_type { return this.balance.symbolName(); }
 
-    deserialize(ds: DataStream): void {
-        this.balance.deserialize(ds);
-        this.token_ids = ds.readVector<id_type>();
-    }
-
-    serialize(ds: DataStream): void {
-        this.balance.serialize(ds);
-        ds.writeVector<id_type>(this.token_ids);
-    }
 }
 
 
@@ -33,10 +24,17 @@ class CurrencyStats implements Serializable {
     max_supply: Asset;
     issuer: account_name;
 
-    constructor(supply: Asset, max_supply: Asset, issuer: account_name) {
-        this.max_supply = max_supply;
-        this.supply = supply;
-        this.issuer = issuer;
+    constructor() {
+        this.max_supply = new Asset();
+        this.supply = new Asset();
+        this.issuer = 0;
+    }
+
+    newInstance(supply: Asset, max_supply: Asset, issuer: account_name): CurrencyStats {
+        var stats = new CurrencyStats();
+        stats.max_supply = max_supply;
+        stats.supply = supply;
+        stats.issuer = issuer;
     }
 
     primaryKey(): id_type { return this.supply.symbolName(); }
@@ -105,7 +103,7 @@ class Token implements Serializable {
 }
 
 const STATSTABLE: string = "stat";
-const ACCOUNTTABLE: string = "account";
+const ACCOUNTTABLE: string = "accounts";
 const TOKENTABLE: string = "token";
 
 @database(Token, TOKENTABLE)
@@ -123,15 +121,14 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     @action
     create(issuer: account_name, maximum_supply: Asset): void {
-
         Action.requireAuth(this.receiver);
         let sym = maximum_supply.symbolName();
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.symbolPrecision() == 0, "token.create: symbol precision must be a whole number");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let cs: CurrencyStats = new CurrencyStats();
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -144,13 +141,12 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     @action
     issue(to: account_name, quantity: Asset, uris: string[], name: string, memo: string): void {
-
         ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(quantity.symbolPrecision() == 0, "token.issue: symbol precision must be a whole number");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
@@ -193,8 +189,8 @@ export class UIP09Impl extends Contract implements UIP09 {
         ultrain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
-        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let st: CurrencyStats = new CurrencyStats();
         let statExisting = statstable.get(symname, st);
 
         ultrain_assert(statExisting, "token.transfer symbol name is not exist.");
@@ -243,31 +239,48 @@ export class UIP09Impl extends Contract implements UIP09 {
         let account: NftAccount = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
 
-        ultrain_assert(existing, "tokenOfOwnerByIndex failed, account is not existed.")
-        ultrain_assert(account.token_ids.length > index, "tokenOfOwnerByIndex failed, the index beyond the range.");
+        ultrain_assert(existing, "tokenByIndex failed, account is not existed.")
+        ultrain_assert(account.token_ids.length > index, "tokenByIndex failed, the index beyond the range.");
 
         return account.token_ids[index];
     }
 
     @action("pureview")
-    getSupply(sym_name: string): Asset {
+    totalSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
-        let st = new CurrencyStats(new Asset(), new Asset(), 0);
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "getSupply failed, states is not existed.");
-        return st.supply;
+        return st.max_supply;
     }
 
     @action
     getBalance(owner: account_name, sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
-        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
-        ultrain_assert(existing, "getBalance failed, account is n ot existed.")
+        ultrain_assert(existing, "getBalance failed, account is not existed.")
 
         return account.balance;
+    }
+
+    @action
+    getSupplies(): Asset[] {
+        var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        var cursor: Cursor<CurrencyStats> = statstable.cursor();
+        var supplies = new Array<Asset>();
+        while (cursor.hasNext()) {
+            let stat: CurrencyStats = cursor.get();
+            supplies.push(stat.max_supply);
+            cursor.next();
+        }
+        return supplies;
+    }
+
+    private getStatDbManager(): DBManager<CurrencyStats> {
+        return new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, NAME(STATSTABLE));
     }
 
     private availablePrimaryKey(): id_type {
@@ -279,7 +292,6 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private updateMaxPrimaryKey(ram_payer: u64, max_token_id: id_type): void {
-
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);
@@ -296,7 +308,6 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
-
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
@@ -323,7 +334,6 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private subBalance(owner: account_name, token_id: id_type, value: Asset): void {
-
         let ats: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
         let from: NftAccount = new NftAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);
@@ -348,10 +358,9 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private subSupply(ram_payer: u64, quantity: Asset): void {
-
         let symname = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, symname);
-        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0);
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "subSupply failed, states is not existed.");
 
