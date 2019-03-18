@@ -1,11 +1,56 @@
 {
   "version": "ultraio:1.0",
-  "types": [],
+  "types": [
+    {
+      "new_type_name": "u8",
+      "type": "uint8"
+    },
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    }
+  ],
   "structs": [
     {
       "fields": [],
-      "name": "test",
-      "base": ""
+      "base": "",
+      "name": "test"
+    },
+    {
+      "fields": [
+        {
+          "name": "mroot",
+          "type": "string"
+        },
+        {
+          "name": "merkle_proof",
+          "type": "string[]"
+        },
+        {
+          "name": "tx_bytes",
+          "type": "u8[]"
+        }
+      ],
+      "base": "",
+      "name": "verifyMerkleProof"
+    },
+    {
+      "fields": [
+        {
+          "name": "mroot",
+          "type": "string"
+        },
+        {
+          "name": "block_number",
+          "type": "u32"
+        },
+        {
+          "name": "tx_id",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "verifyMerkleProof2"
     }
   ],
   "actions": [
@@ -13,6 +58,18 @@
       "ricardian_contract": "",
       "name": "test",
       "type": "test",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "verifyMerkleProof",
+      "type": "verifyMerkleProof",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "verifyMerkleProof2",
+      "type": "verifyMerkleProof2",
       "ability": "normal"
     }
   ],

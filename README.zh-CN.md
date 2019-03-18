@@ -8,37 +8,45 @@ Ultrain，超脑链使用类Javascript的语言来编写智能合约，这个类
 > 参考[robin框架文档](http://developer.ultrain.io/documents)。
 
 ## 系统内置的方法
-function NAME(str: string): u64
-: 方法**NAME()**用来将一个string转成一个account_name类型. `str`的字符长度不超过12个字符, 内容只能包括以下字符(不能以`.`结尾): `.012345abcdefghijklmnopqrstuvwxyz`
+* **function NAME(str: string): u64**  
+方法 **NAME()** 用来将一个string转成一个account_name类型. `str`的字符长度不超过12个字符, 内容只能包括以下字符(不能以`.`结尾): `12345abcdefghijklmnopqrstuvwxyz`
 
-function RNAME(account: account_name): string
-:  方法**RNAME()**用来将一个account_name类型转为string类型, 它是**NAME()**方法的反向方法.
+* **function RNAME(account: account_name): string**  
+方法**RNAME()** 用来将一个account_name类型转为string类型, 它是 **NAME()** 方法的反向方法.
 
-function ACTION(str: string): Action
-:  方法**ACTION()**将一个string类型转为Action类型. `str`的长度不超过21个字符, 内容只能包括以下字符(不能包含`.`): `._0-9a-zA-Z`. Action类封装了action相关的信息.
+* **function ACTION(str: string): Action**  
+方法 **ACTION()** 将一个string类型转为Action类型. `str`的长度不超过21个字符, 内容只能包括以下字符(不能包含`.`): `._0-9a-zA-Z`. Action类封装了action相关的信息.
 
-Action.sender
-:  当前transaction的发起者, account_name类型.
+* **Action.sender**  
+  当前transaction的发起者, 返回account_name类型.
 
-Action.receiver
-:  当前transaction的接收者, 即合约帐户, account_name类型.
+* **Action.receiver**  
+当前transaction的接收者, 即合约部署的帐户名, 返回account_name类型.
 
-Block.number
-:  head block的块高。
+* **Block.number**  
+head block的块高。
 
-Block.id
-:  head block的id，sha256的hash值。
+* **Block\.id**  
+head block的id，sha256的hash值。
 
-Block.timestamp
-:  head block的时间戳，从EPOCH开始的秒数。
+* **Block.timestamp**  
+head block的时间戳，从EPOCH开始的秒数。
+
+* **Transaction\.id**  
+当前交易的id，这个id和block中tx列表中id一致。
 
 ## 编写第一个合约Hello world
-```
+```typescript
 import { NAME, RNAME } from "ultrain-ts-lib/src/account";
 import { Log } from "ultrain-ts-lib/src/log";
 import { Contract } from "ultrain-ts-lib/lib/contract";
 
 class HelloWorld extends Contract {
+
+    @action("pureview") 
+    helloWorld(): void {
+        Log.s("Hello world!").flush();
+    }
 
     @action
     hi(name: account_name, age: u32, msg: string): void {
@@ -46,10 +54,14 @@ class HelloWorld extends Contract {
     }
 }
 ```
-我们以上代码做如下说明：
+我们对以上代码做如下说明：
 1. import: 用来引入其它文件中定义的类和方法，详细用法可参考[typescript](https://www.tutorialspoint.com/typescript/index.htm)的说明。
 2. extends Contract: 合约都需要派生自Contract，而且一个项目中**只能有一个Contract**。
-3. @action: 申明一个合约方法。只有@action标志的方法，才能被调用。
+3. @action: 申明一个合约方法。只有@action标志的方法，才能作为合约的action被外部调用。  
+action有注解"pureview"可以选用，pureview的action，相对于普通的action，有以下特点：  
+* 不能修改合约的数据（即不可以add、modify、remove数据库中的数据，query可以)；
+* 不会广播到区块链网络中，也不用经过共识；
+* 调用会立即返回，不用等待共识周期确认；
 4. Log: 打印Log。需要在config.ini文件中配置 `contracts-console = true`才能打印到终端。
 
 ## 编译和部署合约
@@ -62,29 +74,27 @@ class HelloWorld extends Contract {
 
 ## 在Action中Return信息
 为了便于在调用方与节点中传递部分执行状态信息，引入Return模块.  
-Return模块返回的数据会附加在http的response中， 调用方可以通过分析response得到Return的信息。  
-需要强调的是， **Return的信息仅仅是在一个节点(host_url )上预执行的结果，并非区块链网络共识的结果。也就是说, Return返回的结果, 并不是最终交易执行的结果.**  
-**<u>Return的信息只供参考，它可能与区块链网络共识结果不一致</u>。**
+Return模块返回的数据会附加在http的response的return_vaule字段中， 调用方可以通过分析response得到Return的信息。  
+需要强调的是，
+**<u>如果这个action不是pureview的，那么Return的信息只供参考，因为Return的信息仅仅是在一个节点(host_url )上预执行的结果，并非区块链网络共识的结果；如果是pureview的action，那么return的结果是基于当前预执行节点的数据状态所产生的结果</u>。**
 
-要Return信息，可以在action调用中，通过`Return`,`ReturnArray`方法来完成。Return信息有以下需要注意的点：
+要Return信息，可以在action调用中，返回一个支持Serializable的对象：
 > NOTICE
 1. Return的message是有长度限制的，默认的message长度为128个character。（int型数据会转成对应的string）。如果是在侧链中使用，可以在config.ini文件中配置`contract-return-string-length`来扩展长度限制。
-2. 只支持Return基本数据类型int和string， 以及int[]和string[]。
-3. 可以调用Return或ReturnArray多次，信息将被concat。
-4. 超出长度限制的信息，会直接丢弃，不会抛出异常。
+2. 超出长度限制的信息，会直接丢弃，不会抛出异常。
+3. 只支持可以Serializable的对象类型，其它类型会被直接丢弃。
 
 ### Return信息的示例
 ```typescript
 class HelloContract extends Contract {
     @action
-    on_hi(name: u64, age: u32, msg: string): void {
-        Return<string>("call hi() succeed.");
-        ReturnArray<u8>([1,2,3]);
+    on_hi(name: u64, age: u32, msg: string): string {
+        return "hi, I am here!";
     }
 }
 ```
 
-执行正常的情况下，Return的结果是`call hi() succeed.123`
+执行正常的情况下，Return的结果是`hi, I am here!`
 
 ## 资产查询和转移
 在合约中，可以查询一个帐号在ultrainio.token合约中的资产，即ultrain平台资产。查询资产使用`Asset.balanceOf(who: account_name): Asset`方法。
@@ -220,7 +230,6 @@ console.log('Listening at http://' + host + ':' + port);
 Serializable是一个Interface， 定义以下三个方法：
 
 ```typescript
-import {DataStream} from "ultrain-ts-lib/src/datastream";
 
 export interface Serializable {
     deserialize(ds: DataStream): void;
@@ -233,10 +242,11 @@ export interface Serializable {
 * `primaryKey(): u64;`标志一个primary key。 如果这个class将作为一条独立的记录写入数据库，那primaryKey()返回的数据将成为数据库中的primary key.
 
 > *NOTICE*
-1. 一个实现了ISerialzable接口的class，编译器将自动实现以上三个方法，并将class中的成员变量都序列化/反序列化。如果需要单独override某一个/全部方法，则可以手动实现对应的方法。
+1. 一个实现了Serializable接口的class，编译器将自动实现以上三个方法，并将class中的成员变量都序列化/反序列化。如果需要单独override某一个/全部方法，则可以手动实现对应的方法。
 2. 如果要排除某个成员变量，以避免序列化和反序列化，可以使用`@ignore`注解； 
 3. 如果要指定某个成员变量为primaryKey，可以使用`@primaryid`注解。需要注意的是，被注解为@primaryid的变量必须是u64类型，如果没有变量被注解为@primaryid，则primaryKey()方法默认使用`0`作为返回值。
 4. 如果使用了@注解，同时又override了serialize()、deserialize()、primaryKey()方法中的某一个（或全部），编译器将优先使用override的方法。
+5. 一个实现了Serializable接口的class，它的constructor方法 **必须** 支持不带参数的new操作(如果constructor确实有参数，可以通过设置默认参数的方式来达到目的)。
 
 对于Serializable接口的使用，举例如下
 ```typescript
@@ -248,11 +258,11 @@ class Person implements Serializable {
     @ignore
     address: string; // 被忽略，不序列化和反序列化
     
-    constructor() {
-        this.name = "xx";
+    constructor(name: string = "xx") {
+        this.name = name;
         //...
     }
-    // 重写primaryKey()方法，返回Person的id
+    // 重写primaryKey()方法，返回Person的primaryid
     primaryKey(): u64 {
         return NAME(this.name);
     }
@@ -298,24 +308,24 @@ clas MyContract extends Contract {
 #### DBManager的定义：
 ```
  export class DBManager<T extends Serializable> {
-    constructor(tblname: u64, owner: u64, scope: u64) {}
+    constructor(tblname: u64, scope: u64) {}
     public cursor(): Cursor<T> {}
-    public emplace(payer: u64, obj: T): void {}
-    public modify(payer: u64, newobj: T): void {}
+    public emplace(obj: T): void {}
+    public modify(newobj: T): void {}
     public exists(primary: u64): boolean {}
     public get(primary: u64, out: T): boolean { }
     public erase(obj: T): void {}
+    public dropAll(): i32 {}
 }   
 ```
-* constructor()方法接收三个参数， `tblname: u64`表示表名；`owner：u64`表示这个表在哪个合约中，一般的，owner和该合约的receiver是一样的。`scope: u64`表示表中的一个上下文。
+* constructor()方法接收三个参数， `tblname: u64`表示表名；`scope: u64`表示表中的一个上下文。
 * cursor()方法读取数据表中的所有记录。
-* emplace()方法向表中加入一条记录。`payer`表示这个帐号将为数据存储付费，`obj`是一个Serializable的对象，将数据存入DB。
-* modify()方法更新表中的数据。`payer`表示这条记录的创建者、付费方；`newobj`是更新后的数据，newobj的primaryKey对应的对象会被更新。
+* emplace()方法向表中加入一条记录。`obj`是一个Serializable的对象，将数据存入DB。
+* modify()方法更新表中的数据。`newobj`是更新后的数据，newobj的primaryKey对应的对象会被更新。
 * exists()方法判断一个primaryKey是否存在。
 * get()方法从DB中读取primary对应的记录，并反序列化到out中。
 * erase()方法用来删除一条记录，obj的primaryKey对应的记录如果存在，将被删掉。
-> NOTICE
-table没有方法可以显式删除，只有当table中的记录都删掉时，table会自动被删除。
+* dropAll()方法用来删除表中的所有数据，返回值表示有多少条记录被删除了。
   
 #### 使用Cursor遍历所有记录
 我们提供了cursor来遍历所有的记录，但是必须明白，这个操作非常非常低效，因为在当调用cursor()方法时，会将所有的表中的数据都加载到内存里面。如果表中的数据很多的话，那这个交易将会被cursor方法阻塞，从而导致交易超时失败。
@@ -376,16 +386,15 @@ class Person implements Serializable {
 const tblname = "humans";
 const scope = "dept.sales";
 
-@database(Person, "humans")
+@database(Person, tblname)
 // @database(SomeMoreRecordStruct, "other_table")
 class PersonContract extends Contract {
 
     db: DBManager<Person>;
 
     public onInit(): void {
-        this.db = new DBManager<Person>(NAME(tblname), this.receiver, NAME(scope));
+        this.db = new DBManager<Person>(NAME(tblname), NAME(scope));
     }
-
 
     public onStop(): void {
 
@@ -408,7 +417,7 @@ class PersonContract extends Contract {
         let existing = this.db.exists(NAME(name));
         ultrain_assert(!existing, "this person has existed in db yet.");
         p.prints();
-        this.db.emplace(this.receiver, p);
+        this.db.emplace(p);
     }
 
     @action
@@ -419,7 +428,7 @@ class PersonContract extends Contract {
 
         p.salary = salary;
 
-        this.db.modify(this.receiver, p);
+        this.db.modify(p);
     }
 
     @action

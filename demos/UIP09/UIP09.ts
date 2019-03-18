@@ -14,6 +14,12 @@ class NftAccount implements Serializable {
         this.balance = blc;
     }
 
+    // deserialize(ds: DataStream): void { 
+    // }
+
+    // serialize(ds: DataStream): void {
+    // }
+
     primaryKey(): id_type { return this.balance.symbolName(); }
 
 }
@@ -136,7 +142,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         cs.supply.setSymbol(maximum_supply.getSymbol());
         cs.max_supply = maximum_supply;
         cs.issuer = issuer;
-        statstable.emplace(this.receiver, cs);
+        statstable.emplace(cs);
     }
 
     @action
@@ -176,7 +182,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     @action
     transfer(from: account_name, to: account_name, token_id: id_type, memo: string): void {
         // tansfer token:id to user
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let tokenExisting = tokens.get(token_id, token);
 
@@ -203,7 +209,7 @@ export class UIP09Impl extends Contract implements UIP09 {
 
         // modify the owner and balance, transfer token
         token.owner = to;
-        tokens.modify(0, token);
+        tokens.modify(token);
 
         let oneToken = token.value;
         this.subBalance(from, token_id, oneToken);
@@ -214,7 +220,7 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     @action
     ownerOf(id: id_type): account_name {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
 
@@ -224,7 +230,7 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     @action
     uriOf(token_id: id_type): string {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
 
@@ -235,7 +241,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     @action("pureview")
     tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = NAME(sym_name);
-        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner, symname);
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), symname);
         let account: NftAccount = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
 
@@ -258,7 +264,7 @@ export class UIP09Impl extends Contract implements UIP09 {
     @action
     getBalance(owner: account_name, sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
-        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
         ultrain_assert(existing, "getBalance failed, account is not existed.")
@@ -266,25 +272,25 @@ export class UIP09Impl extends Contract implements UIP09 {
         return account.balance;
     }
 
-    @action
-    getSupplies(): Asset[] {
-        var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
-        var cursor: Cursor<CurrencyStats> = statstable.cursor();
-        var supplies = new Array<Asset>();
-        while (cursor.hasNext()) {
-            let stat: CurrencyStats = cursor.get();
-            supplies.push(stat.max_supply);
-            cursor.next();
-        }
-        return supplies;
-    }
+    // @action
+    // getSupplies(): Asset[] {
+    //     var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+    //     var cursor: Cursor<CurrencyStats> = statstable.cursor();
+    //     var supplies = new Array<Asset>();
+    //     while (cursor.hasNext()) {
+    //         let stat: CurrencyStats = cursor.get();
+    //         supplies.push(stat.max_supply);
+    //         cursor.next();
+    //     }
+    //     return supplies;
+    // }
 
     private getStatDbManager(): DBManager<CurrencyStats> {
-        return new DBManager<CurrencyStats>(NAME(STATSTABLE), this.receiver, NAME(STATSTABLE));
+        return new DBManager<CurrencyStats>(NAME(STATSTABLE), NAME(STATSTABLE));
     }
 
     private availablePrimaryKey(): id_type {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this._receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);
         let res =  existing ? token.increaseId() : UIP09Impl.TOKEN_START;
@@ -292,49 +298,49 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     private updateMaxPrimaryKey(ram_payer: u64, max_token_id: id_type): void {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);
 
         if (!existing) {
             let to = new Token(UIP09Impl.TOKEN_PRIMARY_ID, 0, new Asset(), "", "");
             to.current_id = max_token_id;
-            tokens.emplace(ram_payer, to);
+            tokens.emplace(to);
         } else {
             ultrain_assert(max_token_id > token.current_id, "updateMaxPrimaryKey failed: the updated primary is less than the existing primay key.");
             token.current_id = max_token_id;
-            tokens.modify(0, token);
+            tokens.modify(token);
         }
     }
 
     private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
-        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), this.receiver, UIP09Impl.token_scope);
+        let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
-        tokens.emplace(ram_payer, token);
+        tokens.emplace(token);
     }
 
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
-        let toaccount: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
+        let toaccount: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let to: NftAccount = new NftAccount(new Asset());
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
             let account: NftAccount = new NftAccount(value);
             account.token_ids = token_ids;
-            toaccount.emplace(ram_payer, account);
+            toaccount.emplace(account);
         } else {
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
             for (let i = 0; i < token_ids.length; i++) {
                 to.token_ids.push(token_ids[i]);
             }
-            toaccount.modify(ram_payer, to); // ram_payer or 0
+            toaccount.modify(to); // ram_payer or 0
         }
     }
 
     private subBalance(owner: account_name, token_id: id_type, value: Asset): void {
-        let ats: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), this.receiver, owner);
+        let ats: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let from: NftAccount = new NftAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);
 
@@ -353,7 +359,7 @@ export class UIP09Impl extends Contract implements UIP09 {
                 }
             }
             from.token_ids = result;
-            ats.modify(owner, from);
+            ats.modify(from);
         }
     }
 
@@ -366,6 +372,6 @@ export class UIP09Impl extends Contract implements UIP09 {
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(ram_payer, st);
+        statstable.modify(st);
     }
 }

@@ -15,4 +15,7 @@ export declare namespace env {
     function ts_public_key_of_account(account: account_name, pubkey_buffer: usize, pubkey_len: u32, key_type: usize): i32;
     function ts_read_db_record(code: account_name, table_name: u64, scope: u64, primary: u64, value_buffer: usize, value_len: u32): i32;
 
+    function ts_verify_merkle_proof(transaction_mroot: usize, merkle_proof: usize, merkle_proof_len: u32, tx_bytes: usize, tx_bytes_len: u32): i32;
+    function ts_merkle_proof_length(block_number: u32, trx_id: usize): i32;
+    function ts_merkle_proof(block_number: u32, trx_id: usize, buffer: usize, buffer_size: i32): i32;
 }

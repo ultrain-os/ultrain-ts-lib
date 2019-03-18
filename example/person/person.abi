@@ -46,8 +46,8 @@
           "type": "u32"
         }
       ],
-      "name": "addSales",
-      "base": ""
+      "base": "",
+      "name": "addSales"
     },
     {
       "fields": [
@@ -80,8 +80,8 @@
           "type": "u32"
         }
       ],
-      "name": "addMarketing",
-      "base": ""
+      "base": "",
+      "name": "addMarketing"
     },
     {
       "fields": [
@@ -98,8 +98,8 @@
           "type": "u32"
         }
       ],
-      "name": "modify",
-      "base": ""
+      "base": "",
+      "name": "modify"
     },
     {
       "fields": [
@@ -108,8 +108,8 @@
           "type": "u64"
         }
       ],
-      "name": "remove",
-      "base": ""
+      "base": "",
+      "name": "remove"
     },
     {
       "fields": [
@@ -118,8 +118,8 @@
           "type": "string"
         }
       ],
-      "name": "enumrate",
-      "base": ""
+      "base": "",
+      "name": "enumrate"
     },
     {
       "fields": [
@@ -128,8 +128,8 @@
           "type": "string"
         }
       ],
-      "name": "drop",
-      "base": ""
+      "base": "",
+      "name": "drop"
     },
     {
       "fields": [
@@ -138,8 +138,8 @@
           "type": "account_name"
         }
       ],
-      "name": "pubkeyOf",
-      "base": ""
+      "base": "",
+      "name": "pubkeyOf"
     },
     {
       "fields": [
@@ -152,8 +152,8 @@
           "type": "string"
         }
       ],
-      "name": "Address",
-      "base": ""
+      "base": "",
+      "name": "Address"
     },
     {
       "fields": [
@@ -178,8 +178,8 @@
           "type": "Address"
         }
       ],
-      "name": "Person",
-      "base": ""
+      "base": "",
+      "name": "Person"
     }
   ],
   "actions": [
@@ -199,7 +199,7 @@
       "ricardian_contract": "",
       "name": "modify",
       "type": "modify",
-      "ability": "pureview"
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
