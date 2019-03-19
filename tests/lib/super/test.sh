@@ -10,7 +10,17 @@ else
     clultrain="$1/build/programs/clultrain/clultrain"
 fi
 
+usc super.ts -t super.wast -g super.abi -b super.wasm -l --validate
 echo "Deploy the contract ${clultrain}"
 account=super
 ${clultrain} set contract ${account} ../super -p ${account}
 ${clultrain} push action ${account} addTiger '{"tiger":{"kind":12, "name":"Tiger", "region":"China"}}' -p ${account}
+
+if [ -f "super.wast" ]; then
+    rm super.wast
+fi
+
+if [ -f "super.wasm" ]; then
+    rm super.wasm
+fi
+

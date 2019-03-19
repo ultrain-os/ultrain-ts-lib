@@ -44,7 +44,7 @@ class TestMap extends Contract {
     @action
     public testInsert(key: string, value: string, _int: u32): void {
       var a = new A();
-      let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a") );
+      let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), NAME("a") );
       let existing = aDbManager.exists(0);
       
       if (existing) {
@@ -54,7 +54,7 @@ class TestMap extends Contract {
           a.str_str_map.set(key, value);
           a.str_int_map.set(key, _int);
           Log.s("testInsert modify: ").i(existing).flush();
-          aDbManager.modify(0, a);
+          aDbManager.modify(a);
       } else {
           a.arr.push(key);
           a.arr.push(value);
@@ -80,7 +80,7 @@ class TestMap extends Contract {
 
 
           Log.s("testInsert emplace: ").i(existing).flush(); 
-          aDbManager.emplace(this.receiver, a);
+          aDbManager.emplace(a);
       }
     }
 

@@ -9,15 +9,16 @@
           "type": "string[]"
         }
       ],
-      "name": "test",
-      "base": ""
+      "base": "",
+      "name": "test"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "test",
-      "type": "test"
+      "type": "test",
+      "ability": "normal"
     }
   ],
   "tables": []

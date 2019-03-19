@@ -40,14 +40,5 @@ class MyContract extends Contract {
         }
         return aArr;
     }
-
 }
 
-
-// export function assemblyArr(len:i32): A[]{
-//     let aArr = new Array<A>(len);
-//     for(let index=0; index < len; index ++){
-//         aArr[index].age = index;
-//     }
-//     return aArr;
-// }

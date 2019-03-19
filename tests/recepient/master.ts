@@ -31,7 +31,7 @@ class MasterContract extends Contract {
         gamer.account = from;
         gamer.reward_status = Reward_None;
 
-        this.db.emplace(this.receiver, gamer);
+        this.db.emplace(gamer);
     }
 
     // 接收utrio.token的transfer信息，无论自己是作为from还是to。
@@ -58,7 +58,7 @@ class MasterContract extends Contract {
             ultrain_assert(reward && player.reward_status == Reward_waiting, RNAME(to) + " is not win the game. Why you get reward??");
             // 更新发奖状态
             player.reward_status = Reward_done;
-            this.db.modify(this.receiver, player);
+            this.db.modify(player);
 
             Log.s(RNAME(to)).s(" get rewards. ").flush();
         }
@@ -79,7 +79,7 @@ class MasterContract extends Contract {
 
         // 设置中奖人的状态，在transfer中检查是否允许转帐。
         gamer.reward_status = Reward_waiting;
-        this.db.modify(this.receiver, gamer);
+        this.db.modify(gamer);
         // 开始转帐给gamer.account，10.0000 UGAS
         Asset.transfer(this.receiver, gamer.account, new Asset(100000), "Congratulation! you win this game!");
     }

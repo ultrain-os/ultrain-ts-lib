@@ -62,7 +62,7 @@ class CacheManger extends Contract{
     supplierMoneyDB:DBManager<SupplierMoney>;
 
     private init():void{
-        this.supplierMoneyDB = new DBManager<SupplierMoney>(NAME(SUPPLIER_MONEY_TABLE_NAME), this.receiver, NAME(SUPPLIER_MONEY_TABLE_NAME));
+        this.supplierMoneyDB = new DBManager<SupplierMoney>(NAME(SUPPLIER_MONEY_TABLE_NAME), NAME(SUPPLIER_MONEY_TABLE_NAME));
     }
     /**
      * 存储商注册
@@ -80,7 +80,7 @@ class CacheManger extends Contract{
         supMon.account = Action.sender;
         supMon.availableMoney = deposit;
         supMon.freezeMoney = ZERO_ASSET;
-        this.supplierMoneyDB.emplace(this.receiver,supMon);
+        this.supplierMoneyDB.emplace(supMon);
     }
 
 
@@ -118,7 +118,7 @@ class CacheManger extends Contract{
         this.supplierMoneyDB.get(from,supMon);
         supMon.availableMoney.add(bail);
         supMon.str_map.set("12", "12");
-        this.supplierMoneyDB.modify(this.receiver, supMon);
+        this.supplierMoneyDB.modify(supMon);
     }
 
 }

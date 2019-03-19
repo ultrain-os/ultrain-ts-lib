@@ -10,7 +10,7 @@ import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account, RNAME } from "../../src/account";
 import { now } from "../../src/time";
 import { Return } from "../../src/return";
-import { NEX } from "../../lib/name_ex";
+import { NEX, NameEx} from "../../lib/name_ex";
 import { Action } from "../../src/action";
 import { UIP06 } from "../../uips/uip06";
 
@@ -84,8 +84,8 @@ export class UIP06Impl extends Contract implements UIP06{
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, sym);
-        let cs: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0, now());
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), sym);
+        let cs: CurrencyStats = new CurrencyStats();
 
         let existing = statstable.get(sym, cs);
         ultrain_assert(!existing, "token with symbol already exists.");
@@ -93,7 +93,7 @@ export class UIP06Impl extends Contract implements UIP06{
         cs.supply.setSymbol(maximum_supply.getSymbol());
         cs.max_supply = maximum_supply;
         cs.issuer = issuer;
-        statstable.emplace(this.receiver, cs);
+        statstable.emplace(cs);
     }
 
     @action
@@ -101,8 +101,8 @@ export class UIP06Impl extends Contract implements UIP06{
         ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
         ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0, 0);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), quantity.symbolName());
+        let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.issue: symbol name is not exist.");
@@ -114,7 +114,7 @@ export class UIP06Impl extends Contract implements UIP06{
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(0, st);
+        statstable.modify(st);
         this.addBalance(st.issuer, quantity, st.issuer);
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
@@ -125,7 +125,8 @@ export class UIP06Impl extends Contract implements UIP06{
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-            Action.sendInline([pl], this.receiver, NEX("transfer"), params);
+            let name: NameEx = NEX("transfer");
+            Action.sendInline([pl], this.receiver, name, params);
         }
     }
 
@@ -137,8 +138,8 @@ export class UIP06Impl extends Contract implements UIP06{
         ultrain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, quantity.symbolName());
-        let st: CurrencyStats = new CurrencyStats(new Asset(), new Asset(), 0, 0)
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), quantity.symbolName());
+        let st: CurrencyStats = new CurrencyStats()
         let existing = statstable.get(quantity.symbolName(), st);
 
         ultrain_assert(existing, "token.transfer symbol name is not exist.");
@@ -170,7 +171,7 @@ export class UIP06Impl extends Contract implements UIP06{
         ultrain_assert(Account.isValid(to), "account '" + RNAME(to) +"' does not exist.");
 
         let from = Action.sender;
-        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), this.receiver, 0);
+        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), 0);
         let item = new FrozenItem();
         item.init(from, amount, deadline, note);
         let frozen = new FrozenToken();
@@ -178,9 +179,9 @@ export class UIP06Impl extends Contract implements UIP06{
         let existing = frozendb.get(frozen.primaryKey(), frozen);
         frozen.treasure.push(item);
         if (existing) {
-            frozendb.modify(this.receiver, frozen);
+            frozendb.modify(frozen);
         } else {
-            frozendb.emplace(this.receiver, frozen);
+            frozendb.emplace(frozen);
         }
 
         this.transfer(from, FrezonAccount, amount, note);
@@ -193,10 +194,10 @@ export class UIP06Impl extends Contract implements UIP06{
      * @param {Asset} amount the whole token 'from' froze.
      * @memberof Token
      */
-    @action("pureview")
+    @action
     public retrieval(from: account_name, amount: Asset): void {
         let owner = Action.sender;
-        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), this.receiver, 0);
+        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), 0);
         let frozen = new FrozenToken();
         frozen.to = owner;
 
@@ -218,7 +219,7 @@ export class UIP06Impl extends Contract implements UIP06{
             if (frozen.treasure.length == 0) {
                 frozendb.erase(frozen.primaryKey());
             } else {
-                frozendb.modify(this.receiver, frozen);
+                frozendb.modify(frozen);
             }
 
             this.subBalance(FrezonAccount, amount);
@@ -231,8 +232,8 @@ export class UIP06Impl extends Contract implements UIP06{
     @action
     public getSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), this.receiver, symname);
-        let st = new CurrencyStats(new Asset(), new Asset(), 0, 0);
+        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), symname);
+        let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "getSupply failed, stats is not existed.");
         return st.max_supply;
@@ -241,7 +242,7 @@ export class UIP06Impl extends Contract implements UIP06{
     @action
     public getBalance(owner: account_name, sym_name: string): Asset {
         let symname: u64 = StringToSymbol(0, sym_name) >> 8;
-        let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);
+        let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner);
         let account = new CurrencyAccount(new Asset());
         let existing = accounts.get(symname, account);
         ultrain_assert(existing, "getBalance failed, account is not existed.")
@@ -250,7 +251,7 @@ export class UIP06Impl extends Contract implements UIP06{
     }
 
     private subBalance(owner: account_name, value: Asset): void {
-        let ats: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);
+        let ats: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner);
         let from: CurrencyAccount = new CurrencyAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);
 
@@ -262,22 +263,22 @@ export class UIP06Impl extends Contract implements UIP06{
         } else {
             let amount = from.balance.getAmount() - value.getAmount();
             from.balance.setAmount(amount);
-            ats.modify(owner, from);
+            ats.modify(from);
         }
     }
 
     private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
-        let toaccount: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), this.receiver, owner);
+        let toaccount: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner);
         let to: CurrencyAccount = new CurrencyAccount(new Asset());
         let existing = toaccount.get(value.symbolName(), to);
 
         if (!existing) {
             let a: CurrencyAccount = new CurrencyAccount(value);
-            toaccount.emplace(ram_payer, a);
+            toaccount.emplace(a);
         } else {
             let amount = to.balance.getAmount() + value.getAmount();
             to.balance.setAmount(amount);
-            toaccount.modify(0, to);
+            toaccount.modify(to);
         }
     }
 }

@@ -22,17 +22,17 @@ class TestMap extends Contract {
     @action
     testAdd(id: i32, name: string): void {
         var factory = new ArrayFactory();
-        var aDbManager: DBManager<ArrayFactory> = new DBManager<ArrayFactory>(NAME("a"), this.receiver, NAME("a") );
+        var aDbManager: DBManager<ArrayFactory> = new DBManager<ArrayFactory>(NAME("a"), NAME("a") );
         var existing = aDbManager.exists(0);
         if (!existing) {
             factory.int_array.push(id);
             factory.str_array.push(name);
-            aDbManager.emplace(this.receiver, factory);
+            aDbManager.emplace(factory);
         } else {
             aDbManager.get(0, factory);
             factory.int_array.push(id);
             factory.str_array.push(name);
-            aDbManager.modify(0, factory);
+            aDbManager.modify(factory);
         }
     }
 

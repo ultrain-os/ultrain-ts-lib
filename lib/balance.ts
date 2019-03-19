@@ -39,11 +39,11 @@ export class CurrencyStats implements Serializable {
     issuer: account_name;
     timestamp: u64;
 
-    constructor(supply: Asset, max_supply: Asset, issuer: account_name, time: u64 = 0) {
-        this.max_supply = max_supply;
-        this.supply = supply;
-        this.issuer = issuer;
-        this.timestamp = time;
+    constructor() {
+        this.max_supply = new Asset();
+        this.supply = new Asset();
+        this.issuer = 0;
+        this.timestamp = 0;
     }
 
     primaryKey(): u64 { return this.supply.symbolName(); }
@@ -72,7 +72,7 @@ export class CurrencyStats implements Serializable {
  * @function queryBalance
  */
 export function queryBalance(owner: account_name): Asset {
-    let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME("accounts"), NAME("utrio.token"), owner);
+    let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME("accounts"), owner);
     let act: CurrencyAccount = new CurrencyAccount(new Asset());
     let existing = accounts.get(SYS_NAME, act);
 

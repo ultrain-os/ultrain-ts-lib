@@ -12,7 +12,7 @@ else
 fi
 
 if hash usc>/dev/null; then
-   usc UIP09.ts -g UIP09.abi -b UIP09.wasm -l
+   usc UIP09.ts -g UIP09.abi -b UIP09.wasm -l --log
    echo "Compiler the contract ……"
 else
    echo "Command usc not exist"
@@ -26,7 +26,9 @@ ${clultrain} push action nft create '["rose", "1000 XRT"]' -p nft
 ${clultrain} push action nft issue '["tom", "2 XRT", ["Wu", "Kong"], "2018", "First issue"]' -p rose
 ${clultrain} push action nft transfer '["tom", "jerry", 1, "transfer"]' -p tom
 ${clultrain} push action nft transfer '["tom", "jerry", 2, "transfer"]' -p tom
-${clultrain} push action nft getSupply '["XRT"]' -p nft
+${clultrain} push action nft totalSupply '["XRT"]' -p nft
+${clultrain} push action nft getSupplies '' -p nft
+
 
 
 echo "Get the table info:"
@@ -34,4 +36,10 @@ ${clultrain} get table nft token token
 ${clultrain} get table nft stat stat
 ${clultrain} get table nft jerry accounts
 
-rm UIP09.wast UIP09.wasm
+files=(UIP09.wast UIP09.wasm)
+for fileName in ${files[@]} 
+do 
+    if [ -f $fileName ]; then
+    rm $fileName
+    fi
+done

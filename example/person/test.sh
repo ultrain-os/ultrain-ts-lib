@@ -22,7 +22,7 @@ do
         do
             n="[\"dog$i$j$k\", 100, 30]"
             echo $n
-            $cmd push action jack add "$n" -p jack
+            $cmd push action jack addSales "$n" -p jack
         done
     done
 

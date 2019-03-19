@@ -34,7 +34,7 @@ export class AnonymousVoting extends Contract {
 
   public onInit(): void {
     this.votes = new Candidates();
-    this.candidb = new DBManager<Candidates>(NAME(canditable), this.receiver, NAME(candiscope));
+    this.candidb = new DBManager<Candidates>(NAME(canditable), NAME(candiscope));
     this.inited = this.candidb.get(0, this.votes);
 
     Log.s("this.votes.length = ").i(this.votes.candidates.length).s(", inited = ").s(this.inited ? "true" : "false").flush();
@@ -42,9 +42,9 @@ export class AnonymousVoting extends Contract {
 
   public onStop(): void {
     if (this.inited) {
-      this.candidb.modify(this.receiver, this.votes);
+      this.candidb.modify(this.votes);
     } else {
-      this.candidb.emplace(this.receiver, this.votes);
+      this.candidb.emplace(this.votes);
     }
   }
 
@@ -70,20 +70,20 @@ export class AnonymousVoting extends Contract {
       let candi: VotingStatus = new VotingStatus();
       let sha = new SHA256();
       let hashedvoter = sha.hash(RNAME(Action.sender));
-      let statusdb = new DBManager<VotingStatus>(NAME(votingtable), this.receiver, NAME(votingscope));
+      let statusdb = new DBManager<VotingStatus>(NAME(votingtable), NAME(votingscope));
       let existing = statusdb.get(canidate, candi);
 
       if (existing) {
         ultrain_assert(candi.who_voted.includes(hashedvoter), "you have voted this candidates.");
         candi.count += 1;
         candi.who_voted.push(hashedvoter);
-        statusdb.modify(this.receiver, candi);
+        statusdb.modify( candi);
       } else {
         candi.name = canidate;
         candi.count = 1;
         candi.who_voted.push(hashedvoter);
 
-        statusdb.emplace(this.receiver, candi);
+        statusdb.emplace(candi);
       }
     } else {
       ultrain_assert(false, "the candidate is not in candicates list.");

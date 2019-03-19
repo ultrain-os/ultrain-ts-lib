@@ -187,12 +187,12 @@ export class Action {
      * @param {T} data parameter of this action, which must be type of T.
      * @memberof Action
      */
-    public static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
+    static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
         let ds = composeActionData(pl, receiver, action, data);
         ActionAPI.send_inline(<usize>ds.buffer, ds.pos);
     }
 
-    public static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
+    static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
         ultrain_assert(pl.length == 0, "context free action need nothing permission info.");
         let ds = composeActionData(pl, receiver, action, data);
         ActionAPI.send_context_free_inline(<usize>ds.buffer, ds.pos);

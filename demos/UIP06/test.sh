@@ -7,7 +7,7 @@ clultrain="$1/build/programs/clultrain/clultrain"
 echo "using clutrain: ${clultrain}"
 
 if hash usc>/dev/null; then
-   usc UIP06.ts -g UIP06.abi -b UIP06.wasm -l
+   usc UIP06.ts -g UIP06.abi -b UIP06.wasm -l --validate
    echo "Compiler the contract ……"
 else
    echo "Command usc not exist."

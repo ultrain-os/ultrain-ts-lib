@@ -11,6 +11,6 @@ else
 fi
 
 echo "Deploy the contract ${clultrain}"
-account=test1
-${clultrain} set contract ${account} ../safemath -p test1
-${clultrain} push action ${account} test '[13]' -p test1
+account=nft
+${clultrain} set contract ${account} ../safemath -p ${account}
+${clultrain} push action ${account} test '[13]' -p ${account}

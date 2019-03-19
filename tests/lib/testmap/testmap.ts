@@ -137,7 +137,7 @@ class MapTest extends Contract{
         // mp.obj_obj_array_map.set(new Obj(3, 4), []);
 
         let db = new DBManager<A>(NAME("aaaaa"), this.receiver, NAME("aaaaa"));
-        db.emplace(this.receiver, mp);
+        db.emplace(mp);
     }
 
     @action

@@ -144,6 +144,11 @@
       "name": "getBalance"
     },
     {
+      "fields": [],
+      "base": "",
+      "name": "getSupplies"
+    },
+    {
       "fields": [
         {
           "name": "id",
@@ -253,6 +258,12 @@
       "ricardian_contract": "",
       "name": "getBalance",
       "type": "getBalance",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "getSupplies",
+      "type": "getSupplies",
       "ability": "normal"
     }
   ],

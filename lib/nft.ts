@@ -351,7 +351,7 @@ export class Nft implements UIP09 {
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
-        statstable.modify(ram_payer, st);
+        statstable.modify(st);
     }
 
 }

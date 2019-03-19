@@ -40,7 +40,8 @@
     {
       "ricardian_contract": "",
       "name": "addTiger",
-      "type": "addTiger"
+      "type": "addTiger",
+      "ability": "normal"
     }
   ],
   "tables": []

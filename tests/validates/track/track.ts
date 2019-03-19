@@ -33,7 +33,7 @@ class TestTrack extends Contract {
 
     @action
     testType(account: account_name, user_name: string, age: i32, yes: bool, _u64: u64): void {
-        var aDbManager: DBManager<TypeZoo> = new DBManager<TypeZoo>(NAME("types"), this.receiver, NAME("types"));
+        var aDbManager: DBManager<TypeZoo> = new DBManager<TypeZoo>(NAME("types"), NAME("types"));
         var types: TypeZoo = new TypeZoo();
         types.account = account;
         types.name = user_name;
@@ -42,7 +42,7 @@ class TestTrack extends Contract {
         types._64 = _u64;
 
         if (!aDbManager.exists(0)){
-            aDbManager.emplace(this.receiver, types);
+            aDbManager.emplace(types);
         }
         if (yes) {
             Log.s("yes is true. ").flush();

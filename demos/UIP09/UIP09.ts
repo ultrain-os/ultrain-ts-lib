@@ -14,12 +14,6 @@ class NftAccount implements Serializable {
         this.balance = blc;
     }
 
-    // deserialize(ds: DataStream): void { 
-    // }
-
-    // serialize(ds: DataStream): void {
-    // }
-
     primaryKey(): id_type { return this.balance.symbolName(); }
 
 }
@@ -111,6 +105,7 @@ class Token implements Serializable {
 const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
 const TOKENTABLE: string = "token";
+
 
 @database(Token, TOKENTABLE)
 @database(CurrencyStats, STATSTABLE)
@@ -272,18 +267,18 @@ export class UIP09Impl extends Contract implements UIP09 {
         return account.balance;
     }
 
-    // @action
-    // getSupplies(): Asset[] {
-    //     var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
-    //     var cursor: Cursor<CurrencyStats> = statstable.cursor();
-    //     var supplies = new Array<Asset>();
-    //     while (cursor.hasNext()) {
-    //         let stat: CurrencyStats = cursor.get();
-    //         supplies.push(stat.max_supply);
-    //         cursor.next();
-    //     }
-    //     return supplies;
-    // }
+    @action
+    getSupplies(): Asset[] {
+        var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        var cursor: Cursor<CurrencyStats> = statstable.cursor();
+        var supplies = new Array<Asset>();
+        while (cursor.hasNext()) {
+            let stat: CurrencyStats = cursor.get();
+            supplies.push(stat.max_supply);
+            cursor.next();
+        }
+        return supplies;
+    }
 
     private getStatDbManager(): DBManager<CurrencyStats> {
         return new DBManager<CurrencyStats>(NAME(STATSTABLE), NAME(STATSTABLE));

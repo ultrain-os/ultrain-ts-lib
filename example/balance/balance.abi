@@ -26,15 +26,16 @@
           "type": "Asset"
         }
       ],
-      "name": "transfer",
-      "base": ""
+      "base": "",
+      "name": "transfer"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer"
+      "type": "transfer",
+      "ability": "normal"
     }
   ],
   "tables": []

@@ -31,7 +31,7 @@ class HumanResource extends Contract {
 
     constructor(code: u64) {
         super(code);
-        this.persondb = new DBManager<Person>(NAME(persontable), this.receiver, NAME(persontable));
+        this.persondb = new DBManager<Person>(NAME(persontable), NAME(persontable));
     }
 
     @action
@@ -42,7 +42,7 @@ class HumanResource extends Contract {
 
         let existing = this.persondb.exists(id);
         ultrain_assert(!existing, "this person has existed in db yet.");
-        this.persondb.emplace(this.receiver, p);
+        this.persondb.emplace(p);
 
         return p;
     }
@@ -65,7 +65,7 @@ class HumanResource extends Contract {
         ultrain_assert(existing, "the person does not exist.");
 
         p.name   = "normal modify it";
-        this.persondb.modify(this.receiver, p);
+        this.persondb.modify(p);
     }
 
     @action("pureview")
