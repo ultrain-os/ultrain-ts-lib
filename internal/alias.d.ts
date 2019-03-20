@@ -18,6 +18,3 @@ declare type time = u32;
 declare type scope_name = u64;
 export  type action_name = NameEx;
 declare type weight_type = u16;
-
-// declare type transaction_id_type = Checksum256;
-// declare type block_id_type = Checksum256;

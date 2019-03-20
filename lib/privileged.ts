@@ -1,7 +1,6 @@
 import { DSHelper } from "../lib/datastream";
 import { PublicKey } from "../internal/types";
 import { env as privileged } from "../internal/privileged.d";
-import { ultrain_assert } from "../src/utils";
 
 export class BlockchainParameters implements Serializable {
     max_block_net_usage: u64;
