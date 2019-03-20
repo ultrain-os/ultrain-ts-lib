@@ -141,12 +141,12 @@
         }
       ],
       "base": "",
-      "name": "getBalance"
+      "name": "balanceOf"
     },
     {
       "fields": [],
       "base": "",
-      "name": "getSupplies"
+      "name": "totalSupplies"
     },
     {
       "fields": [
@@ -256,14 +256,14 @@
     },
     {
       "ricardian_contract": "",
-      "name": "getBalance",
-      "type": "getBalance",
+      "name": "balanceOf",
+      "type": "balanceOf",
       "ability": "normal"
     },
     {
       "ricardian_contract": "",
-      "name": "getSupplies",
-      "type": "getSupplies",
+      "name": "totalSupplies",
+      "type": "totalSupplies",
       "ability": "normal"
     }
   ],

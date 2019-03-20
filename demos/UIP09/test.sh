@@ -27,8 +27,8 @@ ${clultrain} push action nft issue '["tom", "2 XRT", ["Wu", "Kong"], "2018", "Fi
 ${clultrain} push action nft transfer '["tom", "jerry", 1, "transfer"]' -p tom
 ${clultrain} push action nft transfer '["tom", "jerry", 2, "transfer"]' -p tom
 ${clultrain} push action nft totalSupply '["XRT"]' -p nft
-${clultrain} push action nft getSupplies '' -p nft
-
+${clultrain} push action nft totalSupplies '' -p nft
+${clultrain} push action nft balanceOf '["jerry", "XRT"]' -p nft
 
 
 echo "Get the table info:"

@@ -117,7 +117,7 @@
         }
       ],
       "base": "",
-      "name": "getSupply"
+      "name": "totalSupply"
     },
     {
       "fields": [
@@ -131,7 +131,7 @@
         }
       ],
       "base": "",
-      "name": "getBalance"
+      "name": "balanceOf"
     },
     {
       "fields": [
@@ -235,15 +235,15 @@
     },
     {
       "ricardian_contract": "",
-      "name": "getSupply",
-      "type": "getSupply",
-      "ability": "normal"
+      "name": "totalSupply",
+      "type": "totalSupply",
+      "ability": "pureview"
     },
     {
       "ricardian_contract": "",
-      "name": "getBalance",
-      "type": "getBalance",
-      "ability": "normal"
+      "name": "balanceOf",
+      "type": "balanceOf",
+      "ability": "pureview"
     }
   ],
   "tables": [

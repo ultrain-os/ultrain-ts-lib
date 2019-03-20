@@ -19,8 +19,8 @@ ${clultrain} push action token create '["rose", "100.00 ETA"]' -p token
 ${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
 ${clultrain} push action token issue '["jack", "20.00 ETA", "issue"]' -p rose
 ${clultrain} push action token transfer '["jack", "tom" "10.00 ETA", "transfer"]' -p jack
-${clultrain} push action token getBalance '["jack", "ETA"]' -p token
-${clultrain} push action token getSupply '["ETA"]' -p token
+${clultrain} push action token balanceOf '["jack", "ETA"]' -p token
+${clultrain} push action token totalSupply '["ETA"]' -p token
 
 #Get table info
 ${clultrain} get table token ETA stat

@@ -229,23 +229,23 @@ export class UIP06Impl extends Contract implements UIP06{
         }
     }
 
-    @action
-    public getSupply(sym_name: string): Asset {
+    @action("pureview")
+    public totalSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), symname);
         let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "getSupply failed, stats is not existed.");
+        ultrain_assert(existing, "totalSupply failed, stats is not existed.");
         return st.max_supply;
     }
 
-    @action
-    public getBalance(owner: account_name, sym_name: string): Asset {
+    @action("pureview")
+    public balanceOf(owner: account_name, sym_name: string): Asset {
         let symname: u64 = StringToSymbol(0, sym_name) >> 8;
         let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner);
         let account = new CurrencyAccount(new Asset());
         let existing = accounts.get(symname, account);
-        ultrain_assert(existing, "getBalance failed, account is not existed.")
+        ultrain_assert(existing, "balanceOf failed, account is not existed.")
 
         return account.balance;
     }

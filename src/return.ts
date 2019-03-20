@@ -42,7 +42,15 @@ function returnObj<T extends Returnable>(val: T): void {
  * import { ReturnArray } from "ultrain-ts-lib/src/return";
  */
 export function ReturnArray<T>(val: T[]): void {
+    var lfBracket: string = "[";
+    var rtBracket: string = "]";
+    var comma: string = ",";
+    env.set_result_str(string2cstr(lfBracket));
     for (let i: i32 = 0; i < val.length; i++) {
+        if (i != 0) {
+            env.set_result_str(string2cstr(comma));
+        }
         Return<T>(val[i]);
     }
+    env.set_result_str(string2cstr(rtBracket));
 }

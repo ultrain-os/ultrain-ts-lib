@@ -252,23 +252,23 @@ export class UIP09Impl extends Contract implements UIP09 {
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "getSupply failed, states is not existed.");
+        ultrain_assert(existing, "totalSupply failed, states is not existed.");
         return st.max_supply;
     }
 
     @action
-    getBalance(owner: account_name, sym_name: string): Asset {
+    balanceOf(owner: account_name, sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
-        ultrain_assert(existing, "getBalance failed, account is not existed.")
+        ultrain_assert(existing, "balanceOf failed, account is not existed or account has no the Asset.")
 
         return account.balance;
     }
 
     @action
-    getSupplies(): Asset[] {
+    totalSupplies(): Asset[] {
         var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         var cursor: Cursor<CurrencyStats> = statstable.cursor();
         var supplies = new Array<Asset>();
@@ -312,7 +312,9 @@ export class UIP09Impl extends Contract implements UIP09 {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
-        tokens.emplace(token);
+        if (!existing) {
+            tokens.emplace(token);
+        }
     }
 
     private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
