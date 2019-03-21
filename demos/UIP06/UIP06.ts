@@ -115,7 +115,7 @@ export class UIP06Impl extends Contract implements UIP06{
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);
         statstable.modify(st);
-        this.addBalance(st.issuer, quantity, st.issuer);
+        this.addBalance(st.issuer, quantity);
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
@@ -152,7 +152,7 @@ export class UIP06Impl extends Contract implements UIP06{
         ultrain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
 
         this.subBalance(from, quantity);
-        this.addBalance(to, quantity, from);
+        this.addBalance(to, quantity);
     }
 
     /**
@@ -223,7 +223,7 @@ export class UIP06Impl extends Contract implements UIP06{
             }
 
             this.subBalance(FrezonAccount, amount);
-            this.addBalance(owner, amount, this.receiver);
+            this.addBalance(owner, amount);
         } else {
             Return<string>("No expired token can retrieval.");
         }
@@ -267,7 +267,7 @@ export class UIP06Impl extends Contract implements UIP06{
         }
     }
 
-    private addBalance(owner: u64, value: Asset, ram_payer: u64): void {
+    private addBalance(owner: u64, value: Asset): void {
         let toaccount: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME(AccountTable), owner);
         let to: CurrencyAccount = new CurrencyAccount(new Asset());
         let existing = toaccount.get(value.symbolName(), to);

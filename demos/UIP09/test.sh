@@ -28,7 +28,10 @@ ${clultrain} push action nft transfer '["tom", "jerry", 1, "transfer"]' -p tom
 ${clultrain} push action nft transfer '["tom", "jerry", 2, "transfer"]' -p tom
 ${clultrain} push action nft totalSupply '["XRT"]' -p nft
 ${clultrain} push action nft totalSupplies '' -p nft
-${clultrain} push action nft balanceOf '["jerry", "XRT"]' -p nft
+${clultrain} push action nft balanceOf '["jerry", "XRT"]' -p jerry
+${clultrain} push action nft tokenByIndex '["jerry", "XRT", 1]' -p jerry
+${clultrain} push action nft uriOf '[1]' -p nft
+${clultrain} push action nft ownerOf '[1]' -p nft
 
 
 echo "Get the table info:"

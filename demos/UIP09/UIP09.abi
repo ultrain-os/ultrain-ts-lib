@@ -104,6 +104,16 @@
     {
       "fields": [
         {
+          "name": "sym_name",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "totalSupply"
+    },
+    {
+      "fields": [
+        {
           "name": "owner",
           "type": "account_name"
         },
@@ -118,16 +128,6 @@
       ],
       "base": "",
       "name": "tokenByIndex"
-    },
-    {
-      "fields": [
-        {
-          "name": "sym_name",
-          "type": "string"
-        }
-      ],
-      "base": "",
-      "name": "totalSupply"
     },
     {
       "fields": [
@@ -244,14 +244,14 @@
     },
     {
       "ricardian_contract": "",
-      "name": "tokenByIndex",
-      "type": "tokenByIndex",
+      "name": "totalSupply",
+      "type": "totalSupply",
       "ability": "pureview"
     },
     {
       "ricardian_contract": "",
-      "name": "totalSupply",
-      "type": "totalSupply",
+      "name": "tokenByIndex",
+      "type": "tokenByIndex",
       "ability": "pureview"
     },
     {

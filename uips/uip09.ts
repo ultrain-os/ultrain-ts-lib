@@ -53,7 +53,7 @@ export interface UIP09 {
 	 * 
 	 * @returns return the token owner account name
 	 */
-	ownerOf(token_id: id_type): account_name;
+	ownerOf(token_id: id_type): string;
 
 	/**
 	 * Get the owner token id by the index

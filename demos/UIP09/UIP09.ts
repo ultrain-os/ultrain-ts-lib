@@ -2,10 +2,9 @@ import { Action } from "../../src/action";
 import { Contract } from "../../src/contract";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Log } from "../../src/log";
-import { ACCOUNT, NAME, Account } from "../../src/account";
-import { UIP09 } from "../../uips/uip09";
+import { ACCOUNT, NAME, Account, RNAME } from "../../src/account";
 
-class NftAccount implements Serializable {
+class NftAccount implements Serializable {    
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
@@ -106,7 +105,6 @@ const STATSTABLE: string = "stat";
 const ACCOUNTTABLE: string = "accounts";
 const TOKENTABLE: string = "token";
 
-
 @database(Token, TOKENTABLE)
 @database(CurrencyStats, STATSTABLE)
 @database(NftAccount, ACCOUNTTABLE)
@@ -166,11 +164,11 @@ export class UIP09Impl extends Contract implements UIP09 {
         for (let index = 0; index < uris.length; index++) {
             let uri = uris[index];
             token_ids.push(token_id_start);
-            this.mint(token_id_start, to, st.issuer, oneAsset, uri, name);
+            this.mint(token_id_start, to, oneAsset, uri, name);
             token_id_start++;
         }
-        this.subSupply(st.issuer, quantity);
-        this.addBalance(to, token_ids, quantity, st.issuer);
+        this.subSupply(quantity);
+        this.addBalance(to, token_ids, quantity);
         this.updateMaxPrimaryKey(st.issuer, --token_id_start);
     }
 
@@ -210,17 +208,17 @@ export class UIP09Impl extends Contract implements UIP09 {
         this.subBalance(from, token_id, oneToken);
         let token_ids = new Array<id_type>();
         token_ids.push(token_id);
-        this.addBalance(to, token_ids, oneToken, from);
+        this.addBalance(to, token_ids, oneToken);
     }
 
     @action
-    ownerOf(id: id_type): account_name {
+    ownerOf(id: id_type): string {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
 
         ultrain_assert(existing, "getBalance failed, account is not existed.")
-        return token.owner;
+        return RNAME(token.owner);
     }
 
     @action
@@ -234,19 +232,6 @@ export class UIP09Impl extends Contract implements UIP09 {
     }
 
     @action("pureview")
-    tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
-        let symname = NAME(sym_name);
-        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), symname);
-        let account: NftAccount = new NftAccount(new Asset());
-        let existing = accounts.get(symname, account);
-
-        ultrain_assert(existing, "tokenByIndex failed, account is not existed.")
-        ultrain_assert(account.token_ids.length > index, "tokenByIndex failed, the index beyond the range.");
-
-        return account.token_ids[index];
-    }
-
-    @action("pureview")
     totalSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
@@ -254,6 +239,19 @@ export class UIP09Impl extends Contract implements UIP09 {
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "totalSupply failed, states is not existed.");
         return st.max_supply;
+    }
+
+    @action("pureview")
+    tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
+        let symname = StringToSymbol(0, sym_name) >> 8;
+        let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
+        let account = new NftAccount(new Asset());
+        let existing = accounts.get(symname, account);
+
+        ultrain_assert(existing, "tokenByIndex failed, account is not existed.")
+        ultrain_assert(account.token_ids.length > index, "tokenByIndex failed, the index beyond the range.");
+
+        return account.token_ids[index];
     }
 
     @action
@@ -308,7 +306,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         }
     }
 
-    private mint(id: id_type, owner: account_name, ram_payer: account_name, value: Asset, uri: string, name: string): void {
+    private mint(id: id_type, owner: account_name, value: Asset, uri: string, name: string): void {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(id, owner, value, uri, name);
         let existing = tokens.get(id, token);
@@ -317,7 +315,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         }
     }
 
-    private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset, ram_payer: account_name): void {
+    private addBalance(owner: account_name, token_ids: Array<id_type>, value: Asset): void {
         let toaccount: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let to: NftAccount = new NftAccount(new Asset());
         let existing = toaccount.get(value.symbolName(), to);
@@ -332,7 +330,7 @@ export class UIP09Impl extends Contract implements UIP09 {
             for (let i = 0; i < token_ids.length; i++) {
                 to.token_ids.push(token_ids[i]);
             }
-            toaccount.modify(to); // ram_payer or 0
+            toaccount.modify(to);
         }
     }
 
@@ -360,7 +358,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         }
     }
 
-    private subSupply(ram_payer: u64, quantity: Asset): void {
+    private subSupply(quantity: Asset): void {
         let symname = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st: CurrencyStats = new CurrencyStats();
