@@ -1,23 +1,76 @@
-/**
- * @author fanliangqin@ultrain.io
- */
 import { Contract } from "../../src/contract";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { TransferParams } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
-import { env as action } from "../../internal/action.d";
+import { env as action } from "../../internal/action";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account } from "../../src/account";
-import { NEX, NameEx} from "../../lib/name_ex";
+import { NEX, NameEx } from "../../lib/name_ex";
 import { Action } from "../../src/action";
 import { UIP06 } from "../../uips/uip06";
 
+class FrozenItem implements Serializable {
+    from  : account_name;
+    amount: Asset;
+    until : u32;
+    note  : string;
+
+    /**
+     *Creates an instance of FrozenItem.
+     * @param {account_name} whose this token from whom
+     * @param {Asset} amount how many token to freeze
+     * @param {u32} until deadline, seconds since epoch.
+     * @param {string} note a memo.
+     * @memberof FrozenItem
+     */
+    constructor(/* whose: account_name, amount: Asset, until: u32, note: string */) {
+        // this.from   = whose;
+        // this.amount = amount;
+        // this.until  = until;
+        // this.note   = note;
+    }
+
+    init(whose: account_name, amount: Asset, until: u32, note: string): void {
+         this.from   = whose;
+        this.amount = amount;
+        this.until  = until;
+        this.note   = note;
+    }
+
+    @operator("==")
+    private static _eq(lhs: FrozenItem, rhs: FrozenItem): boolean {
+        return (lhs.from == rhs.from) && (lhs.amount.eq(rhs.amount)) && (lhs.until == rhs.until);
+    }
+
+    gte(it: FrozenItem): boolean {
+        let status = ( this.from == it.from );
+        status = this.amount.eq(it.amount) && status;
+        status = this.until >= it.until && status;
+
+        // Log.s("FrozenItem.gte: ").i(this.until).s(" >= ").i(it.until).s(" status = ").s(status? "true":"false").flush();
+        return status;
+    }
+}
+
+class FrozenToken implements Serializable {
+    to: account_name = 0;
+    treasure: FrozenItem[] = [];
+
+    primaryKey(): u64 {
+        return this.to;
+    }
+}
+
 const StatsTable  : string = "stat";
 const AccountTable: string = "accounts";
+const FrozenTable : string = "frozen.tbl";
+
+let FrezonAccount = NAME("utrio.freeze");
 
 @database(CurrencyStats, StatsTable)
 @database(CurrencyAccount, AccountTable)
-export class StandardUIP06 extends Contract implements UIP06{
+@database(FrozenToken, FrozenTable)
+export class TimeLockUIP06 extends Contract implements UIP06{
 
     @action
     public create(issuer: account_name, maximum_supply: Asset): void {
@@ -74,6 +127,7 @@ export class StandardUIP06 extends Contract implements UIP06{
 
     @action
     public transfer(from: account_name, to: account_name, quantity: Asset, memo: string): void {
+        ultrain_assert(from != FrezonAccount, "token.transfer: can not transfer from account utrio.freeze.");
         ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
         Action.requireAuth(from);
         ultrain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
@@ -96,6 +150,79 @@ export class StandardUIP06 extends Contract implements UIP06{
         this.addBalance(to, quantity);
     }
 
+    /**
+     * freeze some token, it will transfer token from Action.sender to 'utrio.freeze' account,
+     * 'to' account can retrieval this token after deadline.
+     * You can retrieval a whole frozen token at a time.
+     *
+     * @param {account_name} to who can retrieval this token.
+     * @param {Asset} amount how many tokens froze.
+     * @param {u32} deadline when this token can retrieval.
+     * @param {string} note a memo.
+     * @memberof Token
+     */
+    @action
+    public freeze(to: account_name, amount: Asset, deadline: u32, note: string): void {
+        ultrain_assert(Account.isValid(to), "account '" + RNAME(to) +"' does not exist.");
+
+        let from = Action.sender;
+        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), 0);
+        let item = new FrozenItem();
+        item.init(from, amount, deadline, note);
+        let frozen = new FrozenToken();
+        frozen.to = to;
+        let existing = frozendb.get(frozen.primaryKey(), frozen);
+        frozen.treasure.push(item);
+        if (existing) {
+            frozendb.modify(frozen);
+        } else {
+            frozendb.emplace(frozen);
+        }
+
+        this.transfer(from, FrezonAccount, amount, note);
+    }
+
+    /**
+     * to retrieval frozen tokens to the Action.sender
+     *
+     * @param {account_name} from who freeze this token.
+     * @param {Asset} amount the whole token 'from' froze.
+     * @memberof Token
+     */
+    @action
+    public retrieval(from: account_name, amount: Asset): void {
+        let owner = Action.sender;
+        let frozendb = new DBManager<FrozenToken>(NAME(FrozenTable), 0);
+        let frozen = new FrozenToken();
+        frozen.to = owner;
+
+        let existing = frozendb.get(frozen.primaryKey(), frozen);
+        ultrain_assert(existing, "you do not have any token freezed.");
+        let item = new FrozenItem();
+        item.init(from, amount, now(), "");
+
+        let expired = false;
+        for (let i: i32 = 0; i < frozen.treasure.length; i++) {
+            if (item.gte(frozen.treasure[i])) {
+                frozen.treasure.splice(i, 1);
+                expired = true;
+                break;
+            }
+        }
+
+        if (expired) {
+            if (frozen.treasure.length == 0) {
+                frozendb.erase(frozen.primaryKey());
+            } else {
+                frozendb.modify(frozen);
+            }
+
+            this.subBalance(FrezonAccount, amount);
+            this.addBalance(owner, amount);
+        } else {
+            Return<string>("No expired token can retrieval.");
+        }
+    }
 
     @action("pureview")
     public totalSupply(sym_name: string): Asset {
@@ -105,16 +232,6 @@ export class StandardUIP06 extends Contract implements UIP06{
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "totalSupply failed, stats is not existed.");
         return st.max_supply;
-    }
-
-    @action("pureview")
-    public getSupply(sym_name: string): Asset {
-        let symname = StringToSymbol(0, sym_name) >> 8;
-        let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), symname);
-        let st = new CurrencyStats();
-        let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "getSupply failed, stats is not existed.");
-        return st.supply;
     }
 
     @action("pureview")

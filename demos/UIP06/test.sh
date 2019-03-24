@@ -37,4 +37,10 @@ $clultrain push action jack retrieval '["rose", "100.0000 BENZ"]' -p tony
 $clultrain push action jack freeze '["tony", "200.0000 BENZ", 1540283045, "another freeze test"]' -p rose
 $clultrain push action jack retrieval '["rose", "200.0000 BENZ"]' -p tony
 
-rm UIP06.wasm UIP06.wast
+files=(UIP06.wast UIP06.wasm UIP06.abi)
+for fileName in ${files[@]} 
+do 
+    if [ -f $fileName ]; then
+    rm $fileName
+    fi
+done

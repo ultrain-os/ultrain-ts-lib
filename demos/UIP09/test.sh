@@ -39,7 +39,7 @@ ${clultrain} get table nft token token
 ${clultrain} get table nft stat stat
 ${clultrain} get table nft jerry accounts
 
-files=(UIP09.wast UIP09.wasm)
+files=(UIP09.wast UIP09.wasm UIP09.abi)
 for fileName in ${files[@]} 
 do 
     if [ -f $fileName ]; then

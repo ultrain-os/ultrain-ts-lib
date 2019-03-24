@@ -78,7 +78,7 @@ export interface UIP09 {
 	/**
 	 * Get the total supply of the symbol token
 	 * 
-	 * @param sym_name the token sym name like "UGAS"
+	 * @param sym_name the token symbol name like "UGAS"
 	 * 
 	 * @return  reutrn the total supply asset by symbol name
 	 */
@@ -90,6 +90,14 @@ export interface UIP09 {
 	 * @return return the all total supply asset
 	 */
 	totalSupplies(): Asset[];
+
+	/**
+	 * Get the token issued supply
+	 * @param sym_name the token symbol name like "UGAS"
+	 * 
+	 * @return return the issued supply asset
+	 */
+	getSupply(sym_name: string): Asset;
 
 	/**
 	 * Get the balance of the owner's symbol name token.

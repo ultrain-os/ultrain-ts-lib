@@ -3,6 +3,7 @@ import { Contract } from "../../src/contract";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { Log } from "../../src/log";
 import { ACCOUNT, NAME, Account, RNAME } from "../../src/account";
+import { UIP09 } from "../../uips/uip09";
 
 class NftAccount implements Serializable {    
     balance: Asset;
