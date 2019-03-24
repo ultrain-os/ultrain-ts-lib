@@ -61,6 +61,15 @@ export interface UIP06 {
 	totalSupplies(): Asset[];
 
 	/**
+	 * Get the the issued supply of the symbol token.  
+	 * 
+	 * @param sys_name the token symbol name like "UGAS"
+	 * 
+	 * @return  reutrn the issued supply asset
+	 */
+	getSupply(sys_name: string): Asset;
+
+	/**
 	 * Get the balance of the owner's symbol name token
 	 * 
 	 * @param owner the owner account 
