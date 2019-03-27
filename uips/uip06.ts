@@ -9,7 +9,7 @@ import { Asset } from "../src/asset";
  *  · Virtual assets - Virtual coin
  *  · Physical assets - RMB, normal book
  * 
- * @reference {@link ../demo/token/Token}
+ * @reference {@link ../demo/UIP06/StandardUIP06}
  */
 export interface UIP06 {
 

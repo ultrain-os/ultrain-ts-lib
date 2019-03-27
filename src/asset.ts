@@ -4,6 +4,7 @@ import { itoa64 } from "internal/number";
 import { PermissionLevel } from "./permission-level";
 import { NAME } from "./account";
 import { Action, ACTION, TransferParams } from "./action";
+import { NameEx } from "../lib/name_ex";
 
 /**
  * ASCII code of character A.
@@ -342,6 +343,7 @@ export class Asset implements Serializable, Returnable {
         pl.actor = from;
         pl.permission = NAME("active");
         let params = new TransferParams(from, to, value, memo);
-        Action.sendInline([pl], NAME("utrio.token"), ACTION("transfer").code, params);
+        let code: NameEx = ACTION("transfer").code;
+        Action.sendInline([pl], NAME("utrio.token"), code, params);
     }
 }
