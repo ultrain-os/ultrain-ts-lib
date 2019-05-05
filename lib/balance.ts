@@ -6,6 +6,7 @@
 
 import { Asset, SYS_NAME, SYS } from "../src/asset";
 import { NAME } from "../src/account";
+import { env as cpt } from "../internal/crypto.d";
 /**
  * class CurrencyAccount for Token system.
  *
@@ -72,9 +73,14 @@ export class CurrencyStats implements Serializable {
  * @function queryBalance
  */
 export function queryBalance(owner: account_name): Asset {
-    let accounts: DBManager<CurrencyAccount> = new DBManager<CurrencyAccount>(NAME("accounts"), owner);
-    let act: CurrencyAccount = new CurrencyAccount(new Asset());
-    let existing = accounts.get(SYS_NAME, act);
+    var ast = new Asset(0, SYS);
+    var len = DataStream.measure<Asset>(ast);
+    var ds = DSHelper.getDataStreamWithLength(len);
 
-    return existing ? act.balance : new Asset(0, SYS);
+    var status = cpt.ts_read_db_record(NAME("utrio.token"), NAME("accounts"), owner, ast.symbolName(), ds.pointer(), ds.size());
+    if (status == -1) return ast;
+
+    ast.deserialize(ds);
+
+    return ast;
 }
