@@ -2,11 +2,18 @@ import "allocator/arena";
 import { PrintableChar } from "../src/utils";
 
 function char_to_symbol(c: u8): u64 {
+    // 'a' ~ 'z'
     if (c >= 97 && c <= 122)
         return (c - 97) + 6;
+    // '1' ~ '5'
     if (c >= 49 && c <= 53)
         return (c - 49) + 1;
-    return 0;
+    // '.'
+    if (c == 46)
+        return 0;
+
+    ultrain_assert(false, "name string contains invalid character, only '.12345abcdefghijklmnopqrstuvwxyz' suports.");
+    return 0; // never reach here.
 }
 /**
  * convert a string to uint64 encoded by Base32.

@@ -6,6 +6,7 @@
 
 import { Asset, SYS_NAME, SYS } from "../src/asset";
 import { NAME } from "../src/account";
+import { env as cpt } from "../internal/crypto.d";
 /**
  * class CurrencyAccount for Token system.
  *

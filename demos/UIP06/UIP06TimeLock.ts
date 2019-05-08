@@ -4,7 +4,7 @@ import { TransferParams } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
-import { NAME, Account } from "../../src/account";
+import { NAME, Account, RNAME } from "../../src/account";
 import { NEX, NameEx } from "../../lib/name_ex";
 import { Action } from "../../src/action";
 import { UIP06 } from "../../uips/uip06";
@@ -75,10 +75,11 @@ export class TimeLockUIP06 extends Contract implements UIP06{
     @action
     public create(issuer: account_name, maximum_supply: Asset): void {
         Action.requireAuth (this.receiver);
-        let sym = maximum_supply.symbolName();
+        ultrain_assert(Account.isValid(issuer), "issuer '" + RNAME(issuer) + "' is invalid.");
         ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
         ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
+        let sym = maximum_supply.symbolName();
         let statstable: DBManager<CurrencyStats> = new DBManager<CurrencyStats>(NAME(StatsTable), sym);
         let cs: CurrencyStats = new CurrencyStats();
 
