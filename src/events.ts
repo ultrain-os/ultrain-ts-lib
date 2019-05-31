@@ -234,3 +234,9 @@ export function emit(evtname: string, obj: _EventObject): i32 {
     obj.clearAllArray();
     return ret;
 }
+
+export function EmitEvent(evtname: string, message: Returnable): i32 {
+    var what = message.toString();
+    var ret = system.emit_event(string2cstr(evtname), evtname.length, string2cstr(what), what.length);
+    return ret;
+}
