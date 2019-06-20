@@ -99,7 +99,8 @@ export function toUTF8Array(str: string): u8[] {
 export function string2cstr(str: string): u32 {
     let cstr = toUTF8Array(str);
     var ptr: u32 = load<u32>(changetype<usize>(cstr));
-    return <usize>ptr + sizeof<u64>();
+    // return <usize>ptr + sizeof<u64>();
+    return <usize>ptr + 2;
 }
 /**
  * print a string to console after wasm vm quit.

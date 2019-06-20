@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { env as AccountAPI } from "../internal/action.d";
 import { env as CryptoAPI} from "../internal/crypto.d";
 

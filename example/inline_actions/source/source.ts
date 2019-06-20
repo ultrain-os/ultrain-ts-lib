@@ -1,6 +1,3 @@
-
-import "allocator/arena";
-
 import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
 import { NAME, RNAME } from "../../../src/account";

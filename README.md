@@ -85,7 +85,6 @@ You can query/transfer the tokens from/to the account utrio.token, which Ultrain
 
 For more details, refer to demo [balance](https://github.com/ultrain-os/TsSDK/blob/master/example/balance/balance.ts)。
 ```typescript
-import "allocator/arena";
 import { Contract } from "ultrain-ts-lib/src/contract";
 import { Asset } from "ultrain-ts-lib/src/asset";
 import { ultrain_assert } from "ultrain-ts-lib/src/utils";

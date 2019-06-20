@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { PrintableChar } from "../src/utils";
 import { Log } from "../src/log";
 import { SHA256 } from "../src/crypto";

@@ -1,4 +1,3 @@
-import "allocator/arena";
 import {Contract} from "../../src/contract";
 import { Transaction, OnErrorValue } from "../../src/transaction";
 import { now } from "../../src/time";

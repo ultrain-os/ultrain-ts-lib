@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Log } from "../../src/log";
 import { string2cstr } from "../../src/utils";

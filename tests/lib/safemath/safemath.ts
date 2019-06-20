@@ -1,5 +1,3 @@
-import "allocator/arena";
-
 import { Contract } from "../../../src/contract";
 import { SafeMath } from "../../../src/safemath";
 

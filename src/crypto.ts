@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { env as cry } from "../internal/crypto.d";
 import { string2cstr, toUTF8Array, intToString } from "./utils";
 import { Log } from "./log";

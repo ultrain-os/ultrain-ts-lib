@@ -1,6 +1,5 @@
 import { Contract } from "../../../src/contract";
 import { Log } from "../../../src/log";
-import "allocator/arena";
 
 class A {
     age:u64;

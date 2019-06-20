@@ -1,76 +1,11 @@
 {
   "version": "ultraio:1.0",
-  "types": [
-    {
-      "new_type_name": "account_name",
-      "type": "name"
-    },
-    {
-      "new_type_name": "i32",
-      "type": "int32"
-    },
-    {
-      "new_type_name": "u64",
-      "type": "uint64"
-    }
-  ],
+  "types": [],
   "structs": [
     {
       "fields": [],
       "base": "",
       "name": "test"
-    },
-    {
-      "fields": [
-        {
-          "name": "account",
-          "type": "account_name"
-        },
-        {
-          "name": "user_name",
-          "type": "string"
-        },
-        {
-          "name": "age",
-          "type": "i32"
-        },
-        {
-          "name": "yes",
-          "type": "bool"
-        },
-        {
-          "name": "_u64",
-          "type": "u64"
-        }
-      ],
-      "base": "",
-      "name": "testType"
-    },
-    {
-      "fields": [
-        {
-          "name": "account",
-          "type": "account_name"
-        },
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "_64",
-          "type": "u64"
-        },
-        {
-          "name": "_i32",
-          "type": "i32"
-        },
-        {
-          "name": "_bool",
-          "type": "bool"
-        }
-      ],
-      "base": "",
-      "name": "TypeZoo"
     }
   ],
   "actions": [
@@ -79,25 +14,7 @@
       "name": "test",
       "type": "test",
       "ability": "normal"
-    },
-    {
-      "ricardian_contract": "",
-      "name": "testType",
-      "type": "testType",
-      "ability": "normal"
     }
   ],
-  "tables": [
-    {
-      "index_type": "i64",
-      "keys_names": [
-        "currency"
-      ],
-      "keys_types": [
-        "uint64"
-      ],
-      "name": "types",
-      "type": "TypeZoo"
-    }
-  ]
+  "tables": []
 }

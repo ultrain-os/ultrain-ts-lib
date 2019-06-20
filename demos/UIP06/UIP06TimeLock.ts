@@ -2,11 +2,13 @@ import { Contract } from "../../src/contract";
 import { Asset, StringToSymbol } from "../../src/asset";
 import { TransferParams } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
-import { env as action } from "../../internal/action";
+import { env as action } from "../../internal/action.d";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account, RNAME } from "../../src/account";
 import { NEX, NameEx } from "../../lib/name_ex";
 import { Action } from "../../src/action";
+import { now } from "../../src/time";
+import { Return } from "../../src/return";
 import { UIP06 } from "../../uips/uip06";
 
 class FrozenItem implements Serializable {
@@ -52,7 +54,7 @@ class FrozenItem implements Serializable {
     }
 }
 
-class FrozenToken implements Serializable {
+class FrozenToken implements Serializable {  
     to: account_name = 0;
     treasure: FrozenItem[] = [];
 
@@ -60,7 +62,6 @@ class FrozenToken implements Serializable {
         return this.to;
     }
 }
-
 const StatsTable  : string = "stat";
 const AccountTable: string = "accounts";
 const FrozenTable : string = "frozen.tbl";

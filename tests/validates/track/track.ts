@@ -20,14 +20,14 @@ class TestTrack extends Contract {
     @action
     public test(): void {
         this.testMax();
-        Log.s("Max running successful!").flush();
+        Log.s("12345678Max-runnAing-successful!").flush();
         this.testIndexOf();
-        Log.s("Indexof running successful!").flush();
+        Log.s("12345678Indexof-running-successful!").flush();
         this.testBreak();
-        Log.s("Break running successful!").flush();
+        Log.s("12345678Break-running-successful!").flush();
         this.testTernary();
-        Log.s("Ternary running successful!").flush();
-        Log.s("Successful!!!").flush();
+        Log.s("123456789Test terbart running successful!").flush();
+        Log.s("123456789Successful!!!").flush();
         this.toCheckList();
     }
 
@@ -72,7 +72,7 @@ class TestTrack extends Contract {
         assert( arr.length == 10);
 
         arr = this.createArrayUsingBracket(10);
-        assert( arr.length == 20)
+        assert( arr.length == 10)
     }
 
     /**
