@@ -4,21 +4,23 @@
     {
       "new_type_name": "u64",
       "type": "uint64"
-    },
-    {
-      "new_type_name": "i32",
-      "type": "int32"
     }
   ],
   "structs": [
     {
       "fields": [
         {
-          "name": "age",
-          "type": "A"
-        },
+          "name": "year",
+          "type": "u64"
+        }
+      ],
+      "base": "",
+      "name": "A"
+    },
+    {
+      "fields": [
         {
-          "name": "name",
+          "name": "pay",
           "type": "u64"
         },
         {
@@ -27,31 +29,21 @@
         }
       ],
       "base": "",
-      "name": "XXX"
+      "name": "Obj"
     },
     {
       "fields": [
         {
           "name": "listA",
-          "type": "XXX[]"
+          "type": "Obj[]"
         },
         {
           "name": "listB",
-          "type": "XXX[]"
+          "type": "Obj[]"
         }
       ],
       "base": "",
       "name": "test1"
-    },
-    {
-      "fields": [
-        {
-          "name": "b",
-          "type": "i32"
-        }
-      ],
-      "base": "",
-      "name": "test2"
     },
     {
       "fields": [],
@@ -83,37 +75,38 @@
     {
       "ricardian_contract": "",
       "name": "test1",
-      "type": "test1"
-    },
-    {
-      "ricardian_contract": "",
-      "name": "test2",
-      "type": "test2"
+      "type": "test1",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "testReturnAsset",
-      "type": "testReturnAsset"
+      "type": "testReturnAsset",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "testReturnAssetArr",
-      "type": "testReturnAssetArr"
+      "type": "testReturnAssetArr",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "testClassObj",
-      "type": "testClassObj"
+      "type": "testClassObj",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "testClassObjArr",
-      "type": "testClassObjArr"
+      "type": "testClassObjArr",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "teststr",
-      "type": "teststr"
+      "type": "teststr",
+      "ability": "normal"
     }
   ],
   "tables": []

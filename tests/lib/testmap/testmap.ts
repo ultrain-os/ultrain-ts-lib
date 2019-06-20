@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
@@ -136,13 +135,13 @@ class MapTest extends Contract{
         // mp.obj_obj_array_map.set(new Obj(1, 2), [new Obj(), new Obj(3, 4)]);
         // mp.obj_obj_array_map.set(new Obj(3, 4), []);
 
-        let db = new DBManager<A>(NAME("aaaaa"), this.receiver, NAME("aaaaa"));
+        let db = new DBManager<A>(NAME("aaaaa"), NAME("aaaaa"));
         db.emplace(mp);
     }
 
     @action
     testrestore(b: u64): void {
-        let db = new DBManager<A>(NAME("aaaaa"), this.receiver, NAME("aaaaa"));
+        let db = new DBManager<A>(NAME("aaaaa"), NAME("aaaaa"));
         Log.s("testrestore: ").flush();
         let mp = new A();
         let existing = db.exists(0);

@@ -1,6 +1,5 @@
-import "allocator/arena";
 import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number, MerkleProof } from "../../../src/crypto";
-import {Contract} from "../../../src/contract";
+import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
 import { Log } from "../../../src/log";
 

@@ -1,33 +1,27 @@
 import { Contract } from "../../../src/contract";
 import { Asset } from "../../../src/asset";
 
-@ignore
 class A implements Serializable , Returnable {
     year: u64;
 
     toString(): string {
-        return "";
+        return "year: " + this.year.toString();
     }
 }
 
-class XXX implements Serializable, Returnable {
-
+class Obj implements Serializable, Returnable {
+    @ignore
     age: A;
-    name: u64;
+    pay: u64;
     a: A;
-
     toString(): string {
-        return "";
+        return "age: " + this.age.toString() + ".pay: " + this.pay.toString() + ".a: " + this.a.toString();
     }
 }
 
 class TestAbi extends Contract {
     @action
-    public test1(listA: Array<XXX>, listB: XXX[]): void {
-    }
-
-    @action
-    public test2(b: i32): void {
+    public test1(listA: Array<Obj>, listB: Obj[]): void {
     }
 
     @action
@@ -46,12 +40,15 @@ class TestAbi extends Contract {
     }
 
     @action
-    testClassObjArr(): XXX[] {
-        return new Array<XXX>();
+    testClassObjArr(): Obj[] {
+        var obj = new Obj();
+        var arr = new Array<Obj>();
+        arr.push(obj);
+        return arr;
     }
 
     @action
     teststr(): string {
-        return "";
+        return "return a string.";
     }
 }

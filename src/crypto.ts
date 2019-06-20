@@ -1,7 +1,5 @@
-import "allocator/arena";
 import { env as cry } from "../internal/crypto.d";
-import { string2cstr, toUTF8Array, intToString } from "./utils";
-import { Log } from "./log";
+import { string2cstr, intToString } from "./utils";
 
 const HexDigital: string = "0123456789abcdef";
 const CHAR0 = 0x30;
@@ -11,7 +9,7 @@ const CHARf = 0x66;
 const CHARA = 0x41;
 const CHARF = 0x46;
 
-function to_hex(buffer: usize, buffersize: u32): string {
+function to_hex(buffer: ArrayBuffer, buffersize: u32): string {
     let hash = "";
     for (let i: u32 = 0; i < buffersize; i++) {
         let char = load<u8>(<usize>buffer + i);
@@ -35,7 +33,7 @@ function charcode_to_digital(char: i32): u8 {
     return ret;
 }
 
-function from_hex(hexStr: string, buffer: usize, bufferSize: u32): void {
+function from_hex(hexStr: string, buffer: ArrayBuffer, bufferSize: u32): void {
     let targetSize = hexStr.length / 2;
     ultrain_assert(targetSize == bufferSize, "Crypto.fromString failed: hexadecimal string length is mismatch for target crypto algorithm.");
 
@@ -64,8 +62,8 @@ class Crypto {
         this.data = new Uint8Array(size);
     }
 
-    public get buffer(): usize {
-        return changetype<usize>(this.data.buffer);
+    public get buffer(): ArrayBuffer {
+        return this.data.buffer;
     }
 
     public get bufferSize(): u32 {
@@ -240,9 +238,9 @@ export function verify_with_pk(pk_str: string, pk_proof: string, message: string
  */
 export function get_random_number(code: account_name, table: u64, scope: u64, primary: u64): u64 {
     let value = new Uint8Array(512);
-    let readLength = cry.ts_read_db_record(code, table, scope, primary, changetype<usize>(value.buffer), value.length);
+    let readLength = cry.ts_read_db_record(code, table, scope, primary, value.buffer, value.length);
     if (readLength < 0) return 0;
-    let ds = new DataStream(changetype<usize>(value.buffer), readLength);
+    let ds = new DataStream(value.buffer, readLength);
     let rnum = ds.read<u64>();
     return rnum;
 }
@@ -252,7 +250,7 @@ export class MerkleProof {
     txBytes: u8[]= [];
 
     private  verify_merkle_proof(transaction_mroot: string, merkle_proof: string[], tx_bytes: u8[]): i32 {
-        var ds = new DataStream(0, 0);
+        var ds = new DataStream(new ArrayBuffer(0), 0);
         ds.writeStringVector(merkle_proof);
         var mplen = ds.size();
         var mpds = DSHelper.getDataStreamWithLength(mplen);
@@ -260,7 +258,7 @@ export class MerkleProof {
 
         var txds = DataStream.fromArray<u8>(tx_bytes);
 
-        return cry.ts_verify_merkle_proof(string2cstr(transaction_mroot), mpds.pointer(), mpds.size(), txds.pointer(), txds.size());
+        return cry.ts_verify_merkle_proof(string2cstr(transaction_mroot), mpds.buffer, mpds.size(), txds.buffer, txds.size());
     }
 
     verify(transaction_mroot: string): boolean {
@@ -269,10 +267,10 @@ export class MerkleProof {
 
     static getMerkleProof(block_number: u32, trx_id: string): MerkleProof {
         var ds = DSHelper.getDataStreamWithLength(2048); // try with 2048
-        var ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.pointer(), ds.size());
+        var ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.buffer, ds.size());
         if (ret != 0) {
             ds = DSHelper.getDataStreamWithLength(ret);
-            ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.pointer(), ds.size());
+            ret = cry.ts_merkle_proof(block_number, string2cstr(trx_id), ds.buffer, ds.size());
             ultrain_assert(ret == 0, "Read MerkleProof failed: block_number =  " + intToString(block_number) +", trx_id = " + trx_id);
         }
 

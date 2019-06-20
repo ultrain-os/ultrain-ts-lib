@@ -6,7 +6,7 @@
 import { string2cstr } from "./utils";
 
 namespace env {
-    export declare function set_result_str(cstr: usize): void;
+    export declare function set_result_str(cstr: ArrayBuffer): void;
     export declare function set_result_int(val: u64): void;
 }
 /**

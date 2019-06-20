@@ -1,6 +1,6 @@
 import { Log } from "./log";
 import { queryBalance } from "../lib/balance";
-import { itoa64 } from "internal/number";
+import { itoa64 } from "util/number";
 import { PermissionLevel } from "./permission-level";
 import { NAME } from "./account";
 import { Action, ACTION, TransferParams } from "./action";

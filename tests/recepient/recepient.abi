@@ -10,8 +10,8 @@
       "type": "asset"
     },
     {
-      "new_type_name": "u32",
-      "type": "uint32"
+      "new_type_name": "u8",
+      "type": "uint8"
     }
   ],
   "structs": [
@@ -48,14 +48,9 @@
       "name": "transfer"
     },
     {
-      "fields": [
-        {
-          "name": "account",
-          "type": "account_name"
-        }
-      ],
+      "fields": [],
       "base": "",
-      "name": "show"
+      "name": "reveal"
     },
     {
       "fields": [
@@ -64,20 +59,8 @@
           "type": "account_name"
         },
         {
-          "name": "welcome",
-          "type": "string"
-        },
-        {
-          "name": "info",
-          "type": "string[]"
-        },
-        {
-          "name": "count",
-          "type": "u32"
-        },
-        {
-          "name": "nor",
-          "type": "string"
+          "name": "reward_status",
+          "type": "u8"
         }
       ],
       "base": "",
@@ -88,17 +71,20 @@
     {
       "ricardian_contract": "",
       "name": "printstr",
-      "type": "printstr"
+      "type": "printstr",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "transfer",
-      "type": "transfer"
+      "type": "transfer",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
-      "name": "show",
-      "type": "show"
+      "name": "reveal",
+      "type": "reveal",
+      "ability": "normal"
     }
   ],
   "tables": [

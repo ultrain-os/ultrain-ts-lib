@@ -3,7 +3,6 @@
  * @datetime 10:10:38, 07/18/2018
  * All rights reserved by ultrain.io @2018
  */
-import "allocator/arena";
 import { PrintableChar } from "../src/utils";
 /* format index: ._0-9a-zA-Z */
 function char_to_symbol_ex(c: u8): u64 {

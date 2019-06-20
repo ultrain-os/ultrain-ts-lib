@@ -215,8 +215,8 @@ class TimeZone {
         let a = timezone.substring(1, timezone.length);
         let tzhm = a.split(":");
         ultrain_assert(tzhm.length == 2, "timezone of utc string '" + timezone + "' is invalid.");
-        this.hours = <u32>parseI32(tzhm[0]);
-        this.minutes = <u32>parseI32(tzhm[1]);
+        this.hours = <u32>I32.parseInt(tzhm[0]);
+        this.minutes = <u32>I32.parseInt(tzhm[1]);
         return !isNaN(this.hours) && !isNaN(this.minutes);
     }
 
@@ -340,22 +340,22 @@ export class LocalTime {
     fromUtcString(str: string): boolean {
         let infos = this.parseUtcString(str);
         ultrain_assert(infos.length == 6, "utc string is invalid.");
-        let year = parseI32(infos[0]);
+        let year = I32.parseInt(infos[0]);
         ultrain_assert(!isNaN(year), "year of utc string is invalid.");
 
-        let month = parseI32(infos[1]);
+        let month = I32.parseInt(infos[1]);
         ultrain_assert(!isNaN(month), "month of utc string is invalid.");
 
-        let day = parseI32(infos[2]);
+        let day = I32.parseInt(infos[2]);
         ultrain_assert(!isNaN(day), "day of utc string is invalid.");
 
-        let hours = parseI32(infos[3]);
+        let hours = I32.parseInt(infos[3]);
         ultrain_assert(!isNaN(hours), "hours of utc string is invalid.");
 
-        let minutes = parseI32(infos[4]);
+        let minutes = I32.parseInt(infos[4]);
         ultrain_assert(!isNaN(minutes), "minutes of utc string is invalid.");
 
-        let seconds = parseI32(infos[5]);
+        let seconds = I32.parseInt(infos[5]);
         ultrain_assert(!isNaN(seconds), "seconds of utc string is invalid.");
 
         this.year       = <u32>year;

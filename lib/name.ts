@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { PrintableChar } from "../src/utils";
 
 function char_to_symbol(c: u8): u64 {

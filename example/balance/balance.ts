@@ -1,4 +1,3 @@
-import "allocator/arena";
 import { Contract } from "../../src/contract";
 import { Asset } from "../../src/asset";
 import { Action } from "../../src/action";

@@ -1,9 +1,7 @@
-import "allocator/arena";
-import {Contract} from "../../../src/contract";
+import { Contract } from "../../../src/contract";
 import { intToString } from "../../../src/utils";
-import { TimeUtil, LocalTime, GmtTime } from "../../../src/time";
+import { LocalTime, GmtTime } from "../../../src/time";
 import { Return } from "../../../src/return";
-
 
 export　class TimeUtilTest extends Contract {
 

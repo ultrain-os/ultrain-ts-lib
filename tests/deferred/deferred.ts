@@ -1,7 +1,5 @@
-import "allocator/arena";
 import {Contract} from "../../src/contract";
 import { Transaction, OnErrorValue } from "../../src/transaction";
-import { now } from "../../src/time";
 import { ActionImpl, SerializableToArray } from "../../src/action";
 import { NAME, RNAME } from "../../src/account";
 import { NEX } from "../../lib/name_ex";

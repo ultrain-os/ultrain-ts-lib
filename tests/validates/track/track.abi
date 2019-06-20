@@ -2,16 +2,16 @@
   "version": "ultraio:1.0",
   "types": [
     {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
       "new_type_name": "account_name",
       "type": "name"
     },
     {
       "new_type_name": "i32",
       "type": "int32"
-    },
-    {
-      "new_type_name": "u64",
-      "type": "uint64"
     }
   ],
   "structs": [
@@ -23,11 +23,29 @@
     {
       "fields": [
         {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "year",
+          "type": "i32"
+        }
+      ],
+      "base": "",
+      "name": "Car"
+    },
+    {
+      "fields": [
+        {
+          "name": "key",
+          "type": "u64"
+        },
+        {
           "name": "account",
           "type": "account_name"
         },
         {
-          "name": "user_name",
+          "name": "name",
           "type": "string"
         },
         {
@@ -41,13 +59,33 @@
         {
           "name": "_u64",
           "type": "u64"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
         }
       ],
       "base": "",
-      "name": "testType"
+      "name": "insertTypes"
     },
     {
       "fields": [
+        {
+          "name": "key",
+          "type": "u64"
+        },
         {
           "name": "account",
           "type": "account_name"
@@ -57,20 +95,96 @@
           "type": "string"
         },
         {
-          "name": "_64",
-          "type": "u64"
-        },
-        {
-          "name": "_i32",
+          "name": "age",
           "type": "i32"
         },
         {
-          "name": "_bool",
+          "name": "yes",
           "type": "bool"
+        },
+        {
+          "name": "_u64",
+          "type": "u64"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
         }
       ],
       "base": "",
-      "name": "TypeZoo"
+      "name": "verifyTypes"
+    },
+    {
+      "fields": [
+        {
+          "name": "existing",
+          "type": "bool"
+        },
+        {
+          "name": "msg",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "testAssert"
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "account",
+          "type": "account_name"
+        },
+        {
+          "name": "str",
+          "type": "string"
+        },
+        {
+          "name": "longNum",
+          "type": "u64"
+        },
+        {
+          "name": "smallNum",
+          "type": "i32"
+        },
+        {
+          "name": "exist",
+          "type": "bool"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
+        }
+      ],
+      "base": "",
+      "name": "TypeSet"
     }
   ],
   "actions": [
@@ -82,8 +196,20 @@
     },
     {
       "ricardian_contract": "",
-      "name": "testType",
-      "type": "testType",
+      "name": "insertTypes",
+      "type": "insertTypes",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "verifyTypes",
+      "type": "verifyTypes",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testAssert",
+      "type": "testAssert",
       "ability": "normal"
     }
   ],
@@ -97,7 +223,7 @@
         "uint64"
       ],
       "name": "types",
-      "type": "TypeZoo"
+      "type": "TypeSet"
     }
   ]
 }
