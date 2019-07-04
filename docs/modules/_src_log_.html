@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/log&quot; | ContractSdk</title>
+	<title>&quot;src/log&quot; | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -99,13 +99,19 @@
 					<div class="tsd-signature tsd-kind-icon">Log<span class="tsd-signature-symbol">:</span> <a href="../classes/_src_log_.logger.html" class="tsd-signature-type">Logger</a><span class="tsd-signature-symbol"> =&nbsp;new Logger()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/log.ts#L48">src/log.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/log.ts#L53">src/log.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A global variable of Logger. There is only one Log object at the same time.</p>
+							<p>A global variable of Logger. There is only one Log object at the same time.
+							This is a global instance of {@class Logger}.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><p>import { Log } from &quot;ultrain-ts-lib/src/log&quot;;</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -120,19 +126,31 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_account_.html">"src/account"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_action_.html">"src/action"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_balance_.html">"src/balance"</a>
+						<a href="_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_datastream_.html">"src/datastream"</a>
+						<a href="_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_dbmanager_.html">"src/dbmanager"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_events_.html">"src/events"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="_src_log_.html">"src/log"</a>
@@ -143,16 +161,19 @@
 						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_name_ex_.html">"src/name_<wbr>ex"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="_src_permission_level_.html">"src/permission-<wbr>level"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_return_.html">"src/return"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_transaction_.html">"src/transaction"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_utils_.html">"src/utils"</a>
@@ -161,7 +182,22 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>

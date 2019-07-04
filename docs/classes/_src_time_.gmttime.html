@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PermissionLevel | ultrain-ts-lib</title>
+	<title>GmtTime | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_permission_level_.html">&quot;src/permission-level&quot;</a>
+					<a href="../modules/_src_time_.html">&quot;src/time&quot;</a>
 				</li>
 				<li>
-					<a href="_src_permission_level_.permissionlevel.html">PermissionLevel</a>
+					<a href="_src_time_.gmttime.html">GmtTime</a>
 				</li>
 			</ul>
-			<h1>Class PermissionLevel</h1>
+			<h1>Class GmtTime</h1>
 		</div>
 	</div>
 </header>
@@ -72,13 +72,14 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Permission Level stands for &#39;-p&#39; paramters.
-							for example,
-						PermissionLevel(N(&quot;tom&quot;), N(&quot;active&quot;)) equals &#39;-p tom@active&#39;</p>
+						<p>class GmtTime stands for a GMT time.</p>
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>class</dt>
-						<dd><p>PermissionLevel</p>
+						<dd><p>GmtTime</p>
+						</dd>
+						<dt>example</dt>
+						<dd><p>import { GmtTime } from &quot;ultrain-ts-lib/src/time;&quot;</p>
 						</dd>
 					</dl>
 				</div>
@@ -87,14 +88,8 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PermissionLevel</span>
+						<span class="target">GmtTime</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -104,23 +99,23 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_time_.gmttime.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#actor" class="tsd-kind-icon">actor</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#permission" class="tsd-kind-icon">permission</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_time_.gmttime.html#gmtseconds" class="tsd-kind-icon">gmt<wbr>Seconds</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#equal" class="tsd-kind-icon">equal</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_permission_level_.permissionlevel.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_time_.gmttime.html#tolocaltime" class="tsd-kind-icon">to<wbr>Local<wbr>Time</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_time_.gmttime.html#epoch" class="tsd-kind-icon">epoch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_time_.gmttime.html#isleapyear" class="tsd-kind-icon">is<wbr>Leap<wbr>Year</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_time_.gmttime.html#localtimetogmttime" class="tsd-kind-icon">local<wbr>Time<wbr>ToGmt<wbr>Time</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_time_.gmttime.html#secondsbetweenlocaltime" class="tsd-kind-icon">seconds<wbr>Between<wbr>Local<wbr>Time</a></li>
 							</ul>
 						</section>
 					</div>
@@ -132,25 +127,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Permission<wbr>Level<span class="tsd-signature-symbol">(</span>actor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u64</span>, permission<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Gmt<wbr>Time<span class="tsd-signature-symbol">(</span>seconds<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L10">src/permission-level.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L455">src/time.ts:455</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> actor: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> permission: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> seconds: <span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -158,22 +150,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="actor" class="tsd-anchor"></a>
-					<h3>actor</h3>
-					<div class="tsd-signature tsd-kind-icon">actor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
+					<a name="gmtseconds" class="tsd-anchor"></a>
+					<h3>gmt<wbr>Seconds</h3>
+					<div class="tsd-signature tsd-kind-icon">gmt<wbr>Seconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L9">src/permission-level.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="permission" class="tsd-anchor"></a>
-					<h3>permission</h3>
-					<div class="tsd-signature tsd-kind-icon">permission<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L10">src/permission-level.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L455">src/time.ts:455</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -181,88 +163,158 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deserialize" class="tsd-anchor"></a>
-					<h3>deserialize</h3>
+					<a name="tolocaltime" class="tsd-anchor"></a>
+					<h3>to<wbr>Local<wbr>Time</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Local<wbr>Time<span class="tsd-signature-symbol">(</span>timezone<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L28">src/permission-level.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L466">src/time.ts:466</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>convert GmtTime to LocalTime according to TimeZone.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
+									<h5>timezone: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a string stands for UTC time zone. It must be formatted as &quot;+hh:mm&quot; which means
+										east time zone, and &quot;-hh:mm&quot; which means west time zone.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="equal" class="tsd-anchor"></a>
-					<h3>equal</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">equal<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="epoch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> epoch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">epoch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L17">src/permission-level.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L522">src/time.ts:522</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>get an Epoch GmtTime instance, which stands for &quot;1970-01-01T00:00:00Z+00:00&quot;.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></h4>
+							<p>GmtTime stands for EPOCH.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="isleapyear" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> is<wbr>Leap<wbr>Year</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Leap<wbr>Year<span class="tsd-signature-symbol">(</span>year<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L480">src/time.ts:480</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>to judge a &quot;yyyy&quot; is a leap year or not.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>rhs: <a href="_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a></h5>
+									<h5>year: <span class="tsd-signature-type">u32</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a u32 value &quot;yyyy&quot; stands for year.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="primarykey" class="tsd-anchor"></a>
-					<h3>primary<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">primary<wbr>Key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="localtimetogmttime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> local<wbr>Time<wbr>ToGmt<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">local<wbr>Time<wbr>ToGmt<wbr>Time<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L33">src/permission-level.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L502">src/time.ts:502</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="serialize" class="tsd-anchor"></a>
-					<h3>serialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/permission-level.ts#L21">src/permission-level.ts:21</a></li>
-								</ul>
-							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>convert a local time to Gmttime.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
+									<h5>a: <a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>local time to convert.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_time_.gmttime.html" class="tsd-signature-type">GmtTime</a></h4>
+							<p>GmtTime instance.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="secondsbetweenlocaltime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> seconds<wbr>Between<wbr>Local<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">seconds<wbr>Between<wbr>Local<wbr>Time<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a>, base<span class="tsd-signature-symbol">: </span><a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/time.ts#L492">src/time.ts:492</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>calculate gap of seconds between local times.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>time: <a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>left time to compare</p>
+									</div>
+								</li>
+								<li>
+									<h5>base: <a href="_src_time_.localtime.html" class="tsd-signature-type">LocalTime</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>right time to compare.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u32</span></h4>
+							<p>u32, unit is seconds.</p>
 						</li>
 					</ul>
 				</section>
@@ -307,7 +359,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_log_.html">"src/log"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_permission_level_.html">"src/permission-<wbr>level"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -316,7 +368,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_safemath_.html">"src/safemath"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_src_time_.html">"src/time"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -350,36 +402,90 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.blocktimestamp.html" class="tsd-kind-icon">Block<wbr>Timestamp</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_permission_level_.permissionlevel.html" class="tsd-kind-icon">Permission<wbr>Level</a>
+						<a href="_src_time_.gmttime.html" class="tsd-kind-icon">Gmt<wbr>Time</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_src_time_.gmttime.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#actor" class="tsd-kind-icon">actor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#permission" class="tsd-kind-icon">permission</a>
+								<a href="_src_time_.gmttime.html#gmtseconds" class="tsd-kind-icon">gmt<wbr>Seconds</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#deserialize" class="tsd-kind-icon">deserialize</a>
+								<a href="_src_time_.gmttime.html#tolocaltime" class="tsd-kind-icon">to<wbr>Local<wbr>Time</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#equal" class="tsd-kind-icon">equal</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_time_.gmttime.html#epoch" class="tsd-kind-icon">epoch</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_time_.gmttime.html#isleapyear" class="tsd-kind-icon">is<wbr>Leap<wbr>Year</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_permission_level_.permissionlevel.html#serialize" class="tsd-kind-icon">serialize</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_time_.gmttime.html#localtimetogmttime" class="tsd-kind-icon">local<wbr>Time<wbr>ToGmt<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_time_.gmttime.html#secondsbetweenlocaltime" class="tsd-kind-icon">seconds<wbr>Between<wbr>Local<wbr>Time</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.localtime.html" class="tsd-kind-icon">Local<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.microseconds.html" class="tsd-kind-icon">Microseconds</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.timepoint.html" class="tsd-kind-icon">Time<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.timepointsec.html" class="tsd-kind-icon">Time<wbr>Point<wbr>Sec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_time_.timeutil.html" class="tsd-kind-icon">Time<wbr>Util</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_src_time_.timezone.html" class="tsd-kind-icon">Time<wbr>Zone</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_time_.html#secondsperday" class="tsd-kind-icon">Seconds<wbr>Per<wbr>Day</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_time_.html#secondsperyear" class="tsd-kind-icon">Seconds<wbr>Per<wbr>Year</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_time_.html#block_interval_ms" class="tsd-kind-icon">block_<wbr>interval_<wbr>ms</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_time_.html#block_timestamp_epoch" class="tsd-kind-icon">block_<wbr>timestamp_<wbr>epoch</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#days" class="tsd-kind-icon">days</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_time_.html#getdaysofmonth" class="tsd-kind-icon">get<wbr>Days<wbr>OfMonth</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#hours" class="tsd-kind-icon">hours</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#milliseconds" class="tsd-kind-icon">milliseconds</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#minutes" class="tsd-kind-icon">minutes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#now" class="tsd-kind-icon">now</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_src_time_.html#seconds" class="tsd-kind-icon">seconds</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

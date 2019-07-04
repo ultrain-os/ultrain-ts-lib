@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TransferParams | ultrain-ts-lib</title>
+	<title>Transaction | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,39 +56,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_action_.html">&quot;src/action&quot;</a>
+					<a href="../modules/_src_transaction_.html">&quot;src/transaction&quot;</a>
 				</li>
 				<li>
-					<a href="_src_action_.transferparams.html">TransferParams</a>
+					<a href="_src_transaction_.transaction.html">Transaction</a>
 				</li>
 			</ul>
-			<h1>Class TransferParams</h1>
+			<h1>Class Transaction</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>class TransferParams is applied to transfer Tokens from an account to another.</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt>class</dt>
-						<dd><p>TransferParams</p>
-						</dd>
-						<dt>example</dt>
-						<dd><p>import { TransferParams } from &quot;ultrain-ts-lib/src/action&quot;;</p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TransferParams</span>
+						<span class="target">Transaction</span>
 					</li>
 				</ul>
 			</section>
@@ -105,24 +90,33 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_action_.transferparams.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_action_.transferparams.html#from" class="tsd-kind-icon">from</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_action_.transferparams.html#memo" class="tsd-kind-icon">memo</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_action_.transferparams.html#quantity" class="tsd-kind-icon">quantity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_action_.transferparams.html#to" class="tsd-kind-icon">to</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#actions" class="tsd-kind-icon">actions</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#context_free_actions" class="tsd-kind-icon">context_<wbr>free_<wbr>actions</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#extension_type" class="tsd-kind-icon">extension_<wbr>type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#header" class="tsd-kind-icon">header</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#delaysecs" class="tsd-kind-icon">delay<wbr>Secs</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="_src_transaction_.transaction.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="_src_transaction_.transaction.html#publishtime" class="tsd-kind-icon">publish<wbr>Time</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_action_.transferparams.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_action_.transferparams.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_action_.transferparams.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#send" class="tsd-kind-icon">send</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transaction.html#serialize" class="tsd-kind-icon">serialize</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,31 +128,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Transfer<wbr>Params<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u64</span>, to<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u64</span>, quantity<span class="tsd-signature-symbol">?: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, memo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_action_.transferparams.html" class="tsd-signature-type">TransferParams</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Transaction<span class="tsd-signature-symbol">(</span>exp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_transaction_.transaction.html" class="tsd-signature-type">Transaction</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L21">src/action.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L47">src/transaction.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> from: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> to: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> quantity: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> =&nbsp;new Asset()</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> memo: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></h5>
+									<h5>exp: <span class="tsd-signature-type">u32</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_action_.transferparams.html" class="tsd-signature-type">TransferParams</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_transaction_.transaction.html" class="tsd-signature-type">Transaction</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -166,44 +151,147 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="from" class="tsd-anchor"></a>
-					<h3>from</h3>
-					<div class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
+					<a name="actions" class="tsd-anchor"></a>
+					<h3>actions</h3>
+					<div class="tsd-signature tsd-kind-icon">actions<span class="tsd-signature-symbol">:</span> <a href="_src_action_.actionimpl.html" class="tsd-signature-type">ActionImpl</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L18">src/action.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L46">src/transaction.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="memo" class="tsd-anchor"></a>
-					<h3>memo</h3>
-					<div class="tsd-signature tsd-kind-icon">memo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="context_free_actions" class="tsd-anchor"></a>
+					<h3>context_<wbr>free_<wbr>actions</h3>
+					<div class="tsd-signature tsd-kind-icon">context_<wbr>free_<wbr>actions<span class="tsd-signature-symbol">:</span> <a href="_src_action_.actionimpl.html" class="tsd-signature-type">ActionImpl</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L21">src/action.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L45">src/transaction.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="quantity" class="tsd-anchor"></a>
-					<h3>quantity</h3>
-					<div class="tsd-signature tsd-kind-icon">quantity<span class="tsd-signature-symbol">:</span> <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></div>
+					<a name="extension_type" class="tsd-anchor"></a>
+					<h3>extension_<wbr>type</h3>
+					<div class="tsd-signature tsd-kind-icon">extension_<wbr>type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u8</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L20">src/action.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L47">src/transaction.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="to" class="tsd-anchor"></a>
-					<h3>to</h3>
-					<div class="tsd-signature tsd-kind-icon">to<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
+					<a name="header" class="tsd-anchor"></a>
+					<h3>header</h3>
+					<div class="tsd-signature tsd-kind-icon">header<span class="tsd-signature-symbol">:</span> <a href="_src_transaction_.transactionheader.html" class="tsd-signature-type">TransactionHeader</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L19">src/action.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L44">src/transaction.ts:44</a></li>
 						</ul>
 					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="delaysecs" class="tsd-anchor"></a>
+					<h3>delay<wbr>Secs</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> delaySecs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> delaySecs<span class="tsd-signature-symbol">(</span>secs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L104">src/transaction.ts:104</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u32</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L108">src/transaction.ts:108</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>secs: <span class="tsd-signature-type">u32</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+					<a name="id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> id</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> id<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L64">src/transaction.ts:64</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>to get the transaction id.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>static</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{string} return a string stands for a sha256 checksum.</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>Transaction</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+					<a name="publishtime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> publish<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> publishTime<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L76">src/transaction.ts:76</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>to get the published time of this transacton.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>static</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{u32} return seconds since epoch.</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>Transaction</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u32</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -218,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L37">src/action.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L95">src/transaction.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -241,10 +329,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L45">src/action.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L102">src/transaction.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="send" class="tsd-anchor"></a>
+					<h3>send</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>sender_id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span>, payer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span>, replace_existing<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L80">src/transaction.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sender_id: <span class="tsd-signature-type">u64</span></h5>
+								</li>
+								<li>
+									<h5>payer: <span class="tsd-signature-type">u64</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> replace_existing: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -258,7 +375,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L30">src/action.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L88">src/transaction.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -285,7 +402,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_account_.html">"src/account"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_action_.html">"src/action"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -324,7 +441,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_time_.html">"src/time"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_src_transaction_.html">"src/transaction"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -356,52 +473,61 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_action_.action.html" class="tsd-kind-icon">Action</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_action_.actionimpl.html" class="tsd-kind-icon">Action<wbr>Impl</a>
+						<a href="_src_transaction_.onerrorvalue.html" class="tsd-kind-icon">On<wbr>Error<wbr>Value</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_action_.transferparams.html" class="tsd-kind-icon">Transfer<wbr>Params</a>
+						<a href="_src_transaction_.transaction.html" class="tsd-kind-icon">Transaction</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_src_transaction_.transaction.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#from" class="tsd-kind-icon">from</a>
+								<a href="_src_transaction_.transaction.html#actions" class="tsd-kind-icon">actions</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#memo" class="tsd-kind-icon">memo</a>
+								<a href="_src_transaction_.transaction.html#context_free_actions" class="tsd-kind-icon">context_<wbr>free_<wbr>actions</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#quantity" class="tsd-kind-icon">quantity</a>
+								<a href="_src_transaction_.transaction.html#extension_type" class="tsd-kind-icon">extension_<wbr>type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#to" class="tsd-kind-icon">to</a>
+								<a href="_src_transaction_.transaction.html#header" class="tsd-kind-icon">header</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_src_transaction_.transaction.html#delaysecs" class="tsd-kind-icon">delay<wbr>Secs</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+								<a href="_src_transaction_.transaction.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+								<a href="_src_transaction_.transaction.html#publishtime" class="tsd-kind-icon">publish<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#deserialize" class="tsd-kind-icon">deserialize</a>
+								<a href="_src_transaction_.transaction.html#deserialize" class="tsd-kind-icon">deserialize</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a>
+								<a href="_src_transaction_.transaction.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_action_.transferparams.html#serialize" class="tsd-kind-icon">serialize</a>
+								<a href="_src_transaction_.transaction.html#send" class="tsd-kind-icon">send</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_transaction_.transaction.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_action_.html#action-1" class="tsd-kind-icon">ACTION</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_transaction_.transactionheader.html" class="tsd-kind-icon">Transaction<wbr>Header</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/_src_action_.html#serializabletoarray" class="tsd-kind-icon">Serializable<wbr>ToArray</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_transaction_.html#gettransactionid" class="tsd-kind-icon">get<wbr>Transaction<wbr>Id</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../modules/_src_action_.html#composeactiondata" class="tsd-kind-icon">compose<wbr>Action<wbr>Data</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_transaction_.html#gettransactionpublishedtime" class="tsd-kind-icon">get<wbr>Transaction<wbr>Published<wbr>Time</a>
 					</li>
 				</ul>
 			</nav>

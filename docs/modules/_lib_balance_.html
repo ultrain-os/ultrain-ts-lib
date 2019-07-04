@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;lib/ISerializable&quot; | ContractSdk</title>
+	<title>&quot;lib/balance&quot; | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_lib_iserializable_.html">&quot;lib/ISerializable&quot;</a>
+					<a href="_lib_balance_.html">&quot;lib/balance&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;lib/ISerializable&quot;</h1>
+			<h1>External module &quot;lib/balance&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -71,12 +71,59 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Interfaces</h3>
+							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-external"><a href="../interfaces/_lib_iserializable_.iserializable.html" class="tsd-kind-icon">ISerializable</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-external"><a href="../classes/_lib_balance_.currencyaccount.html" class="tsd-kind-icon">Currency<wbr>Account</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-external"><a href="../classes/_lib_balance_.currencystats.html" class="tsd-kind-icon">Currency<wbr>Stats</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-external"><a href="_lib_balance_.html#querybalance" class="tsd-kind-icon">query<wbr>Balance</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+					<a name="querybalance" class="tsd-anchor"></a>
+					<h3>query<wbr>Balance</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">query<wbr>Balance<span class="tsd-signature-symbol">(</span>owner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">account_name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_src_asset_.asset.html" class="tsd-signature-type">Asset</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L75">lib/balance.ts:75</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>to query the balance of an account from Ultrain Token system.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>function</dt>
+									<dd><p>queryBalance</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>owner: <span class="tsd-signature-type">account_name</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>account name to be queried.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h4>
+							<p>Asset</p>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -90,28 +137,34 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_account_.html">"src/account"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_action_.html">"src/action"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_balance_.html">"src/balance"</a>
+						<a href="_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_datastream_.html">"src/datastream"</a>
+						<a href="_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_dbmanager_.html">"src/dbmanager"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_events_.html">"src/events"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_log_.html">"src/log"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_name_ex_.html">"src/name_<wbr>ex"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_permission_level_.html">"src/permission-<wbr>level"</a>
@@ -120,20 +173,50 @@
 						<a href="_src_return_.html">"src/return"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_transaction_.html">"src/transaction"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_utils_.html">"src/utils"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
 					<li class="current tsd-kind-external-module tsd-is-external">
-						<a href="_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="../interfaces/_lib_iserializable_.iserializable.html" class="tsd-kind-icon">ISerializable</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
+						<a href="../classes/_lib_balance_.currencyaccount.html" class="tsd-kind-icon">Currency<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
+						<a href="../classes/_lib_balance_.currencystats.html" class="tsd-kind-icon">Currency<wbr>Stats</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.html#querybalance" class="tsd-kind-icon">query<wbr>Balance</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/action&quot; | ContractSdk</title>
+	<title>&quot;src/action&quot; | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -74,15 +74,16 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_src_action_.action.html" class="tsd-kind-icon">Action</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_src_action_.actionimpl.html" class="tsd-kind-icon">Action<wbr>Impl</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_src_action_.actionimpl.html" class="tsd-kind-icon">Action<wbr>Impl</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_src_action_.transferparams.html" class="tsd-kind-icon">Transfer<wbr>Params</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_action_.html#dispatchinline" class="tsd-kind-icon">dispatch<wbr>Inline</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_action_.html#requirepermissionlevel" class="tsd-kind-icon">require<wbr>Permission<wbr>Level</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_action_.html#action-1" class="tsd-kind-icon">ACTION</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_src_action_.html#serializabletoarray" class="tsd-kind-icon">Serializable<wbr>ToArray</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="_src_action_.html#composeactiondata" class="tsd-kind-icon">compose<wbr>Action<wbr>Data</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,89 +92,105 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="dispatchinline" class="tsd-anchor"></a>
-					<h3>dispatch<wbr>Inline</h3>
+					<a name="action-1" class="tsd-anchor"></a>
+					<h3>ACTION</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Inline<span class="tsd-signature-symbol">(</span>pl<span class="tsd-signature-symbol">: </span><a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a>, code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span>, act<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">action_name</span>, params<span class="tsd-signature-symbol">: </span><a href="../classes/_src_action_.transferparams.html" class="tsd-signature-type">TransferParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">ACTION<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_src_action_.action.html" class="tsd-signature-type">Action</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/action.ts#L100">src/action.ts:100</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>function</dt>
-									<dd><p>dispatchInline</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>pl: <a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permission level instance. @see <a href="../classes/_src_permission_level_.permissionlevel.html">PermissionLevel</a></p>
-									</div>
-								</li>
-								<li>
-									<h5>code: <span class="tsd-signature-type">u64</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the account name of contract which you will send request to.</p>
-									</div>
-								</li>
-								<li>
-									<h5>act: <span class="tsd-signature-type">action_name</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the action/method name which you will invoke of contract.</p>
-									</div>
-								</li>
-								<li>
-									<h5>params: <a href="../classes/_src_action_.transferparams.html" class="tsd-signature-type">TransferParams</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the TransferParams instance. @see <a href="../classes/_src_action_.transferparams.html">TransferParams</a></p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="requirepermissionlevel" class="tsd-anchor"></a>
-					<h3>require<wbr>Permission<wbr>Level</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">require<wbr>Permission<wbr>Level<span class="tsd-signature-symbol">(</span>pl<span class="tsd-signature-symbol">: </span><a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/action.ts#L19">src/action.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L231">src/action.ts:231</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>to check if permission is authored or not.</p>
+									<p>convert a string to <a href="../classes/_src_action_.action.html">Action</a>.</p>
 								</div>
 								<dl class="tsd-comment-tags">
-									<dt>function</dt>
-									<dd><p>requirePermissionLevel</p>
+									<dt>example</dt>
+									<dd><p>import { ACTION } from &quot;ultrain-ts-lib/src/action&quot;;</p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pl: <a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a></h5>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>PermissionLevel to check</p>
+										<p>an readable string of action name. It can only include: _0-9a-zA-Z</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_src_action_.action.html" class="tsd-signature-type">Action</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+					<a name="serializabletoarray" class="tsd-anchor"></a>
+					<h3>Serializable<wbr>ToArray</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">Serializable<wbr>ToArray&lt;T&gt;<span class="tsd-signature-symbol">(</span>dt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u8</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L202">src/action.ts:202</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Serializable</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dt: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u8</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+					<a name="composeactiondata" class="tsd-anchor"></a>
+					<h3>compose<wbr>Action<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">compose<wbr>Action<wbr>Data&lt;T&gt;<span class="tsd-signature-symbol">(</span>pl<span class="tsd-signature-symbol">: </span><a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a><span class="tsd-signature-symbol">[]</span>, receiver<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">account_name</span>, action<span class="tsd-signature-symbol">: </span><a href="../classes/_lib_name_ex_.nameex.html" class="tsd-signature-type">NameEx</a>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/action.ts#L210">src/action.ts:210</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Serializable</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pl: <a href="../classes/_src_permission_level_.permissionlevel.html" class="tsd-signature-type">PermissionLevel</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>receiver: <span class="tsd-signature-type">account_name</span></h5>
+								</li>
+								<li>
+									<h5>action: <a href="../classes/_lib_name_ex_.nameex.html" class="tsd-signature-type">NameEx</a></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">DataStream</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -188,6 +205,9 @@
 					<li class="label tsd-is-external">
 						<span>Internals</span>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_account_.html">"src/account"</a>
+					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="_src_action_.html">"src/action"</a>
 					</li>
@@ -195,22 +215,25 @@
 						<a href="_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_balance_.html">"src/balance"</a>
+						<a href="_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_datastream_.html">"src/datastream"</a>
+						<a href="_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_dbmanager_.html">"src/dbmanager"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_events_.html">"src/events"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_log_.html">"src/log"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_name_ex_.html">"src/name_<wbr>ex"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_permission_level_.html">"src/permission-<wbr>level"</a>
@@ -219,13 +242,37 @@
 						<a href="_src_return_.html">"src/return"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_transaction_.html">"src/transaction"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_utils_.html">"src/utils"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>
@@ -234,17 +281,20 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_src_action_.action.html" class="tsd-kind-icon">Action</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_src_action_.actionimpl.html" class="tsd-kind-icon">Action<wbr>Impl</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_src_action_.transferparams.html" class="tsd-kind-icon">Transfer<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_action_.html#dispatchinline" class="tsd-kind-icon">dispatch<wbr>Inline</a>
+						<a href="_src_action_.html#action-1" class="tsd-kind-icon">ACTION</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_action_.html#requirepermissionlevel" class="tsd-kind-icon">require<wbr>Permission<wbr>Level</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_src_action_.html#serializabletoarray" class="tsd-kind-icon">Serializable<wbr>ToArray</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="_src_action_.html#composeactiondata" class="tsd-kind-icon">compose<wbr>Action<wbr>Data</a>
 					</li>
 				</ul>
 			</nav>

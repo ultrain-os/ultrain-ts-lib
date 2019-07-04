@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DSHelper | ContractSdk</title>
+	<title>CurrencyAccount | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_datastream_.html">&quot;src/datastream&quot;</a>
+					<a href="../modules/_lib_balance_.html">&quot;lib/balance&quot;</a>
 				</li>
 				<li>
-					<a href="_src_datastream_.dshelper.html">DSHelper</a>
+					<a href="_lib_balance_.currencyaccount.html">CurrencyAccount</a>
 				</li>
 			</ul>
-			<h1>Class DSHelper</h1>
+			<h1>Class CurrencyAccount</h1>
 		</div>
 	</div>
 </header>
@@ -72,113 +72,157 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>internal class, not for external users.</p>
+						<p>class CurrencyAccount for Token system.</p>
 					</div>
+					<dl class="tsd-comment-tags">
+						<dt>class</dt>
+						<dd><p>CurrencyAccount</p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">DSHelper</span>
+						<span class="target">CurrencyAccount</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="_lib_balance_.currencyaccount.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="_lib_balance_.currencyaccount.html#balance" class="tsd-kind-icon">balance</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_datastream_.dshelper.html#getdatastreamwithlength" class="tsd-kind-icon">get<wbr>Data<wbr>Stream<wbr>With<wbr>Length</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="_src_datastream_.dshelper.html#serializecomplex" class="tsd-kind-icon">serialize<wbr>Complex</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="_src_datastream_.dshelper.html#serializecomplexvector" class="tsd-kind-icon">serialize<wbr>Complex<wbr>Vector</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_lib_balance_.currencyaccount.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_lib_balance_.currencyaccount.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_lib_balance_.currencyaccount.html#serialize" class="tsd-kind-icon">serialize</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Currency<wbr>Account<span class="tsd-signature-symbol">(</span>blc<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_balance_.currencyaccount.html" class="tsd-signature-type">CurrencyAccount</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L16">lib/balance.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>blc: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_balance_.currencyaccount.html" class="tsd-signature-type">CurrencyAccount</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="balance" class="tsd-anchor"></a>
+					<h3>balance</h3>
+					<div class="tsd-signature tsd-kind-icon">balance<span class="tsd-signature-symbol">:</span> <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L16">lib/balance.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="getdatastreamwithlength" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Data<wbr>Stream<wbr>With<wbr>Length</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Data<wbr>Stream<wbr>With<wbr>Length<span class="tsd-signature-symbol">(</span>len<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="deserialize" class="tsd-anchor"></a>
+					<h3>deserialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/datastream.ts#L38">src/datastream.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L24">lib/balance.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>len: <span class="tsd-signature-type">u32</span></h5>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="serializecomplex" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> serialize<wbr>Complex</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">serialize<wbr>Complex&lt;T&gt;<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="primarykey" class="tsd-anchor"></a>
+					<h3>primary<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">primary<wbr>Key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/datastream.ts#L30">src/datastream.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L22">lib/balance.ts:22</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_iserializable_.iserializable.html" class="tsd-signature-type">ISerializable</a></h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>t: <span class="tsd-signature-type">T</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="serializecomplexvector" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> serialize<wbr>Complex<wbr>Vector</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">serialize<wbr>Complex<wbr>Vector&lt;T&gt;<span class="tsd-signature-symbol">(</span>arr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="serialize" class="tsd-anchor"></a>
+					<h3>serialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/datastream.ts#L22">src/datastream.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/lib/balance.ts#L28">lib/balance.ts:28</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_iserializable_.iserializable.html" class="tsd-signature-type">ISerializable</a></h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>arr: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -194,28 +238,34 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_account_.html">"src/account"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_action_.html">"src/action"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_balance_.html">"src/balance"</a>
+						<a href="../modules/_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
-						<a href="../modules/_src_datastream_.html">"src/datastream"</a>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_dbmanager_.html">"src/dbmanager"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_events_.html">"src/events"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_log_.html">"src/log"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_name_ex_.html">"src/name_<wbr>ex"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_permission_level_.html">"src/permission-<wbr>level"</a>
@@ -224,13 +274,37 @@
 						<a href="../modules/_src_return_.html">"src/return"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_transaction_.html">"src/transaction"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_utils_.html">"src/utils"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="../modules/_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
+					<li class="current tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>
@@ -238,33 +312,33 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_datastream_.dshelper.html" class="tsd-kind-icon">DSHelper</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.currencyaccount.html" class="tsd-kind-icon">Currency<wbr>Account</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_src_datastream_.dshelper.html#getdatastreamwithlength" class="tsd-kind-icon">get<wbr>Data<wbr>Stream<wbr>With<wbr>Length</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+								<a href="_lib_balance_.currencyaccount.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="_src_datastream_.dshelper.html#serializecomplex" class="tsd-kind-icon">serialize<wbr>Complex</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="_lib_balance_.currencyaccount.html#balance" class="tsd-kind-icon">balance</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="_src_datastream_.dshelper.html#serializecomplexvector" class="tsd-kind-icon">serialize<wbr>Complex<wbr>Vector</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="_lib_balance_.currencyaccount.html#deserialize" class="tsd-kind-icon">deserialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="_lib_balance_.currencyaccount.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="_lib_balance_.currencyaccount.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_src_datastream_.datastream.html" class="tsd-kind-icon">Data<wbr>Stream</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.currencystats.html" class="tsd-kind-icon">Currency<wbr>Stats</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_src_datastream_.html#header_size" class="tsd-kind-icon">HEADER_<wbr>SIZE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_src_datastream_.html#max_length" class="tsd-kind-icon">MAX_<wbr>LENGTH</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_src_datastream_.html#allocate" class="tsd-kind-icon">allocate</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_balance_.html#querybalance" class="tsd-kind-icon">query<wbr>Balance</a>
 					</li>
 				</ul>
 			</nav>

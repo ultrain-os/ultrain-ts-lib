@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Asset | ContractSdk</title>
+	<title>Asset | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -82,6 +82,9 @@
 						<dt>class</dt>
 						<dd><p>Asset</p>
 						</dd>
+						<dt>example</dt>
+						<dd><p>import { Asset } from &quot;ultrain-ts-lib/src/asset&quot;;</p>
+						</dd>
 					</dl>
 				</div>
 			</section>
@@ -96,7 +99,8 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_lib_iserializable_.iserializable.html" class="tsd-signature-type">ISerializable</a></li>
+					<li><span class="tsd-signature-type">any</span></li>
+					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -125,17 +129,21 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_asset_.asset.html#_add" class="tsd-kind-icon">_add</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_asset_.asset.html#_sub" class="tsd-kind-icon">_sub</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#add" class="tsd-kind-icon">add</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#clone" class="tsd-kind-icon">clone</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#divide" class="tsd-kind-icon">divide</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#eq" class="tsd-kind-icon">eq</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_asset_.asset.html#formatamount" class="tsd-kind-icon">format<wbr>Amount</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#getamount" class="tsd-kind-icon">get<wbr>Amount</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#getsymbol" class="tsd-kind-icon">get<wbr>Symbol</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#gt" class="tsd-kind-icon">gt</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#gte" class="tsd-kind-icon">gte</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#isamountwithinrange" class="tsd-kind-icon">is<wbr>Amount<wbr>Within<wbr>Range</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#issymbolvalid" class="tsd-kind-icon">is<wbr>Symbol<wbr>Valid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#lt" class="tsd-kind-icon">lt</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#lte" class="tsd-kind-icon">lte</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#multi" class="tsd-kind-icon">multi</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#primarykey" class="tsd-kind-icon">primary<wbr>Key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#prints" class="tsd-kind-icon">prints</a></li>
@@ -146,13 +154,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#symbolname" class="tsd-kind-icon">symbol<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#symbolnamelength" class="tsd-kind-icon">symbol<wbr>Name<wbr>Length</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#symbolprecision" class="tsd-kind-icon">symbol<wbr>Precision</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#_eq" class="tsd-kind-icon">_eq</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#_gt" class="tsd-kind-icon">_gt</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#_gte" class="tsd-kind-icon">_gte</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#_lt" class="tsd-kind-icon">_lt</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#_lte" class="tsd-kind-icon">_lte</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_asset_.asset.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_asset_.asset.html#balanceof" class="tsd-kind-icon">balance<wbr>Of</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#checkoperaotrcondition" class="tsd-kind-icon">check<wbr>Operaotr<wbr>Condition</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_src_asset_.asset.html#checkoperatorcondition" class="tsd-kind-icon">check<wbr>Operator<wbr>Condition</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_asset_.asset.html#transfer" class="tsd-kind-icon">transfer</a></li>
 							</ul>
 						</section>
@@ -171,7 +175,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L80">src/asset.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L104">src/asset.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -180,7 +184,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> amt: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> sy: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> sy: <span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol"> =&nbsp;357577479428</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h4>
@@ -196,7 +200,7 @@
 					<div class="tsd-signature tsd-kind-icon">_amount<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L79">src/asset.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L103">src/asset.ts:103</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">_symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u64</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L80">src/asset.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L104">src/asset.ts:104</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L129">src/asset.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L154">src/asset.ts:154</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
@@ -232,7 +236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L133">src/asset.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L158">src/asset.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,58 +252,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="_add" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _add</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">_add<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L168">src/asset.ts:168</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="_sub" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _sub</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">_sub<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L177">src/asset.ts:177</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="add" class="tsd-anchor"></a>
 					<h3>add</h3>
@@ -310,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L198">src/asset.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L196">src/asset.ts:196</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +293,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L187">src/asset.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L185">src/asset.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -357,20 +309,19 @@
 					<a name="deserialize" class="tsd-anchor"></a>
 					<h3>deserialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_lib_iserializable_.iserializable.html">ISerializable</a>.<a href="../interfaces/_lib_iserializable_.iserializable.html#deserialize">deserialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L87">src/asset.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L111">src/asset.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ds: <a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></h5>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -387,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L225">src/asset.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L223">src/asset.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -409,6 +360,67 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="eq" class="tsd-anchor"></a>
+					<h3>eq</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">eq<span class="tsd-signature-symbol">(</span>lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L178">src/asset.ts:178</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="formatamount" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> format<wbr>Amount</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">format<wbr>Amount<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span>, precision<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u8</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L291">src/asset.ts:291</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Format the amount, example
+									formatAmount(10000, 4) == &quot;1.0000&quot;</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">u64</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the amount</p>
+									</div>
+								</li>
+								<li>
+									<h5>precision: <span class="tsd-signature-type">u8</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the precision</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getamount" class="tsd-anchor"></a>
 					<h3>get<wbr>Amount</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -418,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L234">src/asset.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L232">src/asset.ts:232</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L245">src/asset.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L247">src/asset.ts:247</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,18 +468,78 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isamountwithinrange" class="tsd-anchor"></a>
-					<h3>is<wbr>Amount<wbr>Within<wbr>Range</h3>
+					<a name="gt" class="tsd-anchor"></a>
+					<h3>gt</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Amount<wbr>Within<wbr>Range<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">gt<span class="tsd-signature-symbol">(</span>lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L266">src/asset.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L162">src/asset.ts:162</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gte" class="tsd-anchor"></a>
+					<h3>gte</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">gte<span class="tsd-signature-symbol">(</span>lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L166">src/asset.ts:166</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isamountwithinrange" class="tsd-anchor"></a>
+					<h3>is<wbr>Amount<wbr>Within<wbr>Range</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Amount<wbr>Within<wbr>Range<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L271">src/asset.ts:271</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>to check if the amount of Asset is valid or not.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">u64</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>new amount of Asset, which muse be positive and less than 2^62 - 1</p>
+									</div>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -482,7 +554,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L107">src/asset.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L131">src/asset.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +582,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L272">src/asset.ts:272</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L277">src/asset.ts:277</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -518,6 +590,52 @@
 									<p>To check if an Asset is valid or not.</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="lt" class="tsd-anchor"></a>
+					<h3>lt</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">lt<span class="tsd-signature-symbol">(</span>lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L170">src/asset.ts:170</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="lte" class="tsd-anchor"></a>
+					<h3>lte</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">lte<span class="tsd-signature-symbol">(</span>lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L174">src/asset.ts:174</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -532,7 +650,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L217">src/asset.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L215">src/asset.ts:215</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -562,9 +680,8 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_lib_iserializable_.iserializable.html">ISerializable</a>.<a href="../interfaces/_lib_iserializable_.iserializable.html#primarykey">primaryKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L97">src/asset.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L121">src/asset.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
@@ -581,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L276">src/asset.ts:276</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L281">src/asset.ts:281</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -598,20 +715,19 @@
 					<a name="serialize" class="tsd-anchor"></a>
 					<h3>serialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_lib_iserializable_.iserializable.html">ISerializable</a>.<a href="../interfaces/_lib_iserializable_.iserializable.html#serialize">serialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L92">src/asset.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L116">src/asset.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ds: <a href="_src_datastream_.datastream.html" class="tsd-signature-type">DataStream</a></h5>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -628,7 +744,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L239">src/asset.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L237">src/asset.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -659,7 +775,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L251">src/asset.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L253">src/asset.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -691,7 +807,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L207">src/asset.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L205">src/asset.ts:205</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -722,7 +838,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L259">src/asset.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L261">src/asset.ts:261</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -744,7 +860,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L264">src/asset.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L266">src/asset.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -767,7 +883,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L255">src/asset.ts:255</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L257">src/asset.ts:257</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -779,133 +895,20 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="_eq" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _eq</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">_eq<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tostring" class="tsd-anchor"></a>
+					<h3>to<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L162">src/asset.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L308">src/asset.ts:308</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="_gt" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _gt</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">_gt<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L138">src/asset.ts:138</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="_gte" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _gte</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">_gte<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L144">src/asset.ts:144</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="_lt" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _lt</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">_lt<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L150">src/asset.ts:150</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="_lte" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _lte</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">_lte<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L156">src/asset.ts:156</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-								<li>
-									<h5>lhs: <a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -919,7 +922,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L283">src/asset.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L327">src/asset.ts:327</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -941,16 +944,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="checkoperaotrcondition" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> check<wbr>Operaotr<wbr>Condition</h3>
+					<a name="checkoperatorcondition" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> check<wbr>Operator<wbr>Condition</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Operaotr<wbr>Condition<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, op<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Operator<wbr>Condition<span class="tsd-signature-symbol">(</span>rhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, lhs<span class="tsd-signature-symbol">: </span><a href="_src_asset_.asset.html" class="tsd-signature-type">Asset</a>, op<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L125">src/asset.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L149">src/asset.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -979,7 +982,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/asset.ts#L297">src/asset.ts:297</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/asset.ts#L341">src/asset.ts:341</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1032,28 +1035,34 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_account_.html">"src/account"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_action_.html">"src/action"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_balance_.html">"src/balance"</a>
+						<a href="../modules/_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_datastream_.html">"src/datastream"</a>
+						<a href="../modules/_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_dbmanager_.html">"src/dbmanager"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_events_.html">"src/events"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_log_.html">"src/log"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_src_name_ex_.html">"src/name_<wbr>ex"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_permission_level_.html">"src/permission-<wbr>level"</a>
@@ -1062,13 +1071,37 @@
 						<a href="../modules/_src_return_.html">"src/return"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_src_transaction_.html">"src/transaction"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_utils_.html">"src/utils"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="../modules/_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>
@@ -1091,12 +1124,6 @@
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#amount" class="tsd-kind-icon">amount</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_src_asset_.asset.html#_add" class="tsd-kind-icon">_add</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_src_asset_.asset.html#_sub" class="tsd-kind-icon">_sub</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#add" class="tsd-kind-icon">add</a>
 							</li>
@@ -1110,10 +1137,22 @@
 								<a href="_src_asset_.asset.html#divide" class="tsd-kind-icon">divide</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#eq" class="tsd-kind-icon">eq</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_src_asset_.asset.html#formatamount" class="tsd-kind-icon">format<wbr>Amount</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#getamount" class="tsd-kind-icon">get<wbr>Amount</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#getsymbol" class="tsd-kind-icon">get<wbr>Symbol</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#gt" class="tsd-kind-icon">gt</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#gte" class="tsd-kind-icon">gte</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#isamountwithinrange" class="tsd-kind-icon">is<wbr>Amount<wbr>Within<wbr>Range</a>
@@ -1123,6 +1162,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#lt" class="tsd-kind-icon">lt</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#lte" class="tsd-kind-icon">lte</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#multi" class="tsd-kind-icon">multi</a>
@@ -1154,26 +1199,14 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_asset_.asset.html#symbolprecision" class="tsd-kind-icon">symbol<wbr>Precision</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#_eq" class="tsd-kind-icon">_eq</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#_gt" class="tsd-kind-icon">_gt</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#_gte" class="tsd-kind-icon">_gte</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#_lt" class="tsd-kind-icon">_lt</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#_lte" class="tsd-kind-icon">_lte</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_asset_.asset.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_src_asset_.asset.html#balanceof" class="tsd-kind-icon">balance<wbr>Of</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_src_asset_.asset.html#checkoperaotrcondition" class="tsd-kind-icon">check<wbr>Operaotr<wbr>Condition</a>
+								<a href="_src_asset_.asset.html#checkoperatorcondition" class="tsd-kind-icon">check<wbr>Operator<wbr>Condition</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_src_asset_.asset.html#transfer" class="tsd-kind-icon">transfer</a>
@@ -1190,6 +1223,12 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_src_asset_.html#max_amount" class="tsd-kind-icon">MAX_<wbr>AMOUNT</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/_src_asset_.html#sys" class="tsd-kind-icon">SYS</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/_src_asset_.html#sys_name" class="tsd-kind-icon">SYS_<wbr>NAME</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_src_asset_.html#stringtosymbol" class="tsd-kind-icon">String<wbr>ToSymbol</a>

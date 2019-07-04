@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/utils&quot; | ContractSdk</title>
+	<title>&quot;src/utils&quot; | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ContractSdk</a>
+					<a href="../index.html" class="title">ultrain-ts-lib</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -73,21 +73,16 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_src_utils_.html#asciichar" class="tsd-kind-icon">ASCIICHAR</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_src_utils_.html#printablechar" class="tsd-kind-icon">Printable<wbr>Char</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#n" class="tsd-kind-icon">N</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#namesuffix" class="tsd-kind-icon">Name<wbr>Suffix</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#rn" class="tsd-kind-icon">RN</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_src_utils_.html#char_to_symbol" class="tsd-kind-icon">char_<wbr>to_<wbr>symbol</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#inttostring" class="tsd-kind-icon">int<wbr>ToString</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#printstr" class="tsd-kind-icon">printstr</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#string2cstr" class="tsd-kind-icon">string2cstr</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#toutf8array" class="tsd-kind-icon">toUTF8<wbr>Array</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_utils_.html#ultrain_assert" class="tsd-kind-icon">ultrain_<wbr>assert</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,154 +91,50 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="asciichar" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> ASCIICHAR</h3>
-					<div class="tsd-signature tsd-kind-icon">ASCIICHAR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot; &quot;, &quot;!&quot;, &quot;\&quot;&quot;, &quot;#&quot;, &quot;$&quot;, &quot;%&quot;, &quot;&amp;&quot;, &quot;&#x27;&quot;,&quot;(&quot;, &quot;)&quot;, &quot;*&quot;, &quot;+&quot;, &quot;,&quot;, &quot;-&quot;, &quot;.&quot;, &quot;/&quot;,&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;,&quot;8&quot;, &quot;9&quot;, &quot;:&quot;, &quot;;&quot;, &quot;&lt;&quot;, &quot;&#x3D;&quot;, &quot;&gt;&quot;, &quot;?&quot;,&quot;@&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;,&quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;K&quot;, &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;O&quot;,&quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;R&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;, &quot;W&quot;,&quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, &quot;[&quot;, &quot;\\&quot;, &quot;]&quot;, &quot;^&quot;, &quot;_&quot;,&quot;&#x60;&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;,&quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;,&quot;p&quot;, &quot;q&quot;, &quot;r&quot;, &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;,&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;{&quot;, &quot;|&quot;, &quot;}&quot;, &quot;~&quot;]</span></div>
+					<a name="printablechar" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Printable<wbr>Char</h3>
+					<div class="tsd-signature tsd-kind-icon">Printable<wbr>Char<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot; &quot;, &quot;!&quot;, &quot;\&quot;&quot;, &quot;#&quot;, &quot;$&quot;, &quot;%&quot;, &quot;&amp;&quot;, &quot;&#x27;&quot;,&quot;(&quot;, &quot;)&quot;, &quot;*&quot;, &quot;+&quot;, &quot;,&quot;, &quot;-&quot;, &quot;.&quot;, &quot;/&quot;,&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;,&quot;8&quot;, &quot;9&quot;, &quot;:&quot;, &quot;;&quot;, &quot;&lt;&quot;, &quot;&#x3D;&quot;, &quot;&gt;&quot;, &quot;?&quot;,&quot;@&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;,&quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;K&quot;, &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;O&quot;,&quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;R&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;, &quot;W&quot;,&quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, &quot;[&quot;, &quot;\\&quot;, &quot;]&quot;, &quot;^&quot;, &quot;_&quot;,&quot;&#x60;&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;,&quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;,&quot;p&quot;, &quot;q&quot;, &quot;r&quot;, &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;,&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;{&quot;, &quot;|&quot;, &quot;}&quot;, &quot;~&quot;]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L6">src/utils.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/utils.ts#L8">src/utils.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>printable characters.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><p>import { PrintableChar } from &quot;ultrain-ts-lib/src/utils&quot;;</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="n" class="tsd-anchor"></a>
-					<h3>N</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">N<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L122">src/utils.ts:122</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>convert a string to uint64 encoded by Base32.
-									so the string must follow below principles:</p>
-									<ol>
-										<li>no more than 13 characters.</li>
-										<li>only contains &quot;.12345abcdefghijklmnopqrstuvwxyz&quot;</li>
-										<li>not end with &quot;.&quot;</li>
-									</ol>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>string to convert</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="namesuffix" class="tsd-anchor"></a>
-					<h3>Name<wbr>Suffix</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Name<wbr>Suffix<span class="tsd-signature-symbol">(</span>n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L177">src/utils.ts:177</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>n: <span class="tsd-signature-type">u64</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="rn" class="tsd-anchor"></a>
-					<h3>RN</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">RN<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L150">src/utils.ts:150</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>a revert operation of method <i>N</i></p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>name: <span class="tsd-signature-type">u64</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>uint64 value</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="char_to_symbol" class="tsd-anchor"></a>
-					<h3>char_<wbr>to_<wbr>symbol</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">char_<wbr>to_<wbr>symbol<span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u8</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L106">src/utils.ts:106</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>c: <span class="tsd-signature-type">u8</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u64</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
 					<a name="inttostring" class="tsd-anchor"></a>
 					<h3>int<wbr>ToString</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">int<wbr>ToString<span class="tsd-signature-symbol">(</span>_int<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">int<wbr>ToString<span class="tsd-signature-symbol">(</span>_int<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u64</span>, leftPadWith0<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L24">src/utils.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/utils.ts#L30">src/utils.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>convert an uint64 to string.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>import { intToString } from &quot;ultrain-ts-lib/src/utils&quot;;</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -251,6 +142,12 @@
 									<h5>_int: <span class="tsd-signature-type">u64</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>uint64 to convert</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> leftPadWith0: <span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>width of integer, if length of integer is less than it, pad with 0 on left.</p>
 									</div>
 								</li>
 							</ul>
@@ -269,13 +166,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L91">src/utils.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/utils.ts#L111">src/utils.ts:111</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>print a string to console after wasm vm quit.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>import { printstr } from &quot;ultrain-ts-lib/src/utils&quot;;</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -300,7 +202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L82">src/utils.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/utils.ts#L99">src/utils.ts:99</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,6 +210,11 @@
 									<p>convert string to usize.
 									here, <i>usize</i> likes <i>&quot;const char*&quot;</i> in c/c++.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>import { string2cstr } from &quot;ultrain-ts-lib/src/utils&quot;;</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -333,13 +240,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L44">src/utils.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/utils.ts#L58">src/utils.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>convert an utf-16 to utf-8 string array.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>import { toUTF8Array } from &quot;ultrain-ts-lib/src/utils&quot;;</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -355,44 +267,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="ultrain_assert" class="tsd-anchor"></a>
-					<h3>ultrain_<wbr>assert</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">ultrain_<wbr>assert<span class="tsd-signature-symbol">(</span>condition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/TsSDK/blob/8bb4d0d/src/utils.ts#L100">src/utils.ts:100</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>assert an condition.
-									if condition is false, vm throws an exception and quit executing.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>condition: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>condition to check.</p>
-									</div>
-								</li>
-								<li>
-									<h5>msg: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>help message</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -405,34 +279,49 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_account_.html">"src/account"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_action_.html">"src/action"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_asset_.html">"src/asset"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_balance_.html">"src/balance"</a>
+						<a href="_src_big_number_.html">"src/big_<wbr>number"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_src_datastream_.html">"src/datastream"</a>
+						<a href="_src_block_.html">"src/block"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_contract_.html">"src/contract"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_crypto_.html">"src/crypto"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_dbmanager_.html">"src/dbmanager"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_src_events_.html">"src/events"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_src_log_.html">"src/log"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_map_.html">"src/map"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_src_name_ex_.html">"src/name_<wbr>ex"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_permission_level_.html">"src/permission-<wbr>level"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_return_.html">"src/return"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_safemath_.html">"src/safemath"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_time_.html">"src/time"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_transaction_.html">"src/transaction"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="_src_utils_.html">"src/utils"</a>
@@ -441,26 +330,29 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_lib_iserializable_.html">"lib/ISerializable"</a>
+						<a href="_lib_arraymap_.html">"lib/arraymap"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_balance_.html">"lib/balance"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_headblock_.html">"lib/headblock"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_map_.html">"lib/map"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_.html">"lib/name"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_lib_name_ex_.html">"lib/name_<wbr>ex"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="_src_utils_.html#asciichar" class="tsd-kind-icon">ASCIICHAR</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_utils_.html#n" class="tsd-kind-icon">N</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_utils_.html#namesuffix" class="tsd-kind-icon">Name<wbr>Suffix</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_utils_.html#rn" class="tsd-kind-icon">RN</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_src_utils_.html#char_to_symbol" class="tsd-kind-icon">char_<wbr>to_<wbr>symbol</a>
+						<a href="_src_utils_.html#printablechar" class="tsd-kind-icon">Printable<wbr>Char</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_src_utils_.html#inttostring" class="tsd-kind-icon">int<wbr>ToString</a>
@@ -473,9 +365,6 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_src_utils_.html#toutf8array" class="tsd-kind-icon">toUTF8<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_src_utils_.html#ultrain_assert" class="tsd-kind-icon">ultrain_<wbr>assert</a>
 					</li>
 				</ul>
 			</nav>

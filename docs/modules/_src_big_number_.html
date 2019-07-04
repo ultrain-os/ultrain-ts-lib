@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/return&quot; | ultrain-ts-lib</title>
+	<title>&quot;src/big_number&quot; | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_src_return_.html">&quot;src/return&quot;</a>
+					<a href="_src_big_number_.html">&quot;src/big_number&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;src/return&quot;</h1>
+			<h1>External module &quot;src/big_number&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -73,15 +73,17 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Modules</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported"><a href="_src_return_.env.html" class="tsd-kind-icon">env</a></li>
+								<li class="tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported"><a href="_src_big_number_.env.html" class="tsd-kind-icon">env</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_src_return_.html#return" class="tsd-kind-icon">Return</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_src_return_.html#returnarray" class="tsd-kind-icon">Return<wbr>Array</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="_src_return_.html#returnobj" class="tsd-kind-icon">return<wbr>Obj</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_big_number_.html#bn_cmp" class="tsd-kind-icon">bn_<wbr>cmp</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_big_number_.html#bn_gcd" class="tsd-kind-icon">bn_<wbr>gcd</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_big_number_.html#bn_is_probab_prime" class="tsd-kind-icon">bn_<wbr>is_<wbr>probab_<wbr>prime</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_big_number_.html#bn_mul" class="tsd-kind-icon">bn_<wbr>mul</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_big_number_.html#bn_pow_mod" class="tsd-kind-icon">bn_<wbr>pow_<wbr>mod</a></li>
 							</ul>
 						</section>
 					</div>
@@ -89,119 +91,203 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="return" class="tsd-anchor"></a>
-					<h3>Return</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">Return&lt;T&gt;<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="bn_cmp" class="tsd-anchor"></a>
+					<h3>bn_<wbr>cmp</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">bn_<wbr>cmp<span class="tsd-signature-symbol">(</span>p<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, q<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">i32</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/return.ts#L22">src/return.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/big_number.ts#L38">src/big_number.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>set value as return value. This value will be printed to console or return within response
-										if you call API by POST method via https. Till now, type T can only be string or integer.
-										NOTE: the return value doesn&#39;t mean the transaction is commited by blockchain, but means if the
-									transaction is executed, the result will be it.</p>
+									<p>比较p，q大小。-1：p&lt;q;0:p=q;1:p&gt;q;</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>import { Return } from &quot;ultrain-ts-lib/src/return&quot;;</p>
-									</dd>
-								</dl>
 							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>val: <span class="tsd-signature-type">T</span></h5>
+									<h5>p: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>q: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">u32</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>value will set as return value.</p>
+										<p>进制，范围2-62</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">i32</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="returnarray" class="tsd-anchor"></a>
-					<h3>Return<wbr>Array</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">Return<wbr>Array&lt;T&gt;<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="bn_gcd" class="tsd-anchor"></a>
+					<h3>bn_<wbr>gcd</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">bn_<wbr>gcd<span class="tsd-signature-symbol">(</span>p<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, q<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/return.ts#L44">src/return.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/big_number.ts#L17">src/big_number.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>return an array to caller. It behaves like Return.</p>
+									<p>求p，q公约数</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>import { ReturnArray } from &quot;ultrain-ts-lib/src/return&quot;;</p>
-									</dd>
-								</dl>
 							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>val: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>p: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>q: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">u32</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>an array of returns value.</p>
+										<p>进制，范围2-62</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-					<a name="returnobj" class="tsd-anchor"></a>
-					<h3>return<wbr>Obj</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">return<wbr>Obj&lt;T&gt;<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="bn_is_probab_prime" class="tsd-anchor"></a>
+					<h3>bn_<wbr>is_<wbr>probab_<wbr>prime</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">bn_<wbr>is_<wbr>probab_<wbr>prime<span class="tsd-signature-symbol">(</span>p<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, reps<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/return.ts#L33">src/return.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/big_number.ts#L89">src/big_number.ts:89</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Returnable</span></h4>
-								</li>
-							</ul>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>判断是否为素数。返回0为合数，1为素数，2可能为素数。p有4^(-reps)概率为合数。</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>val: <span class="tsd-signature-type">T</span></h5>
+									<h5>p: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>reps: <span class="tsd-signature-type">u32</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>取15至50比较合理，</p>
+									</div>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">u32</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>进制，范围2-62</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">u32</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="bn_mul" class="tsd-anchor"></a>
+					<h3>bn_<wbr>mul</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">bn_<wbr>mul<span class="tsd-signature-symbol">(</span>p<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, q<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/big_number.ts#L68">src/big_number.ts:68</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>求p，q乘积</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>p: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>q: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">u32</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>进制，范围2-62</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="bn_pow_mod" class="tsd-anchor"></a>
+					<h3>bn_<wbr>pow_<wbr>mod</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">bn_<wbr>pow_<wbr>mod<span class="tsd-signature-symbol">(</span>m<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/big_number.ts#L48">src/big_number.ts:48</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>求m^e%n</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>m: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>底</p>
+									</div>
+								</li>
+								<li>
+									<h5>e: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>指数</p>
+									</div>
+								</li>
+								<li>
+									<h5>n: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>除数</p>
+									</div>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">u32</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>进制，范围2-62</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -225,8 +311,13 @@
 					<li class=" tsd-kind-external-module">
 						<a href="_src_asset_.html">"src/asset"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="_src_big_number_.html">"src/big_<wbr>number"</a>
+						<ul>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
+								<a href="_src_big_number_.env.html">env</a>
+							</li>
+						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_block_.html">"src/block"</a>
@@ -249,13 +340,8 @@
 					<li class=" tsd-kind-external-module">
 						<a href="_src_permission_level_.html">"src/permission-<wbr>level"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="_src_return_.html">"src/return"</a>
-						<ul>
-							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
-								<a href="_src_return_.env.html">env</a>
-							</li>
-						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_src_safemath_.html">"src/safemath"</a>
@@ -294,14 +380,20 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_src_return_.html#return" class="tsd-kind-icon">Return</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_big_number_.html#bn_cmp" class="tsd-kind-icon">bn_<wbr>cmp</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_src_return_.html#returnarray" class="tsd-kind-icon">Return<wbr>Array</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_big_number_.html#bn_gcd" class="tsd-kind-icon">bn_<wbr>gcd</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="_src_return_.html#returnobj" class="tsd-kind-icon">return<wbr>Obj</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_big_number_.html#bn_is_probab_prime" class="tsd-kind-icon">bn_<wbr>is_<wbr>probab_<wbr>prime</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_big_number_.html#bn_mul" class="tsd-kind-icon">bn_<wbr>mul</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_big_number_.html#bn_pow_mod" class="tsd-kind-icon">bn_<wbr>pow_<wbr>mod</a>
 					</li>
 				</ul>
 			</nav>
