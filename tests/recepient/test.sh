@@ -1,4 +1,4 @@
-
+#!/bin/bash
 clultrain=clultrain
 if [! -n '$1']; then
     echo "using default clutrain"
