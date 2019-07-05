@@ -19,7 +19,7 @@ class MasterContract extends Contract {
     db: DBManager<Gamer>;
     constructor(code: u64) {
         super(code);
-        this.db = new DBManager<Gamer>(NAME("gamer"), this.receiver, NAME("gamer"));
+        this.db = new DBManager<Gamer>(NAME("gamer"), NAME("gamer"));
     }
 
     private startGame(from: account_name): void {
