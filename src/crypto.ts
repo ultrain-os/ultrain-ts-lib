@@ -1,6 +1,5 @@
 import { env as cry } from "../internal/crypto.d";
-import { string2cstr, toUTF8Array, intToString } from "./utils";
-import { Log } from "./log";
+import { string2cstr, intToString } from "./utils";
 
 const HexDigital: string = "0123456789abcdef";
 const CHAR0 = 0x30;
@@ -241,7 +240,7 @@ export function get_random_number(code: account_name, table: u64, scope: u64, pr
     let value = new Uint8Array(512);
     let readLength = cry.ts_read_db_record(code, table, scope, primary, changetype<usize>(value.buffer), value.length);
     if (readLength < 0) return 0;
-    let ds = new DataStream(changetype<usize>(value.buffer), readLength);
+    let ds = new DataStream(value.buffer, readLength);
     let rnum = ds.read<u64>();
     return rnum;
 }
@@ -251,7 +250,7 @@ export class MerkleProof {
     txBytes: u8[]= [];
 
     private  verify_merkle_proof(transaction_mroot: string, merkle_proof: string[], tx_bytes: u8[]): i32 {
-        var ds = new DataStream(0, 0);
+        var ds = new DataStream(new ArrayBuffer(0), 0);
         ds.writeStringVector(merkle_proof);
         var mplen = ds.size();
         var mpds = DSHelper.getDataStreamWithLength(mplen);

@@ -96,11 +96,9 @@ export function toUTF8Array(str: string): u8[] {
  * @example
  * import { string2cstr } from "ultrain-ts-lib/src/utils";
  */
-export function string2cstr(str: string): u32 {
-    let cstr = toUTF8Array(str);
-    var ptr: u32 = load<u32>(changetype<usize>(cstr));
-    // return <usize>ptr + sizeof<u64>();
-    return <usize>ptr + 2;
+export function string2cstr(str: string): ArrayBuffer {
+    var buf = String.UTF8.encode(str, true);
+    return buf;
 }
 /**
  * print a string to console after wasm vm quit.
@@ -110,5 +108,11 @@ export function string2cstr(str: string): u32 {
  * import { printstr } from "ultrain-ts-lib/src/utils";
  */
 export function printstr(str: string): void {
-    console.prints(string2cstr(str));
+    var buf = String.UTF8.encode(str, true);
+    console.prints(buf);    
+}
+
+export function printstr_l(str: string): void {
+    var buf = String.UTF8.encode(str);
+    console.prints_l(buf, buf.byteLength);
 }

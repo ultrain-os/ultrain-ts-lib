@@ -81,7 +81,7 @@ export class Account {
         let data = new Uint8Array(128);
         let len = CryptoAPI.ts_public_key_of_account(account, changetype<usize>(data.buffer), data.length, string2cstr(type));
         if (len > 0) {
-            return String.fromUTF8(changetype<usize>(data.buffer), len);
+            return String.UTF8.decodeUnsafe(data.buffer, len);
         } else {
             return "";
         }

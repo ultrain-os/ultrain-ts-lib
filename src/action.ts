@@ -202,7 +202,7 @@ export class Action {
 export function SerializableToArray<T extends Serializable>(dt: T): u8[] {
     let len = DataStream.measure<T>(dt);
     let arr = new Uint8Array(len);
-    let ds = new DataStream(<usize>arr.buffer, len);
+    let ds = new DataStream(arr.buffer, len);
     dt.serialize(ds);
     return ds.toArray<u8>();
 }
@@ -217,7 +217,7 @@ function composeActionData<T extends Serializable>(pl: PermissionLevel[], receiv
 
     let len = DataStream.measure<ActionImpl>(actimpl);
     let arr = new Uint8Array(len);
-    let ds = new DataStream(<usize>arr.buffer, len);
+    let ds = new DataStream(arr.buffer, len);
     actimpl.serialize(ds);
     return ds;
 }

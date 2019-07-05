@@ -1,6 +1,5 @@
 import { ActionImpl } from "./action";
 import { env as transaction } from "../internal/transaction.d";
-import { Log } from "./log";
 import { DataStreamFromCurrentAction } from "./contract";
 
 export class TransactionHeader implements Serializable {
@@ -80,7 +79,7 @@ export class Transaction implements Serializable {
     send(sender_id: u64, payer: u64, replace_existing: boolean = false): void {
         let len = DataStream.measure<Transaction>(this);
         let arr = new Uint8Array(len);
-        let ds = new DataStream(<usize>arr.buffer, len);
+        let ds = new DataStream(arr.buffer, len);
         this.serialize(ds);
         transaction.ts_send_deferred(sender_id, payer, ds.buffer, ds.pos, replace_existing);
     }
@@ -116,7 +115,7 @@ function getTransactionId(): string {
     let size = transaction.get_transaction_id(changetype<usize>(arr.buffer), CheckSumLength);
     ultrain_assert(size == CheckSumLength, "read id of this transaction failed. Its length is not 64 bits.");
 
-    return String.fromUTF8(changetype<usize>(arr.buffer), CheckSumLength);
+    return String.UTF8.decodeUnsafe(arr.buffer, CheckSumLength);
 }
 
 function getTransactionPublishedTime(): u32 {

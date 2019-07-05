@@ -13,8 +13,8 @@
           "type": "string"
         }
       ],
-      "name": "gcd",
-      "base": ""
+      "base": "",
+      "name": "gcd"
     },
     {
       "fields": [
@@ -27,20 +27,22 @@
           "type": "string"
         }
       ],
-      "name": "cmp",
-      "base": ""
+      "base": "",
+      "name": "cmp"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "gcd",
-      "type": "gcd"
+      "type": "gcd",
+      "ability": "normal"
     },
     {
       "ricardian_contract": "",
       "name": "cmp",
-      "type": "cmp"
+      "type": "cmp",
+      "ability": "normal"
     }
   ],
   "tables": []

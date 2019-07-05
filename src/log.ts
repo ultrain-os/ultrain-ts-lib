@@ -1,13 +1,19 @@
-import { string2cstr } from "./utils";
-
 /**
  * @author fanliangqin@ultrain.io
  */
 
 export declare namespace env{
-    function ts_log_print_s(cstr: usize): void;
+    function ts_log_print_s(cstr: ArrayBuffer): void;
     function ts_log_print_i(i: i64, fmt: u32): void;
     function ts_log_done(): void;
+}
+
+/**
+ * Convert string to UTF8 ArrayBuffer
+ * @param str The original string encode by UTF16
+ */
+export function string2cstr(str: string): ArrayBuffer {
+    return String.UTF8.encode(str, true);
 }
 
 /**
@@ -19,9 +25,11 @@ class Logger {
      * @param msg message to print.
      */
     s(msg: string): Logger {
-        env.ts_log_print_s(string2cstr(msg));
+        var buf = String.UTF8.encode(msg, true);
+        env.ts_log_print_s(buf);
         return this;
     }
+
 
     /**
      * print an integer to console.

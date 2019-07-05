@@ -1,7 +1,7 @@
 import { env as action } from "../internal/action.d";
 import { NameEx, NEX } from "../lib/name_ex";
 import { NAME } from "./account";
-import { Return, ReturnArray } from "../src/return";
+import { Return, ReturnArray } from "./return";
 
 /**
  * To get a DataStream of current action.
@@ -13,7 +13,7 @@ export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
     let arr = new Uint8Array(len);
     action.read_action_data(changetype<usize>(arr.buffer), len);
-    let ds = new DataStream(changetype<usize>(arr.buffer), len);
+    let ds = new DataStream(arr.buffer, len);
     return ds;
 }
 /**

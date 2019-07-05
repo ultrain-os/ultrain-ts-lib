@@ -3,7 +3,7 @@ echo 'Deploy the nft contract and test nft contract'
 echo 'Precondition:'
 echo '1. Accounts: nft, tom, jerry, rose are exist'
 
-clultrain=clultrain
+clultrain="$clu"
 if [ ! -n '$1' ]; then
     echo "using default clutrain"
 else 
@@ -32,7 +32,6 @@ ${clultrain} push action nft balanceOf '["jerry", "XRT"]' -p jerry
 ${clultrain} push action nft tokenByIndex '["jerry", "XRT", 1]' -p jerry
 ${clultrain} push action nft uriOf '[1]' -p nft
 ${clultrain} push action nft ownerOf '[1]' -p nft
-
 
 echo "Get the table info:"
 ${clultrain} get table nft token token

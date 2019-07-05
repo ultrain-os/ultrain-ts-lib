@@ -1,11 +1,176 @@
 {
   "version": "ultraio:1.0",
-  "types": [],
+  "types": [
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "account_name",
+      "type": "name"
+    },
+    {
+      "new_type_name": "i32",
+      "type": "int32"
+    }
+  ],
   "structs": [
     {
       "fields": [],
       "base": "",
       "name": "test"
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "year",
+          "type": "i32"
+        }
+      ],
+      "base": "",
+      "name": "Car"
+    },
+    {
+      "fields": [
+        {
+          "name": "key",
+          "type": "u64"
+        },
+        {
+          "name": "account",
+          "type": "account_name"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "i32"
+        },
+        {
+          "name": "yes",
+          "type": "bool"
+        },
+        {
+          "name": "_u64",
+          "type": "u64"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
+        }
+      ],
+      "base": "",
+      "name": "insertTypes"
+    },
+    {
+      "fields": [
+        {
+          "name": "key",
+          "type": "u64"
+        },
+        {
+          "name": "account",
+          "type": "account_name"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "age",
+          "type": "i32"
+        },
+        {
+          "name": "yes",
+          "type": "bool"
+        },
+        {
+          "name": "_u64",
+          "type": "u64"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
+        }
+      ],
+      "base": "",
+      "name": "verifyTypes"
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "account",
+          "type": "account_name"
+        },
+        {
+          "name": "str",
+          "type": "string"
+        },
+        {
+          "name": "longNum",
+          "type": "u64"
+        },
+        {
+          "name": "smallNum",
+          "type": "i32"
+        },
+        {
+          "name": "exist",
+          "type": "bool"
+        },
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "nums",
+          "type": "u64[]"
+        },
+        {
+          "name": "car",
+          "type": "Car"
+        },
+        {
+          "name": "cars",
+          "type": "Car[]"
+        }
+      ],
+      "base": "",
+      "name": "TypeSet"
     }
   ],
   "actions": [
@@ -14,7 +179,31 @@
       "name": "test",
       "type": "test",
       "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "insertTypes",
+      "type": "insertTypes",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "verifyTypes",
+      "type": "verifyTypes",
+      "ability": "normal"
     }
   ],
-  "tables": []
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "types",
+      "type": "TypeSet"
+    }
+  ]
 }

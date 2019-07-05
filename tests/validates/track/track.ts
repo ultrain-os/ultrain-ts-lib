@@ -2,15 +2,30 @@ import { Log } from "../../../src/log";
 import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
 
-class TypeZoo implements Serializable {
-    account: account_name;
+class Car implements Serializable {
     name: string;
-    _64: u64;
-    _i32: i32;
-    _bool: bool;
+    year: i32;
+
+    toString(): string {
+        return "name: " + this.name + ". year: " + this.year.toString();
+    }
 }
 
-@database(TypeZoo, "types")
+class TypeSet implements Serializable {
+    @primaryid
+    id: u64;
+    account: account_name;
+    str: string;
+    longNum: u64;
+    smallNum: i32;
+    exist: bool;
+    strs: Array<string>;
+    nums: Array<u64>;
+    car: Car;
+    cars: Array<Car>;
+}
+
+@database(TypeSet, "types")
 class TestTrack extends Contract {
 
     constructor(receiver: account_name){
@@ -20,43 +35,56 @@ class TestTrack extends Contract {
     @action
     public test(): void {
         this.testMax();
-        Log.s("12345678Max-runnAing-successful!").flush();
         this.testIndexOf();
-        Log.s("12345678Indexof-running-successful!").flush();
         this.testBreak();
-        Log.s("12345678Break-running-successful!").flush();
         this.testTernary();
-        Log.s("123456789Test terbart running successful!").flush();
-        Log.s("123456789Successful!!!").flush();
+        this.testArrayBracket();
         this.toCheckList();
     }
 
     @action
-    testType(account: account_name, user_name: string, age: i32, yes: bool, _u64: u64): void {
-        var aDbManager: DBManager<TypeZoo> = new DBManager<TypeZoo>(NAME("types"), NAME("types"));
-        var types: TypeZoo = new TypeZoo();
+    insertTypes(key: u64, account: account_name, name: string, age: i32, yes: bool, _u64: u64, strs: string[],nums: u64[], car: Car, cars: Car[]): void {
+        var aDbManager: DBManager<TypeSet> = new DBManager<TypeSet>(NAME("types"), NAME("types"));
+        var types: TypeSet = new TypeSet();
         types.account = account;
-        types.name = user_name;
-        types._i32 = age;
-        types._bool = yes;
-        types._64 = _u64;
-
-        if (!aDbManager.exists(0)){
+        types.str = name;
+        types.smallNum = age;
+        types.exist = yes;
+        types.longNum = _u64;
+        types.strs = strs;
+        types.nums = nums;
+        types.car = car;
+        types.cars = cars;
+        types.id = key;
+        
+        if (!aDbManager.exists(key)){
             aDbManager.emplace(types);
         }
-        if (yes) {
-            Log.s("yes is true. ").flush();
-        } else {
-            Log.s("yes is false. ").flush();
-        }
-        Log.s("account:").i(account).s(". user name:").s(user_name).s(". age:").i(age).s(". yes:").i(yes).flush();
+        Log.s("account: ").i(account).s(". user name:").s(name).s(". age:").i(age).s(". yes:").i(yes).flush();
+    }
+
+    @action
+    verifyTypes(key: u64, account: account_name, name: string, age: i32, yes: bool, _u64: u64, strs: string[], nums: u64[], car: Car, cars: Car[]): void {
+        var aDbManager: DBManager<TypeSet> = new DBManager<TypeSet>(NAME("types"), NAME("types"));
+        var types: TypeSet = new TypeSet();
+        ultrain_assert(aDbManager.exists(key), key.toString() + " not existing.");
+        aDbManager.get(key, types);
+
+        ultrain_assert(types.account == account, "Test account_name");
+        ultrain_assert(types.str == name, "Test string");
+    
+        ultrain_assert(types.smallNum == age, "Test i32");
+        ultrain_assert(types.exist == yes, "Test bool");
+        ultrain_assert(types.longNum == _u64, "Test u64");
+        ultrain_assert(types.strs.join(",") == strs.join(","), "Test string array");
+        ultrain_assert(types.nums.join(",") == nums.join(","), "Test u64 arry");
+        ultrain_assert(types.car.toString() == car.toString(), "Test obj");
+        ultrain_assert(types.cars.toString() == cars.toString(), "Test obj array");
+        Log.s("successfully!").flush();
     }
 
     private toCheckList(): void {
-
         Log.s("Still to check list:").flush();
-        this.testArrayBracket();
-        Log.s("ArrayBracket running not expected!").flush();
     }
 
     private createArrayUsingBracket(len: i32): i32[] {
