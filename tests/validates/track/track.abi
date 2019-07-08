@@ -129,6 +129,20 @@
     {
       "fields": [
         {
+          "name": "existing",
+          "type": "bool"
+        },
+        {
+          "name": "msg",
+          "type": "string"
+        }
+      ],
+      "base": "",
+      "name": "testAssert"
+    },
+    {
+      "fields": [
+        {
           "name": "id",
           "type": "u64"
         },
@@ -190,6 +204,12 @@
       "ricardian_contract": "",
       "name": "verifyTypes",
       "type": "verifyTypes",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "testAssert",
+      "type": "testAssert",
       "ability": "normal"
     }
   ],

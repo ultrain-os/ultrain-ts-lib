@@ -189,7 +189,7 @@ export class Action {
      */
     static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
         let ds = composeActionData(pl, receiver, action, data);
-        ActionAPI.send_inline(<usize>ds.buffer, ds.pos);
+        ActionAPI.send_inline(ds.buffer, ds.pos);
     }
 
     static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {

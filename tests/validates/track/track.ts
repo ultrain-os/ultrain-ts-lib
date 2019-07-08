@@ -39,6 +39,7 @@ class TestTrack extends Contract {
         this.testBreak();
         this.testTernary();
         this.testArrayBracket();
+        this.testPrint();
         this.toCheckList();
     }
 
@@ -81,6 +82,11 @@ class TestTrack extends Contract {
         ultrain_assert(types.car.toString() == car.toString(), "Test obj");
         ultrain_assert(types.cars.toString() == cars.toString(), "Test obj array");
         Log.s("successfully!").flush();
+    }
+
+    @action
+    testAssert(existing: bool, msg: string): void {
+        ultrain_assert(!existing, msg);
     }
 
     private toCheckList(): void {
@@ -171,5 +177,12 @@ class TestTrack extends Contract {
         assert(res == -1);
         res = this.indexOf([1, 2, 4], 0);
         assert(res == 1);
+    }
+
+    testPrint(): void {
+        Log.s("中文：").s("追追追").flush();
+        Log.s("English: ").s("1234567890ABCDEFGHIGKLMNOPQRSTUVWXYZ").flush();
+        Log.i(88888).flush();
+        Log.s("testPrint finished. Please check the print content.")
     }
 }
