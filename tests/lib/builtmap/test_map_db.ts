@@ -1,5 +1,3 @@
-// import { Map } from "../../../lib/map";
-// import { ArrayMap } from "../../../lib/arraymap";
 import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
 import { Log } from "../../../src/log";
@@ -87,7 +85,7 @@ class TestMap extends Contract {
     @action
     public printMap(): void {
         var a = new A();
-        let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a"));
+        let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), NAME("a"));
         let existing = aDbManager.get( 0 , a);
         Log.s("print map existing: ").i(existing).flush();
         ultrain_assert(existing, "Database data not existing!");
@@ -111,18 +109,40 @@ class TestMap extends Contract {
     }
 
 
+    // @action
+    // public testAnd(aa:i32, b: i32, having: bool): void {
+    //     let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a"));
+    //     var a = new A();
+    //     let existing = aDbManager.exists(0);
+    //     if (existing) {
+    //         aDbManager.get( 0 , a);
+    //         Log.s("test and size: ").i(<bool>a.str_str_map.size).flush();
+    //         Log.s("test and having: ").i(having).flush();
+    //         Log.s("test and existing: ").i(aDbManager.exists(0) && having  && <bool>a.str_str_map.size).flush();
+    //         let v = aa != 0 && b != aa && b != 1
+    //         Log.s("boolean value: ").i(v).flush();
+    //     } 
+    // }
+
     @action
-    public testAnd(aa:i32, b: i32, having: bool): void {
-        let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a"));
-        var a = new A();
-        let existing = aDbManager.exists(0);
-        if (existing) {
-            aDbManager.get( 0 , a);
-            Log.s("test and size: ").i(<bool>a.str_str_map.size).flush();
-            Log.s("test and having: ").i(having).flush();
-            Log.s("test and existing: ").i(aDbManager.exists(0) && having  && <bool>a.str_str_map.size).flush();
-            let v = aa != 0 && b != aa && b != 1
-            Log.s("boolean value: ").i(v).flush();
-        } 
+    public test(arr: string[]): void {
+
+        var str_str_map = new Map<string, string>();
+        var int_str_map = new Map<i32, string>();
+        var str_int_map = new Map<string, i32>();
+        for (let index = 0; index < arr.length; index++) {
+            str_str_map.set(arr[index], arr[index]);
+            int_str_map.set(index, arr[index]);
+            str_int_map.set(arr[index], index);
+        }
+
+        Log.s("The key length: ").i(str_str_map.size).flush();
+
+        var keys = str_str_map.keys();
+        for (let index = 0; index < keys.length; index++) {
+            Log.s("Str_str Key: ").s(keys[index]).s(". Val: ").s(str_str_map.get(keys[index])).flush();
+            Log.s("int_str Key: ").i(index).s(". Val: ").s(int_str_map.get(index)).flush();
+            Log.s("str_int Key: ").s(keys[index]).s(". Val: ").i(str_int_map.get(keys[index])).flush();
+        }
     }
 }

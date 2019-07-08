@@ -1,28 +1,19 @@
 {
   "version": "ultraio:1.0",
-  "types": [
-    {
-      "new_type_name": "u64",
-      "type": "uint64"
-    }
-  ],
+  "types": [],
   "structs": [
     {
-      "fields": [
-        {
-          "name": "a",
-          "type": "u64"
-        }
-      ],
-      "name": "test",
-      "base": ""
+      "fields": [],
+      "base": "",
+      "name": "test"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "test",
-      "type": "test"
+      "type": "test",
+      "ability": "normal"
     }
   ],
   "tables": []

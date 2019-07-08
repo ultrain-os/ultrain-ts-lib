@@ -1,10 +1,8 @@
-import { PrintableChar } from "../src/utils";
-import { Log } from "../src/log";
 import { SHA256 } from "../src/crypto";
 
 declare namespace env{
-    function head_block_id(sha256: usize, size: u32): void;
-    function head_block_previous_id(sha256: usize, size: u32): void;
+    function head_block_id(sha256: ArrayBuffer, size: u32): void;
+    function head_block_previous_id(sha256: ArrayBuffer, size: u32): void;
     function head_block_number(): u32;
     function head_block_timestamp(): u32;
     function head_block_proposer(): u64;

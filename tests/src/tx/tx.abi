@@ -4,15 +4,16 @@
   "structs": [
     {
       "fields": [],
-      "name": "showIdAndTime",
-      "base": ""
+      "base": "",
+      "name": "showIdAndTime"
     }
   ],
   "actions": [
     {
       "ricardian_contract": "",
       "name": "showIdAndTime",
-      "type": "showIdAndTime"
+      "type": "showIdAndTime",
+      "ability": "normal"
     }
   ],
   "tables": []

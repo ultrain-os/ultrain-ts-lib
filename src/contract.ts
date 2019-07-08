@@ -12,7 +12,7 @@ import { Return, ReturnArray } from "./return";
 export function DataStreamFromCurrentAction(): DataStream {
     let len = action.action_data_size();
     let arr = new Uint8Array(len);
-    action.read_action_data(changetype<usize>(arr.buffer), len);
+    action.read_action_data(arr.buffer, len);
     let ds = new DataStream(arr.buffer, len);
     return ds;
 }

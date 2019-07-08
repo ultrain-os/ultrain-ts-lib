@@ -6,7 +6,7 @@ import { RNAME } from "../../src/account";
 export class BlockTest extends Contract{
 
     @action
-    test(a: u64):void{
+    test():void{
          Log.s("id: ").s(Block.id).flush();
          Log.s("previousId: ").s(Block.perviousId).flush();
          Log.s("number: ").i(Block.number).flush();

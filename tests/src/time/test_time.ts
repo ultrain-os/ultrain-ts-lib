@@ -3,7 +3,6 @@ import { intToString } from "../../../src/utils";
 import { LocalTime, GmtTime } from "../../../src/time";
 import { Return } from "../../../src/return";
 
-
 export　class TimeUtilTest extends Contract {
 
     @action

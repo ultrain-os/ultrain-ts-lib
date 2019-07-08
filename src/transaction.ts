@@ -112,10 +112,10 @@ export class Transaction implements Serializable {
 function getTransactionId(): string {
     const CheckSumLength: u32 = 64;
     let arr = new Uint8Array(CheckSumLength);
-    let size = transaction.get_transaction_id(changetype<usize>(arr.buffer), CheckSumLength);
+    let size = transaction.get_transaction_id(arr.buffer, CheckSumLength);
     ultrain_assert(size == CheckSumLength, "read id of this transaction failed. Its length is not 64 bits.");
 
-    return String.UTF8.decodeUnsafe(arr.buffer, CheckSumLength);
+    return String.UTF8.decodeUnsafe(changetype<usize>(arr.buffer), CheckSumLength);
 }
 
 function getTransactionPublishedTime(): u32 {
