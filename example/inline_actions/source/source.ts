@@ -20,10 +20,10 @@ class SourceContract extends Contract {
     @action
     inline(name: string): void {
         Log.s("hi, it is ").s(RNAME(this.receiver)).s(", I will call sendInline with parameter: ").s(name).flush();
-        let pl = new PermissionLevel(this.receiver, NAME("active"));
+        let pl = new PermissionLevel(this.receiver, "active");
         let params = new Parameters();
         params.name = "messi";
-        Action.sendInline([pl], NAME("jack"), NEX("onInline"), params);
+        Action.sendInline([pl], "jack", "onInline", params);
     }
 
     @action
@@ -37,7 +37,7 @@ class SourceContract extends Contract {
         act.account = NAME("jack");
         act.name = NEX("onDeferred");
         act.data = SerializableToArray(p);
-        act.authorization.push(new PermissionLevel(this.receiver, NAME("active")));
+        act.authorization.push(new PermissionLevel(this.receiver, "active"));
 
         let tx = new Transaction(0);
         tx.actions.push(act);

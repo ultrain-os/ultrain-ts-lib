@@ -70,22 +70,22 @@ class HumanResource extends Contract {
     @action("pureview")
     pv_to_pv(): void {
         Log.s("pureview: pv_to_pv CALLED.").flush();
-        let pl = new PermissionLevel(this.receiver, NAME("active"));
-        Action.sendInline([pl], this.receiver, NEX("pv"), new EmptyParam());
+        let pl = new PermissionLevel(this.receiver, "active");
+        Action.sendInline([pl], RNAME(this.receiver), "pv", new EmptyParam());
     }
 
     @action("pureview")
     pv_to_failpv(): void {
         Log.s("pureview: pv_to_failpv CALLED.").flush();
-        let pl = new PermissionLevel(this.receiver, NAME("active"));
-        Action.sendInline([pl], this.receiver, NEX("failpv"), new EmptyParam());
+        let pl = new PermissionLevel(this.receiver, "active");
+        Action.sendInline([pl], RNAME(this.receiver), "failpv", new EmptyParam());
     }
 
     @action("pureview")
     pv_to_normal(): void {
         Log.s("pureview: pv_to_normal CALLED.").flush();
-        let pl = new PermissionLevel(this.receiver, NAME("active"));
-        Action.sendInline([pl], this.receiver, NEX("normal"), new EmptyParam());
+        let pl = new PermissionLevel(this.receiver, "active");
+        Action.sendInline([pl], RNAME(this.receiver), "normal", new EmptyParam());
     }
 
     @action
@@ -96,7 +96,7 @@ class HumanResource extends Contract {
         act.account = this.receiver;
         act.name = NEX("pv");
         act.data = [];
-        act.authorization.push(new PermissionLevel(this.receiver, NAME("active")));
+        act.authorization.push(new PermissionLevel(this.receiver, "active"));
 
         let tx = new Transaction(666);
         tx.actions.push(act);
@@ -111,7 +111,7 @@ class HumanResource extends Contract {
         act.account = this.receiver;
         act.name = NEX("failpv");
         act.data = [];
-        act.authorization.push(new PermissionLevel(this.receiver, NAME("active")));
+        act.authorization.push(new PermissionLevel(this.receiver, "active"));
 
         let tx = new Transaction(666);
         tx.actions.push(act);
@@ -125,7 +125,7 @@ class HumanResource extends Contract {
         act.account = this.receiver;
         act.name = NEX("normal");
         act.data = [];
-        act.authorization.push(new PermissionLevel(this.receiver, NAME("active")));
+        act.authorization.push(new PermissionLevel(this.receiver, "active"));
 
         let tx = new Transaction(666);
         tx.delaySecs = 5;

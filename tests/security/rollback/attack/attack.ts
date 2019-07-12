@@ -11,9 +11,9 @@ class Attack extends Contract {
     @action
     transfer(from: account_name, to: account_name, money: Asset, memo: string): void {
         Log.s("memo: ").s(memo).flush();
-        let pl = new PermissionLevel(this.receiver, NAME("active"));
+        let pl = new PermissionLevel(this.receiver, "active");
         let params = new TransferParams(from, to, money, memo);
-        Action.sendInline([pl], NAME("utrio.token"), <NameEx>NEX("transfer"), params);
+        Action.sendInline([pl], "utrio.token", "transfer", params);
 
         // Asset.transfer(from, to, money, memo);
     }

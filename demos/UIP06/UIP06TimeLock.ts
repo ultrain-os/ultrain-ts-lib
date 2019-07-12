@@ -54,7 +54,7 @@ class FrozenItem implements Serializable {
     }
 }
 
-class FrozenToken implements Serializable {  
+class FrozenToken implements Serializable {
     to: account_name = 0;
     treasure: FrozenItem[] = [];
 
@@ -116,14 +116,14 @@ export class TimeLockUIP06 extends Contract implements UIP06{
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
-            pl.permission = NAME("active");
+            pl.permission = "active";
             let params = new TransferParams(0, 0, new Asset(), "");
             params.from = st.issuer;
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-            let name: NameEx = NEX("transfer");
-            Action.sendInline([pl], this.receiver, name, params);
+            let name = "transfer";
+            Action.sendInline([pl], RNAME(this.receiver), name, params);
         }
     }
 

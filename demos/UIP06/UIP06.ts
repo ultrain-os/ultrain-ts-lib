@@ -7,7 +7,7 @@ import { TransferParams } from "../../src/action";
 import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
-import { NAME, Account } from "../../src/account";
+import { NAME, Account, RNAME } from "../../src/account";
 import { NEX, NameEx} from "../../lib/name_ex";
 import { Action } from "../../src/action";
 import { UIP06 } from "../../uips/uip06";
@@ -61,14 +61,14 @@ export class StandardUIP06 extends Contract implements UIP06{
         if (to != st.issuer) {
             let pl: PermissionLevel = new PermissionLevel();
             pl.actor = st.issuer;
-            pl.permission = NAME("active");
+            pl.permission = "active";
             let params = new TransferParams(0, 0, new Asset(), "");
             params.from = st.issuer;
             params.to = to;
             params.quantity = quantity;
             params.memo = memo;
-            let name: NameEx = NEX("transfer");
-            Action.sendInline([pl], this.receiver, name, params);
+            let name = "transfer";
+            Action.sendInline([pl], RNAME(this.receiver), name, params);
         }
     }
 

@@ -5,6 +5,7 @@ import { Asset } from "./asset";
 import { PermissionLevel } from "./permission-level";
 import { NameEx, NameEx as action_name, NEX, RNEX } from "../lib/name_ex";
 import { env as ActionAPI } from "../internal/action.d";
+import { NAME } from "./account";
 
 /**
  * class TransferParams is applied to transfer Tokens from an account to another.
@@ -187,14 +188,18 @@ export class Action {
      * @param {T} data parameter of this action, which must be type of T.
      * @memberof Action
      */
-    static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
-        let ds = composeActionData(pl, receiver, action, data);
+    static sendInline<T extends Serializable>(pl: PermissionLevel[], receiver: string, action: string, data: T): void {
+        let _action = NEX(action);
+        let _receiver = NAME(receiver);
+        let ds = composeActionData(pl, _receiver, _action, data);
         ActionAPI.send_inline(ds.buffer, ds.pos);
     }
 
-    static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: account_name, action: NameEx, data: T): void {
+    static sendContextFreeInline<T extends Serializable>(pl: PermissionLevel[], receiver: string, action: string, data: T): void {
         ultrain_assert(pl.length == 0, "context free action need nothing permission info.");
-        let ds = composeActionData(pl, receiver, action, data);
+        let _action = NEX(action);
+        let _receiver = NAME(receiver);
+        let ds = composeActionData(pl, _receiver, _action, data);
         ActionAPI.send_context_free_inline(<usize>ds.buffer, ds.pos);
     }
 }

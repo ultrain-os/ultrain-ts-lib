@@ -28,7 +28,7 @@ class DeferredContract extends Contract {
         act.account = who;
         act.name = NEX("response");
         act.data = SerializableToArray(new HelloData("God", 10000));
-        act.authorization.push(new PermissionLevel(this.receiver, NAME("active")));
+        act.authorization.push(new PermissionLevel(this.receiver, "active"));
 
         let tx = new Transaction(666);
         tx.actions.push(act);

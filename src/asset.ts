@@ -341,9 +341,9 @@ export class Asset implements Serializable, Returnable {
     public static transfer(from: account_name, to: account_name, value: Asset, memo: string): void {
         let pl: PermissionLevel = new PermissionLevel();
         pl.actor = from;
-        pl.permission = NAME("active");
+        pl.permission = "active";
         let params = new TransferParams(from, to, value, memo);
-        let code: NameEx = ACTION("transfer").code;
-        Action.sendInline([pl], NAME("utrio.token"), code, params);
+        let code = "transfer";
+        Action.sendInline([pl], "utrio.token", code, params);
     }
 }
