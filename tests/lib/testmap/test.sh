@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 clultrain=clultrain
 if [! -n '$1']; then
@@ -11,11 +11,3 @@ echo "Deploy the contract ${clultrain}"
 account=acm
 ${clultrain} set contract ${account} ../testmap -p ${account}
 ${clultrain} push action ${account} testInsert '["key", "value"]' -p ${account}
-
-if [ -f "super.wast" ]; then
-    rm super.wast
-fi
-
-if [ -f "super.wasm" ]; then
-    rm super.wasm
-fi

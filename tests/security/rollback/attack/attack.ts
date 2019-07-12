@@ -2,7 +2,7 @@ import { Contract } from "../../../../src/contract";
 import { PermissionLevel } from "../../../../src/permission-level";
 import { TransferParams, Action } from "../../../../src/action";
 import { NAME } from "../../../../src/account";
-import { NEX } from "../../../../lib/name_ex";
+import { NEX, NameEx } from "../../../../lib/name_ex";
 import { Asset } from "../../../../src/asset";
 import { Log } from "../../../../src/log";
 
@@ -13,7 +13,7 @@ class Attack extends Contract {
         Log.s("memo: ").s(memo).flush();
         let pl = new PermissionLevel(this.receiver, NAME("active"));
         let params = new TransferParams(from, to, money, memo);
-        Action.sendInline([pl], NAME("utrio.token"), NEX("transfer"), params);
+        Action.sendInline([pl], NAME("utrio.token"), <NameEx>NEX("transfer"), params);
 
         // Asset.transfer(from, to, money, memo);
     }

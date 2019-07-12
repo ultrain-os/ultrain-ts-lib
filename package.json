@@ -1,6 +1,6 @@
 {
   "name": "ultrain-ts-lib",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "The Ultrain Smart Contract common using library written in Typescript",
   "license": "MIT",
   "repository": {
@@ -17,6 +17,7 @@
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
+    "compiler": "node tests/compiler.js",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
@@ -83,8 +84,6 @@
     "typedoc": "^0.12.0",
     "typescript": "^3.0.3"
   },
-
-
   "main": "index.js",
   "engines": {
     "node": ">=8.9"
