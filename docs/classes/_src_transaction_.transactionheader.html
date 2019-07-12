@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Logger | ultrain-ts-lib</title>
+	<title>TransactionHeader | ultrain-ts-lib</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,141 +56,198 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_log_.html">&quot;src/log&quot;</a>
+					<a href="../modules/_src_transaction_.html">&quot;src/transaction&quot;</a>
 				</li>
 				<li>
-					<a href="_src_log_.logger.html">Logger</a>
+					<a href="_src_transaction_.transactionheader.html">TransactionHeader</a>
 				</li>
 			</ul>
-			<h1>Class Logger</h1>
+			<h1>Class TransactionHeader</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>class Logger providers api to print logs to console immediately after you call function &#39;flush&#39;.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Logger</span>
+						<span class="target">TransactionHeader</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#delay_sec" class="tsd-kind-icon">delay_<wbr>sec</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#expiration" class="tsd-kind-icon">expiration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#max_cpu_usage_ms" class="tsd-kind-icon">max_<wbr>cpu_<wbr>usage_<wbr>ms</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#net_usage_words" class="tsd-kind-icon">net_<wbr>usage_<wbr>words</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#ref_block_num" class="tsd-kind-icon">ref_<wbr>block_<wbr>num</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#ref_block_prefix" class="tsd-kind-icon">ref_<wbr>block_<wbr>prefix</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_src_log_.logger.html#flush" class="tsd-kind-icon">flush</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_src_log_.logger.html#i" class="tsd-kind-icon">i</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_src_log_.logger.html#s" class="tsd-kind-icon">s</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_transaction_.transactionheader.html#serialize" class="tsd-kind-icon">serialize</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="flush" class="tsd-anchor"></a>
-					<h3>flush</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">flush<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Transaction<wbr>Header<span class="tsd-signature-symbol">(</span>exp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_transaction_.transactionheader.html" class="tsd-signature-type">TransactionHeader</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/log.ts#L42">src/log.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L13">src/transaction.ts:13</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>flush the logs to console, the message will output to the console only after calling this method,
-									or the message concat together.</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>exp: <span class="tsd-signature-type">u32</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_src_transaction_.transactionheader.html" class="tsd-signature-type">TransactionHeader</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="delay_sec" class="tsd-anchor"></a>
+					<h3>delay_<wbr>sec</h3>
+					<div class="tsd-signature tsd-kind-icon">delay_<wbr>sec<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u32</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L13">src/transaction.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="expiration" class="tsd-anchor"></a>
+					<h3>expiration</h3>
+					<div class="tsd-signature tsd-kind-icon">expiration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u32</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L7">src/transaction.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="max_cpu_usage_ms" class="tsd-anchor"></a>
+					<h3>max_<wbr>cpu_<wbr>usage_<wbr>ms</h3>
+					<div class="tsd-signature tsd-kind-icon">max_<wbr>cpu_<wbr>usage_<wbr>ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u8</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L12">src/transaction.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="net_usage_words" class="tsd-anchor"></a>
+					<h3>net_<wbr>usage_<wbr>words</h3>
+					<div class="tsd-signature tsd-kind-icon">net_<wbr>usage_<wbr>words<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u32</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L11">src/transaction.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="ref_block_num" class="tsd-anchor"></a>
+					<h3>ref_<wbr>block_<wbr>num</h3>
+					<div class="tsd-signature tsd-kind-icon">ref_<wbr>block_<wbr>num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u16</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L8">src/transaction.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="ref_block_prefix" class="tsd-anchor"></a>
+					<h3>ref_<wbr>block_<wbr>prefix</h3>
+					<div class="tsd-signature tsd-kind-icon">ref_<wbr>block_<wbr>prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">u32</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L9">src/transaction.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deserialize" class="tsd-anchor"></a>
+					<h3>deserialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L33">src/transaction.ts:33</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="i" class="tsd-anchor"></a>
-					<h3>i</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">i<span class="tsd-signature-symbol">(</span>intger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">i64</span>, fmt<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_log_.logger.html" class="tsd-signature-type">Logger</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="serialize" class="tsd-anchor"></a>
+					<h3>serialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span>ds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/log.ts#L34">src/log.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/transaction.ts#L24">src/transaction.ts:24</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>print an integer to console.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>intger: <span class="tsd-signature-type">i64</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>integer to print.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> fmt: <span class="tsd-signature-type">u32</span><span class="tsd-signature-symbol"> =&nbsp;10</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>to print as dec or hex.
-											for example, &#39;Log.i(10, 10).flush() &#39; will print &#39;10&#39;,
-										but &#39;Log.i(10, 16).flush()&#39; will print &#39;A&#39;.</p>
-									</div>
+									<h5>ds: <span class="tsd-signature-type">DataStream</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_log_.logger.html" class="tsd-signature-type">Logger</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="s" class="tsd-anchor"></a>
-					<h3>s</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">s<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_log_.logger.html" class="tsd-signature-type">Logger</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ultrain-os/ultrain-ts-lib/blob/c59c965/src/log.ts#L22">src/log.ts:22</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>print a string message to console.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>message to print.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_log_.logger.html" class="tsd-signature-type">Logger</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -232,13 +289,8 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_events_.html">"src/events"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_log_.html">"src/log"</a>
-						<ul>
-							<li class=" tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_src_log_.env.html">env</a>
-							</li>
-						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_permission_level_.html">"src/permission-<wbr>level"</a>
@@ -252,7 +304,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_time_.html">"src/time"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_src_transaction_.html">"src/transaction"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -283,26 +335,53 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_transaction_.onerrorvalue.html" class="tsd-kind-icon">On<wbr>Error<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_transaction_.transaction.html" class="tsd-kind-icon">Transaction</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_src_log_.logger.html" class="tsd-kind-icon">Logger</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_src_transaction_.transactionheader.html" class="tsd-kind-icon">Transaction<wbr>Header</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_src_log_.logger.html#flush" class="tsd-kind-icon">flush</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_src_log_.logger.html#i" class="tsd-kind-icon">i</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#delay_sec" class="tsd-kind-icon">delay_<wbr>sec</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_src_log_.logger.html#s" class="tsd-kind-icon">s</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#expiration" class="tsd-kind-icon">expiration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#max_cpu_usage_ms" class="tsd-kind-icon">max_<wbr>cpu_<wbr>usage_<wbr>ms</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#net_usage_words" class="tsd-kind-icon">net_<wbr>usage_<wbr>words</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#ref_block_num" class="tsd-kind-icon">ref_<wbr>block_<wbr>num</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#ref_block_prefix" class="tsd-kind-icon">ref_<wbr>block_<wbr>prefix</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#deserialize" class="tsd-kind-icon">deserialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_transaction_.transactionheader.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="../modules/_src_log_.html#log" class="tsd-kind-icon">Log</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_transaction_.html#gettransactionid" class="tsd-kind-icon">get<wbr>Transaction<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_transaction_.html#gettransactionpublishedtime" class="tsd-kind-icon">get<wbr>Transaction<wbr>Published<wbr>Time</a>
 					</li>
 				</ul>
 			</nav>
