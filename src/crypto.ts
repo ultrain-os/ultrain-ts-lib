@@ -99,7 +99,8 @@ export class SHA1 extends Crypto {
      * @param data a string to calculate hash.
      */
     public hash(data: string): string {
-        cry.ts_sha1(string2cstr(data), data.length, this.buffer, this.bufferSize);
+        var buf = String.UTF8.encode(data, false);
+        cry.ts_sha1(buf, buf.byteLength, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
@@ -119,7 +120,8 @@ export class SHA256 extends Crypto {
      * @param data a string to calculate hash.
      */
     public hash(data: string): string {
-        cry.ts_sha256(string2cstr(data), data.length, this.buffer, this.bufferSize);
+        var buf = String.UTF8.encode(data, false);
+        cry.ts_sha256(buf, buf.byteLength, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
@@ -139,7 +141,8 @@ export class SHA512 extends Crypto {
      * @param data a string to calculate hash.
      */
     public hash(data: string): string {
-        cry.ts_sha512(string2cstr(data), data.length, this.buffer, this.bufferSize);
+        var buf = String.UTF8.encode(data, false);
+        cry.ts_sha512(buf, buf.byteLength, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
@@ -159,7 +162,8 @@ export class Ripemd160 extends Crypto {
      * @param data a string to calculate hash.
      */
     public hash(data: string): string {
-        cry.ts_ripemd160(string2cstr(data), data.length, this.buffer, this.bufferSize);
+        var buf = String.UTF8.encode(data, false);
+        cry.ts_ripemd160(buf, buf.byteLength, this.buffer, this.bufferSize);
         return this.toString();
     }
 }
@@ -173,7 +177,9 @@ export class Ripemd160 extends Crypto {
  */
 export function assert_sha1(data: string, sha1: SHA1): void {
     let src = sha1.toString();
-    cry.ts_assert_sha1(string2cstr(data), data.length, string2cstr(src), src.length);
+    var dataBuf = String.UTF8.encode(data, false);
+    var srcBuf = String.UTF8.encode(src, false);
+    cry.ts_assert_sha1(dataBuf, dataBuf.byteLength, srcBuf, srcBuf.byteLength);
 }
 /**
  * to assert if source data is consisted with SHA256.
@@ -197,7 +203,9 @@ export function assert_sha256(data: string, sha256: SHA256): void {
  */
 export function assert_sha512(data: string, sha512: SHA512): void {
     let src = sha512.toString();
-    cry.ts_assert_sha512(string2cstr(data), data.length, string2cstr(src), src.length);
+    var dataBuf = String.UTF8.encode(data, false);
+    var srcBuf = String.UTF8.encode(src, false);
+    cry.ts_assert_sha512(dataBuf, dataBuf.byteLength, srcBuf, srcBuf.byteLength);
 }
 /**
  * to assert if source data is consisted with Ripemd160.
@@ -209,7 +217,9 @@ export function assert_sha512(data: string, sha512: SHA512): void {
  */
 export function assert_ripemd160(data: string, ripe: Ripemd160): void {
     let src = ripe.toString();
-    cry.ts_assert_ripemd160(string2cstr(data), data.length, string2cstr(src), src.length);
+    var dataBuf = String.UTF8.encode(data, false);
+    var srcBuf = String.UTF8.encode(src, false);
+    cry.ts_assert_ripemd160(dataBuf, dataBuf.byteLength, srcBuf, srcBuf.byteLength);
 }
 
 /**

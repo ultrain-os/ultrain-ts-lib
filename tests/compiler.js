@@ -30,31 +30,30 @@ function compileTs(filePath) {
   }
 }
 
-function compileTsUsingLocalUsc(filename) {
+function compileTsUsingLocalUsc(filePath) {
 
   const compileDir = path.join(__dirname, "compiler");
-  const basedir = filename.split("/")[filename.split("/").length - 2]
-  let abi = path.join(compileDir, basedir, basedir + ".abi");
-  let wasm = path.join(compileDir, basedir, basedir + ".wasm");
-
-  // console.log(`abi: ${abi}. wasm: ${wasm}`)
-
+  const filename = path.basename(filePath, ".ts");
+  let abi = path.join(compileDir, filename, filename + ".abi");
+  let wasm = path.join(compileDir, filename, filename + ".wasm");
+  abi = path.isAbsolute(abi) ? path.relative(__dirname, abi) : abi;
+  wasm = path.isAbsolute(wasm) ? path.relative(__dirname, wasm) : wasm;
+  // console.log(`abi: ${abi}. wasm: ${wasm}`);
   let cmds = [
-    "usc", filename,
+    "usc", filePath,
     "-g", abi,
     "-b", wasm,
     "-l",
     "--validate"
   ];
 
-
   let cmd = cmds.join(" ");
-  // console.log(cmd);
+  console.log(cmd);
   process.execSync(cmd);
-
 }
 
 compileTs("./tests");
+compileTs("./demos");
 printCompileResult();
 
 function printCompileResult() {
@@ -74,7 +73,7 @@ function printCompileResult() {
   }
   if (config.errorList.length != 0) {
     console.error("The files name that compiled failure:\n");
-    console.error(error.errorList.join("\n"));
+    console.error(config.errorList.join("\n"));
   }
 
   if (stillTodolist.length != 0) {

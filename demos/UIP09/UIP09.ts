@@ -170,7 +170,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         }
         this.subSupply(quantity);
         this.addBalance(to, token_ids, quantity);
-        this.updateMaxPrimaryKey(st.issuer, --token_id_start);
+        this.updateMaxPrimaryKey(--token_id_start);
     }
 
     @action
@@ -291,7 +291,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         return res;
     }
 
-    private updateMaxPrimaryKey(ram_payer: u64, max_token_id: id_type): void {
+    private updateMaxPrimaryKey(max_token_id: id_type): void {
         let tokens: DBManager<Token> = new DBManager<Token>(NAME(TOKENTABLE), UIP09Impl.token_scope);
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(UIP09Impl.TOKEN_PRIMARY_ID, token);

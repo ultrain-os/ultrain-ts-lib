@@ -4,7 +4,7 @@
  * @datetime 14:35:49, 07/09/2018
  * All rights reserved by ultrain.io @2018
  */
-import { string2cstr, intToString } from "../src/utils";
+import { intToString } from "../src/utils";
 import { Map } from "../lib/map";
 import { ArrayMap } from "../lib/arraymap";
 import { env as system } from "../internal/system.d";
@@ -230,13 +230,18 @@ export function emit(evtname: string, obj: _EventObject): i32 {
 
     // let ret = system.emit_event(string2cstr(evtname), evtname.length, ds.pointer(), ds.size());
     let msg = obj.toString();
-    let ret = system.emit_event(string2cstr(evtname), evtname.length, string2cstr(msg), msg.length);
+    var msgBuf = String.UTF8.encode(msg, false);
+    var nameBuf = String.UTF8.encode(evtname, false);
+
+    let ret = system.emit_event(nameBuf, nameBuf.byteLength, msgBuf, msgBuf.byteLength);
     obj.clearAllArray();
     return ret;
 }
 
 export function EmitEvent(evtname: string, message: Returnable): i32 {
-    var what = message.toString();
-    var ret = system.emit_event(string2cstr(evtname), evtname.length, string2cstr(what), what.length);
+    var msg = message.toString();
+    var msgBuf = String.UTF8.encode(msg, false);
+    var nameBuf = String.UTF8.encode(evtname, false);
+    var ret = system.emit_event(nameBuf, nameBuf.byteLength, msgBuf, msgBuf.byteLength);
     return ret;
 }

@@ -9,14 +9,6 @@ export declare namespace env{
 }
 
 /**
- * Convert string to UTF8 ArrayBuffer
- * @param str The original string encode by UTF16
- */
-export function string2cstr(str: string): ArrayBuffer {
-    return String.UTF8.encode(str, true);
-}
-
-/**
  * class Logger providers api to print logs to console immediately after you call function 'flush'.
  */
 class Logger {

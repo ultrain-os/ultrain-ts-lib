@@ -8,13 +8,14 @@ import { PermissionLevel } from "../../src/permission-level";
 import { env as action } from "../../internal/action.d";
 import { CurrencyStats, CurrencyAccount } from "../../lib/balance";
 import { NAME, Account, RNAME } from "../../src/account";
-import { NEX, NameEx} from "../../lib/name_ex";
 import { Action } from "../../src/action";
 import { UIP06 } from "../../uips/uip06";
 
 const StatsTable  : string = "stat";
 const AccountTable: string = "accounts";
+const SymTalbe:     string = "sym";
 
+@database(Asset, SymTalbe)
 @database(CurrencyStats, StatsTable)
 @database(CurrencyAccount, AccountTable)
 export class StandardUIP06 extends Contract implements UIP06{
@@ -36,6 +37,9 @@ export class StandardUIP06 extends Contract implements UIP06{
         cs.max_supply = maximum_supply;
         cs.issuer = issuer;
         statstable.emplace(cs);
+
+        let symtable: DBManager<Asset> = new DBManager<Asset>(NAME(SymTalbe), NAME(SymTalbe));
+        symtable.emplace(maximum_supply);
     }
 
     @action
@@ -96,7 +100,6 @@ export class StandardUIP06 extends Contract implements UIP06{
         this.addBalance(to, quantity);
     }
 
-
     @action("pureview")
     public totalSupply(sym_name: string): Asset {
         let symname = StringToSymbol(0, sym_name) >> 8;
@@ -105,6 +108,19 @@ export class StandardUIP06 extends Contract implements UIP06{
         let existing = statstable.get(symname, st);
         ultrain_assert(existing, "totalSupply failed, stats is not existed.");
         return st.max_supply;
+    }
+
+    @action("pureview")
+    totalSupplies(): Asset[] {
+        var symDbManager = new DBManager<Asset>(NAME(SymTalbe), NAME(SymTalbe))
+        var cursor: Cursor<Asset> = symDbManager.cursor();
+        var supplies = new Array<Asset>();
+        while (cursor.hasNext()) {
+            let stat: Asset = cursor.get();
+            supplies.push(stat);
+            cursor.next();
+        }
+        return supplies;
     }
 
     @action("pureview")

@@ -119,7 +119,7 @@ export class Asset implements Serializable, Returnable {
     }
 
     primaryKey(): u64 {
-        return <u64>0;
+        return this._symbol;
     }
     /**
      * To check if a symbol is valid or not.
