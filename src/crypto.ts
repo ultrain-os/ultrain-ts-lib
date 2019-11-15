@@ -291,3 +291,15 @@ export class MerkleProof {
         return mklp;
     }
 }
+
+/**
+ * Verify groth16 zero knowledge proof 
+ *
+ * @export
+ * @param {string} code verify key.
+ * @param {string} primary_input primary input.
+ * @param {string} proof constructed proof data.
+ */
+export function verify_zero_knowledge_proof(vk: string, primary_input: string, proof: string): i32 {
+    return cry.ts_verify_zero_knowledge_proof(string2cstr(vk), string2cstr(primary_input), string2cstr(proof));
+}
