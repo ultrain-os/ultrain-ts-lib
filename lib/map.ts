@@ -107,15 +107,13 @@ export class Map<K, V> implements Serializable {
     }
 
     private readKey<T>(ds: DataStream): void {
-        let arr = new Array<T>(1);
-        let v0 = arr[0];
-        if (isInteger(v0)) {
+        if (isInteger<T>()) {
             let rst = ds.read<T>();
             this._keys.push(rst);
-        } else if (isString(v0)) {
+        } else if (isString<T>()) {
             let rst = ds.readString();
             this._keys.push(rst);
-        } else if (isReference(v0)) {
+        } else if (isReference<T>()) {
             let rst = {} as T;
             rst.deserialize(ds);
             this._keys.push(rst);
@@ -125,15 +123,13 @@ export class Map<K, V> implements Serializable {
     }
 
     private readValue<T>(ds: DataStream): void {
-        let arr = new Array<T>(1);
-        let v0 = arr[0];
-        if (isInteger(v0)) {
+        if (isInteger<T>()) {
             let rst = ds.read<T>();
             this._values.push(rst);
-        } else if (isString(v0)) {
+        } else if (isString<T>()) {
             let rst = ds.readString();
             this._values.push(rst);
-        } else if (isReference(v0)) {
+        } else if (isReference<T>()) {
             let rst = {} as T;
             rst.deserialize(ds);
             this._values.push(rst);

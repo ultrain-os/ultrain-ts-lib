@@ -118,15 +118,13 @@ export class ArrayMap<K, V> implements Serializable {
     }
 
     private readKey(ds: DataStream): void {
-        let arr = new Array<K>(1);
-        let v0 = arr[0];
-        if (isInteger(v0)) {
+        if (isInteger<K>()) {
             let rst = ds.read<K>();
             this._keys.push(rst);
-        } else if (isString(v0)) {
+        } else if (isString<K>()) {
             let rst = ds.readString();
             this._keys.push(rst);
-        } else if (isReference(v0)) {
+        } else if (isReference<K>()) {
             let rst = {} as K;
             rst.deserialize(ds);
             this._keys.push(rst);

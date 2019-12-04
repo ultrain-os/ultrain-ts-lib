@@ -17,7 +17,7 @@ class Obj implements Serializable {
     }
 }
 
-class MapObj implements Serializable {
+class A implements Serializable {
     arr: Array<string> = new Array<string>();
     str_str_map: Map<string, string> = new Map<string, string>();
     str_int_map: Map<string, u32> = new Map<string, u32>();
@@ -27,34 +27,31 @@ class MapObj implements Serializable {
     int_object_map: Map<u64, Obj> = new Map<u64, Obj>();
     object_int_map: Map<Obj, u64> = new Map<Obj, u64>();
 
-    int_int_array_map: ArrayMap<u8, u8> = new ArrayMap<u8, u8>();
-    int_string_array_map: ArrayMap<u8, string> = new ArrayMap<u8, string>();
-    int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
-
 
     primaryKey(): id_type {
         return 0;
     }
 }
-const TABLE_NAME: string = "tablem"
-@database(MapObj, TABLE_NAME)
-class TestMap extends Contract {
 
-    private aDbManager: DBManager<MapObj> = new DBManager<MapObj>(NAME(TABLE_NAME), NAME(TABLE_NAME));
+const TABLE_NAME: string = "map"
+
+@database(A, TABLE_NAME)
+class TestMap extends Contract {
 
     @action
     public testInsert(key: string, value: string, _int: u32): void {
-      var a = new MapObj();
-      let existing = this.aDbManager.exists(0);
+      var a = new A();
+      let aDbManager: DBManager<A> = new DBManager<A>(NAME(TABLE_NAME), NAME(TABLE_NAME) );
+      let existing = aDbManager.exists(0);
       
       if (existing) {
-          this.aDbManager.get(0, a);
+          aDbManager.get(0, a);
           a.arr.push(key);
           a.arr.push(value);
           a.str_str_map.set(key, value);
           a.str_int_map.set(key, _int);
           Log.s("testInsert modify: ").i(existing).flush();
-          this.aDbManager.modify(a);
+          aDbManager.modify(a);
       } else {
           a.arr.push(key);
           a.arr.push(value);
@@ -70,24 +67,16 @@ class TestMap extends Contract {
           a.object_int_map.set(new Obj(100, 200), 1);
           a.object_int_map.set(new Obj(10, 20), 2);
   
-          a.int_int_array_map.set(2, [0, 1, 2, 3]);
-          a.int_int_array_map.set(22, [4, 5, 6, 7]);
-  
-          a.int_string_array_map.set(3, ["aaa", "bbb", "ccc"]);
-          a.int_string_array_map.set(33, ["ddd", "eee", "fff"]);
-  
-          a.int_object_array_map.set(4, [new Obj(), new Obj(18, 36), new Obj()]);
-
-
           Log.s("testInsert emplace: ").i(existing).flush(); 
-          this.aDbManager.emplace(a);
+          aDbManager.emplace(a);
       }
     }
 
     @action
     public printMap(): void {
-        var a = new MapObj();
-        let existing = this.aDbManager.get( 0 , a);
+        var a = new A();
+        let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), NAME("a"));
+        let existing = aDbManager.get( 0 , a);
         Log.s("print map existing: ").i(existing).flush();
         ultrain_assert(existing, "Database data not existing!");
 
@@ -109,6 +98,21 @@ class TestMap extends Contract {
         }
     }
 
+
+    // @action
+    // public testAnd(aa:i32, b: i32, having: bool): void {
+    //     let aDbManager: DBManager<A> = new DBManager<A>(NAME("a"), this.receiver, NAME("a"));
+    //     var a = new A();
+    //     let existing = aDbManager.exists(0);
+    //     if (existing) {
+    //         aDbManager.get( 0 , a);
+    //         Log.s("test and size: ").i(<bool>a.str_str_map.size).flush();
+    //         Log.s("test and having: ").i(having).flush();
+    //         Log.s("test and existing: ").i(aDbManager.exists(0) && having  && <bool>a.str_str_map.size).flush();
+    //         let v = aa != 0 && b != aa && b != 1
+    //         Log.s("boolean value: ").i(v).flush();
+    //     } 
+    // }
 
     @action
     public test(arr: string[]): void {
