@@ -1,5 +1,5 @@
-import { Contract } from "../../../src/contract";
-import { RandRecord, Random } from "../../../lib/random";
+import { Contract } from "../../src/contract";
+import { RandRecord, Random } from "../../lib/random";
 
 class RandApp extends Contract {
   private random: Random;

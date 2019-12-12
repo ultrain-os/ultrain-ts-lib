@@ -1,9 +1,9 @@
-import { Map } from "../../../../lib/map";
-import { Contract } from "../../../../src/contract";
-import { NAME } from "../../../../src/account";
-import { Log } from "../../../../src/log";
-import { Asset, SYS } from "../../../../src/asset";
-import { Action } from "../../../../src/action";
+import { Map } from "../../lib/map";
+import { Contract } from "../../src/contract";
+import { NAME } from "../../src/account";
+import { Log } from "../../src/log";
+import { Asset, SYS } from "../../src/asset";
+import { Action } from "../../src/action";
 
 
 class SupplierMoney implements Serializable{

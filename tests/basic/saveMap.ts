@@ -1,6 +1,6 @@
-import { Contract } from "../../../src/contract";
-import { NAME } from "../../../src/account";
-import { Log } from "../../../src/log";
+import { Contract } from "../../src/contract";
+import { NAME } from "../../src/account";
+import { Log } from "../../src/log";
 
 class Obj implements Serializable {
     x: u8;
@@ -36,14 +36,19 @@ class MapObj implements Serializable {
         return 0;
     }
 }
-const TABLE_NAME: string = "tablem"
+const TABLE_NAME: string = "tblmap"
 @database(MapObj, TABLE_NAME)
 class TestMap extends Contract {
 
     private aDbManager: DBManager<MapObj> = new DBManager<MapObj>(NAME(TABLE_NAME), NAME(TABLE_NAME));
 
     @action
-    public testInsert(key: string, value: string, _int: u32): void {
+    testDropAll(): void {
+        this.aDbManager.dropAll();
+    }
+
+    @action
+    public testInsert(key: string, value: string, intVal: u32): void {
       var a = new MapObj();
       let existing = this.aDbManager.exists(0);
       
@@ -52,7 +57,7 @@ class TestMap extends Contract {
           a.arr.push(key);
           a.arr.push(value);
           a.str_str_map.set(key, value);
-          a.str_int_map.set(key, _int);
+          a.str_int_map.set(key, intVal);
           Log.s("testInsert modify: ").i(existing).flush();
           this.aDbManager.modify(a);
       } else {
@@ -60,8 +65,8 @@ class TestMap extends Contract {
           a.arr.push(value);
 
           a.str_str_map.set(key, value);
-          a.str_int_map.set(key, _int);
-          a.int_str_map.set(_int, key);
+          a.str_int_map.set(key, intVal);
+          a.int_str_map.set(intVal, key);
 
 
           a.int_object_map.set(4, new Obj());

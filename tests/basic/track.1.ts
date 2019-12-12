@@ -1,6 +1,6 @@
-import { Log } from "../../../src/log";
-import { Contract } from "../../../src/contract";
-import { NAME } from "../../../src/account";
+import { Log } from "../../src/log";
+import { Contract } from "../../src/contract";
+import { NAME } from "../../src/account";
 
 class Car implements Serializable {
     name: string;
@@ -25,6 +25,14 @@ class TypeSet implements Serializable {
     cars: Array<Car>;
 }
 
+class UnitStatus implements Serializable, Returnable {
+    unitId: u64;
+
+    toString(): string {
+        return this.unitId.toString();
+    }
+}
+
 @database(TypeSet, "types")
 class TestTrack extends Contract {
 
@@ -40,6 +48,7 @@ class TestTrack extends Contract {
         this.testTernary();
         this.testArrayBracket();
         this.testPrint();
+        this.testConvert();
         this.toCheckList();
     }
 
@@ -57,10 +66,9 @@ class TestTrack extends Contract {
         types.car = car;
         types.cars = cars;
         types.id = key;
-        
-        if (!aDbManager.exists(key)){
-            aDbManager.emplace(types);
-        }
+        let existing = aDbManager.exists(key);
+        Log.s("The db manager existing the key: ").i(key).s(". Status: ").i(existing).flush();
+        aDbManager.emplace(types);
         Log.s("account: ").i(account).s(". user name:").s(name).s(". age:").i(age).s(". yes:").i(yes).flush();
     }
 
@@ -120,6 +128,22 @@ class TestTrack extends Contract {
         } else {
             return b;
         }
+    }
+
+    private covert<T>(param: T): void {
+        if (isInteger(param)) {
+            Log.i(changetype<T>(param));
+        }
+        if (isString(param)) {
+            Log.s(changetype<string>(param));
+        }
+        Log.flush();
+    }
+
+    private testConvert(): void {
+        this.covert<string>("121");
+        this.covert<i32>(121);
+        this.covert<i32>(123123);
     }
 
     /**

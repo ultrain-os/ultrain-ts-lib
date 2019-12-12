@@ -130,7 +130,7 @@ export class Map<K, V> implements Serializable {
             let rst = ds.readString();
             this._values.push(rst);
         } else if (isReference<T>()) {
-            let rst = {} as T;
+            let rst = instantiate<T>();
             rst.deserialize(ds);
             this._values.push(rst);
         }

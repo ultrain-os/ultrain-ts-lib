@@ -15,7 +15,6 @@ class NftAccount implements Serializable {
     }
 
     primaryKey(): id_type { return this.balance.symbolName(); }
-
 }
 
 
@@ -242,6 +241,29 @@ export class UIP09Impl extends Contract implements UIP09 {
         return st.max_supply;
     }
 
+    @action
+    totalSupplies(): Asset[] {
+        var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        var cursor: Cursor<CurrencyStats> = statstable.cursor();
+        var supplies = new Array<Asset>();
+        while (cursor.hasNext()) {
+            let stat: CurrencyStats = cursor.get();
+            supplies.push(stat.max_supply);
+            cursor.next();
+        }
+        return supplies;
+    }
+
+    @action("pureview")
+    getSupply(sym_name: string): Asset {
+        let symname = StringToSymbol(0, sym_name) >> 8;
+        let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
+        let st = new CurrencyStats();
+        let existing = statstable.get(symname, st);
+        ultrain_assert(existing, "totalSupply failed, states is not existed.");
+        return st.supply;
+    }
+
     @action("pureview")
     tokenByIndex(owner: account_name, sym_name: string, index: i32): id_type {
         let symname = StringToSymbol(0, sym_name) >> 8;
@@ -264,19 +286,6 @@ export class UIP09Impl extends Contract implements UIP09 {
         ultrain_assert(existing, "balanceOf failed, account is not existed or account has no the Asset.")
 
         return account.balance;
-    }
-
-    @action
-    totalSupplies(): Asset[] {
-        var statstable: DBManager<CurrencyStats> = this.getStatDbManager();
-        var cursor: Cursor<CurrencyStats> = statstable.cursor();
-        var supplies = new Array<Asset>();
-        while (cursor.hasNext()) {
-            let stat: CurrencyStats = cursor.get();
-            supplies.push(stat.max_supply);
-            cursor.next();
-        }
-        return supplies;
     }
 
     private getStatDbManager(): DBManager<CurrencyStats> {

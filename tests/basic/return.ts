@@ -1,5 +1,6 @@
-import { Contract } from "../../../src/contract";
-import { Asset } from "../../../src/asset";
+import { Contract } from "../../src/contract";
+import { Asset } from "../../src/asset";
+import { NAME } from "../../src/account";
 
 class A implements Serializable , Returnable {
     year: u64;
@@ -19,19 +20,24 @@ class Obj implements Serializable, Returnable {
     }
 }
 
+/**
+ * Test returnable
+ */
 class TestAbi extends Contract {
-    @action
-    public test1(listA: Array<Obj>, listB: Obj[]): void {
-    }
-
+  
     @action
     testReturnAsset(): Asset {
-        return new Asset();
+        return new Asset(1000, NAME("love"));
     }
 
     @action
     testReturnAssetArr(): Asset[] {
-        return new Array<Asset>();
+        let asset1 = new Asset(1000, NAME("love"));
+        let asset2 = new Asset(1000, NAME("love"));
+        let arr =  new Array<Asset>();
+        arr.push(asset1);
+        arr.push(asset2);
+        return arr;
     }
 
     @action

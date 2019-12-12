@@ -1,7 +1,7 @@
-import { Transaction as Tx } from "../../../src/transaction";
-import { Contract } from "../../../src/contract";
-import { Log } from "../../../src/log";
-import { GmtTime } from "../../../src/time";
+import { Transaction as Tx } from "../../src/transaction";
+import { Contract } from "../../src/contract";
+import { Log } from "../../src/log";
+import { GmtTime } from "../../src/time";
 
 class TestTxContract extends Contract {
 

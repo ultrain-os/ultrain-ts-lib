@@ -1,12 +1,12 @@
-import { Contract } from "../../../src/contract";
-import { intToString } from "../../../src/utils";
-import { LocalTime, GmtTime } from "../../../src/time";
-import { Return } from "../../../src/return";
+import { Contract } from "../../src/contract";
+import { intToString } from "../../src/utils";
+import { LocalTime, GmtTime } from "../../src/time";
+import { Return } from "../../src/return";
 
 export　class TimeUtilTest extends Contract {
 
     @action
-    test(): void {
+    testTime(): void {
         this.epoch_start();
         this.epoch_end();
         this.epoch_end_east();

@@ -1,8 +1,8 @@
-import { Account, NAME } from "../../../src/account";
-import { Contract } from "../../../src/contract";
-import { Log } from "../../../src/log";
-import { Asset } from "../../../src/asset";
-import { queryBalance } from "../../../lib/balance";
+import { Account, NAME } from "../../src/account";
+import { Contract } from "../../src/contract";
+import { Log } from "../../src/log";
+import { Asset } from "../../src/asset";
+import { queryBalance } from "../../lib/balance";
 
 class AccountContract extends Contract {
 

@@ -2,7 +2,6 @@ import { Contract } from "../../../../src/contract";
 import { PermissionLevel } from "../../../../src/permission-level";
 import { TransferParams, Action } from "../../../../src/action";
 import { NAME } from "../../../../src/account";
-import { NEX, NameEx } from "../../../../lib/name_ex";
 import { Asset } from "../../../../src/asset";
 import { Log } from "../../../../src/log";
 

@@ -1,7 +1,7 @@
-import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number, MerkleProof } from "../../../src/crypto";
-import { Contract } from "../../../src/contract";
-import { NAME } from "../../../src/account";
-import { Log } from "../../../src/log";
+import { SHA1, assert_sha1, SHA256, assert_sha256, SHA512, assert_sha512, Ripemd160, assert_ripemd160, verify_with_pk, get_random_number, MerkleProof } from "../../src/crypto";
+import { Contract } from "../../src/contract";
+import { NAME } from "../../src/account";
+import { Log } from "../../src/log";
 
 const target: string = "what a wonderful world!";
 
@@ -18,7 +18,7 @@ const pk_message = "C885ED0C86D7FDA67906C4E9199C69A26442FFA61BFE59A8AE671928A2DB
 export　class CryptoTest extends Contract {
 
     @action
-    test(): void {
+    testCrypto(): void {
         let sha1 = new SHA1();
         let hash = sha1.hash(target);
         ultrain_assert(SHA1TARGET == hash, "sha1.hash failed.");

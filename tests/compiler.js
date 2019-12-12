@@ -7,37 +7,38 @@ var config = {
   todoList: []
 }
 
-function compileTs(filePath) {
-
-  let files = fs.readdirSync(filePath);
+function compileTsInDirectory(dirPath) {
+  let files = fs.readdirSync(dirPath);
   for (let i = 0; i < files.length; i++) {
     let fileName = files[i];
 
-    let aFile = path.join(filePath, fileName)
+    let filePath = path.join(dirPath, fileName)
     // console.log(`fileName: ${aFile}`);
 
-    let stat = fs.statSync(aFile);
+    let stat = fs.statSync(filePath);
     if (stat.isDirectory()) {
-      compileTs(aFile);
-    } else if (aFile.endsWith("ts")) {
+      compileTsInDirectory(filePath);
+    } else if (filePath.endsWith("ts")) {
       // console.log(`file: ${aFile}`);
       try {
-        compileTsUsingLocalUsc(aFile)
+        compileTsUsingLocalUscCmd(filePath)
       } catch (e) {
-        config.errorList.push(aFile);
+        config.errorList.push(filePath);
       }
     }
   }
 }
 
-function compileTsUsingLocalUsc(filePath) {
-
+function compileTsUsingLocalUscCmd(filePath) {
   const compileDir = path.join(__dirname, "compiler");
   const filename = path.basename(filePath, ".ts");
   let abi = path.join(compileDir, filename, filename + ".abi");
   let wasm = path.join(compileDir, filename, filename + ".wasm");
+  // let wast = path.join(compileDir, filename, filename + ".wast");
   abi = path.isAbsolute(abi) ? path.relative(__dirname, abi) : abi;
   wasm = path.isAbsolute(wasm) ? path.relative(__dirname, wasm) : wasm;
+  // wast = path.isAbsolute(wast) ? path.relative(__dirname, wast) : wast;
+
   // console.log(`abi: ${abi}. wasm: ${wasm}`);
   let cmds = [
     "usc", filePath,
@@ -52,8 +53,8 @@ function compileTsUsingLocalUsc(filePath) {
   process.execSync(cmd);
 }
 
-compileTs("./tests");
-compileTs("./demos");
+compileTsInDirectory("./tests");
+compileTsInDirectory("./demos");
 printCompileResult();
 
 function printCompileResult() {
