@@ -18,4 +18,6 @@ export declare namespace env {
     function ts_verify_merkle_proof(transaction_mroot: ArrayBuffer, merkle_proof: ArrayBuffer, merkle_proof_len: u32, tx_bytes: ArrayBuffer, tx_bytes_len: u32): i32;
     function ts_merkle_proof_length(block_number: u32, trx_id: ArrayBuffer): i32;
     function ts_merkle_proof(block_number: u32, trx_id: ArrayBuffer, buffer: ArrayBuffer, buffer_size: i32): i32;
+
+    function ts_verify_zero_knowledge_proof(vk: ArrayBuffer, primary_input: ArrayBuffer, proof: ArrayBuffer): i32;
 }

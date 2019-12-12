@@ -31,7 +31,7 @@ const marketingtable = "tb.marketing";
 
 @database(Person, "tb.sales")
 @database(Person, "tb.marketing")
-class HumanResource extends Contract {
+export class HumanResource extends Contract {
 
     salesdb: DBManager<Person>;
 	marketingdb: DBManager<Person>;
