@@ -44,6 +44,7 @@ function compileTsUsingLocalUscCmd(filePath) {
     "usc", filePath,
     "-g", abi,
     "-b", wasm,
+
     "-l",
     "--validate"
   ];

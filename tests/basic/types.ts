@@ -1,5 +1,4 @@
 import { Contract } from "../../src/contract";
-import { BlockTimestamp } from "../../src/time";
 
 class Car implements Serializable {
     name: string;

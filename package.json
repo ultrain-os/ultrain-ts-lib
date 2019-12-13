@@ -1,6 +1,6 @@
 {
   "name": "ultrain-ts-lib",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "The Ultrain Smart Contract common using library written in Typescript",
   "license": "MIT",
   "repository": {

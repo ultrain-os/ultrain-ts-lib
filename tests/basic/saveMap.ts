@@ -17,11 +17,11 @@ class Obj implements Serializable {
     }
 }
 
-class MapObj implements Serializable {
-    arr: Array<string> = new Array<string>();
+class MapCollector implements Serializable {
+    id: u64;
     str_str_map: Map<string, string> = new Map<string, string>();
-    str_int_map: Map<string, u32> = new Map<string, u32>();
-    int_str_map: Map<u32, string> = new Map<u32, string>();
+    str_int_map: Map<string, u8> = new Map<string, u8>();
+    int_str_map: Map<u8, string> = new Map<u8, string>();
     account_str_map: Map<account_name, string> = new Map<account_name, string>();
     u64_str_map: Map<u64, string> = new Map<u64, string>();
     int_object_map: Map<u64, Obj> = new Map<u64, Obj>();
@@ -31,16 +31,15 @@ class MapObj implements Serializable {
     int_string_array_map: ArrayMap<u8, string> = new ArrayMap<u8, string>();
     int_object_array_map: ArrayMap<u8, Obj> = new ArrayMap<u8, Obj>();
 
-
     primaryKey(): id_type {
-        return 0;
+        return this.id;
     }
 }
 const TABLE_NAME: string = "tblmap"
-@database(MapObj, TABLE_NAME)
+@database(MapCollector, TABLE_NAME)
 class TestMap extends Contract {
 
-    private aDbManager: DBManager<MapObj> = new DBManager<MapObj>(NAME(TABLE_NAME), NAME(TABLE_NAME));
+    private aDbManager: DBManager<MapCollector> = new DBManager<MapCollector>(NAME(TABLE_NAME), NAME(TABLE_NAME));
 
     @action
     testDropAll(): void {
@@ -48,75 +47,74 @@ class TestMap extends Contract {
     }
 
     @action
-    public testInsert(key: string, value: string, intVal: u32): void {
-      var a = new MapObj();
-      let existing = this.aDbManager.exists(0);
-      
-      if (existing) {
-          this.aDbManager.get(0, a);
-          a.arr.push(key);
-          a.arr.push(value);
-          a.str_str_map.set(key, value);
-          a.str_int_map.set(key, intVal);
-          Log.s("testInsert modify: ").i(existing).flush();
-          this.aDbManager.modify(a);
-      } else {
-          a.arr.push(key);
-          a.arr.push(value);
-
-          a.str_str_map.set(key, value);
-          a.str_int_map.set(key, intVal);
-          a.int_str_map.set(intVal, key);
-
-
-          a.int_object_map.set(4, new Obj());
-          a.int_object_map.set(44, new Obj(100, 200));
-
-          a.object_int_map.set(new Obj(100, 200), 1);
-          a.object_int_map.set(new Obj(10, 20), 2);
-  
-          a.int_int_array_map.set(2, [0, 1, 2, 3]);
-          a.int_int_array_map.set(22, [4, 5, 6, 7]);
-  
-          a.int_string_array_map.set(3, ["aaa", "bbb", "ccc"]);
-          a.int_string_array_map.set(33, ["ddd", "eee", "fff"]);
-  
-          a.int_object_array_map.set(4, [new Obj(), new Obj(18, 36), new Obj()]);
-
-
-          Log.s("testInsert emplace: ").i(existing).flush(); 
-          this.aDbManager.emplace(a);
-      }
+    public testWriteMapCollector(): void {
+        this.saveingMapData(2000, "key", "value", 12);
+        this.saveingMapData(2001, "value", "key", 6);
     }
 
+    /**
+     * Notice: this test case associated with the testWriteMapCollector.
+     */
     @action
-    public printMap(): void {
-        var a = new MapObj();
-        let existing = this.aDbManager.get( 0 , a);
-        Log.s("print map existing: ").i(existing).flush();
+    testReadMapCollector(): void {
+        this.recovryMapCollector(2000, "key", "value", 12);
+        this.recovryMapCollector(2001, "value", "key", 6);
+    }
+
+
+    private saveingMapData(id: u64, key: string, value: string, intVal: i32): void {
+        var mapCollector = new MapCollector();
+        let u8Val = <u8>intVal;
+        let u8Arr = new Array<u8>();
+        let strArr = new Array<string>();
+        for (let index = 0; index < intVal; ++index) {
+            u8Arr.push(<u8>index);
+            strArr.push(index.toString());
+        }
+        mapCollector.str_str_map.set(key, value);
+        mapCollector.str_int_map.set(key, u8Val);
+        mapCollector.int_str_map.set(u8Val, value);
+        mapCollector.int_object_map.set(u8Val, new Obj());
+        mapCollector.int_object_map.set(u8Val + 1, new Obj(100, 200));
+
+        mapCollector.object_int_map.set(new Obj(100, 200), 1);
+        mapCollector.object_int_map.set(new Obj(10, 20), 2);
+
+        mapCollector.int_int_array_map.set(u8Val, u8Arr);
+        mapCollector.int_int_array_map.set(u8Val +1, u8Arr);
+
+        mapCollector.int_string_array_map.set(u8Val, strArr);
+        mapCollector.int_string_array_map.set(u8Val, strArr);
+
+        mapCollector.int_object_array_map.set(u8Val, [new Obj(), new Obj(18, 36), new Obj()]);
+        mapCollector.id = id;
+        Log.s("saveingMapData id: ").i(id).flush();
+        this.aDbManager.emplace(mapCollector);
+    }
+
+    public recovryMapCollector(id: u64, key: string, value: string, intVal: i32): void {
+        var mapCollector = new MapCollector();
+        let u8Arr = new Array<u8>();
+        let strArr = new Array<string>();
+        for (let index = 0; index < intVal; ++index) {
+            u8Arr.push(<u8>index);
+            strArr.push(index.toString());
+        }
+        Log.s("recovryMapCollector get db: id").i(id).flush();
+        let existing = this.aDbManager.get(id , mapCollector);
+        Log.s("recovryMapCollector get finish: id").i(id).flush();
+
         ultrain_assert(existing, "Database data not existing!");
 
-        if (existing) {
-            let map = a.str_str_map;
-            let keys = map.keys();
-            let strVals = map.values();
-            let intVals = a.str_int_map.values();
-            Log.s("map size:").i(keys.length).flush();
-            for (let index = 0; index < keys.length; index ++) {
-                Log.s("str key: ").s(keys[index]).s(". value: ").s(strVals[index]).flush();
-                Log.s("str key: ").s(keys[index]).s(". value: ").i(intVals[index]).flush();
-            }
-
-            let arr = a.arr;
-            for (let index = 0; index < arr.length; index ++) {
-                Log.s("arr value: ").s(arr[index]).flush();
-            }
-        }
+        ultrain_assert(mapCollector.str_int_map.get(key) == <u8>intVal, "recovryMapCollector: checking str_int map failed.");
+        ultrain_assert(mapCollector.str_str_map.get(key) == value, "recovryMapCollector: checking str_str map failed.");
+        ultrain_assert(mapCollector.int_str_map.get(<u8>intVal) == value, "recovryMapCollector: checking int_str map failed.");
+        ultrain_assert(mapCollector.int_int_array_map.get(<u8>intVal).join(",") == u8Arr.join(","), "recovryMapCollector: checking int_intArr map failed.");
+        ultrain_assert(mapCollector.int_string_array_map.get(<u8>intVal).join(",") == strArr.join(","), "recovryMapCollector: checking int_strArr map failed.");
     }
 
-
     @action
-    public test(arr: string[]): void {
+    public testCreateMap(arr: string[]): void {
 
         var str_str_map = new Map<string, string>();
         var int_str_map = new Map<i32, string>();

@@ -1,10 +1,10 @@
 #! /bin/bash
 clultrain="$clu"
 account=jack
-${clultrain} set contract ${account} ../builtmap -p ${account}
-${clultrain} push action ${account} test '[["1","2","3","4","5"]]' -p ${account}
-${clultrain} push action ${account} test '[["aa","bb","cc","dd","ff"]]' -p ${account}
-${clultrain} push action ${account} testInsert '["key", "value"]' -p ${account}
-${clultrain} push action ${account} printMap '[]' -p ${account}
+${clultrain} set contract ${account} ./saveMap -p ${account}
+${clultrain} push action ${account} testDropAll '' -p ${account}
+${clultrain} push action ${account} testCreateMap '[["1","2","3","4","5"]]' -p ${account}
+${clultrain} push action ${account} testCreateMap '[["aa","bb","cc","dd","ff"]]' -p ${account}
+${clultrain} push action ${account} testWriteMapCollector '' -p ${account}
+${clultrain} push action ${account} testReadMapCollector '' -p ${account}
 
-$clu push action jack testInsert '["key", "value"]' -p jack

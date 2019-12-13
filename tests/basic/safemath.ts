@@ -5,7 +5,7 @@ import { SafeMath } from "../../src/safemath";
 class TestSafeMath extends Contract {
 
 	@action
-	test():void {
+	testSafeMath():void {
 		assert(SafeMath.add(12,12) == 24);
 		assert(SafeMath.sub(12,12) == 0);
 		assert(SafeMath.div(12,12) == 1);
