@@ -6,9 +6,9 @@ function jsonKey(k: string): string {
 
 function jsonValue<T>(v: T): string {
     let vs = "";
-    if (isInteger<T>()) { vs += intToString(v); }
+    if (isBoolean<T>()) { vs += (v ? "true" : "false"); }
+    else if (isInteger<T>()) { vs += intToString(v); }
     else if (isString<T>()) { vs += '"' + v + '"'; }
-    else if (isBoolean<T>()) { vs += (v ? "true" : "false"); }
     else if (isArray<T>()) {
         vs += "["
         for (let i = 0; i < v.length; i++) {

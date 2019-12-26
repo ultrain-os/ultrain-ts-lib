@@ -15,6 +15,7 @@ class NftAccount implements Serializable {
     }
 
     primaryKey(): id_type { return this.balance.symbolName(); }
+
 }
 
 

@@ -1,22 +1,55 @@
-# 基于UltrainScript编译器的测试
+# 使用测试脚本说明
 
-当UltrainScript升级或作大的调整时，利用usc编译出来的wasm，abi，wast都会有大的变动。为了方便UltrainScript升级和TsSDK工具包有更好的稳定性。让测试更加合理,同事需要覆盖的逻辑要很多。
 
-## 测试模块分类
-1. `为了减少通过push action传递参数，更好的做到自动化测试，不通过push action传递参数，直接在合约里面，封装测试数据。当测试不通过是，assert出来。`
-2. `因为区块链写到内存，需要经过共识周期，并且删除比较麻烦，一般测试之前先clear内存。`
-3. `为了防止Duplicate transaction，测试用例方法名最好不要用test，如用动词短语testSaveingMap。`
-- > 类型支持测试
+### 执行测试cases
+测试脚本在本地测试环境中执行, 不在线上环境执行.  
 
-- > 内置接口测试
+脚本需要两个工具, 一个是编译工具usc, 一个是执行clultrain命令行工具.  
 
-- > DB存储测试
+修改run_test_script.sh脚本中的以下三个变量, 指向实际的位置:
+```bash
+usc=${HOME}/Public/assemblyscript/bin/asc
+clu=${HOME}/Public/ultrain-core/build/programs/clultrain/clultrain
+ContractPath=${HOME}/Public/ultrain-core/build/contracts
+```
 
-- > 工具包测试
+执行测试命令:  `bash run_test_script.sh`
 
-- > 注解测试
+### 新增测试cases
 
-- > ABI生成测试
+`tests/`目录结构如下:
+```text
+tests
+├── buildins
+│   └── continues
+├── contracts
+│   ├── deferredaction
+│   ├── inlineactions
+│   │   ├── source
+│   │   └── target
+│   ├── inlinetransfer
+│   ├── pureview
+│   └── utriotokentransfer
+├── src
+│   ├── account
+│   ├── action
+│   ├── asset
+│   ├── big_number
+│   ├── block
+│   ├── crypto
+│   ├── safemath
+│   └── time
+└── validates
+    ├── abi
+    ├── dbmanager
+    ├── json
+    ├── serializable
+    └── track
+```
 
-- > Bug Track
+`buildins`目录下保存内置关键字的测试, 如continue.  
+`contracts`目录下保存测试合约的cases.  
+`src`目录下测试ultrain-ts-lib/src中的各个公开api.  
+`validates`目录下保存需要验证的测试内容, 比如生成json, 生成abi等.
 
+如果要增加新的测试case, 首先在相应目录下按以上格式新增测试文件, 然后在run_test_script.sh脚本中增加测试命令.
