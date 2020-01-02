@@ -55,6 +55,7 @@ class TestTrack extends Contract {
         this.insertTypes(2, NAME("tom"), "jack", -32, false, 64, ["abcd", "超脑时空"], [1,2,3,4], car, cars);
         this.verifyTypes(2, NAME("tom"), "jack", -32, false, 64, ["abcd", "超脑时空"], [1,2,3,4], car, cars);
         this.testAssert(true, "token exist.");
+        this.removeTypes();
     }
 
     insertTypes(key: u64, account: account_name, name: string, age: i32, yes: bool, _u64: u64, strs: string[], nums: u64[], car: Car, cars: Car[]): void {
@@ -93,6 +94,11 @@ class TestTrack extends Contract {
         ultrain_assert(types.car.toString() == car.toString(), "Test obj");
         ultrain_assert(types.cars.toString() == cars.toString(), "Test obj array");
         Log.s("successfully!").flush();
+    }
+
+    removeTypes(): void {
+        var aDbManager: DBManager<TypeSet> = new DBManager<TypeSet>(NAME("types"), NAME("types"));
+        aDbManager.dropAll();
     }
 
     testAssert(existing: bool, msg: string): void {

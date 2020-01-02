@@ -26,9 +26,9 @@ class DeferredActionContract extends Contract {
         this.sendDeferred(this.receiver);
     }
 
-    sendDeferred(who: account_name): void {
+    sendDeferred(toWho: account_name): void {
         let act = new ActionImpl();
-        act.account = who;
+        act.account = toWho;
         act.name = NEX("response");
         act.data = SerializableToArray(new HelloData("God", 10000));
         act.authorization.push(new PermissionLevel(this.receiver, "active"));

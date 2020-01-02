@@ -43,11 +43,11 @@ class TestMap extends Contract {
 
     @action
     test() : void {
-        this.testDropAll();
         this.testCreateMap(["1","2","3","4","5"]);
         this.testCreateMap(["aa","bb","cc","dd","ff"]);
         this.testWriteMapCollector();
         this.testReadMapCollector();
+        this.testDropAll();
     }
 
     testDropAll(): void {

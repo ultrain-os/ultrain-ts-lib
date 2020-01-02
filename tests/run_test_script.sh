@@ -1,77 +1,106 @@
 #! /bin/bash
 
-# which usc || $( show_red_text "please install usc then retry"; exit 0 )
-usc=${HOME}/Public/assemblyscript/bin/asc
-clu=${HOME}/Public/ultrain-core/build/programs/clultrain/clultrain
-ContractPath=${HOME}/Public/ultrain-core/build/contracts
+jqpath=$( which jq )
+if [ -z "$jqpath" ]; then
+    printf "This script require package 'jq' for parsing JSON response, "
+    printf "\n\r please install package jq via: "
+    printf "\n\r 'brew install jq' for MAC,"
+    printf "\n\r or 'sudo apt-get install jq' for linux."
+    printf "\n\r for more information, refer to: https://stedolan.github.io/jq/download/ "
+    printf "\n\r"
 
-AccountJack="jack"
-AccountRose="rose"
-AccountTony="tony"
+    exit 0
+fi
+
+usc=${HOME}/Public/assemblyscript/bin/asc
+clu="${HOME}/Public/ultrain-core/build/programs/clultrain/clultrain --url http://pioneer.natapp1.cc --wallet-url http://127.0.0.1:8900"
+
+SleepInterval=6  # sleep for next consensus interval
+MaxConfirmBlock=6 # 最多等待出块个数
+
+AccountJack="autotest1"
+AccountRose="autotest2"
+AccountTony="autotest3"
 
 Dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+function get_head_block_num {
+    info=$( $clu get info | jq '.head_block_num' )
+    echo -n $info
+}
+
+function get_last_irreversible_block_num {
+    info=$( $clu get info | jq '.last_irreversible_block_num' )
+    echo -n $info
+}
+
+function loop_blocks_for_tx {
+    headBlock=$1
+    tailBlock=$2
+    txid=$3
+
+    txOnBlock=0
+
+    for (( i = $headBlock; i > $tailBlock; --i )); do
+        info=$( $clu get block $i )
+        found=$( echo -n "$info" | jq --arg tid $txid '.transactions | map({status: .status, txid: .trx.id})[] | select(.txid == $tid)' )
+        [ -z "$found" ] && continue
+        (( txOnBlock = i ))
+        break;
+    done
+    echo -n "$txOnBlock"
+}
+
+function wait_tx_be_confirmed {
+    txid=$1
+    tailBlock=$2
+    sleep $SleepInterval
+    headBlock="$(get_head_block_num)"
+
+    waitBlocks=0
+    foundInBlock=0
+    while :
+    do
+        (( foundInBlock = $(loop_blocks_for_tx $headBlock $tailBlock $txid) ))
+        [ "$foundInBlock" -ne "0" ] && break
+        (( tailBlock = $headBlock ))
+        sleep $SleepInterval
+        headBlock="$(get_head_block_num)"
+
+        if [ "$waitBlocks" -ge "$MaxConfirmBlock" ]; then
+            echo "Waited for $MaxConfirmBlock blocks but tx still not be confirmed, "
+            echo "May be something excepted, please check."
+            echo "Quit auto test script."
+            exit -1
+        else
+            (( waitBlocks++ ))
+        fi
+    done
+
+    while :
+    do
+        cirre="$(get_last_irreversible_block_num)"
+        [ "$cirre" -ge "$foundInBlock" ] && break;
+        sleep $SleepInterval
+    done
+
+    echo -e "TX: $txid comfirmed on block $foundInBlock \n"
+}
 
 function show_red_text() {
     echo -e "\n\033[31m $1 \033[0m"
 }
 
-function init_environment() {
-    # remove default.wallet
-    DWallet=$HOME/ultrainio-wallet/default.wallet
-    if [ -e $DWallet ]; then
-        rm $DWallet
+function atomic_push_action {
+    echo "EXECUTE: [ $@ ]"
+    currentBlockNum="$(get_head_block_num)"
+    rsp=$( "$@" 2>&1)
+    txid=$( echo "$rsp" | awk '/executed transaction:/ {print $3}' )
+    if [ -z "$txid" ]; then
+        echo -e "execute command [$@] failed: \n\n$rsp"
+        exit -1
     fi
-    # create default wallet
-    WalletPwd=$($clu wallet create | tail -n 1 | sed 's/\"//g')
-    if test -z $WalletPwd
-    then
-    echo "Wallet password is empty, quit."
-    exit 0
-    fi
-
-    # The system and user account
-    sys_acc_arr=(utrio.code ultrio.bpay utrio.msig utrio.names utrio.ram utrio.freeze utrio.ramfee utrio.saving utrio.stake utrio.token utrio.vpay exchange)
-    user_acc_arr=(rose tony)
-
-    # Create the system accounts
-    for account in ${sys_acc_arr[@]};
-    do
-        Keys=($($clu create key | awk -F: '{print $2}'))
-        PrivKey=${Keys[0]}
-        PubKey=${Keys[1]}
-        #$clu wallet import $PrivKey
-        $clu wallet import --private-key $PrivKey
-        $clu create account ultrainio ${account} $PubKey ${PubKey}
-    done
-
-    # Deploy the system contract
-    $clu set contract utrio.token $ContractPath/ultrainio.token/ -p utrio.token
-    $clu push action utrio.token create '[ "ultrainio", "8000000000.0000 UGAS"]' -p utrio.token
-    $clu push action utrio.token issue '[ "ultrainio", "1000000000.0000 UGAS"]' -p ultrainio
-
-    $clu set contract utrio.msig $ContractPath/ultrainio.msig/ -p utrio.msig
-    $clu set contract ultrainio $ContractPath/ultrainio.system/ -p ultrainio -x 3600
-
-    for account in ${user_acc_arr[@]};
-    do
-        Keys=($($clu create key | awk -F: '{print $2}'))
-        PrivKey=${Keys[0]}
-        PubKey=${Keys[1]}
-        $clu wallet import --private-key $PrivKey
-        $clu system newaccount --updatable ultrainio ${account} ${PubKey} ${PubKey} --stake-net "1000.0000 UGAS" --stake-cpu "1000.0000 UGAS" --buy-ram-kbytes 1024
-        $clu set account permission ${account} active '{"threshold": 1,"keys": [{"key":"'${PubKey}'","weight": 1}],"accounts": [{"permission":{"actor":"'${account}'","permission":"utrio.code"},"weight":1}]}' owner -p ${account}
-    done
-
-    # call utr.token issue
-    for account in ${user_acc_arr[@]}
-    do
-        $clu push action utrio.token issue '[ "'${account}'", "100000000.0000 UGAS", "memo" ]' -p ultrainio
-    done
-
-    $clu wallet import --private-key 5J5Grit1vSJ5u5ch52zwAA9BuMpsuYEZxww3nQQDN9tDjRUifKt
-    $clu system newaccount --updatable ultrainio jack UTR6Bdmf1dhME8tGqrGZBE8GCAL6LC42n3AkQzs4Xx1HdNVhGrhPT UTR6Bdmf1dhME8tGqrGZBE8GCAL6LC42n3AkQzs4Xx1HdNVhGrhPT --stake-net "1000.0000 UGAS" --stake-cpu "1000.0000 UGAS" --buy-ram-kbytes 1024
-    $clu push action utrio.token issue '["jack", "100000000.0000 UGAS", "memo" ]' -p ultrainio
-    $clu set account permission jack active '{"threshold": 1,"keys": [{"key":"UTR6Bdmf1dhME8tGqrGZBE8GCAL6LC42n3AkQzs4Xx1HdNVhGrhPT","weight": 1}],"accounts": [{"permission":{"actor":"jack","permission":"utrio.code"},"weight":1}]}' owner -p jack
+    wait_tx_be_confirmed $txid $currentBlockNum
 }
 
 function compile() {
@@ -81,26 +110,27 @@ function compile() {
     cd $dir
     rm -rf ${output}.wasm ${output}.wast ${output}.abi
     $usc ${input} -b ${output}.wasm -t ${output}.wast -g ${output}.abi -l
-    cd -
+    cd - 1>/dev/null 2>&1
 }
 
 function deploy() {
     dir=$1
-    $clu set contract ${AccountJack} ${dir} -p ${AccountJack}
+    echo -e "\nDEPLOY: ${dir}"
+    atomic_push_action $clu set contract ${AccountJack} ${dir} -p ${AccountJack}
 }
 
 function run_test() {
-    $clu push action ${AccountJack} test '[]' -p ${AccountJack}
+    atomic_push_action $clu push action ${AccountJack} test '[]' -p ${AccountJack}
 }
 
-function compare_abi_generate() {
+function generate_and_compare_abi() {
     dir=$1
     input=$2
     output=$3
     cd $dir
     $usc ${input} -b ${output}.wasm -t ${output}.wast -g ${output}.abi -l
-    diff abi.abi target.abi || show_red_text "YOU WILL NEVER SEE THIS LINE."
-    cd -
+    diff abi.abi target.abi || show_red_text "YOU WILL NEVER SEE THIS LINE. IF YOU SEE THIS, CHECK IF GENERATED ABI FILE IS CORRECT."
+    cd - 1>/dev/null 2>&1
 }
 
 function api_tests() {
@@ -134,28 +164,29 @@ function api_tests() {
         run_test
     done
 
-    compare_abi_generate $Dir/validates/abi abi.test.ts abi
+    generate_and_compare_abi $Dir/validates/abi abi.test.ts abi
 }
 
 function contracts_tests() {
     # 测试inline action
     compile $Dir/contracts/inlineactions/source source.test.ts source
     compile $Dir/contracts/inlineactions/target target.test.ts target
-    $clu set contract $AccountJack $Dir/contracts/inlineactions/source -p $AccountJack
-    $clu set contract $AccountRose $Dir/contracts/inlineactions/target -p $AccountRose
-    $clu push action $AccountJack recepient '["rose"]' -p $AccountJack
-    $clu push action $AccountJack inline '["ronaldihno"]' -p $AccountJack
+    atomic_push_action $clu set contract $AccountJack $Dir/contracts/inlineactions/source -p $AccountJack
+    atomic_push_action $clu set contract $AccountRose $Dir/contracts/inlineactions/target -p $AccountRose
+    atomic_push_action $clu push action $AccountJack recepient '["autotest2"]' -p $AccountJack
+    atomic_push_action $clu push action $AccountJack inline '["ronaldinho"]' -p $AccountJack
 
     # 测试inline转账
     compile $Dir/contracts/inlinetransfer inlinetransfer.test.ts inlinetransfer
-    $clu set contract $AccountJack $Dir/contracts/inlinetransfer -p $AccountJack
-    $clu push action $AccountJack test '[]' -p $AccountJack
+    atomic_push_action $clu set contract $AccountJack $Dir/contracts/inlinetransfer -p $AccountJack
+    atomic_push_action $clu push action $AccountJack test '[]' -p $AccountJack
 
     # 测试接收utrio.token::transfer
     compile $Dir/contracts/utriotokentransfer utriotokentransfer.test.ts utriotokentransfer
-    $clu set contract $AccountJack $Dir/contracts/utriotokentransfer -p $AccountJack
-    $clu transfer $AccountTony $AccountJack "10.0000 UGAS" "test case" -p $AccountTony
-    $clu push action $AccountJack reveal '[]' -p $AccountJack
+    atomic_push_action $clu set contract $AccountJack $Dir/contracts/utriotokentransfer -p $AccountJack
+    atomic_push_action $clu transfer $AccountTony $AccountJack '1.0000 UGAS' 'test case' -p $AccountTony
+    atomic_push_action $clu push action $AccountJack reveal '[]' -p $AccountJack
+    atomic_push_action $clu push action $AccountJack clean '[]' -p $AccountJack
 
     # deferred功能被禁止, pureview需要在node节点上测试, 只测试编译
     compile $Dir/contracts/pureview pureview.test.ts pureview
@@ -169,7 +200,52 @@ function compile_tests() {
     compile $Dir/../demos/UIP09/ UIP09.ts UIP09
 }
 
+function preset_contract {
+    compile $Dir/emptycontract emptycontract.ts emptycontract
+    # 设置第一账号
+    currentBlockNum="$(get_head_block_num)"
+    rsp=$( $clu set contract $AccountJack $Dir/emptycontract -p $AccountJack 2>&1)
+    txid=$( echo "$rsp" | awk '/executed transaction:/ {print $3}' )
+    if [ "${#txid}" -ne "0" ]; then
+        wait_tx_be_confirmed $txid $currentBlockNum
+    fi
+
+    currentBlockNum="$(get_head_block_num)"
+    rsp=$( $clu set contract $AccountRose $Dir/emptycontract -p $AccountRose 2>&1)
+    txid=$( echo "$rsp" | awk '/executed transaction:/ {print $3}' )
+    if [ "${#txid}" -ne "0" ]; then
+        wait_tx_be_confirmed $txid $currentBlockNum
+    fi
+}
+
+# 测试网上注册了三个账号:
+
+# 账户名称: autotest1
+# 公钥: UTR8573kkPXFNqpzEUjFAjmvZeXLLBanhSj5Rd4g5sBhQDnCDqBaW
+# 私钥: 5JAF6CuBGJ5vWfRyVjeCrJBLK3kvLaqr3cFx5r95CxmTcwwhWiL
+# 助记词: local maximum tribe frame toy virus pass taxi animal angry water badge
+
+
+# 账户名称: autotest2
+# 公钥: UTR6P875egikpYMhQd95XQSoCkCBx8mpBb2BjKppYBdydkQf37QPQ
+# 私钥: 5JjPW78WXdPsEX6uD3JfKtKeKRWQyUdM4RUdEpZLJGXUNDy4buC
+# 助记词: muscle acid salt exclude achieve glad vanish evil exhibit install seed merge
+
+# 账户名称: autotest3
+# 公钥: UTR8FPBNiueUMosR81PnYETs1BWuWGSp7onJU68nigwSUtwDdTaRZ
+# 私钥: 5K8LzqYRY4Zf35Nsy7mb8u2qSRdY63frLK2xejDf5zHpnqqCvZ3
+# 助记词: ice unveil exhaust erupt age fringe damage crouch grass six fruit book
+
+# ./clultrain --url http://ultrain.natapp1.cc set account permission autotest1 active '{"threshold": 1,"keys": [{"key":"UTR8573kkPXFNqpzEUjFAjmvZeXLLBanhSj5Rd4g5sBhQDnCDqBaW","weight": 1}],"accounts": [{"permission":{"actor":"autotest1","permission":"utrio.code"},"weight":1}]}' owner -p autotest1
+
+function init_environment {
+    $clu wallet import --private-key 5JAF6CuBGJ5vWfRyVjeCrJBLK3kvLaqr3cFx5r95CxmTcwwhWiL
+    $clu wallet import --private-key 5JjPW78WXdPsEX6uD3JfKtKeKRWQyUdM4RUdEpZLJGXUNDy4buC
+    $clu wallet import --private-key 5K8LzqYRY4Zf35Nsy7mb8u2qSRdY63frLK2xejDf5zHpnqqCvZ3
+}
+
 init_environment
+preset_contract
 api_tests
 contracts_tests
 compile_tests

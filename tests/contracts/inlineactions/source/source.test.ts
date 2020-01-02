@@ -12,7 +12,7 @@ class SourceContract extends Contract {
     @action
     recepient(name: string): void {
         Log.s("hi, it is ").s(RNAME(this.receiver)).s(", I will call recepient with parameter: ").s(name).flush();
-        Action.requireRecipient(NAME("rose"));
+        Action.requireRecipient(NAME("autotest2"));
     }
 
     @action
@@ -20,7 +20,7 @@ class SourceContract extends Contract {
         Log.s("hi, it is ").s(RNAME(this.receiver)).s(", I will call sendInline with parameter: ").s(name).flush();
         let pl = new PermissionLevel(this.receiver, "active");
         let params = new Parameters();
-        params.name = "rose";
-        Action.sendInline([pl], "rose", "onInline", params);
+        params.name = "autotest2";
+        Action.sendInline([pl], "autotest2", "onInline", params);
     }
 }

@@ -14,13 +14,13 @@ class InlineTransferContract extends Contract {
      * "accounts":[{"permission": {"actor": "$from", "permission": "utrio.code"}, "weight": 1}]}' owner -p $from
      */
     @action test(): void {
-        this.transfer(this.receiver, NAME("tony"), new Asset(100000));
+        this.transfer(this.receiver, NAME("tony"), new Asset(10000));
     }
 
     private transfer(from: account_name, to: account_name, bet: Asset): void {
         Action.requireAuth(from);
         let balance = Asset.balanceOf(from);
-        ultrain_assert(balance.gte(bet), "balance of " + RNAME(from) + "is not enough.");
+        ultrain_assert(balance.gte(bet), "balance of " + RNAME(from) + " is not enough.");
         balance.prints("banalce from: ");
         Asset.transfer(from, to, bet, "this is a inlinetransfer test");
     }

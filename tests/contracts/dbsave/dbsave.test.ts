@@ -88,13 +88,13 @@ class TestDbSave extends Contract {
 
     @action
     test(): void {
-        this.testDropAll();
         this.testSaveCar();
         this.testGetCar();
         this.testDbSave();
         this.testDbGet();
         this.testSaveMap();
         this.testGetMap();
+        this.testDropAll();
     }
 
     testDropAll(): void {

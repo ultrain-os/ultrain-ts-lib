@@ -34,6 +34,11 @@ class MasterContract extends Contract {
     }
 
     @action
+    clean(): void {
+        this.db.dropAll();
+    }
+
+    @action
     transfer(from: account_name, to: account_name, val: Asset, memo: string): void {
         // from通过向this.receiver转帐的方式，申请加入了游戏
         if (from != this.receiver && to == this.receiver) {

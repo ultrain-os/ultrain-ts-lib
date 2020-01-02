@@ -1,7 +1,6 @@
 import { Contract } from "../../../src/contract";
 import { NAME } from "../../../src/account";
 import { Log } from "../../../src/log";
-import { DBManager } from "../../../src/adbmanager";
 
 class Params implements Serializable {
     @primaryid

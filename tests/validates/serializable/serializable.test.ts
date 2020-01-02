@@ -451,5 +451,7 @@ class SerializableTest extends Contract {
         let second = new Params();
         db.get(0, second);
         second.assert_test(false);
+
+        db.erase(0);
     }
 }

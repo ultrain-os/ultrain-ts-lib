@@ -3,8 +3,8 @@ import { Contract } from "../../../src/contract";
 import { Action, ACTION } from "../../../src/action";
 import { NEX } from "../../../lib/name_ex";
 
-const account_jack = NAME("jack");
-const account_tony = NAME("tony");
+const account_jack = NAME("autotest1");
+const account_tony = NAME("autotest3");
 
 class ActionContract extends Contract {
 

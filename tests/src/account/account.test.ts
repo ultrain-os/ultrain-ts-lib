@@ -4,11 +4,11 @@ import { Asset } from "../../../src/asset";
 // jack.ma = 0x79910048C0000000
 const s_jack_ma: string = "jack.ma";
 const i_jack_ma: u64 = 0x79910048C0000000;
-const publickey_of_jack = "UTR6Bdmf1dhME8tGqrGZBE8GCAL6LC42n3AkQzs4Xx1HdNVhGrhPT";
+const publickey_of_jack = "UTR8573kkPXFNqpzEUjFAjmvZeXLLBanhSj5Rd4g5sBhQDnCDqBaW";
 const account_not_exist = NAME("aabbccddee");
-const account_jack_name = "jack";
-const account_jack = NAME("jack");
-const account_tony = NAME("tony");
+const account_jack_name = "autotest1";
+const account_jack = NAME("autotest1");
+const account_tony = NAME("autotest3");
 
 class AccountContract extends Contract {
 
@@ -21,7 +21,7 @@ class AccountContract extends Contract {
         ultrain_assert(Account.isValid(account_not_exist) == false, "Account.isValid for not exist exception.");
 
         ultrain_assert(Account.codeStatus(this.receiver) == 1, "Account.codeStatus exception.");
-        ultrain_assert(Account.codeStatus(account_tony) == 0, "Account.codeStatus for messi exception");
+        ultrain_assert(Account.codeStatus(account_tony) == 0, "Account.codeStatus for autotest3 exception");
         ultrain_assert(Account.codeStatus(account_not_exist) == -1, "Account.codeStatus invalid account name.");
 
         ultrain_assert(Account.publicKeyOf(account_jack) == publickey_of_jack, "Account.publicKeyOf exception for jack.");
