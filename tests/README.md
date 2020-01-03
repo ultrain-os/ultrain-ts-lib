@@ -18,6 +18,8 @@ usc=${HOME}/Public/assemblyscript/bin/asc
 clu=${HOME}/Public/ultrain-core/build/programs/clultrain/clultrain
 ```
 
+请先在 assemblyscript repo 目录下执行 npm install 在本地安装必要的 nodejs 库
+
 如有必要, 修改以下两个变量的配置:  
 ```bash
 SleepInterval=6  # 休眠间隔, 小于出块周期即可
