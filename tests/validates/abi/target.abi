@@ -1,0 +1,183 @@
+{
+  "version": "ultraio:1.0",
+  "types": [
+    {
+      "new_type_name": "u32",
+      "type": "uint32"
+    },
+    {
+      "new_type_name": "boolean",
+      "type": "bool"
+    },
+    {
+      "new_type_name": "u64",
+      "type": "uint64"
+    },
+    {
+      "new_type_name": "i32",
+      "type": "int32"
+    }
+  ],
+  "structs": [
+    {
+      "fields": [
+        {
+          "name": "level",
+          "type": "u32"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "finished",
+          "type": "boolean"
+        }
+      ],
+      "base": "",
+      "name": "common_params"
+    },
+    {
+      "fields": [
+        {
+          "name": "level",
+          "type": "u32[]"
+        },
+        {
+          "name": "name",
+          "type": "string[]"
+        },
+        {
+          "name": "finished",
+          "type": "boolean[]"
+        }
+      ],
+      "base": "",
+      "name": "common_params_array"
+    },
+    {
+      "fields": [
+        {
+          "name": "year",
+          "type": "u64"
+        }
+      ],
+      "base": "",
+      "name": "A"
+    },
+    {
+      "fields": [
+        {
+          "name": "pay",
+          "type": "u64"
+        },
+        {
+          "name": "a",
+          "type": "A"
+        },
+        {
+          "name": "arr_a",
+          "type": "A[]"
+        },
+        {
+          "name": "map_a",
+          "type": "string,A{}"
+        },
+        {
+          "name": "map_arr_a",
+          "type": "string,A[]{}"
+        }
+      ],
+      "base": "",
+      "name": "Obj"
+    },
+    {
+      "fields": [
+        {
+          "name": "obj",
+          "type": "Obj"
+        }
+      ],
+      "base": "",
+      "name": "object_params"
+    },
+    {
+      "fields": [
+        {
+          "name": "obj",
+          "type": "Obj[]"
+        }
+      ],
+      "base": "",
+      "name": "object_params_array"
+    },
+    {
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "year",
+          "type": "i32"
+        },
+        {
+          "name": "info",
+          "type": "string,u32{}"
+        }
+      ],
+      "base": "",
+      "name": "Car"
+    }
+  ],
+  "actions": [
+    {
+      "ricardian_contract": "",
+      "name": "common_params",
+      "type": "common_params",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "common_params_array",
+      "type": "common_params_array",
+      "ability": "pureview"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "object_params",
+      "type": "object_params",
+      "ability": "normal"
+    },
+    {
+      "ricardian_contract": "",
+      "name": "object_params_array",
+      "type": "object_params_array",
+      "ability": "normal"
+    }
+  ],
+  "tables": [
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "cars",
+      "type": "Car"
+    },
+    {
+      "index_type": "i64",
+      "keys_names": [
+        "currency"
+      ],
+      "keys_types": [
+        "uint64"
+      ],
+      "name": "objects",
+      "type": "Obj"
+    }
+  ]
+}
