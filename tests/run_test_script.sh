@@ -23,6 +23,7 @@ AccountRose="autotest2"
 AccountTony="autotest3"
 
 Dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+echo "Base dir is " $Dir
 
 function get_head_block_num {
     info=$( $clu get info | jq '.head_block_num' )
@@ -107,6 +108,7 @@ function compile() {
     dir=$1
     input=$2
     output=$3
+    echo "Now compile " $dir $input $output
     cd $dir
     rm -rf ${output}.wasm ${output}.wast ${output}.abi
     $usc ${input} -b ${output}.wasm -t ${output}.wast -g ${output}.abi -l
